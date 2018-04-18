@@ -41,8 +41,7 @@ mit rm (verwenden Sie für die Bestimmung der obersten Datei den Befehl head). (
 * cd ../Studium/Betriebssysteme/
 * ls
 * tar -xf file.tar.gz 
-* ls -l
-* rm 1file1
+* ls | head -n 1
 
 ##Aufgabe 3
 Laden Sie die Datei dirStruct.tar.gz aus Ilias und entpacken Sie die Datei. Löschen Sie
