@@ -35,7 +35,7 @@ find . | xargs grep testString
 
 ### file.tar.gz
 
-1. Entpacken des Archivs mit "tar -xzf file.tar.gz"
+1. Entpacken des Archivs mit "tar -xf file.tar.gz"
 2. Herausfinden der obersten Datei mittels "ls | head"  - Ergebnis: 1file1
 3. Löschen der Datei mit "rm 1file1"
 
@@ -48,8 +48,9 @@ find . | xargs grep testString
 
 ### dirStruct.tar.gz
 
-1. Entpacken des Archivs mit "tar -xzf dirStruct.tar.gz"
+1. Entpacken des Archivs mit "tar -xf dirStruct.tar.gz"
 2. Löschen des Entpackten Archivs mit "rm -r rootTest"
 3. Erneutes Entpacken des Archivs
 4. In den richtigen Ordner wechseln mit "cd rootTest/dir1"
-5. Beim Eingeben von "rm * .txt" erscheint die Fehlermeldung "Das Entfernen von '.txt' ist nicht möglich: Datei oder Verzeichnis nicht gefunden"​
+5. Bei rm können mehrere Dateien gleichzeitig gelöscht werden, indem sie hintereinander gehängt werden. Somit würden erst alle Dateien mit *, also alle gelöscht werden und danach die Datei mit dem Namen '.txt'. Da diese aber nicht mehr existieren kann, wenn sie vorher existiert hätte, erscheint die Fehlermeldung, dass die Datei nicht gefunden und gelöscht werden konnte.
+6. Das Ergebnis bei rm kann nicht mehr direkt rückgängig gemacht werden. Die Dateien werden direkt gelöscht und nicht in einen Papierkorb verschoben. Mittels Data Recovery könnte die Dateien aber möglicherweise gerettet werden.
