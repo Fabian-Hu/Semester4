@@ -1,4 +1,4 @@
-#Praktikum 1
+# Praktikum 1
 
 |Befehl |Parameter |Beschreibung |
 |------|---------|------------|
@@ -36,7 +36,7 @@ Teil 1:
 
 5. cd Praktikum
 
-6. mkdir p01
+6. sudo mkdir p01
 
 Teil 2:
 
