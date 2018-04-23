@@ -1,7 +1,5 @@
 ## Webbasierte Anwendungen Blatt 1
 
-André Kirsch
-
 
 
 ### Theorie
