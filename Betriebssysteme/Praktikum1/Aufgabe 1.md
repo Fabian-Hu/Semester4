@@ -2,28 +2,29 @@
 Machen Sie sich (auch unter Nutzung des Hilfe-Systems) klar, was folgende Befehle be-
 wirken und wie diese parametrisiert werden können: (6 Punkte)
 
-|Befehl|Bedeutung|
-|---|---|
-|man|Handbuch für Befehle|
-|pwd|Zeigt aktuelles Verzeichnis|
-|ls|Dateien und Ordner im aktuellen Verzeichnis|
-|ls -l|Zeigt zusätzliche Informationen zu Berechtigung und mehr|
-|ls -al|Zeigt zusätzlich noch hidden Dateien und Ordner|
-|cd|Wechseln der Verzeichnisse|
-|mkdir|Ordner erstellen|
-|rm|löschen von Ordnern und Dateien|
-|cp|kopieren von Dateien von A nach B|
-|mv|Bewegt Dateien von A nach B(auch umbenennen)|
-|more|Zeigt mehr von einer Datei, mit alternativem Filter|
-|tar|entpacken|
-|gzip|entpacken von zip Dateien|
-|top|Taskmanager|
-|uname|Systeminformationen anzeigen|
+| Befehl | Bedeutung                                                |
+| ------ | -------------------------------------------------------- |
+| man    | Handbuch für Befehle                                     |
+| pwd    | Zeigt aktuelles Verzeichnis                              |
+| ls     | Dateien und Ordner im aktuellen Verzeichnis              |
+| ls -l  | Zeigt zusätzliche Informationen zu Berechtigung und mehr |
+| ls -al | Zeigt zusätzlich noch hidden Dateien und Ordner          |
+| cd     | Wechseln der Verzeichnisse                               |
+| mkdir  | Ordner erstellen                                         |
+| rm     | löschen von Ordnern und Dateien                          |
+| cp     | kopieren von Dateien von A nach B                        |
+| mv     | Bewegt Dateien von A nach B(auch umbenennen)             |
+| more   | Zeigt mehr von einer Datei, mit alternativem Filter      |
+| tar    | packen und entpacken                                     |
+| gzip   | packen entpacken von gz Dateien                          |
+| top    | Taskmanager                                              |
+| uname  | Systeminformationen anzeigen                             |
 
 ##Was bewirkt der folgende Befehl?
+
 find . | xargs grep testString
 
-*   find . sucht alles im Homeverzeichnis
+*   find . sucht alles im aktuellen Verzeichnis
 *   | verbindet Befehle
 *   xargs gibt den Input für grep, aus dem vorderen Teil
 *   grep sucht den String "testString"
@@ -41,7 +42,7 @@ mit rm (verwenden Sie für die Bestimmung der obersten Datei den Befehl head). (
 * cd ../Studium/Betriebssysteme/
 * ls
 * tar -xf file.tar.gz 
-* ls | head -n 1
+* ls | head -n 1 |  xargs rm
 
 ##Aufgabe 3
 Laden Sie die Datei dirStruct.tar.gz aus Ilias und entpacken Sie die Datei. Löschen Sie
