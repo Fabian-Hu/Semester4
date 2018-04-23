@@ -1,0 +1,37 @@
+#!/bin/bash
+function exists {
+  if test -a $1; then
+    kind $1
+    owned $1
+  else
+    echo $1 nicht gefunden
+  fi
+}
+
+function kind {
+  if test -d $1; then
+    echo $1 is a directory
+  elif test -f $1; then
+    echo $1 is a file
+  else
+    symbolicLink $1
+  fi
+}
+
+function symbolicLink {
+  if test -h $1; then
+    echo $1 is a symbolic Link
+  else
+    echo $1 something wrong
+  fi
+}
+
+function owned {
+  if test -O $1; then
+    echo You are the Owner of $1
+  else
+    echo You are not the owner
+  fi
+}
+
+exists $1
