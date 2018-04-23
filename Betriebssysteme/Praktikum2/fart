@@ -14,6 +14,7 @@ function kind {
     echo $1 is a directory
   elif test -f $1; then
     echo $1 is a file
+    menu $1
   else
     echo Oops something went wrong
   fi
@@ -22,8 +23,6 @@ function kind {
 function symbolicLink {
   if test -h $1; then
     echo $1 is a symbolic Link
-  else
-    echo $1 is not a symbolic link
   fi
 }
 
@@ -42,8 +41,25 @@ function realOwner {
 
 }
 
+function menu {
+  if test ${1/*./}="txt"; then
+    echo Wollen sie $1 lesen?
+    select VAR in ja nein
+    do
+      case $VAR in
+        ja)
+          nano $1
+          ;;
+        nein)
+	  echo dann halt nicht
+	  break
+      esac
+    done
+  fi
+}
+
 for param in $@
 do
-  exists $param
   echo
+  exists $param
 done
