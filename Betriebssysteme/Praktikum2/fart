@@ -1,8 +1,9 @@
 #!/bin/bash
 function exists {
   if test -a $1; then
+    symbolicLink $1
     kind $1
-    owned $1
+    owned $1 
   else
     echo $1 nicht gefunden
   fi
@@ -14,7 +15,7 @@ function kind {
   elif test -f $1; then
     echo $1 is a file
   else
-    symbolicLink $1
+    echo Oops something went wrong
   fi
 }
 
@@ -22,7 +23,7 @@ function symbolicLink {
   if test -h $1; then
     echo $1 is a symbolic Link
   else
-    echo $1 something wrong
+    echo $1 is not a symbolic link
   fi
 }
 
@@ -31,7 +32,18 @@ function owned {
     echo You are the Owner of $1
   else
     echo You are not the owner
+    realOwner $1
   fi
 }
 
-exists $1
+function realOwner {
+  echo -n "The Owner is: "
+  stat -c '%U' $1
+
+}
+
+for param in $@
+do
+  exists $param
+  echo
+done
