@@ -49,6 +49,7 @@ function menu {
       case $VAR in
         ja)
           nano $1
+	  break
           ;;
         nein)
 	  echo dann halt nicht
