@@ -8,7 +8,7 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 
 ##Anforderungsanalyse: Machen Sie sich anhand der gegebenen TODO-Liste Gedanken zur Ausgestaltung der Anforderungen.
 
-###Erstellen Sie User Stories für die Webanwendung
+###1.)Erstellen Sie User Stories für die Webanwendung
 
 ####News darstellen
 - Die Studierenden möchten News angezeigt bekommen
@@ -101,5 +101,17 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 - Als Lehrender oder Studierender
 - Möchte ich mich mit meinen Lehrenden oder Studierenden austauschen
 - Damit man mit anderen über Vorlesungsstoff und anderen Themen reden kann
+
+###2.) Wie könnte die Seite gestaltet sein?(Mockup)
+Siehe Mockup
+
+###3.) Überlegen Sie,welche anderen Seiten sinnvollerweise Verlinkt(oder durch Tools eingebunden) werden können
+
+###4.) Dokumentieren Sie ihre Anforderungen für später
+
+##Planung und Aufwandsabschätzung
+
+###1.) Gehen Sie die Checkliste für die Webentwicklung durch
+###2.) Begründen Sie, warum die Anwendung als Webanwendung realierst werden soll
 
 
