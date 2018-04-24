@@ -42,7 +42,8 @@ function realOwner {
 }
 
 function menu {
-  if test ${1/*./}="txt"; then
+  if [ "${1/*./}" = "txt" ]
+  then
     echo Wollen sie $1 lesen?
     select VAR in ja nein
     do
