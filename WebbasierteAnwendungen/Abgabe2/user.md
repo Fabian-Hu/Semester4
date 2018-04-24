@@ -13,16 +13,16 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 ####News darstellen
 - Die Studierenden möchten News angezeigt bekommen
 - Und zwar: Nicht allgemein, sondern aus ihren Fächern
-- Und Zwar: Es gibt Nachrichten (Vorlesungsausfälle) die wohl wichtiger sind, als andere
+- Und zwar: Es gibt Nachrichten (Vorlesungsausfälle) die wichtiger sind, als andere
 
 ####Projekt vorstellen
 - Die Lehrenden möchten ihre Projekte vorstellen
-- Und zwar: Nicht allgemein, sondern nur den Studenten aus dem eigenen Bereich
+- Und zwar: Nicht allen, sondern nur den Studenten aus dem eigenen Bereich
 - Damit die Studierenden aus den Projekten lernen können
 
 ####Aufgaben darstellen
 - Die Lehrenden und Studierenden möchten/können ihre Aufgaben darstellen
-- Und zwar: Nicht allgemein, sondern nur ein dem eigenen Fach
+- Und zwar: Nicht allen, sondern nur den Studenten aus dem eigenen Fach
 - Damit die Studierenden die Aufgaben lösen können
 
 ####Formular für Kommentare
@@ -33,7 +33,7 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 ####Schickes Design für die Seite
 - Als Lehrender oder Studierenden
 - Möchte ich ein schickes Design für die Seite haben
-- Damit ich nicht Kotzen muss
+- Damit ich gewillt bin die Seite wieder zu besuchen
 
 ####Animationen
 - Als Lehrender oder Studierender
@@ -42,13 +42,13 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 
 ####Mediendatein einbinden
 - Als Studierender
-- Möchten ich Mediendateien einbinden
-- Damit die Lehrenden und Studierenden die Mediendateinen anschauen können
+- Möchte ich Mediendateien einbinden
+- Damit die Lehrenden und Studierenden die Mediendateien anschauen können
 
 ####Mehrsprachen-Fähigkeit
 - Als Lehrender oder Studierender
-- Ich möchte die Seite lesen können
-- Damit ich die Seite lesen kann wenn ich aus einem anderen Land komme
+- Möchte ich die Seite lesen können
+- Damit ich die Inhalte in meiner bevorzugten Sprache lesen kann
 
 ####Speichern von Artikeln
 - Als Lehrender oder Studierender
@@ -57,13 +57,13 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 
 ####Standort anzeigen
 - Als Lehrender oder Studierender
-- Möchte ich den Standort von Vorlesungen angezigt bekommen
-- Damit ich punktlich zur Vorlesung kommen kann
+- Möchte ich den Standort von Vorlesungen angezeigt bekommen
+- Damit ich pünktlich zur Vorlesung kommen kann
 
 ####Inhaltsverzeichnisse
 - Als Lehrender oder Studierender
-- Möchte ich ein Inhaltsverzeichniss um sich besser Orientieren zu können
-- Damit ich schnell zu meinem Gewünschten Artikel/Vorlesung komme
+- Möchte ich ein Inhaltsverzeichnis haben um sich besser Orientieren zu können
+- Damit ich schnell zu meinem Gewünschten Artikel/Vorlesung finde
 
 ####Medien bearbeiten
 - Als Lehrender oder Studierender
@@ -79,7 +79,7 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 
 ####Externe Inhalte einbinden
 - Als Lehrender
-- Möchte ich viele verscheidene Inhalte anbieten
+- Möchte ich viele verschiedene Inhalte anbieten
 - Damit die Studierenden vernünftig lernen können
 
 ####Medien hochladen / runterladen
@@ -99,7 +99,7 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 
 ####Kommunikation untereinander
 - Als Lehrender oder Studierender
-- Möchte ich mit meien Lehrendern oder Studierenden austauschen wollen
+- Möchte ich mich mit meinen Lehrenden oder Studierenden austauschen
 - Damit man mit anderen über Vorlesungsstoff und anderen Themen reden kann
 
 
