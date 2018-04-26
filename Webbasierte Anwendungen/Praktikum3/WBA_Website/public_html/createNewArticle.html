@@ -6,11 +6,65 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>SAILI - Neuen Artikel erstellen</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <header>
+            <h1>SAILI - Die Website für Studierende und Lehrende</h1>
+        </header>
+        <section>
+            <header>
+                <h3>
+                    Navigation
+                </h3>
+            </header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="\WBA_Website\index.html">Startseite</a>
+                    </li>
+                    <li>
+                        <a href="\WBA_Website\news.html">News</a>
+                    </li>
+                    <li>
+                        <a href="\WBA_Website\projects.html">Projekte</a>
+                    </li>
+                    <li>
+                        <a href="\WBA_Website\tasks.html">Aufgaben</a>
+                    </li>
+                    <li>
+                        <a href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <h2>Eingabeformular</h2>
+            <form action="/newArticle" method="POST" enctype="text/plain">
+                <label for="artikelTitel">Titel:</label><br>
+                <input id="artikelTitel" type="text" size="8"><br>
+                <label for="artikelText">Text:</label><br>
+                <textarea id="artikelText" rows="5" cols="48"></textarea><br>
+                <label for="artikelTyp">Artikeltyp:</label><br>
+                <input id="artikelTyp" name="textform" list="textformen"><br>
+                <datalist id="textformen">
+                    <option>News</option>
+                    <option>Projekt</option>
+                    <option>Aufgabe</option>
+                </datalist>
+                <label for="artikelStartdatum">Startdatum:</label><br>
+                <input id="artikelStartdatum" type="date" name="startdatum"><br>
+                <label for="artikelEnddatum">Enddatum:</label><br>
+                <input id="artikelEnddatum" type="date" name="enddatum"><br>
+                <label for="artikelTitelfarbe">Titelfarbe:</label><br>
+                <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br><br>
+                <input type="submit" value="Absenden">
+            </form>
+        </section><br>
+        <footer>
+            © André Kirsch, 2018
+        </footer>
     </body>
 </html>
