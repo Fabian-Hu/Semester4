@@ -113,30 +113,32 @@ Siehe Mockup
 
 ###4.) Dokumentieren Sie ihre Anforderungen für später
 
+Siehe User Stories 
+
 ##Planung und Aufwandsabschätzung
 
 ###1.) Gehen Sie die Checkliste für die Webentwicklung durch
 
-* News darstellen
-* Projekte vorstellen
-* Aufgaben darstellen
-* Formular für Kommentare
-* Schickes Design für die Seite
-* Mediendatein einbinden
-* Animationen
-* Mehrsprachen-Fähigkeit
-* Speichern von Artikeln
-* Standort anzeigen
-* Inhaltsverzeichnisse
-* Medien bearbeiten
-* Formulareingaben in Seite einfügen
-* Navigation über Tastaturkürzel
-* Externe Inhalte einbinden
-* Medien hochladen / runterladen
-* Kommentare hochladen / runterladen
-* Kommentare speichern
-* Kommunikation untereinander
+1. Welche Anforderung werden an meine Web-Anwendung gestellt?
+   * Siehe TODO-Liste oder obrige Aufgabe
+2. Welche Charakteristika sind für meine Web-Anwendung wichtig?
+   * Anwenderbezug: Eine Web-Applikation wird von verschiedensten Anwendern mit verschiedensten Kontexten, Fähigkeiten und Vorwissen genutzt
+   * Nutzung: Web-Applikationen werden unter verschiedensten Gegebenheiten genutzt
+   * Inhalte: Die Inhalte (Aufgaben, Projekte und News) einer Web-Applikation sind die Basis für ihre Nutzung und kritischer Faktor für die Akzeptanz.
+   * Verlinkung: Web-Applikationen haben Verbindungen zu anderen WebApplikationen. (Hypertext)
+   * Darstellung: Die Darstellung (Presentation) einer Web-Applikation ist mit ein wichtiger Faktor bei der Benutzerakzeptanz.
+   * Software Struktur: Eine Web-Applikation ist eine jederzeit verfügbare, verteilte Anwendung.
+3. In welcher Kategorie ist meine Web-Anwendung realisierbar? (Minimalansatz)?
+   * Kollaborative Web-Anwendungen: Benutzerinteraktion auf Inhaltsebene, Keine personalisierten Dienste
+4. Wie groß ist der geschätzte Aufwand für die Realisierung?
+   * Drei Monate
+5. Was währe der Mehrwert einer Realisierung in einer höheren Kategorie?
+   * Ubiquitäre Web-Anwendungen: Der Mehrwert dieser Kategorie ist das sie eine Vielzahl von Endgeräten unterstützt
+6. Gibt es technische Einschränkungen?
+   * Der Anwender benötigt einen Browser(Google Chrome, Firefox)
 
 ###2.) Begründen Sie, warum die Anwendung als Webanwendung realierst werden soll
 
-
+- Mehrere Personen sollen auf unsere Anwendung zugreiffen können ohne vorwissen und ohne Installation.
+- Eine Webanwendung ist ideal für Informationsaustausch von verschiedenen Themen und Projekten
+- Unsere Anwendung besitzt mehrere Charakteristika von einer Webanwendung
