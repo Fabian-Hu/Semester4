@@ -21,3 +21,53 @@
 
 * Google Maps
 * Wikipedia
+* Google Suche
+
+##Planung und Aufwandsabschätzung
+
+### Checkliste für Webentwichlung
+
+1. Siehe Oben
+2. Charakteristika
+   1. Anwenderbezug
+      1. Mehrbenutzer (Geichzeitige Nutzung durch mehrere Benutzer/ Nutzung durch unterschiedliche Geräte/ Nutzung durch unterschiedliche Software)
+      2. Sozialer Kontext (Übersichtliche Einstiegsseite mit "eyecatcher" und "Überblicks-Charakter") 
+      3. Technische Fähigkeiten (Einfache verständliche Bedienung, Guided Tour für Neuankömmling vorhanden)
+      4. Physische Fähigkeiten
+      5. Vorwissen (Unterschiedliche Vertrautheit mit den Inhalten der Seite)
+   2. Nutzung
+      1. Zeitlicher Kontext (24/7 nutzbar)
+      2. Interaktivität (Benutzer, Kommentare)
+      3. Benutzerinteraktion (Über Kommentare etc.)
+   3. Inhalte
+      1. Multimedialer Charakter (Text, Grafiken, Animationen)
+      2. Inhaltliche Genauigkeit (Hohe Anforderung an Konsistenz, Verlässlichkeit und Umfang)
+      3. Aktualität (Inhalte müssen aktuell und passend sein)
+   4. Verlinkung
+      1. Hypertext-Struktur(Links, Anker)
+      2. Nicht-lineare Nutzung (Browsen/stöbern)
+      3. Desorientierung (Navigationsleiste)
+   5. Darstellung
+      1. Ästhetik (ansprechend gestaltet)
+      2. Usability (Prinzipien beachten)
+   6. Software Struktur
+      1. Jeder Zeit Vefügbar
+      2. Verteilt (Client-Browser (DB?))
+   7. Maschienenlesbarkeit
+      1. Strukturelle Auszeichnung
+      2. Trennung von Inhalt und Design
+      3. Semantische Auszeichnungen
+3. Kollaborative Web-Anwendung
+   1. Benutzerinteraktion auf Inhaltsebene
+   2. Benutzeranmeldung
+   3. Kooperation für unstrukturierte Vorgänge
+   4. sehr hoher Kommunikationsanteil
+   5. gemeinsame Informations- und Arbeitsräume
+   6. Vorherige Seiten keine Benutzerinteraktion
+4. hoch
+5. Ubiquitäre Web-Anwendung würde Personalisierte Dienste, Verfügbarkeit 24h an jedem Ort und Unterstützung einer Vielzahl von Endgräten unterstützen
+6. Nope
+
+### Warum als Webanwendung
+
+Kurs heißt Webbasierte Anwendungen.
