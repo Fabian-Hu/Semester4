@@ -65,7 +65,7 @@
    5. gemeinsame Informations- und Arbeitsräume
    6. Vorherige Seiten keine Benutzerinteraktion
 4. hoch
-5. Ubiquitäre Web-Anwendung würde Personalisierte Dienste, Verfügbarkeit 24h an jedem Ort und Unterstützung einer Vielzahl von Endgräten unterstützen
+5. Ubiquitäre Web-Anwendung würde Personalisierte Dienste, Verfügbarkeit 24h an jedem Ort und Unterstützung einer Vielzahl von Endgräten
 6. Nope
 
 ### Warum als Webanwendung
