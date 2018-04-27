@@ -1,0 +1,67 @@
+#!/bin/bash
+function exists {
+  if test -a $1; then
+    symbolicLink $1
+    kind $1
+    owned $1 
+  else
+    echo $1 nicht gefunden
+  fi
+}
+
+function kind {
+  if test -d $1; then
+    echo $1 is a directory
+  elif test -f $1; then
+    echo $1 is a file
+    menu $1
+  else
+    echo Oops something went wrong
+  fi
+}
+
+function symbolicLink {
+  if test -h $1; then
+    echo $1 is a symbolic Link
+  fi
+}
+
+function owned {
+  if test -O $1; then
+    echo You are the Owner of $1
+  else
+    echo You are not the owner
+    realOwner $1
+  fi
+}
+
+function realOwner {
+  echo -n "The Owner is: "
+  stat -c '%U' $1
+
+}
+
+function menu {
+  if [ "${1/*./}" = "txt" ]
+  then
+    echo Wollen sie $1 lesen?
+    select VAR in ja nein
+    do
+      case $VAR in
+        ja)
+          nano $1
+	  break
+          ;;
+        nein)
+	  echo dann halt nicht
+	  break
+      esac
+    done
+  fi
+}
+
+for param in $@
+do
+  echo
+  exists $param
+done
