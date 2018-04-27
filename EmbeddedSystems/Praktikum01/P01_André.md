@@ -20,24 +20,6 @@ Sensor/Aktor:
 
 - RF Antenne zum Senden/Empfangen von Signalen
 
-Anforderungen:
-
-- Verlässlichkeit
-  - Zuverlässigkeit: Bluetooth Modul sollte Daten zuverlässig und fehlerfrei empfangen und senden
-  - Wartbarkeit: Bluetooth Modul sollte bei Defekt leicht zu ersetzen sein
-  - Verfügbarkeit: Bluetooth Modul sollte von anderen Geräten erkannt werden
-  - Sicherheit: Bluetooth Modul sollte keine Explosionen verursachen (kA, bessere Idee?)
-  - Integrität: Bluetooth Modul sollte die Daten sicher übertragen
-- Effizienz
-  - Energieverbrauch: Bluetooth Modul sollte einen geringen Energieverbrauch haben
-  - Codegröße: Bluetooth Code sollte klein genug für den Mikrocontroller sein
-  - Laufzeit: Bluetooth Modul sollte die Daten möglichst schnell verarbeiten
-  - Gewicht: Bluetooth Modul sollte besonders leicht sein
-  - Preis: Bluetooth Modul sollte kostengünstig zu erhalten sein
-- Einzwecksystem: Das Bluetooth Modul sollte sich nur um den Empfang und das Sende von Daten kümmern
-- reaktive System: Das Bluetooth Modul sollte dauerhaft mit der Umwelt interagieren, um neue Verbindungen anzunehmen
-- weiche Zeitbedingungen: Kurze Verzögerungen bis zum Beginn des Senden oder Empfangen von Daten sind erlaubt, solange diese vollständig und fehlerfrei übertragen werden
-
 ### Aufgabe 1.2
 
 Das TiWi-uB2 Bluetooth Module besteht aus einem Mikrocontroller, einem Quarz, einem Bandpass Filter und einer RF Antenne. Der verwendete Mikrocontroller ist ein CC2564 Dual-mode Bluetooth Controller der Marke Texas Instruments. An diesen ist ein Quarz von 38.4Mhz angeschlossen. Desweiteren ist noch eine RF Antenne für den Bluetooth Empfang angeschlossen. Dazwischen liegt noch ein Band-Pass Filter, sodass nur noch Signale der korrekten Frequenz(ISM Band) zum Mikrocontroller gelangen.
@@ -63,3 +45,30 @@ Gründe, warum das System so entworfen wurde:
 
 ## Aufgabe 2
 
+### Aufgabe 2.1
+
+Anforderungen:
+
+- Verlässlichkeit
+  - Zuverlässigkeit: Bluetooth Modul sollte Daten zuverlässig und fehlerfrei empfangen und senden
+  - Wartbarkeit: Bluetooth Modul sollte bei Defekt leicht zu ersetzen sein
+  - Verfügbarkeit: Bluetooth Modul sollte von anderen Geräten erkannt werden
+  - Sicherheit: Bluetooth Modul sollte keine Explosionen verursachen (kA, bessere Idee?)
+  - Integrität: Bluetooth Modul sollte die Daten sicher übertragen
+- Effizienz
+  - Energieverbrauch: Bluetooth Modul sollte einen geringen Energieverbrauch haben
+  - Codegröße: Bluetooth Code sollte klein genug für den Mikrocontroller sein
+  - Laufzeit: Bluetooth Modul sollte die Daten möglichst schnell verarbeiten
+  - Gewicht: Bluetooth Modul sollte besonders leicht sein
+  - Preis: Bluetooth Modul sollte kostengünstig zu erhalten sein
+- Einzwecksystem: Das Bluetooth Modul sollte sich nur um den Empfang und das Sende von Daten kümmern
+- reaktive System: Das Bluetooth Modul sollte dauerhaft mit der Umwelt interagieren, um neue Verbindungen anzunehmen
+- weiche Zeitbedingungen: Kurze Verzögerungen bis zum Beginn des Senden oder Empfangen von Daten sind erlaubt, solange diese vollständig und fehlerfrei übertragen werden
+
+### Aufgabe 2.2
+
+- Die Energiekosten könnten stark ansteigen
+- Das Gerät, in das das eingebettete System eingebaut wurde, könnte viel zu schwer werden und das Bluetooth Modul könnte nicht in tragbare Geräte eingebaut werden
+- Verbindungsabbruch beim Übertragen von Daten
+- Stören von anderen Geräten, die auf der gleichen Frequenz senden
+- Man kann sich nicht mit dem Bluetooth Gerät verbinden
