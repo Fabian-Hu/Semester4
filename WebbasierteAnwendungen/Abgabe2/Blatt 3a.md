@@ -40,3 +40,14 @@
 
 ##Nennen sie die drei wichtigsten Attribute für HTML-Formate
 
+**action** 		URL an welche die Daten aus dem Formular gesendet werden
+
+**method** 	bestimmt die HTTP-Methode die zum Versand genutzt wird 
+
+**enctype** 	bestimmt den Mime-Type in dem Versendet wird 
+
+Beispiel:
+
+​	<form action=“URL“ method=“POST|GET“ enctype=“TRANSFERFORMAT“> 
+
+​	</form>
