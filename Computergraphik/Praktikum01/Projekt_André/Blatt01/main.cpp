@@ -27,9 +27,9 @@ glm::mat4x4 projection;
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
 
-const int MIN_TRIES = 3;
-const int MAX_TRIES = 30;
-int triangles = 5;
+const int MIN_EDGES = 3;
+const int MAX_EDGES = 30;
+int edges = 5;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -53,10 +53,28 @@ struct Object
 
 Object circle;
 
+float calculateAngle(int edges)
+{
+	return 360 / edges;
+}
+
 void calculateNextPos(glm::vec3 startpos, float angle, glm::vec3 *newpos)
 {
 	newpos->x = startpos.x * glm::cos(angle) - startpos.y * glm::sin(angle);
 	newpos->y = startpos.x * glm::sin(angle) + startpos.y * glm::cos(angle);
+}
+
+void calculateCircle()
+{
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> colors;
+	std::vector<GLushort> indices;
+	float angle = calculateAngle(edges);
+
+	for (int i = 0; i < edges; i++)
+	{
+
+	}
 }
 
 void renderCircle()
@@ -173,8 +191,7 @@ void releaseObject(Object& obj)
 void release()
 {
 	// Shader program will be released upon program termination.
-	releaseObject(triangle);
-	releaseObject(quad);
+	releaseObject(circle);
 }
 
 /*
@@ -219,9 +236,15 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  
 	case '+':
 		// do something
+		if (edges < MAX_EDGES)
+			edges++;
+		calculateCircle();
 		break;
 	case '-':
 		// do something
+		if (edges > MIN_EDGES)
+			edges--;
+		calculateCircle();
 		break;
 	case 'x':
 		// do something
