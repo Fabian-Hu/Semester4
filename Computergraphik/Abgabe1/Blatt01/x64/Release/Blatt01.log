@@ -1,4 +1,0 @@
-﻿  GLSLProgram.cpp
-d:\visual studio\vc\tools\msvc\14.13.26128\include\crtdefs.h(10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "corecrt.h": No such file or directory
-  main.cpp
-d:\visual studio\vc\tools\msvc\14.13.26128\include\crtdefs.h(10): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "corecrt.h": No such file or directory

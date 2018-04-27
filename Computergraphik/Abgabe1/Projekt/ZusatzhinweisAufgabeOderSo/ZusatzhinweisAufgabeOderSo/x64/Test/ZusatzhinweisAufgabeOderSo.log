@@ -1,4 +1,0 @@
-﻿  GLSLProgram.cpp
-d:\studium\semester4\semester4\computergraphik\abgabe1\projekt\zusatzhinweisaufgabeoderso\glslprogram.h(12): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "glm/glm.hpp": No such file or directory
-  main.cpp
-d:\studium\semester4\semester4\computergraphik\abgabe1\projekt\zusatzhinweisaufgabeoderso\main.cpp(4): fatal error C1083: Datei (Include) kann nicht geöffnet werden: "GL/glew.h": No such file or directory
