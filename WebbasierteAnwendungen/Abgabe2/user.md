@@ -107,11 +107,36 @@ Siehe Mockup
 
 ###3.) Überlegen Sie,welche anderen Seiten sinnvollerweise Verlinkt(oder durch Tools eingebunden) werden können
 
+* google Suche
+* google Maps
+* youtube
+
 ###4.) Dokumentieren Sie ihre Anforderungen für später
 
 ##Planung und Aufwandsabschätzung
 
 ###1.) Gehen Sie die Checkliste für die Webentwicklung durch
+
+* News darstellen
+* Projekte vorstellen
+* Aufgaben darstellen
+* Formular für Kommentare
+* Schickes Design für die Seite
+* Mediendatein einbinden
+* Animationen
+* Mehrsprachen-Fähigkeit
+* Speichern von Artikeln
+* Standort anzeigen
+* Inhaltsverzeichnisse
+* Medien bearbeiten
+* Formulareingaben in Seite einfügen
+* Navigation über Tastaturkürzel
+* Externe Inhalte einbinden
+* Medien hochladen / runterladen
+* Kommentare hochladen / runterladen
+* Kommentare speichern
+* Kommunikation untereinander
+
 ###2.) Begründen Sie, warum die Anwendung als Webanwendung realierst werden soll
 
 
