@@ -15,3 +15,10 @@ Was ist der Unterschied zwischen strukturellen und semantischen Auszeichnungen?
 
 - Google Maps fürs Anzeigen des Standorts
 - Google Suche für eine einfache Sucheinbindung
+
+#### Warum als Webanwendung
+
+- jederzeit verfügbar
+- benötigt sowieso Anbindung ans Internet zur Kommunikation zwischen den einzelnen Nutzern
+- bietet eine hohe Akualität: Inhalte können schnell aktualisiert werden
+- ist eine Anwendung zum stöbern
