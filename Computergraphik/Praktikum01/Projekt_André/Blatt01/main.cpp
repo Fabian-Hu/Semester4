@@ -27,6 +27,8 @@ glm::mat4x4 projection;
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
 
+glm::vec3 colorBlue(0.0f, 0.8f, 1.0f);
+
 const int MIN_EDGES = 3;
 const int MAX_EDGES = 30;
 int edges = 5;
@@ -55,26 +57,16 @@ Object circle;
 
 float calculateAngle(int edges)
 {
-	return 360 / edges;
+	return 6.2831853071796 / edges;
 }
 
-void calculateNextPos(glm::vec3 startpos, float angle, glm::vec3 *newpos)
+void calculateNextPos(float angle, glm::vec3 *newpos)
 {
-	newpos->x = startpos.x * glm::cos(angle) - startpos.y * glm::sin(angle);
-	newpos->y = startpos.x * glm::sin(angle) + startpos.y * glm::cos(angle);
-}
+	newpos->x = 1 * glm::cos(angle);
+	newpos->y = 1 * glm::cos(angle - 1.5707963267949);
 
-void calculateCircle()
-{
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec3> colors;
-	std::vector<GLushort> indices;
-	float angle = calculateAngle(edges);
-
-	for (int i = 0; i < edges; i++)
-	{
-
-	}
+	/*newpos->x = startpos.x * glm::cos(angle) - startpos.y * glm::sin(angle);
+	newpos->y = startpos.x * glm::sin(angle) + startpos.y * glm::cos(angle);*/
 }
 
 void renderCircle()
@@ -134,6 +126,45 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.25f, 0.0f, 0.0f));
 }
 
+void calculateCircle()
+{
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> colors;
+	std::vector<GLushort> indices;
+	float angle = calculateAngle(edges);
+	vertices.push_back(center);
+	colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+
+	for (int i = 0; i < edges; i++)
+	{
+		glm::vec3 singleVert;
+		calculateNextPos(i * angle, &singleVert);
+		vertices.push_back(singleVert);
+
+		colors.push_back(glm::vec3(i * 0.2f, 1.0f - i * 0.5f, i * 0.5f));
+		if (i == edges - 1)
+		{
+			indices.push_back(0);
+			indices.push_back(i + 1);
+			indices.push_back(1);
+		}
+		else
+		{
+			indices.push_back(0);
+			indices.push_back(i + 1);
+			indices.push_back(i + 2);
+		}
+
+	}
+	for (std::vector<glm::vec3>::const_iterator i = vertices.begin(); i != vertices.end(); ++i)
+		std::cout << i->x << ' ' << i->y << ' ' << i->z << std::endl;
+	for (std::vector<glm::vec3>::const_iterator i = colors.begin(); i != colors.end(); ++i)
+		std::cout << i->x << ' ' << i->y << ' ' << i->z << std::endl;
+	for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
+		std::cout << *i << std::endl;
+	initCircle(vertices, colors, indices);
+}
+
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
  */
@@ -169,7 +200,7 @@ bool init()
 	}
 
 	// Create objects.
-	initCircle();
+	calculateCircle();
 
 	return true;
 }
