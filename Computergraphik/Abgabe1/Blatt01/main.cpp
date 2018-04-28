@@ -24,7 +24,7 @@ cg::GLSLProgram program;
 glm::mat4x4 view;
 glm::mat4x4 projection;
 
-int steps = 15;
+int steps = 5;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -131,20 +131,6 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 }
 
 void createCircle() {
-/*
-	float a = sinf(float(1) / float(3) * 2.0f * 3.14f);
-	float b = cosf(float(1) / float(3) * 2.0f * 3.14f);
-
-	float c = sinf(float(2) / float(3) * 2.0f * 3.14f);
-	float d = cosf(float(2) / float(3) * 2.0f * 3.14f);
-
-	float e = sinf(float(3) / float(3) * 2.0f * 3.14f);
-	float f = cosf(float(3) / float(3) * 2.0f * 3.14f);
-	std::cout << a << b << c << d << e << f << std::endl;
-	const std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f },{ a, b, 0.0f },{ c, d, 0.0f },{ e, f, 0.0f }};
-	const std::vector<glm::vec3> colors = { {0.0f, 0.0f, 1.0f} };
-	const std::vector<GLushort> indices = { 0,1,2,0,2,3,0,3,1 };
-*/
 
 	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
 	std::vector<glm::vec3> colors = { { 0.0f, 0.0f, 1.0f } };
@@ -158,11 +144,16 @@ void createCircle() {
 		colors.push_back({ 0.0f, 0.0f, 1.0f });
 		indices.push_back(0);
 		indices.push_back(i+1);
-		indices.push_back(i+2);
+		//Der letzte sollte damit gefixt sein
+		if (i != steps - 1)
+			indices.push_back(i + 2);
+		else
+			indices.push_back(1);
 		
 	}
-	for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
-			std::cout << *i << ' ';
+	//Indices ausgeben, scheint ok zu sein
+	//for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
+	//		std::cout << *i << ' ';
 
 	initCircle(vertices, colors, indices);
 	
