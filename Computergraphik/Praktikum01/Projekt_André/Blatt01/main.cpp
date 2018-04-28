@@ -12,6 +12,8 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
+#include <stdlib.h>
+
 // Standard window width
 const int WINDOW_WIDTH  = 640;
 // Standard window height
@@ -27,9 +29,15 @@ glm::mat4x4 projection;
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
 
+glm::vec3 colorBlue(0.0f, 0.6f, 1.0f);
+
 const int MIN_EDGES = 3;
 const int MAX_EDGES = 30;
 int edges = 5;
+
+const float MIN_CIRCLESIZE = 0.2f;
+const float MAX_CIRCLESIZE = 2.0f;
+float size = 1.0f;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -55,26 +63,13 @@ Object circle;
 
 float calculateAngle(int edges)
 {
-	return 360 / edges;
+	return 360.0f / edges;
 }
 
-void calculateNextPos(glm::vec3 startpos, float angle, glm::vec3 *newpos)
+void calculateNextPos(double angle, glm::vec3 *newpos)
 {
-	newpos->x = startpos.x * glm::cos(angle) - startpos.y * glm::sin(angle);
-	newpos->y = startpos.x * glm::sin(angle) + startpos.y * glm::cos(angle);
-}
-
-void calculateCircle()
-{
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec3> colors;
-	std::vector<GLushort> indices;
-	float angle = calculateAngle(edges);
-
-	for (int i = 0; i < edges; i++)
-	{
-
-	}
+	newpos->x = size * glm::cos(glm::radians(angle + 90));
+	newpos->y = size * glm::cos(glm::radians(angle));
 }
 
 void renderCircle()
@@ -88,7 +83,7 @@ void renderCircle()
 
 	// Bind vertex array object so we can render the 1 triangle.
 	glBindVertexArray(circle.vao);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, edges *3, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 
@@ -131,7 +126,74 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 	glBindVertexArray(0);
 
 	// Modify model matrix.
-	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.25f, 0.0f, 0.0f));
+	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+}
+
+void calculateCircle()
+{
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> colors;
+	std::vector<GLushort> indices;
+	float angle = calculateAngle(edges);
+	vertices.push_back(center);
+	colors.push_back(colorBlue);
+
+	for (int i = 0; i < edges; i++)
+	{
+		glm::vec3 singleVert;
+		calculateNextPos(i * angle, &singleVert);
+		vertices.push_back(singleVert);
+
+		colors.push_back(colorBlue);
+		if (i == edges - 1)
+		{
+			indices.push_back(0);
+			indices.push_back(1);
+			indices.push_back(i + 1);
+		}
+		else
+		{
+			indices.push_back(0);
+			indices.push_back(i + 1);
+			indices.push_back(i + 2);
+		}
+	}
+	initCircle(vertices, colors, indices);
+}
+
+void calculateMulticolorCircle()
+{
+	srand(3141592);
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> colors;
+	std::vector<GLushort> indices;
+	float angle = calculateAngle(edges);
+
+	for (int i = 0; i < edges; i++)
+	{
+		glm::vec3 randCol((double) rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
+		glm::vec3 firstVert;
+		glm::vec3 secondVert;
+		calculateNextPos(i * angle, &firstVert);
+		if (i+1 >= edges)
+			calculateNextPos(0, &secondVert);
+		else
+			calculateNextPos((i + 1) * angle, &secondVert);
+		vertices.push_back(firstVert);
+		vertices.push_back(secondVert);
+		vertices.push_back(center);
+
+		colors.push_back(randCol);
+		colors.push_back(randCol);
+		colors.push_back(randCol);
+
+		indices.push_back(i * 3);
+		indices.push_back(i * 3 + 1);
+		indices.push_back(i * 3 + 2);
+	}
+	std::cout << std::endl;
+	std::cout << angle << std::endl;
+	initCircle(vertices, colors, indices);
 }
 
 /*
@@ -169,7 +231,7 @@ bool init()
 	}
 
 	// Create objects.
-	initCircle();
+	calculateMulticolorCircle();
 
 	return true;
 }
@@ -238,24 +300,24 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		// do something
 		if (edges < MAX_EDGES)
 			edges++;
-		calculateCircle();
 		break;
 	case '-':
 		// do something
 		if (edges > MIN_EDGES)
 			edges--;
-		calculateCircle();
 		break;
-	case 'x':
+	case 'q':
 		// do something
+		if (size < MAX_CIRCLESIZE)
+			size += 0.05f;
 		break;
-	case 'y':
+	case 'w':
 		// do something
-		break;
-	case 'z':
-		// do something
+		if (size > MIN_CIRCLESIZE)
+			size -= 0.05f;
 		break;
 	}
+	calculateMulticolorCircle();
 	glutPostRedisplay();
 }
 
