@@ -53,7 +53,7 @@ Anforderungen:
   - Zuverlässigkeit: Bluetooth Modul sollte Daten zuverlässig und fehlerfrei empfangen und senden
   - Wartbarkeit: Bluetooth Modul sollte bei Defekt leicht zu ersetzen sein
   - Verfügbarkeit: Bluetooth Modul sollte von anderen Geräten erkannt werden
-  - Sicherheit: Bluetooth Modul sollte keine Explosionen verursachen (kA, bessere Idee?)
+  - Sicherheit: Bluetooth Modul sollte keine weiteren Bauteile beschädigen
   - Integrität: Bluetooth Modul sollte die Daten sicher übertragen
 - Effizienz
   - Energieverbrauch: Bluetooth Modul sollte einen geringen Energieverbrauch haben
