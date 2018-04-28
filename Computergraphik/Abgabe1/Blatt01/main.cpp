@@ -116,24 +116,45 @@ void createCircle() {
 
 		float x = sinf(angle);
 		float y = cosf(angle);
-		vertices.push_back (glm::vec3(x,y,0.0f));
+		vertices.push_back(glm::vec3(x, y, 0.0f));
 		colors.push_back({ 0.0f, 0.0f, 1.0f });
 		indices.push_back(0);
-		indices.push_back(i+1);
+		indices.push_back(i + 1);
 		//Der letzte sollte damit gefixt sein
 		if (i != steps - 1)
 			indices.push_back(i + 2);
 		else
 			indices.push_back(1);
-		
+
 	}
-	//Indices ausgeben, scheint ok zu sein
-	//for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
-	//		std::cout << *i << ' ';
-
 	initCircle(vertices, colors, indices);
-	
+}
 
+void createCircleWithColor() {
+
+	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
+	std::vector<glm::vec3> colors = { { 0.0f, 0.0f, 1.0f } };
+	std::vector<GLushort> indices;
+	for (int i = 0; i < steps; i++) {
+		float angle = float(i) / float(steps) * 2.0f * 3.14f;
+
+		float x = sinf(angle);
+		float y = cosf(angle);
+		vertices.push_back(glm::vec3(x, y, 0.0f));
+		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		colors.push_back({ 0.0f, 0.0f, r });
+		colors.push_back({ 0.0f, r, 0.0f });
+		colors.push_back({ r, 0.0f, 0.0f });
+		indices.push_back(0);
+		indices.push_back(i + 1);
+		//Der letzte sollte damit gefixt sein
+		if (i != steps - 1)
+			indices.push_back(i + 2);
+		else
+			indices.push_back(1);
+
+	}
+	initCircle(vertices, colors, indices);
 }
 
 /*
@@ -171,7 +192,9 @@ bool init()
 	}
 
 	// Create objects.
-	createCircle();
+	//createCircle();
+
+	createCircleWithColor();
 
 	return true;
 }
@@ -249,15 +272,19 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  
 	case '+':
 		// do something
-		if (steps < 30)
+		if (steps < 30) {
 			steps++;
-			createCircle();
+			//createCircle();
+			createCircleWithColor();
+		}
 		break;
 	case '-':
 		// do something
-		if (steps > 3)
+		if (steps > 3) {
 			steps--;
-			createCircle();
+			//createCircle();
+			createCircleWithColor();
+		}
 		break;
 	case 'x':
 		// do something
