@@ -24,6 +24,8 @@ cg::GLSLProgram program;
 glm::mat4x4 view;
 glm::mat4x4 projection;
 
+int steps = 5;
+
 float zNear = 0.1f;
 float zFar  = 100.0f;
 
@@ -46,6 +48,30 @@ struct Object
 
 Object circle;
 
+void createCirclee(unsigned int steps)
+{   // Dreiecksfächer zeichnen
+	glBegin(GL_TRIANGLE_FAN);
+
+	// Zentrum (ertsten Punkt) setzen
+	glVertex2f(0.0f, 0.0f);
+	for (unsigned int i = 0; i <= steps; i++)
+	{
+		// Umlaufenden Winkel berechnen
+		float angle = float(i) / float(steps) * 2.0f * 3.14f;
+
+		// Kreisfunktionen Sinus und Cosinus verwenden
+		float x = sinf(angle);
+		float y = cosf(angle);
+
+		// Punkt setzen
+		glVertex2f(x, y);
+		// Ende des Dreiecksfächers
+		glEnd();
+
+	} // renderCircle()
+	}
+
+
 void renderCircle()
 {
 	// Create mvp.
@@ -61,13 +87,10 @@ void renderCircle()
 	glBindVertexArray(0);
 }
 
-void initCircle()
+void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, std::vector<GLushort> indices)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { { -2.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
-	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
-
+	
 	GLuint programId = program.getHandle();
 	GLuint pos;
 
@@ -107,13 +130,47 @@ void initCircle()
 	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.25f, 0.0f, 0.0f));
 }
 
+void createCircle() {
+
+	float a = sinf(float(1) / float(3) * 2.0f * 3.14f);
+	float b = cosf(float(1) / float(3) * 2.0f * 3.14f);
+
+	float c = sinf(float(2) / float(3) * 2.0f * 3.14f);
+	float d = cosf(float(2) / float(3) * 2.0f * 3.14f);
+
+	float e = sinf(float(3) / float(3) * 2.0f * 3.14f);
+	float f = cosf(float(3) / float(3) * 2.0f * 3.14f);
+	std::cout << a << b << c << d << e << f << std::endl;
+	const std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f },{ a, b, 0.0f },{ c, d, 0.0f },{ e, f, 0.0f }};
+	const std::vector<glm::vec3> colors = { {0.0f, 0.0f, 1.0f} };
+	const std::vector<GLushort> indices = { 0,1,2,0,2,3,0,3,1 };
+
+	/*
+	for (int i = 0; i < steps; i++) {
+		float angle = float(i) / float(steps) * 2.0f * 3.14;
+
+		float x = sinf(float(i) / float(steps) * 2.0f * 3.14);
+		float y = cosf(float(i) / float(steps) * 2.0f * 3.14);
+		float x = sinf(angle);
+		float y = cosf(angle);
+
+		vertices.push_back(glm::vec3(x,y,0.0f));
+		indices.push_back(0);
+		indices.push_back(i);
+		indices.push_back(i+1);
+}*/
+		initCircle(vertices, colors, indices);
+	
+
+}
+
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
  */
 bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
 	// Construct view matrix.
 	glm::vec3 eye(0.0f, 0.0f, 4.0f);
@@ -142,7 +199,7 @@ bool init()
 	}
 
 	// Create objects.
-	initCircle();
+	createCircle();
 
 	return true;
 }
