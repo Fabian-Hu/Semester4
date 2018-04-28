@@ -29,4 +29,5 @@ Was ist der Unterschied zwischen strukturellen und semantischen Auszeichnungen?
 - benötigt sowieso Anbindung ans Internet zur Kommunikation zwischen den einzelnen Nutzern
 - bietet eine hohe Akualität: Inhalte können schnell aktualisiert werden
 - ist eine Anwendung zum stöbern
+- Zentrale Anwendung, die viele Endgeräte unterstützt
 
