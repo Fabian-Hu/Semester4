@@ -40,11 +40,18 @@ function echoOwner {
 
 function editIfTxt {
   if [ "$(echo $1 | awk '/.*\.txt/ {print $1}')" != "" ]; then
-    echo "Wollen Sie die Datei editieren?[y]"
-    read -n 1 -s OUT
-    if [ $OUT = "y" ];then
-      nano $1
-    fi
+    echo "Wollen Sie die Datei editieren?"
+	select answer in ja nein
+	do
+		case $answer in
+			ja)
+				nano $param
+				break
+				;;
+			nein)
+				break
+		esac	
+	done
   fi
 }
 
