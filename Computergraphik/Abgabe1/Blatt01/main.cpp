@@ -24,7 +24,7 @@ cg::GLSLProgram program;
 glm::mat4x4 view;
 glm::mat4x4 projection;
 
-int steps = 5;
+int steps = 15;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -131,7 +131,7 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 }
 
 void createCircle() {
-
+/*
 	float a = sinf(float(1) / float(3) * 2.0f * 3.14f);
 	float b = cosf(float(1) / float(3) * 2.0f * 3.14f);
 
@@ -144,22 +144,27 @@ void createCircle() {
 	const std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f },{ a, b, 0.0f },{ c, d, 0.0f },{ e, f, 0.0f }};
 	const std::vector<glm::vec3> colors = { {0.0f, 0.0f, 1.0f} };
 	const std::vector<GLushort> indices = { 0,1,2,0,2,3,0,3,1 };
+*/
 
-	/*
+	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
+	std::vector<glm::vec3> colors = { { 0.0f, 0.0f, 1.0f } };
+	std::vector<GLushort> indices;
 	for (int i = 0; i < steps; i++) {
-		float angle = float(i) / float(steps) * 2.0f * 3.14;
+		float angle = float(i) / float(steps) * 2.0f * 3.14f;
 
-		float x = sinf(float(i) / float(steps) * 2.0f * 3.14);
-		float y = cosf(float(i) / float(steps) * 2.0f * 3.14);
 		float x = sinf(angle);
 		float y = cosf(angle);
-
-		vertices.push_back(glm::vec3(x,y,0.0f));
+		vertices.push_back (glm::vec3(x,y,0.0f));
+		colors.push_back({ 0.0f, 0.0f, 1.0f });
 		indices.push_back(0);
-		indices.push_back(i);
 		indices.push_back(i+1);
-}*/
-		initCircle(vertices, colors, indices);
+		indices.push_back(i+2);
+		
+	}
+	for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
+			std::cout << *i << ' ';
+
+	initCircle(vertices, colors, indices);
 	
 
 }
