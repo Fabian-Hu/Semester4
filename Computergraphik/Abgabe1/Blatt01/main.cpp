@@ -48,30 +48,6 @@ struct Object
 
 Object circle;
 
-void createCirclee(unsigned int steps)
-{   // Dreiecksfächer zeichnen
-	glBegin(GL_TRIANGLE_FAN);
-
-	// Zentrum (ertsten Punkt) setzen
-	glVertex2f(0.0f, 0.0f);
-	for (unsigned int i = 0; i <= steps; i++)
-	{
-		// Umlaufenden Winkel berechnen
-		float angle = float(i) / float(steps) * 2.0f * 3.14f;
-
-		// Kreisfunktionen Sinus und Cosinus verwenden
-		float x = sinf(angle);
-		float y = cosf(angle);
-
-		// Punkt setzen
-		glVertex2f(x, y);
-		// Ende des Dreiecksfächers
-		glEnd();
-
-	} // renderCircle()
-	}
-
-
 void renderCircle()
 {
 	// Create mvp.
@@ -248,9 +224,12 @@ void glutResize (int width, int height)
 	// Construct projection matrix.
 	projection = glm::perspective(45.0f, (float) width / height, zNear, zFar);
 }
-
+/*
+Callback for dings mit der Maus.
+*/
 void glutMouse (int button, int state, int x, int y)
 {
+	//weil ich zu faul bin meinen Finger bis zum Esc oder dem X oben rechts zu bewegen
 	if (button == GLUT_RIGHT_BUTTON)
 	{
 		glutDestroyWindow(glutID);
