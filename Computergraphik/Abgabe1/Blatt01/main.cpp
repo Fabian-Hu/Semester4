@@ -59,7 +59,7 @@ void renderCircle()
 	
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(circle.vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, steps * 3, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 
