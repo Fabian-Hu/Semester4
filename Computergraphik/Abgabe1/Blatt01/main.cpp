@@ -15,7 +15,7 @@
 // Standard window width
 const int WINDOW_WIDTH  = 640;
 // Standard window height
-const int WINDOW_HEIGHT = 480;
+const int WINDOW_HEIGHT = 640;
 // GLUT window id/handle
 int glutID = 0;
 
@@ -25,6 +25,7 @@ glm::mat4x4 view;
 glm::mat4x4 projection;
 
 int steps = 5;
+float radius = 1;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -133,18 +134,26 @@ void createCircle() {
 void createCircleWithColor() {
 
 	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
-	std::vector<glm::vec3> colors = { { 0.0f, 0.0f, 1.0f } };
+	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
 	for (int i = 0; i < steps; i++) {
 		float angle = float(i) / float(steps) * 2.0f * 3.14f;
 
 		float x = sinf(angle);
 		float y = cosf(angle);
-		vertices.push_back(glm::vec3(x, y, 0.0f));
+		vertices.push_back(glm::vec3(x*radius, y*radius, 0.0f));
 		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		colors.push_back({ 0.0f, 0.0f, r });
-		colors.push_back({ 0.0f, r, 0.0f });
-		colors.push_back({ r, 0.0f, 0.0f });
+		float s = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float t = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float u = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float v = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float w = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float x1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float y1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		float z1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+		colors.push_back({ r,s,t });
+		colors.push_back({ u,v,w });
+		colors.push_back({ x1,y1,z1 });
 		indices.push_back(0);
 		indices.push_back(i + 1);
 		//Der letzte sollte damit gefixt sein
@@ -286,14 +295,19 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 			createCircleWithColor();
 		}
 		break;
-	case 'x':
-		// do something
+	case 'q':
+		if (radius < 2) {
+			radius += 0.1;
+			//createCircle();
+			createCircleWithColor();
+		}
 		break;
-	case 'y':
-		// do something
-		break;
-	case 'z':
-		// do something
+	case 'w':
+		if (radius > 0.5) {
+			radius -= 0.1;
+			//createCircle();
+			createCircleWithColor();
+		}
 		break;
 	}
 	glutPostRedisplay();
