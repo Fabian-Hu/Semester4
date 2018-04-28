@@ -279,9 +279,15 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  
 	case '+':
 		// do something
+		if (steps < 30)
+			steps++;
+			createCircle();
 		break;
 	case '-':
 		// do something
+		if (steps > 3)
+			steps--;
+			createCircle();
 		break;
 	case 'x':
 		// do something
