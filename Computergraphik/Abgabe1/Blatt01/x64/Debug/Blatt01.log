@@ -1,6 +1,4 @@
 ﻿  main.cpp
-d:\studium\semester4\semester4\computergraphik\abgabe1\blatt01\main.cpp(300): warning C4305: "+=": Verkürzung von "double" in "float"
-d:\studium\semester4\semester4\computergraphik\abgabe1\blatt01\main.cpp(307): warning C4305: "-=": Verkürzung von "double" in "float"
 libglew32d.lib(glew.obj) : warning LNK4099: PDB "glew_s.pdb" wurde nicht mit "libglew32d.lib(glew.obj)" oder an "D:\Studium\Semester4\Semester4\Computergraphik\Abgabe1\Blatt01\x64\Debug\glew_s.pdb" gefunden; Objekt wird verkn³pft, als ob keine Debuginformationen vorhanden wõren.
 freeglut_staticd.lib(fg_callbacks.obj) : warning LNK4099: PDB "freeglut_static.pdb" wurde nicht mit "freeglut_staticd.lib(fg_callbacks.obj)" oder an "D:\Studium\Semester4\Semester4\Computergraphik\Abgabe1\Blatt01\x64\Debug\freeglut_static.pdb" gefunden; Objekt wird verkn³pft, als ob keine Debuginformationen vorhanden wõren.
 freeglut_staticd.lib(fg_cursor.obj) : warning LNK4099: PDB "freeglut_static.pdb" wurde nicht mit "freeglut_staticd.lib(fg_cursor.obj)" oder an "D:\Studium\Semester4\Semester4\Computergraphik\Abgabe1\Blatt01\x64\Debug\freeglut_static.pdb" gefunden; Objekt wird verkn³pft, als ob keine Debuginformationen vorhanden wõren.

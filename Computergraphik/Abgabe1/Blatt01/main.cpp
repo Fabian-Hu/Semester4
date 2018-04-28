@@ -24,6 +24,8 @@ cg::GLSLProgram program;
 glm::mat4x4 view;
 glm::mat4x4 projection;
 
+glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
+
 int steps = 5;
 float radius = 1;
 
@@ -103,8 +105,8 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
 
-	// Modify model matrix.
-	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.25f, 0.0f, 0.0f));
+	// Modify model matrix. Hier auch zentriert
+	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
 void createCircle() {
@@ -133,15 +135,20 @@ void createCircle() {
 
 void createCircleWithColor() {
 
+	srand(98121432);
 	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
 	for (int i = 0; i < steps; i++) {
+
+		glm::vec3 randCol((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
+
 		float angle = float(i) / float(steps) * 2.0f * 3.14f;
 
 		float x = sinf(angle);
 		float y = cosf(angle);
-		vertices.push_back(glm::vec3(x*radius, y*radius, 0.0f));
+		vertices.push_back(glm::vec3(x*radius, y*radius, 1.0f));
+		/*
 		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 		float s = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 		float t = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -151,9 +158,11 @@ void createCircleWithColor() {
 		float x1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 		float y1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 		float z1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		colors.push_back({ r,s,t });
 		colors.push_back({ u,v,w });
-		colors.push_back({ x1,y1,z1 });
+		colors.push_back({ x1,y1,z1 });*/
+		colors.push_back({ randCol });
+		colors.push_back({ randCol });
+		colors.push_back({ randCol });
 		indices.push_back(0);
 		indices.push_back(i + 1);
 		//Der letzte sollte damit gefixt sein
@@ -161,7 +170,6 @@ void createCircleWithColor() {
 			indices.push_back(i + 2);
 		else
 			indices.push_back(1);
-
 	}
 	initCircle(vertices, colors, indices);
 }
@@ -296,15 +304,15 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		}
 		break;
 	case 'q':
-		if (radius < 2) {
-			radius += 0.1;
+		if (radius < 1.5) {
+			radius += 0.05f;
 			//createCircle();
 			createCircleWithColor();
 		}
 		break;
 	case 'w':
 		if (radius > 0.5) {
-			radius -= 0.1;
+			radius -= 0.05f;
 			//createCircle();
 			createCircleWithColor();
 		}
