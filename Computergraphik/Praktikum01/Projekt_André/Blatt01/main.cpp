@@ -12,6 +12,8 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
+#include <stdlib.h>
+
 // Standard window width
 const int WINDOW_WIDTH  = 640;
 // Standard window height
@@ -61,13 +63,13 @@ Object circle;
 
 float calculateAngle(int edges)
 {
-	return 6.2831853071796 / edges;
+	return 360.0f / edges;
 }
 
-void calculateNextPos(float angle, glm::vec3 *newpos)
+void calculateNextPos(double angle, glm::vec3 *newpos)
 {
-	newpos->x = size * glm::cos(angle + 1.5707963267949);
-	newpos->y = size * glm::cos(angle);
+	newpos->x = size * glm::cos(glm::radians(angle + 90));
+	newpos->y = size * glm::cos(glm::radians(angle));
 }
 
 void renderCircle()
@@ -155,8 +157,42 @@ void calculateCircle()
 			indices.push_back(i + 1);
 			indices.push_back(i + 2);
 		}
-
 	}
+	initCircle(vertices, colors, indices);
+}
+
+void calculateMulticolorCircle()
+{
+	srand(3141592);
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> colors;
+	std::vector<GLushort> indices;
+	float angle = calculateAngle(edges);
+
+	for (int i = 0; i < edges; i++)
+	{
+		glm::vec3 randCol((double) rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
+		glm::vec3 firstVert;
+		glm::vec3 secondVert;
+		calculateNextPos(i * angle, &firstVert);
+		if (i+1 >= edges)
+			calculateNextPos(0, &secondVert);
+		else
+			calculateNextPos((i + 1) * angle, &secondVert);
+		vertices.push_back(firstVert);
+		vertices.push_back(secondVert);
+		vertices.push_back(center);
+
+		colors.push_back(randCol);
+		colors.push_back(randCol);
+		colors.push_back(randCol);
+
+		indices.push_back(i * 3);
+		indices.push_back(i * 3 + 1);
+		indices.push_back(i * 3 + 2);
+	}
+	std::cout << std::endl;
+	std::cout << angle << std::endl;
 	initCircle(vertices, colors, indices);
 }
 
@@ -195,7 +231,7 @@ bool init()
 	}
 
 	// Create objects.
-	calculateCircle();
+	calculateMulticolorCircle();
 
 	return true;
 }
@@ -264,30 +300,24 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		// do something
 		if (edges < MAX_EDGES)
 			edges++;
-		calculateCircle();
 		break;
 	case '-':
 		// do something
 		if (edges > MIN_EDGES)
 			edges--;
-		calculateCircle();
 		break;
 	case 'q':
 		// do something
 		if (size < MAX_CIRCLESIZE)
 			size += 0.05f;
-		calculateCircle();
 		break;
 	case 'w':
 		// do something
 		if (size > MIN_CIRCLESIZE)
 			size -= 0.05f;
-		calculateCircle();
-		break;
-	case 'z':
-		// do something
 		break;
 	}
+	calculateMulticolorCircle();
 	glutPostRedisplay();
 }
 
