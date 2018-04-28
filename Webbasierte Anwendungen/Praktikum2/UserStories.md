@@ -1,6 +1,6 @@
 ### User Stories
 
-* Als Studierender möchte ich Neuigkeiten aus meinen Fächern übersichtlich angezeigt bekommen, so dass ich Vorlesungsausfälle mitzubekommen.
+* Als Studierender möchte ich Neuigkeiten aus meinen Fächern übersichtlich angezeigt bekommen, so dass ich Vorlesungsausfälle mitbekomme.
 * Als Lehrender möchte ich meine Projekte übersichtlich vorstellen können, so dass sich die Studierenden über diese Informieren können
 * Als Studierender möchte ich meine aktuellen Aufgaben darstellen kömmen, so dass ich mich mit anderen über diese austauschen kann.
 * Als Studierender oder Lehrender möchte ich ein Formular für die Kommentare haben, so dass diese Einheitlich in einem bestimmt Format dargestellt und gespeichert werden können.
@@ -10,12 +10,12 @@
 * Als Nutzer möchte ich Mediendateien in meine Texte einbinden können, so dass ich diese ansprechender darstellen kann.
 * Als Nutzer möchte ich die Seite auf verschiedenen Sprachen einstellen können, so dass ich die Seite in meiner bervorzugten Sprache benutzen kann.
 * Als Nutzer möchte ich mir interessante Artikel speichern können, um sie mir später einfach wieder ansehen kann.
-* Als Nutzer möchte ich Inhaltverzeichnisse zu den verschiedenen Seiten haben, so dass ich leichter durch die Seiten navigieren kann.
-* Als Nutzer möchte ich mittels Tastenkürzel durch die Seiten navigieren kann, so dass ich schnell zwischen den wechseln und durch diese navigieren kann.
+* Als Nutzer möchte ich Inhaltsverzeichnisse zu den verschiedenen Seiten haben, so dass ich leichter durch die Seiten navigieren kann.
+* Als Nutzer möchte ich mittels Tastenkürzel durch die Seiten navigieren kann, so dass ich schnell zwischen diesen wechseln und durch diese navigieren kann.
 * Als Nutzer möchte ich Medien bearbeiten können, um diese optimal in meine Seite einbinden zu können.
 * Als Nutzer möchte ich externe Inhalte in meine Texte einbinden können, um zu diesen zusätzliche Informationen hinzufügen zu können.
-* Als Nutzer möchte ich Medien zu meinen Texten hoch-/ und runterladen zu können, um meine Texte optisch ansprechender Darstellen zu können.
-* Als Nutzer möchte ich in meinem Profil meinen Standort angeben können, um anderere Nutzer in meiner nähe zu finden.
+* Als Nutzer möchte ich Medien zu meinen Texten hoch-/ und runterladen können, um meine Texte optisch ansprechender Darstellen zu können.
+* Als Nutzer möchte ich in meinem Profil meinen Standort angeben können, um anderere Nutzer in meiner Nähe zu finden.
 
 ### Weitere andere Seiten
 
