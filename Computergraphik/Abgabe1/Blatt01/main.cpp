@@ -64,7 +64,7 @@ void renderCircle()
 void initCircle()
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
+	const std::vector<glm::vec3> vertices = { { -2.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
 	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
 	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
 
@@ -196,6 +196,14 @@ void glutResize (int width, int height)
 	projection = glm::perspective(45.0f, (float) width / height, zNear, zFar);
 }
 
+void glutMouse (int button, int state, int x, int y)
+{
+	if (button == GLUT_RIGHT_BUTTON)
+	{
+		glutDestroyWindow(glutID);
+	}
+}
+
 /*
  Callback for char input.
  */
@@ -255,6 +263,7 @@ int main(int argc, char** argv)
 	//glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
+	glutMouseFunc(glutMouse);
 
 	// Init VAO.
 	{
