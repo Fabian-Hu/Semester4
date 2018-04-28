@@ -27,11 +27,15 @@ glm::mat4x4 projection;
 glm::vec3 center(0.0f, 0.0f, 0.0f);
 glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
 
-glm::vec3 colorBlue(0.0f, 0.8f, 1.0f);
+glm::vec3 colorBlue(0.0f, 0.6f, 1.0f);
 
 const int MIN_EDGES = 3;
 const int MAX_EDGES = 30;
 int edges = 5;
+
+const float MIN_CIRCLESIZE = 0.2f;
+const float MAX_CIRCLESIZE = 2.0f;
+float size = 1.0f;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
@@ -62,11 +66,8 @@ float calculateAngle(int edges)
 
 void calculateNextPos(float angle, glm::vec3 *newpos)
 {
-	newpos->x = 1 * glm::cos(angle);
-	newpos->y = 1 * glm::cos(angle - 1.5707963267949);
-
-	/*newpos->x = startpos.x * glm::cos(angle) - startpos.y * glm::sin(angle);
-	newpos->y = startpos.x * glm::sin(angle) + startpos.y * glm::cos(angle);*/
+	newpos->x = size * glm::cos(angle + 1.5707963267949);
+	newpos->y = size * glm::cos(angle);
 }
 
 void renderCircle()
@@ -80,7 +81,7 @@ void renderCircle()
 
 	// Bind vertex array object so we can render the 1 triangle.
 	glBindVertexArray(circle.vao);
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, edges *3, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 
@@ -123,7 +124,7 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 	glBindVertexArray(0);
 
 	// Modify model matrix.
-	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(-1.25f, 0.0f, 0.0f));
+	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
 void calculateCircle()
@@ -133,7 +134,7 @@ void calculateCircle()
 	std::vector<GLushort> indices;
 	float angle = calculateAngle(edges);
 	vertices.push_back(center);
-	colors.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+	colors.push_back(colorBlue);
 
 	for (int i = 0; i < edges; i++)
 	{
@@ -141,12 +142,12 @@ void calculateCircle()
 		calculateNextPos(i * angle, &singleVert);
 		vertices.push_back(singleVert);
 
-		colors.push_back(glm::vec3(i * 0.2f, 1.0f - i * 0.5f, i * 0.5f));
+		colors.push_back(colorBlue);
 		if (i == edges - 1)
 		{
 			indices.push_back(0);
-			indices.push_back(i + 1);
 			indices.push_back(1);
+			indices.push_back(i + 1);
 		}
 		else
 		{
@@ -156,12 +157,6 @@ void calculateCircle()
 		}
 
 	}
-	for (std::vector<glm::vec3>::const_iterator i = vertices.begin(); i != vertices.end(); ++i)
-		std::cout << i->x << ' ' << i->y << ' ' << i->z << std::endl;
-	for (std::vector<glm::vec3>::const_iterator i = colors.begin(); i != colors.end(); ++i)
-		std::cout << i->x << ' ' << i->y << ' ' << i->z << std::endl;
-	for (std::vector<GLushort>::const_iterator i = indices.begin(); i != indices.end(); ++i)
-		std::cout << *i << std::endl;
 	initCircle(vertices, colors, indices);
 }
 
@@ -277,11 +272,17 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 			edges--;
 		calculateCircle();
 		break;
-	case 'x':
+	case 'q':
 		// do something
+		if (size < MAX_CIRCLESIZE)
+			size += 0.05f;
+		calculateCircle();
 		break;
-	case 'y':
+	case 'w':
 		// do something
+		if (size > MIN_CIRCLESIZE)
+			size -= 0.05f;
+		calculateCircle();
 		break;
 	case 'z':
 		// do something
