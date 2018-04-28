@@ -8,17 +8,7 @@ Beispiel eines eingebetteten Systems:
 
 ### Aufgabe 1.1
 
-Software:
-
-- Software zur Verarbeitung eines Bluetooth Signals
-
-Hardware:
-
-- Mikrocontroller zum Ausführen der Software
-
-Sensor/Aktor:
-
-- RF Antenne zum Senden/Empfangen von Signalen
+Das TiWi - uB2 Bluetooth Module dient zum Senden und Empfangen von Daten über Bluetooth. Über eine UART Schnittstelle kann es gesteuert werden. Auf dem Bluetooth Module wurde ein Mikrocontroller als Hardware verbaut, auf welchem eine Software zur Verarbeitung der Bluetooth Signale läuft. Zusätzlich gibt es noch eine RF Antenne als Sensor und Aktor, welche Signale Senden und Empfangen kann.
 
 ### Aufgabe 1.2
 
@@ -34,41 +24,21 @@ Beispiel für RF Antenne: 2450AT43B100
 
 ### Aufgabe 1.3
 
-Gründe, warum das System so entworfen wurde:
-
-- Einfacher Aufbau des Systems
-- Der Mikrocontroller enthält direkt das richtige Programm für eine Bluetooth Kommunikation
-- Der Quarz dient zur genaueren Frequenzerzeugung
-- Der Band-Pass Filter soll nicht benötigte Frequenzen abfangen
-
+Es gibt verschiedene Gründe, warum das System so entworfen wurde. Zum einen besitzt das System einen besonders einfachen und verständlichen Aufbau, sodass auch Hobbyentwickler die Funktionsweise möglichst schnell verstehen können. Zum Anderen enthält der verwendete Mikrocontroller schon eine für Bluetooth vorgesehene Software, sodass keine weitere Software installiert werden muss. Dies spart einen Arbeitsschritt bei der Herstellung des Bluetooth Moduls. Der verbaute Quarz dient zu einer genaueren Frequenzerzeugung, sodass der Mikrocontroller genauer arbeiten kann. Zuletzt soll der Band-Pass Filter ungewollte Daten abfangen, sodass der Mikrcontroller nur noch die tatsächlich benötigten Frequenzen empfängt.
 
 
 ## Aufgabe 2
 
 ### Aufgabe 2.1
 
-Anforderungen:
+Das Bluetooth Modul muss viele verschiedene Anforderungen erfüllen. Bezüglich der Verlässlichkeit soll es zuverlässig arbeiten, es soll also die Daten zuverlässig und fehlerfrei empfangen und senden. Desweiteren sollte es möglichst gut wartbar sein bzw. es sollte sich bei einem Defekt möglichst leicht austauschen lassen. Zusätzlich ist es wichtig, dass das Modul zu allen Zeitpunkten verfügbar ist und über das Modul kommuniziert werden kann. Sollte es zu einem Defekt an dem Gerät kommen, so soll es sicher sein und durch den Defekt keine weiteren Bauteile beschädigen. Zuletzt sollte es die Daten in Bezug auf die Integrität sicher übertragen können.
 
-- Verlässlichkeit
-  - Zuverlässigkeit: Bluetooth Modul sollte Daten zuverlässig und fehlerfrei empfangen und senden
-  - Wartbarkeit: Bluetooth Modul sollte bei Defekt leicht zu ersetzen sein
-  - Verfügbarkeit: Bluetooth Modul sollte von anderen Geräten erkannt werden
-  - Sicherheit: Bluetooth Modul sollte keine weiteren Bauteile beschädigen
-  - Integrität: Bluetooth Modul sollte die Daten sicher übertragen
-- Effizienz
-  - Energieverbrauch: Bluetooth Modul sollte einen geringen Energieverbrauch haben
-  - Codegröße: Bluetooth Code sollte klein genug für den Mikrocontroller sein
-  - Laufzeit: Bluetooth Modul sollte die Daten möglichst schnell verarbeiten
-  - Gewicht: Bluetooth Modul sollte besonders leicht sein
-  - Preis: Bluetooth Modul sollte kostengünstig zu erhalten sein
-- Einzwecksystem: Das Bluetooth Modul sollte sich nur um den Empfang und das Sende von Daten kümmern
-- reaktive System: Das Bluetooth Modul sollte dauerhaft mit der Umwelt interagieren, um neue Verbindungen anzunehmen
-- weiche Zeitbedingungen: Kurze Verzögerungen bis zum Beginn des Senden oder Empfangen von Daten sind erlaubt, solange diese vollständig und fehlerfrei übertragen werden
+Auch im Bereich Effizienz sollten die Anforderungen erfüllt sein. Dazu sollte es einen möglichst geringen Energieverbrauch haben. Auch sollte das Bluetooth Modul die Daten möglichst schnell verarbeiten, sodass die Laufzeit möglichst gering ist. Desweiteren sollte das Gewicht genauso wie der Preis möglichst gering sein.
+
+Als Einzwecksystem sollte sich das Bluetooth Modul auch nur um das Senden und Empfangen von Bluetooth Daten kümmern. Außerdem muss es ein reaktives System sein, um zu jeder Zeit neue Verbindungen anzunehmen bzw zu jeder Zeit Daten empfangen zu können. Zuletzt sollten weiche Zeitbedingungen eingehalten werden. Es sind also kurze Verzögerungen vor dem Senden und Empfangen von Daten erlaubt, solange diese vollständig und fehlerfrei übertragen werden.
 
 ### Aufgabe 2.2
 
-- Die Energiekosten könnten stark ansteigen
-- Das Gerät, in das das eingebettete System eingebaut wurde, könnte viel zu schwer werden und das Bluetooth Modul könnte nicht in tragbare Geräte eingebaut werden
-- Verbindungsabbruch beim Übertragen von Daten
-- Stören von anderen Geräten, die auf der gleichen Frequenz senden
-- Man kann sich nicht mit dem Bluetooth Gerät verbinden
+Das Nichteinhalten der Anforderungen könnte eine Reihe von Problemen verursachen. Zuerst könnte es nicht möglich sein, dass das Bluetooth Modul von anderen Geräten nicht erkannt wird und man sich somit nicht verbinden kann. Auch könnte es andere Geräte stören, die auf der selben Frequenz senden wollen wie andere Bluetooth- oder WLAN-Geräte. Zusätzlich kann es noch zu einem Verbindungsabbruch beim Übertragen von Daten können.
+
+Zuletzt könnte es sein, dass das Bluetooth Modul einen zu hohen Stromverbrauch oder ein zu hohes Gewicht hat, sodass es sich nicht lohnen würde, das Bluetooth Modul in tragbare Geräte mit Akku einzubauen.
