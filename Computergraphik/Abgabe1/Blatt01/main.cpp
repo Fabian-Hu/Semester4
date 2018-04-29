@@ -141,8 +141,9 @@ void createCircleWithColor() {
 	std::vector<GLushort> indices;
 
 	glm::vec3 neu;
+	glm::vec3 eins;
 	glm::vec3 alt;
-	for (int i = 0; i < steps; i++) {
+	for (int i = 0; i <= steps; i++) {
 
 		glm::vec3 randCol((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
 
@@ -152,8 +153,15 @@ void createCircleWithColor() {
 		float y = cosf(angle);
 
 		neu = { x*radius, y*radius, 1.0f };
+		if (i == 0) {
+			eins = neu;
+		}
 
-		if (i != 0) {
+		if (i == steps) {
+			vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+			vertices.push_back(alt);
+			vertices.push_back(eins);
+		} else if (i != 0) {
 			vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
 			vertices.push_back(alt);
 			vertices.push_back(neu);
@@ -163,11 +171,12 @@ void createCircleWithColor() {
 		colors.push_back({ randCol });
 		indices.push_back(i*3);
 		indices.push_back(i*3 + 1);
+
 		//Der letzte sollte damit gefixt sein
-		if (i != steps - 1)
+		if (i != steps +1)
 			indices.push_back(i*3 + 2);
 		else
-			indices.push_back(1*3);
+			indices.push_back(1*3+2);
 
 		alt = neu;
 	}
