@@ -16,7 +16,7 @@
     * Temperatur Sensor zum messen der Temperatur
   * Sensor
     * Ein Knopf für Start und Stop
-    * Zwei Radioknöpfe für die Hitze und den Timer
+    * Zwei Drehknöpfe für die Hitze und den Timer
   * Aktor
     * Statusindikator(LED, Lautsprecher) zum ausgeben der Informationen
     * Hitzespule
@@ -30,8 +30,16 @@
   - Microcontroller: MC9S08QD2 8bit
   - Temperatur Sensor: LM35 low-cost linear
     temperature sensor
+    - Genauigkeit von +- 3/4 Grad Celsius
+    - Kann messen von -55 bis 150 Grad Celsius
 
-  Der Microcontroller hat ein ob-chip-analog-to-digital coverter für die zwei Radioknöpfe für die Hitze und den Timer
+  Der Microcontroller hat ein ob-chip-analog-to-digital coverter für die zwei Drehknöpfe für die Hitze und den Timer
+
+  Ausgaben:
+
+  - LED an = Toaster an
+  - LED aus = Toaster aus
+  - Lautsprecher gibt ein Ton aus = fertig 
 
 - Software:
 
@@ -41,7 +49,7 @@
 
   Wartet auf die betätigung des Startknopf
 
-  Die Hizespule wird eingeschaltet und auf die, am Radioknopf eingestellte, Temeratur gebracht
+  Die Hizespule wird eingeschaltet und auf die, am Drehknopf eingestellte, Temeratur gebracht
 
   Die Hitzespule wir beim Stopknopf oder beim ablauf des Timers ausgestellet und der Lautsprecher gibt ein beep von sich
 
@@ -54,41 +62,45 @@
 - Überlegen Sie, warum die Entwickler/innen die Systeme so konstruiert und nicht anders
   entworfen haben.
 
+  - Kleiner Microcontroller reicht aus
+  - Der Tempersatur Sensor ist vergleichsweise billig 
+  - Mit Drehknopfen kann man gut die Zeit und die Temperatur einstellen
+  - LED und Lautsprecher reichen aus um die simplen ausgaben zu machen
+
 
 
 ### Aufgabe 2
 
 - Beschreiben Sie die Anforderungen im Detail, die an die Beispiele der eingebetteten
   Systeme gestellt werden.
-- Stellen Sie weiterhin dar, welche Auswirkungen das Nichteinhalten der Anforderungen
-  haben kann.
 
 
-##### Wasserhahn
+ - Verlässlichkeit
 
- -  Zuverlässigkeit
+     - Zuverlässigkeit: Der Toaster Oven soll dein Essen mit deiner eingestellten Zeit und Hitze toasten
+     - Wartbarkeit: Es kann nichts ausgetauscht werden
+     - Verfügbarkeit: Kann überall benutzt werden wo es eine Steckdose gibt
+     - Sicherheit: wenn das Gerät ausfällt muss man sich zwangsläufig Ersatz kaufen
+     - Integrität: Datenklau ist bei einem Toaster kein Problem
 
-     - Das System darf nicht ausfallen, damit man sich jederzeit die Hände waschen kann
-     - sonst hat man schmutzige Hände und das ist unhygienisch
+-  Effizienz
 
-- Wartbarkeit
+     - Energieverbrauch: Maximal 230V, da es an einer normale Steckdose angeschlossen ist
 
-  - Baustellen auf der Toilette sind immer unerwünscht, also sollten sie möglichst schnell vollzogen werden
-  - sonst fühlen sich Nutzer im Bad gestört
+     - Codegröße: klein
 
-- Verfügbarkeit
+     - Laufzeit: Je nach Timer unterschiedlich lang kann auch öfters hintereinander verwendet werden
 
-  - ergibt sich aus den oberen beiden Anforderungen
-  - sonst bekommt man von eventuellen Kunden Beschwerden und sie kaufen nicht mehr bei einem ein (Anwendungsfall Kaufhaus)
+     - Gewicht: Relativ schwer da es eine mittlere Größe hat
 
-- Sicherheit
+     - Preis: <120
 
-  - bei einem Ausfall darf der Wasserhahn nicht für immer weiterlaufen
-  - sonst enstehen einerseites Wasserkosten, andererseits wird das Badezimmer womöglich überflutet.
+       ​
 
-- Integrität
+-  Stellen Sie weiterhin dar, welche Auswirkungen das Nichteinhalten der Anforderungen
+     haben kann.
 
-  - Da es nur ein Wasserhahn ist und keine Daten gesammelt werden ist die Integrität kein Problem
-  - (Es wäre wohl nicht sehr ruhmreich sich in ein Wasserhahn zu hacken um ihn an und auszumachen, zumal hatder Wasserhahn keine Schnittstelle nach draußen)
+-  Wenn es zu ausfällen kommt kann es passieren das dein Essen kalt ist, dass kann auch zu einer Lebensmittelvergiftung führen
 
-  ​
+-  Es könnte auch dein Essen verbrennen 
+     ​

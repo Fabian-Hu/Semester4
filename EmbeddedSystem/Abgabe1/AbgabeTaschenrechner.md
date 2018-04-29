@@ -32,7 +32,7 @@
 
   Mit den vielen Tasten kann man den Taschenrechner bedienen.
 
-   -  Mikrocontoller: ML610901 ist ein 8bit-Mikrocontroller mit integriertem LCD-Treiber für 96 x 32
+   -  Mikrocontroller: ML610901 ist ein 8bit-Mikrocontroller mit integriertem LCD-Treiber für 96 x 32
 
       Segmente mit 8bitCPU Kern, 3584 Bytes RAM und 96k ROM.
 
