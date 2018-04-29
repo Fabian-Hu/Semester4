@@ -135,10 +135,13 @@ void createCircle() {
 
 void createCircleWithColor() {
 
-	srand(98121432);
-	std::vector<glm::vec3> vertices = { { 0.0f, 0.0f, 0.0f } };
+	srand(9);
+	std::vector<glm::vec3> vertices = { };
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
+
+	glm::vec3 neu;
+	glm::vec3 alt;
 	for (int i = 0; i < steps; i++) {
 
 		glm::vec3 randCol((double)rand() / RAND_MAX, (double)rand() / RAND_MAX, (double)rand() / RAND_MAX);
@@ -147,29 +150,26 @@ void createCircleWithColor() {
 
 		float x = sinf(angle);
 		float y = cosf(angle);
-		vertices.push_back(glm::vec3(x*radius, y*radius, 1.0f));
-		/*
-		float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float s = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float t = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float u = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float v = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float w = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float x1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float y1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		float z1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-		colors.push_back({ u,v,w });
-		colors.push_back({ x1,y1,z1 });*/
+
+		neu = { x*radius, y*radius, 1.0f };
+
+		if (i != 0) {
+			vertices.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+			vertices.push_back(alt);
+			vertices.push_back(neu);
+		}
 		colors.push_back({ randCol });
 		colors.push_back({ randCol });
 		colors.push_back({ randCol });
-		indices.push_back(0);
-		indices.push_back(i + 1);
+		indices.push_back(i*3);
+		indices.push_back(i*3 + 1);
 		//Der letzte sollte damit gefixt sein
 		if (i != steps - 1)
-			indices.push_back(i + 2);
+			indices.push_back(i*3 + 2);
 		else
-			indices.push_back(1);
+			indices.push_back(1*3);
+
+		alt = neu;
 	}
 	initCircle(vertices, colors, indices);
 }
