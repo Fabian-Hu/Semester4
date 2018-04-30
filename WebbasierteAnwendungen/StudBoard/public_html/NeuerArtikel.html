@@ -6,12 +6,61 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Studboard</title>
+        <title>Neuen Artikel erstellen</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <h1>Neuer Artikel</h1>
-        <div>TODO write content</div>
+        <header>
+            <h1>Neuen Artikel erstelle</h1>
+        </header>
+        <section>
+            <nav style="float:right" >
+                <h1>Navigation</h1>
+                <ul>
+                    <li>
+                        <a href="index.html">Startseite</a>
+                    </li>
+                    <li>
+                        <a href="News.html">News</a>
+                    </li>
+                    <li>
+                        <a href="Projekte.html">Projekte</a>
+                    </li>
+                    <li>
+                        <a href="Aufgaben.html">Aufgaben</a>
+                    </li>
+                    <li>
+                        <a href="NeuerArtikel.html">Neuer Artikel</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <h2>Eingabeformular</h2>
+            <form action="blanko.html" method="POST" enctype="text/plain">
+                <label for="artikelTitel">Titel:</label><br />
+                <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br />
+                <label for="artikelText">Text:</label><br />
+                <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br />
+                <label for="artikelTyp">Artikeltyp:</label><br />
+                <input id="artikelTyp" name="artikelTyp" list="textformen"><br />
+                <datalist id="textformen">
+                    <option>News</option>
+                    <option>Projekt</option>
+                    <option>Aufgabe</option>
+                </datalist>
+                <label for="artikelStartdatum">Startdatum:</label><br />
+                <input id="artikelStartdatum" type="date" name="startdatum"><br />
+                <label for="artikelEnddatum">Enddatum:</label><br />
+                <input id="artikelEnddatum" type="date" name="enddatum"><br />
+                <label for="artikelTitelfarbe">Titelfarbe:</label><br />
+                <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br /><br />
+                <input type="submit" value="Absenden">
+            </form>
+        </section><br />
+        <footer>
+            <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
+        </footer>
     </body>
 </html>
