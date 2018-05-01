@@ -1,0 +1,15 @@
+#art1 {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+#art2 {
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+#art3 {
+	position: fixed;
+    bottom: 0;
+    right: 0;
+}

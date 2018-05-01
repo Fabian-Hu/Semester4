@@ -1,0 +1,27 @@
+#art1 {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	height: 100px;
+	width: 100px;
+	background: red;
+}
+#art2 {
+	position: absolute;
+	top: 0px;
+	left: 50px;
+	z-index: 2;
+	height: 100px;
+	width: 100px;
+	background: green;
+}
+#art3 {
+	position: absolute;
+    top: 50px;
+    left: 25px;
+	z-index: 3;
+	height: 100px;
+	width: 100px;
+	background: blue;
+}

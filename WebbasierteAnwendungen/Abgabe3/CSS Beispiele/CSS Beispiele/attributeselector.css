@@ -1,0 +1,6 @@
+[origin] {
+	color: blue;
+}
+article[origin=mensa] {
+	border: 1px solid red;
+}

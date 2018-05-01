@@ -1,0 +1,12 @@
+body {
+	border: 1px dotted;
+}
+
+section article {
+	height: 50px;
+	padding: 50px;
+	border: 1px solid red;
+	outline: 5px solid black;
+	outline-offset: -50px;
+	margin: 20px;
+}

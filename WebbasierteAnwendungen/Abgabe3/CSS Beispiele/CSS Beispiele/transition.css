@@ -1,0 +1,10 @@
+a {
+	font-size: 12pt;
+	border-width: 1px;
+	color: black;
+}
+a:hover {
+	font-size: 30pt;
+	color: red;
+	transition: font-size 2s, color 5s;
+}

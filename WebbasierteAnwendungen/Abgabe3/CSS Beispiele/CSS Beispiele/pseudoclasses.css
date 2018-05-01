@@ -1,0 +1,6 @@
+article:hover {
+	color: blue;
+}
+article:only-child {
+	border: 1px solid red;
+}

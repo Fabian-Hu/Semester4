@@ -1,0 +1,11 @@
+article {
+	display: none;
+}
+
+section article {
+	display: inline;
+}
+
+section article p {
+	display: inline;
+}

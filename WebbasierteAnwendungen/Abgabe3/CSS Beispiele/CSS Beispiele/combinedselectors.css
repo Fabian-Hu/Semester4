@@ -1,0 +1,7 @@
+section article {
+	color: blue;
+}
+
+section, article {
+	color: red;
+}
