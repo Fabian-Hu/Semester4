@@ -12,6 +12,8 @@
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
+#include "color_format.h"
+
 // Standard window width
 const int WINDOW_WIDTH  = 640;
 // Standard window height
@@ -26,6 +28,8 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
+
+RGB color;
 
 /*
 Struct to hold data for object rendering.
@@ -64,11 +68,9 @@ void renderQuad()
 void initQuad()
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f },{ 0.0f, 0.0f, 0.0f } };
-	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },{ 1.0f, 0.0f, 0.0f },
-											{ 0.0f, 1.0, 1.0f }, 
-											{ 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f } };
-	const std::vector<GLushort> indices = { 4,0,1, 4,1,2, 4,2,3, 4,3,0 };
+	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0f, -1.0f, 0.0f }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
+	const std::vector<glm::vec3> colors = { { color.r, color.g, color.b }, { color.r, color.g, color.b }, { color.r, color.g, color.b }, { color.r, color.g, color.b } };
+	const std::vector<GLushort> indices = { 0,1,2,0,2,3 };
 
 	GLuint programId = program.getHandle();
 	GLuint pos;
@@ -106,7 +108,7 @@ void initQuad()
 	glBindVertexArray(0);
 
 	// Modify model matrix.
-	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.25f, 0.0f, 0.0f));
+	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
 /*
@@ -228,8 +230,47 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	glutPostRedisplay();
 }
 
+void setInputColor() {
+	RGB rgb;
+	CMY cmy;
+	HSV hsv;
+	int inputColor;
+	std::cout << "Was moechtest du eingeben?" << std::endl << "1: RGB" << std::endl << "2: CMY" << std::endl << "3: HSV" << std::endl;
+	std::cin >> inputColor;
+	std::cout << "Gebe die Werte in der angegebenen Reihenfolge ein:" << std::endl;
+	switch (inputColor) {
+	case 1:
+		std::cin >> rgb.r;
+		std::cin >> rgb.g;
+		std::cin >> rgb.b;
+		cmy = RGBtoCMY(rgb);
+		hsv = RGBtoHSV(rgb);
+		break;
+	case 2:
+		std::cin >> cmy.c;
+		std::cin >> cmy.m;
+		std::cin >> cmy.y;
+		rgb = CMYtoRGB(cmy);
+		hsv = CMYtoHSV(cmy);
+		break;
+	case 3:
+		std::cin >> hsv.h;
+		std::cin >> hsv.s;
+		std::cin >> hsv.v;
+		rgb = HSVtoRGB(hsv);
+		cmy = HSVtoCMY(hsv);
+		break;
+	}
+	std::cout << "RGB: " << rgb.r << " " << rgb.g << " " << rgb.b << std::endl;
+	std::cout << "CMY: " << cmy.c << " " << cmy.m << " " << cmy.y << std::endl;
+	std::cout << "HSV: " << hsv.h << " " << hsv.s << " " << hsv.v << std::endl;
+
+	color = rgb;
+}
+
 int main(int argc, char** argv)
 {
+	setInputColor();
 	// GLUT: Initialize freeglut library (window toolkit).
         glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(40,40);
