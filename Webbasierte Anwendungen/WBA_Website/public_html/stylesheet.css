@@ -52,3 +52,11 @@ body {
     bottom: 8px;
 }
 
+article form textarea {
+    background: saddlebrown;
+}
+
+article form textarea:focus {
+    background: white;
+}
+
