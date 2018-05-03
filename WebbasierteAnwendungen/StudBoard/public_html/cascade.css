@@ -1,0 +1,43 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 03.05.2018, 16:36:18
+    Author     : Tim
+*/
+
+h1 {
+    font-family: "Arial", Times, serif;
+}
+
+article::first-letter {
+    font-size: 28px;
+}
+
+ul {
+    list-style-type:none;
+}
+
+body article p{
+    background-color: white;
+}
+
+body {
+    background-color: rgb(205, 133, 63);
+}
+
+picture {
+    position: relative;
+    animation-name: movyPicture;
+    animation-duration: 4s; 
+}
+
+@keyframes movyPicture {
+    0%   {right:800px; top:0px;}
+    25%  {right:600px; top:0px;}
+    50%  {right:400px; top:0px;}
+    75%  {right:200px; top:0px;}
+    100% {right:0px; top:0px;}
+}
