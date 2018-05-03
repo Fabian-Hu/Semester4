@@ -35,9 +35,6 @@ picture {
 }
 
 @keyframes movyPicture {
-    0%   {right:800px; top:0px;}
-    25%  {right:600px; top:0px;}
-    50%  {right:400px; top:0px;}
-    75%  {right:200px; top:0px;}
-    100% {right:0px; top:0px;}
+    from   {right:100%; top;}
+    to  {right:0px; top;}
 }
