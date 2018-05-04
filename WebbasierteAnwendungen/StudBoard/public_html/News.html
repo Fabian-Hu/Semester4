@@ -13,6 +13,11 @@ and open the template in the editor.
     </head>
     <body>
         <header>
+            <picture style="float:right">
+                <source media="(min-width: 650px)" srcset="StudBoardLogo300x200.png" />
+                <source media="(min-width: 465px)" srcset="StudBoardLogo150x100.png" />
+                <img src="StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
+            </picture>
             <h1>News</h1><hr>
         </header>
         <section>    
@@ -42,7 +47,10 @@ and open the template in the editor.
                 </ul>
             </nav>
         </section>
-        <article id="news1">
+        
+        <div id="top"> <a href="News.html">TOP</a> </div>
+        
+        <article id="news1" class="news">
             <header>
                 <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
             </header>
@@ -66,7 +74,7 @@ and open the template in the editor.
                 <input type="submit">
             </form>
         </article>
-        <article id="news2">
+        <article id="news2" class="news">
             <header>
                 <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
             </header>
@@ -90,7 +98,7 @@ and open the template in the editor.
                 <input type="submit">
             </form>
         </article>
-        <article id="news3">
+        <article id="news3" class="news">
             <header>
                 <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
             </header>
