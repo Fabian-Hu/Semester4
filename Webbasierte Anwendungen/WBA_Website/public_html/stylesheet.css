@@ -45,6 +45,23 @@ body {
     top: 0px;
 }
 
+@keyframes example {
+    from {right: 0px;}
+    to {right: -78vw;}
+}
+
+#logo {
+    position: static;
+    top:0px;
+    right: 0px;
+}
+
+img {
+    position: relative;
+    top:0px;
+    right: 0px;
+}
+
 #top {
     font-size: 24px;
     position: fixed;
