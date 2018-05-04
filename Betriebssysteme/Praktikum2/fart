@@ -29,6 +29,7 @@ function symbolicLink {
 function owned {
   if test -O $1; then
     echo You are the Owner of $1
+    realOwner $1
   else
     echo You are not the owner
     realOwner $1

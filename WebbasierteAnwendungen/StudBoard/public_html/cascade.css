@@ -38,3 +38,24 @@ picture {
     from   {right:100%; top;}
     to  {right:0px; top;}
 }
+
+#top {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+
+.news {
+	border-style: solid;
+	border-color: red;
+}
+
+.aufgaben {
+	border-style: solid;
+	border-color: blue;
+}
+
+.projekte {
+	border-style: solid;
+	border-color: green;
+}
