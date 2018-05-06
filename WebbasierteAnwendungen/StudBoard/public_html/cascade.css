@@ -24,6 +24,11 @@ body article p{
     background-color: white;
 }
 
+.stickyheady {
+    position: sticky;
+    top: 0px;
+}
+
 body {
     background-color: rgb(205, 133, 63);
 }
@@ -58,4 +63,12 @@ picture {
 .projekte {
 	border-style: solid;
 	border-color: green;
+}
+
+article form textarea {
+    background: rgb(205, 133, 63);
+}
+
+article form textarea:focus {
+    background: white;
 }
