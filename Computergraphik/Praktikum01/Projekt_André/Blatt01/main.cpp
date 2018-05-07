@@ -31,12 +31,12 @@ glm::vec3 startpoint(0.0f, 1.0f, 0.0f);
 
 glm::vec3 colorBlue(0.0f, 0.6f, 1.0f);
 
-const int MIN_EDGES = 3;
+const int MIN_EDGES = 4;
 const int MAX_EDGES = 30;
 int edges = 5;
 
 const float MIN_CIRCLESIZE = 0.2f;
-const float MAX_CIRCLESIZE = 2.0f;
+const float MAX_CIRCLESIZE = 5.0f;
 float size = 1.0f;
 
 float zNear = 0.1f;
@@ -129,8 +129,30 @@ void initCircle(std::vector<glm::vec3> vertices, std::vector<glm::vec3> colors, 
 	circle.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
+/*
+Release object resources.
+*/
+void releaseObject(Object& obj)
+{
+	glDeleteVertexArrays(1, &obj.vao);
+	glDeleteBuffers(1, &obj.indexBuffer);
+	glDeleteBuffers(1, &obj.colorBuffer);
+	glDeleteBuffers(1, &obj.positionBuffer);
+}
+
+/*
+Release resources on termination.
+*/
+void release()
+{
+	// Shader program will be released upon program termination.
+	releaseObject(circle);
+}
+
+
 void calculateCircle()
 {
+	release();
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
@@ -163,6 +185,7 @@ void calculateCircle()
 
 void calculateMulticolorCircle()
 {
+	release();
 	srand(3141592);
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
@@ -191,8 +214,6 @@ void calculateMulticolorCircle()
 		indices.push_back(i * 3 + 1);
 		indices.push_back(i * 3 + 2);
 	}
-	std::cout << std::endl;
-	std::cout << angle << std::endl;
 	initCircle(vertices, colors, indices);
 }
 
@@ -202,7 +223,7 @@ void calculateMulticolorCircle()
 bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(1.0f, 0.9f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 	// Construct view matrix.
 	glm::vec3 eye(0.0f, 0.0f, 4.0f);
@@ -234,26 +255,6 @@ bool init()
 	calculateMulticolorCircle();
 
 	return true;
-}
-
-/*
- Release object resources.
-*/
-void releaseObject(Object& obj)
-{
-	glDeleteVertexArrays(1, &obj.vao);
-	glDeleteBuffers(1, &obj.indexBuffer);
-	glDeleteBuffers(1, &obj.colorBuffer);
-	glDeleteBuffers(1, &obj.positionBuffer);
-}
-
-/*
- Release resources on termination.
- */
-void release()
-{
-	// Shader program will be released upon program termination.
-	releaseObject(circle);
 }
 
 /*
