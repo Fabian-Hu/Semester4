@@ -8,4 +8,13 @@ function makeWeg {
   echo $name
 }
 
-makeWeg $1
+function exists {
+  if test -f $1; then 
+    makeWeg $1
+  else
+    echo Datei nicht existent
+    return "0"
+  fi
+}
+
+exists $1
