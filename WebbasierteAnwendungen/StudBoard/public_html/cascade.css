@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 h1 {
-    font-family: "Arial", Times, serif;
+    font-family: "courier", Times, serif;
 }
 
 article::first-letter {
@@ -31,6 +31,10 @@ body article p{
 
 body {
     background-color: rgb(205, 133, 63);
+}
+
+nav {
+    background-color: pink;
 }
 
 picture {
