@@ -48,3 +48,48 @@ $$
 I = \sqrt{\frac{0,33W}{1000000 \Omega }} = 0.000574456264654A = 574 \mu A
 $$
 
+## Aufgabe 2
+
+#### a)
+
+$$
+I = \frac{P}{U}
+$$
+$$
+I = \frac{60W}{12V} = 5A
+$$
+
+#### b)
+
+Die Nennspannung der Batterie ist zu groß für die Lampe, also benötigen wir einen Vorwiderstand
+$$
+R = \frac{U_L}{I}
+$$
+$$
+\Delta U = U_{ges} - U_L
+$$
+$$
+I = \frac{P_L}{U_L} = 5A
+$$
+$$
+R = \frac{\Delta U}{\frac{P_L}{U_L}}
+$$
+$$
+R = \frac{6V}{\frac{60W}{12V}} = \frac{6}{5} \Omega
+$$
+
+
+
+#### c)
+
+$$
+t = \frac{Q}{I}
+$$
+$$
+I = \frac{P}{U} = 5A
+$$
+$$
+t = \frac{90Ah}{5A} = 18h
+$$
+
+Die Schaltung kann maximal 18h betrieben werden
