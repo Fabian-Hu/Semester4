@@ -85,4 +85,35 @@ $$
 t = \frac {90Ah}{5h} = 18h
 $$
 
-**
+## Aufgabe 3
+
+* Widerstand (R1/R2)
+* LED (D1)
+* Schalter (S1)
+* Transistor (Q1)
+* Wenn der Schalter S1 geschlossen ist liegt Strom an dem Base-Anschluss des Transistors an fließt Strom vom Collector zum Emitter. Das Bedeutet, das der Stromkreis der LED geschlossen und sie beginnt zu leuchten. Die Widerstände verhindern einen Kurzschluss, in dem sie den Stromfluss vermindern.
+
+#### Teil a
+
+* Spannung:  2V (möglich von 1,6V-2,5V)
+* Stromstärke: 20mA (möglich von 0mA bis 50mA)
+
+#### Teil b
+
+1. Collector
+2. Base
+3. Emitter
+
+(Von links nach rechts, wenn der Transistor mit der flachen Seite nach oben und den Pins zu einem zeigend liegt)
+
+#### Teil c
+
+$$
+U_{dif} = 3.3V - 0.64V -2V = 0.66V
+$$
+$$
+R = \frac{U}{I}
+$$
+$$
+R = \frac{2.66A}{20 * 10^{-3}A} = 133 \Omega
+$$
