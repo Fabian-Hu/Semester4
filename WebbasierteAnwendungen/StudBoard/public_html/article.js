@@ -5,7 +5,7 @@
  */
 
 
-class aritcle {
+class article {
     constructor(content, titel, titelfarbe, startdatum, enddatum) {
         this.content = content;
         this.titel = titel;
@@ -46,7 +46,7 @@ class aritcle {
     }
 }
 
-class news extends aricle {
+class news extends article {
     constructor(content, titel, titelfarbe, startdatum, enddatum, kategorie, quellenangabe) {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.kategorie = kategorie;
@@ -96,9 +96,26 @@ class news extends aricle {
         this.quellenangabe = param;
     }
     
+    jsonSchreiben(){
+        let obj = {
+            attr1 : content,
+            attr2 : titel,
+            attr3 : titelfarbe,
+            attr4 : startdatum,
+            attr5 : enddatum,
+            attr6 : kategorie,
+            attr7 : quellenangabe
+        };
+        
+        let newJsonStr = JSON.stringify(obj); 
+        document.open();
+        document.write('<a href="news.json">' + newJsonStr + '</a>');
+        document.close();
+    }
+    
 }
 
-class projects extends aricle {
+class projects extends article {
     constructor(content, titel, titelfarbe, startdatum, enddatum, professor, plaetze) {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.professor = professor;
@@ -147,9 +164,26 @@ class projects extends aricle {
     set plaetze(param) {
         this.plaetze = param;
     }
+    
+    jsonSchreiben(){
+        let obj = {
+            attr1 : content,
+            attr2 : titel,
+            attr3 : titelfarbe,
+            attr4 : startdatum,
+            attr5 : enddatum,
+            attr6 : professor,
+            attr7 : plaetze
+        };
+        
+        let newJsonStr = JSON.stringify(obj); 
+        document.open();
+        document.write('<a href="projects.json">' + newJsonStr + '</a>');
+        document.close();
+    }
 }
 
-class tasks extends aricle {
+class tasks extends article {
     constructor(content, titel, titelfarbe, startdatum, enddatum, fach) {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.fach = fach;
@@ -192,4 +226,19 @@ class tasks extends aricle {
         this.fach = param;
     }
     
+    jsonSchreiben(){
+        let obj = {
+            attr1 : content,
+            attr2 : titel,
+            attr3 : titelfarbe,
+            attr4 : startdatum,
+            attr5 : enddatum,
+            attr6 : fach
+        };
+        
+        let newJsonStr = JSON.stringify(obj); 
+        document.open();
+        document.write('<a href="tasks.json">' + newJsonStr + '</a>');
+        document.close();
+    }
 }
