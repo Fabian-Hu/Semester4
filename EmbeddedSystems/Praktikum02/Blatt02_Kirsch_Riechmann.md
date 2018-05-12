@@ -11,8 +11,6 @@ André Kirsch, Malte Riechmann
 **Spannung**: ([U]=V) Die Spannung entspricht dem Ladungsunterschied (Potential) zwischen zwei Polen und ist Ursache für den elektrischen Strom.
 ![1a](1a.png)
 
-
-
 #### Teil b
 
 $$
@@ -21,6 +19,8 @@ $$
 $$
 R = \frac{12V}{500 * 10^{-6} A} = 24k\Omega
 $$
+
+*Der Widerstand des Verbrauchers beträgt $$ 24k \Omega $$*
 
 #### Teil c
 
@@ -36,10 +36,11 @@ $$
 $$
 I = \sqrt{ \frac{P}{R} }
 $$
-
 $$
 I = \sqrt { \frac{0.33W}{1 * 10^{6}\Omega}} = 574 \mu A
 $$
+
+*Die maximale Stromstärke beträgt $$ 547 \mu A $$*
 
 ## Aufgabe  2
 
@@ -51,6 +52,8 @@ $$
 $$
 I = \frac{60W}{12V} = 5A
 $$
+
+*Die maximale Stromstärke beträgt $$ 5A $$*
 
 #### Teil b
 
@@ -72,7 +75,7 @@ $$
 R = \frac {6V}{\frac {60W}{12V}} = \frac {6}{5} \Omega
 $$
 
-Der Vorwiderstand
+*Der Vorwiderstand beträgt  $$ \frac {6}{5} \Omega $$*
 
 #### Teil c
 
@@ -86,8 +89,11 @@ $$
 t = \frac {90Ah}{5A} = 18h
 $$
 
+*Die Schaltung kann $$ 18h $$ betrieben werden, bis die Batterie erschöpft ist*
+
 ## Aufgabe 3
 
+Bauelemente:
 * Widerstand (R1/R2)
 * LED (D1)
 * Schalter (S1)
@@ -96,11 +102,13 @@ $$
 
 #### Teil a
 
+Angaben aus dem Datenblatt:
 * Spannung:  2V (möglich von 1,6V-2,5V)
 * Stromstärke: 20mA (möglich von 0mA bis 50mA)
 
 #### Teil b
 
+Pinbelegung:
 1. Collector
 2. Base
 3. Emitter
@@ -113,8 +121,10 @@ $$
 U_{dif} = 3.3V - 0.64V -2V = 0.66V
 $$
 $$
-R = \frac{U}{I}
+R = \frac{U_{dif}}{I}
 $$
 $$
 R = \frac{0.66A}{20 * 10^{-3}A} = 33 \Omega
 $$
+
+*Der Vorwiderstand R1 sollte $$ 33 \Omega $$ betragen.*
