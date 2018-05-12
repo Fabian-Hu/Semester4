@@ -22,7 +22,7 @@ and open the template in the editor.
         </header>
         <section>    
             <nav style="float:right" >
-                <h1 id="nav"></h1>
+                <h2 id="nav"></h2>
                 <ul>
                     <li>
                         <a href="index.html"><div id="navstart"></div></a>
@@ -125,6 +125,15 @@ and open the template in the editor.
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
-        <script type="text/javascript" src="sprache.js"></script>
+        <script>            
+            if (navigator.language.indexOf("en") > -1) {
+                document.getElementById("titlepro").innerHTML = "Project"
+                console.log("Project");
+            } else if (navigator.language.indexOf("de") > -1) {
+                document.getElementById("titlepro").innerHTML = "Projekt"
+                console.log("Projekt");
+            }         
+        </script>
+        <script type="text/javascript" src="sprache.js"></script>       
     </body>
 </html>

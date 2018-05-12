@@ -8,7 +8,7 @@
  */
 
 var de = ["Neuigkeiten", "Startseite", "Menü", "Projekte", "Aufgaben", "Neuer Artikel"];
-var en = ["News", "Home", "Navigation", "Project", "Tasks", "News", "New article"];
+var en = ["News", "Home", "Navigation", "Project", "Tasks", "New article"];
 
 if (navigator.language.indexOf("en") > -1) {
     setLanguage(en);
@@ -17,12 +17,11 @@ if (navigator.language.indexOf("en") > -1) {
 }
 
 function setLanguage(language) {
-    
-        document.getElementById("titlenews").innerHTML = language[0];
     document.getElementById("navstart").innerHTML = language[1];
     document.getElementById("nav").innerHTML = language[2];
     document.getElementById("navpro").innerHTML = language[3];
     document.getElementById("navauf").innerHTML = language[4];
     document.getElementById("navnews").innerHTML = language[0];
     document.getElementById("navneu").innerHTML = language[5];
+    console.log(language.toString());
 }

@@ -19,26 +19,26 @@ and open the template in the editor.
                 <source media="(min-width: 465px)" srcset="StudBoardLogo150x100.png" />
                 <img src="StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
             </picture>
-            <h1>Neuen Artikel erstelle</h1>
+            <h1 id="titel"></h1>
         </header>
         <section>
-            <nav style="float:right" >
-                <h2>Navigation</h2>
+           <nav style="float:right" >
+                <h2 id="nav"></h2>
                 <ul>
                     <li>
-                        <a href="index.html">Startseite</a>
+                        <a href="index.html"><div id="navstart"></div></a>
                     </li>
                     <li>
-                        <a href="News.html">News</a>
+                        <a href="News.html"><div id="navnews"></div></a>
                     </li>
                     <li>
-                        <a href="Projekte.html">Projekte</a>
+                        <a href="Projekte.html"><div id="navpro"></div></a>
                     </li>
                     <li>
-                        <a href="Aufgaben.html">Aufgaben</a>
+                        <a href="Aufgaben.html"><div id="navauf"></div></a>
                     </li>
                     <li>
-                        <a href="NeuerArtikel.html">Neuer Artikel</a>
+                        <a href="NeuerArtikel.html"><div id="navneu">t</div></a>
                     </li>
                 </ul>
             </nav>
@@ -47,31 +47,32 @@ and open the template in the editor.
         <div id="top"> <a href="NeuerArtikel.html">TOP</a> </div>
         
         <section>
-            <h2>Eingabeformular</h2>
+            <h2 id="eingabe"></h2>
             <form id="form1">
-                <label >Titel:</label><br />
+                <label id="title" ></label><br />
                 <input name="artikelTitel" type="text" size="8"><br />
-                <label >Text:</label><br />
+                <label id="text"></label><br />
                 <textarea name="artikelText" rows="5" cols="48"></textarea><br />
-                <label>Artikeltyp:</label><br />
+                <label id="artikeltyp"></label><br />
                 <input name="artikelTyp" list="textformen"><br />
                 <datalist id="textformen">
-                    <option>News</option>
-                    <option>Projekt</option>
-                    <option>Aufgabe</option>
+                    <option id="news"></option>
+                    <option id="projekt"></option>
+                    <option id="aufgabe"></option>
                 </datalist>
-                <label>Startdatum:</label><br />
+                <label id="startdatum"></label><br />
                 <input  type="date" name="startdatum"><br />
-                <label>Enddatum:</label><br />
+                <label id="enddatum"></label><br />
                 <input type="date" name="enddatum"><br />
-                <label >Titelfarbe:</label><br />
+                <label id="titelfarbe"></label><br />
                 <input type="color" name="titelFarbe" value="#ffffff"><br /><br />
-                <button onclick="choooose()">senden</button>
+                <button id="senden" onclick="choooose()">senden</button>
             </form>
         </section><br />
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
+        <script type="text/javascript" src="sprache2.js"></script>
         <script type="text/javascript" src="sprache.js"></script>
     </body>
 </html>

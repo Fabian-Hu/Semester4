@@ -127,5 +127,12 @@ and open the template in the editor.
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
         <script type="text/javascript" src="sprache.js"></script>
+        <script>
+            if (navigator.language.indexOf("en") > -1) {
+                document.getElementById("titlenews").innerHTML = "News"
+            } else if (navigator.language.indexOf("de") > -1) {
+                document.getElementById("titlenews").innerHTML = "Neuigkeiten"
+            }
+        </script>
     </body>
 </html>
