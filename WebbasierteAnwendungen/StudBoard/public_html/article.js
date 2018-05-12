@@ -3,7 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+function choooose() {
+    var type,x;
+    x = document.getElementById("form1");
+    type = x.elements["artikelTyp"].value;
+    console.log(type);
+    if (type === "News") {
+        var n = new news(x.elements["artikelText"].value, 
+        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
+        x.elements["startdatum"].value, x.elements["enddatum"].value,
+        "kategorie", "quellenangabe");
+    } else if (type === "Projekt") {
+        var p = new projects(x.elements["artikelText"].value, 
+        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
+        x.elements["startdatum"].value, x.elements["enddatum"].value,
+        "professor", "plaetze");
+    } else if (type === "Aufgabe") {
+        var t = new tasks(x.elements["artikelText"].value, 
+        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
+        x.elements["startdatum"].value, x.elements["enddatum"].value,
+        "fach");
+    } else {
+        alert("Oops, something went wrong");
+    }
+}
 
 class article {
     constructor(content, titel, titelfarbe, startdatum, enddatum) {
@@ -242,3 +265,12 @@ class tasks extends article {
         document.close();
     }
 }
+
+//news(content, titel, titelfarbe, startdatum, enddatum, kategorie, quellenangabe)
+//projects(content, titel, titelfarbe, startdatum, enddatum, professor, plaetze)
+//tasks(content, titel, titelfarbe, startdatum, enddatum, fach)
+
+var news1 = new news("Hallo hier wohnt ein Igel","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
+var news2 = new news("Ich habe keine Lust mehr", "Leben", "#000000", "1997-6-2", "2018-6-1", "unwichtig", "aus meinem Leben");
+var porjekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
+var task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");

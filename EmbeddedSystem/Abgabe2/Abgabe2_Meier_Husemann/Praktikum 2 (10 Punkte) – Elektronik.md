@@ -137,6 +137,4 @@ $$
 $$
 R_1 = \frac{0,66V}{0,02A} = 33\Omega
 $$
-$$
-R_1 = \frac{3.3V-0.64V}{0,02A} = 133\Omega
-$$
+Der Vorwiderstand R1 muss 33 Ohm betragen

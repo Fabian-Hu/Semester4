@@ -48,29 +48,30 @@ and open the template in the editor.
         
         <section>
             <h2>Eingabeformular</h2>
-            <form action="blanko.html" method="POST" enctype="text/plain">
-                <label for="artikelTitel">Titel:</label><br />
-                <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br />
-                <label for="artikelText">Text:</label><br />
-                <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br />
-                <label for="artikelTyp">Artikeltyp:</label><br />
-                <input id="artikelTyp" name="artikelTyp" list="textformen"><br />
+            <form id="form1">
+                <label >Titel:</label><br />
+                <input name="artikelTitel" type="text" size="8"><br />
+                <label >Text:</label><br />
+                <textarea name="artikelText" rows="5" cols="48"></textarea><br />
+                <label>Artikeltyp:</label><br />
+                <input name="artikelTyp" list="textformen"><br />
                 <datalist id="textformen">
                     <option>News</option>
                     <option>Projekt</option>
                     <option>Aufgabe</option>
                 </datalist>
-                <label for="artikelStartdatum">Startdatum:</label><br />
-                <input id="artikelStartdatum" type="date" name="startdatum"><br />
-                <label for="artikelEnddatum">Enddatum:</label><br />
-                <input id="artikelEnddatum" type="date" name="enddatum"><br />
-                <label for="artikelTitelfarbe">Titelfarbe:</label><br />
-                <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br /><br />
-                <input type="submit" value="Absenden">
+                <label>Startdatum:</label><br />
+                <input  type="date" name="startdatum"><br />
+                <label>Enddatum:</label><br />
+                <input type="date" name="enddatum"><br />
+                <label >Titelfarbe:</label><br />
+                <input type="color" name="titelFarbe" value="#ffffff"><br /><br />
+                <button onclick="choooose()">senden</button>
             </form>
         </section><br />
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
+        <script type="text/javascript" src="sprache.js"></script>
     </body>
 </html>
