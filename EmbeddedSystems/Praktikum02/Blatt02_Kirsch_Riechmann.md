@@ -8,7 +8,8 @@ André Kirsch, Malte Riechmann
 
 **Strom**: ([I]=A) Der elektrische Strom gibt an wie viel elektrische Ladung in einer Sekunde durch einen Leiter fließt.
 
-**Spannung**: ([U]=V) Die Spannung entspricht dem Ladungsunterschied (Potential) zwischen zwei Polen und ist Ursache für den elektrischen Strom.![1a](1a.png)
+**Spannung**: ([U]=V) Die Spannung entspricht dem Ladungsunterschied (Potential) zwischen zwei Polen und ist Ursache für den elektrischen Strom.
+![1a](1a.png)
 
 
 
@@ -48,7 +49,7 @@ $$
 I = \frac{P}{U}
 $$
 $$
-I = \frac{60W}{12V} = 5\Omega
+I = \frac{60W}{12V} = 5A
 $$
 
 #### Teil b
@@ -82,7 +83,7 @@ $$
 I = \frac {P}{U} = 5V
 $$
 $$
-t = \frac {90Ah}{5h} = 18h
+t = \frac {90Ah}{5A} = 18h
 $$
 
 ## Aufgabe 3
@@ -115,5 +116,5 @@ $$
 R = \frac{U}{I}
 $$
 $$
-R = \frac{2.66A}{20 * 10^{-3}A} = 133 \Omega
+R = \frac{0.66A}{20 * 10^{-3}A} = 33 \Omega
 $$
