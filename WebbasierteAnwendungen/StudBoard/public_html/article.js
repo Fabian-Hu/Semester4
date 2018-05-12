@@ -84,7 +84,7 @@ class projects extends article {
         
         let newJsonStr = JSON.stringify(obj); 
         document.open();
-        document.write('<a href="projects.json">' + newJsonStr + '</a>');
+        document.write(newJsonStr);
         document.close();
     }
 }
@@ -107,7 +107,7 @@ class tasks extends article {
         
         let newJsonStr = JSON.stringify(obj); 
         document.open();
-        document.write('<a href="tasks.json">' + newJsonStr + '</a>');
+        document.write(newJsonStr);
         document.close();
     }
 }
@@ -118,7 +118,7 @@ class tasks extends article {
 
 var news1 = new news("Hallo hier wohnt ein Igel","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
 var news2 = new news("Ich habe keine Lust mehr", "Leben", "#000000", "1997-6-2", "2018-6-1", "unwichtig", "aus meinem Leben");
-var porjekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
+var projekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
 var task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");
 
 news1.jsonSchreiben();
