@@ -35,6 +35,7 @@ class article {
         this.titelfarbe = titelfarbe;
         this.startdatum = startdatum;
         this.enddatum = enddatum;
+        this.type = "Article";
     }
 }
 
@@ -43,25 +44,8 @@ class news extends article {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.kategorie = kategorie;
         this.quellenangabe = quellenangabe;
-    }
-        
-    jsonSchreiben(){
-        let obj = {
-            attr1 : this.content,
-            attr2 : this.titel,
-            attr3 : this.titelfarbe,
-            attr4 : this.startdatum,
-            attr5 : this.enddatum,
-            attr6 : this.kategorie,
-            attr7 : this.quellenangabe
-        };
-        
-        let newJsonStr = JSON.stringify(obj); 
-        document.open();
-        document.write(newJsonStr);
-        document.close();
-    }
-    
+        this.type = "News";
+    }   
 }
 
 class projects extends article {
@@ -69,23 +53,7 @@ class projects extends article {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.professor = professor;
         this.plaetze = plaetze;
-    }
-    
-    jsonSchreiben(){
-        let obj = {
-            attr1 : this.content,
-            attr2 : this.titel,
-            attr3 : this.titelfarbe,
-            attr4 : this.startdatum,
-            attr5 : this.enddatum,
-            attr6 : this.professor,
-            attr7 : this.plaetze
-        };
-        
-        let newJsonStr = JSON.stringify(obj); 
-        document.open();
-        document.write(newJsonStr);
-        document.close();
+        this.type = "Projects";
     }
 }
 
@@ -93,22 +61,7 @@ class tasks extends article {
     constructor(content, titel, titelfarbe, startdatum, enddatum, fach) {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.fach = fach;
-    }
-    
-    jsonSchreiben(){
-        let obj = {
-            attr1 : this.content,
-            attr2 : this.titel,
-            attr3 : this.titelfarbe,
-            attr4 : this.startdatum,
-            attr5 : this.enddatum,
-            attr6 : this.fach
-        };
-        
-        let newJsonStr = JSON.stringify(obj); 
-        document.open();
-        document.write(newJsonStr);
-        document.close();
+        this.type = "Tasks";
     }
 }
 
@@ -116,12 +69,3 @@ class tasks extends article {
 //projects(content, titel, titelfarbe, startdatum, enddatum, professor, plaetze)
 //tasks(content, titel, titelfarbe, startdatum, enddatum, fach)
 
-var news1 = new news("Hallo hier wohnt ein Igel","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
-var news2 = new news("Ich habe keine Lust mehr", "Leben", "#000000", "1997-6-2", "2018-6-1", "unwichtig", "aus meinem Leben");
-var projekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
-var task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");
-
-news1.jsonSchreiben();
-news2.jsonSchreiben();
-projekt1.jsonSchreiben();
-task1.jsonSchreiben();
