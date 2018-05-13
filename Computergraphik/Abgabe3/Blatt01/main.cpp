@@ -57,16 +57,136 @@ void renderQuad()
 	
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(quad.vao);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 
 void initQuad()
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
-	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
+	
+	const std::vector<glm::vec3> vertices = {
+		//front 0,1,2,3
+		{ -1.0,  1.0,  1.0 },//0
+		{  1.0,  1.0,  1.0 },//1
+		{  1.0, -1.0,  1.0 },//2
+		{ -1.0, -1.0,  1.0 },//3
+
+		//left 0,3,4,6
+		{ -1.0,  1.0,  1.0 },//4
+		{ -1.0, -1.0,  1.0 },//5
+		{ -1.0,  1.0, -1.0 },//6
+		{  1.0, -1.0, -1.0 },//7
+
+		//back 4,5,6,7
+		{ -1.0,  1.0, -1.0 },//8
+		{  1.0,  1.0, -1.0 },//9
+		{  1.0, -1.0, -1.0 },//10
+		{ -1.0, -1.0, -1.0 },//11
+
+		//right 1,2,5,7
+		{  1.0,  1.0,  1.0 },//12
+		{  1.0, -1.0,  1.0 },//13
+		{  1.0,  1.0, -1.0 },//14
+		{ -1.0, -1.0, -1.0 },//15
+		
+		//bot 2,3,6,7
+		{  1.0, -1.0,  1.0 },//16
+		{ -1.0, -1.0,  1.0 },//17
+		{  1.0, -1.0, -1.0 },//18
+		{ -1.0, -1.0, -1.0 },//19
+	
+		//top 0,1,4,5
+		{ -1.0,  1.0,  1.0 },//20
+		{  1.0,  1.0,  1.0 },//21
+		{ -1.0,  1.0, -1.0 },//22
+		{  1.0,  1.0, -1.0 },//23
+
+	};
+
+	/*const std::vector<glm::vec3> vertices = {
+	{-1.0, -1.0,  1.0},
+	{1.0, -1.0,  1.0},
+	{1.0,  1.0,  1.0},
+	{-1.0,  1.0,  1.0},
+	{-1.0, -1.0, -1.0},
+	{1.0, -1.0, -1.0},
+	{1.0,  1.0, -1.0},
+	{-1.0,  1.0, -1.0}
+	};*/
+
+	const std::vector<glm::vec3> colors = {
+	{ 1.0, 0.0, 0.0 },
+	{ 1.0, 0.0, 0.0 },
+	{ 1.0, 0.0, 0.0 },
+	{ 1.0, 0.0, 0.0 },
+	
+	{ 1.0, 1.0, 0.0 },
+	{ 1.0, 1.0, 1.0 },
+	{ 0.0, 0.0, 0.0 },
+	{ 0.0, 0.0, 0.0 },
+	
+	{ 1.0, 0.0, 1.0 },
+	{ 1.0, 0.0, 1.0 },
+	{ 1.0, 0.0, 1.0 },
+	{ 1.0, 0.0, 1.0 },
+	
+	{ 0.0, 1.0, 0.0 },
+	{ 0.0, 1.0, 0.0 },
+	{ 0.0, 1.0, 0.0 },
+	{ 0.0, 1.0, 0.0 },
+	
+	{ 0.0, 0.0, 1.0 },
+	{ 0.0, 0.0, 1.0 },
+	{ 0.0, 0.0, 1.0 },
+	{ 0.0, 0.0, 1.0 },
+	
+	{ 0.0, 1.0, 1.0 },
+	{ 0.0, 1.0, 1.0 },
+	{ 0.0, 1.0, 1.0 },
+	{ 0.0, 1.0, 1.0 },
+	};
+	
+	const std::vector<GLushort> indices = {
+		//front
+		0, 1, 2,
+		2, 3, 0,
+		// right
+		12, 13, 14,
+		13, 14, 15,
+		// back
+		8, 9, 10,
+		9, 10, 11,
+		// left
+		4, 5, 6,
+		5, 6, 7,
+		// bottom
+		16, 17, 18,
+		16, 18, 19,
+		// top
+		20, 21, 22,
+		21, 22, 23
+	};
+
+	/*const std::vector<GLushort> indices = { 
+		0, 1, 2,
+		2, 3, 0,
+		// right
+		1, 5, 6,
+		6, 2, 1,
+		// back
+		7, 6, 5,
+		5, 4, 7,
+		// left
+		4, 0, 3,
+		3, 7, 4,
+		// bottom
+		4, 5, 1,
+		1, 0, 4,
+		// top
+		3, 2, 6,
+		6, 7, 3 
+	};*/
 
 	GLuint programId = program.getHandle();
 	GLuint pos;
@@ -104,7 +224,7 @@ void initQuad()
 	glBindVertexArray(0);
 
 	// Modify model matrix.
-	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(1.25f, 0.0f, 0.0f));
+	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
 /*
@@ -267,6 +387,7 @@ int main(int argc, char** argv)
 	//glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
+	glutMouseFunc(glutMouse);
 
 	// Init VAO.
 	{
