@@ -98,7 +98,7 @@ Bauelemente:
 * LED (D1)
 * Schalter (S1)
 * Transistor (Q1)
-* Wenn der Schalter S1 geschlossen ist liegt Strom an dem Base-Anschluss des Transistors an fließt Strom vom Collector zum Emitter. Das Bedeutet, das der Stromkreis der LED geschlossen und sie beginnt zu leuchten. Die Widerstände verhindern einen Kurzschluss, in dem sie den Stromfluss vermindern.
+* Wenn der Schalter S1 geschlossen ist liegt Strom an dem Base-Anschluss des Transistors an und es fließt Strom vom Collector zum Emitter. Das Bedeutet, dass der Stromkreis der LED geschlossen ist und sie beginnt zu leuchten. Die Widerstände verhindern einen Kurzschluss, in dem sie den Stromfluss vermindern.
 
 #### Teil a
 

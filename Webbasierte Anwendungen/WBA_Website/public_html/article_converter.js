@@ -7,23 +7,28 @@ class ArticleConverter {
     
     jsonToArticle(json) {
         let article = JSON.parse(json);
+        let obj;
         switch(article.type) {
             case "news":
-                return new News(article);
+                obj = new News();
                 break;
             
             case "task":
-                return new Task(article);
+                obj = new Task();
                 break;
             
             case "project":
-                return new Project(article);
+                obj = new Project();
                 break;
                 
             default:
-                return new Article(article);
+                obj = new Article();
                 break;
         }
+        for (var key in obj) {
+            obj[key] = article[key];
+        }
+        return obj;
     }
 }
 
@@ -32,3 +37,6 @@ let articleStr = articleConverter.articleToJson(task1);
 console.log(articleStr);
 let article1 = articleConverter.jsonToArticle(articleStr);
 console.log(article1.constructor.name);
+for(var key in article1) {
+    console.log(key + " : " + article1[key])
+}
