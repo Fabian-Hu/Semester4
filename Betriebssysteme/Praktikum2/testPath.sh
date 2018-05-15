@@ -50,6 +50,7 @@ function editIfTxt {
 				;;
 			nein)
 				break
+				;;
 		esac	
 	done
   fi

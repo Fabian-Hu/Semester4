@@ -10,15 +10,20 @@ and open the template in the editor.
         <link rel="stylesheet" href="stylesheet.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="translation.js"></script>
+        <script src="article.js"></script>
+        <script src="article_converter.js"></script>
     </head>
     <body>
         <section>
             <header>
-                <picture>
-                    <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png">
-                    <source srcset="img/StudBoardLogo150x100.png">
-                    <img src="img/StudBoardLogo150x100.png" alt="Logo"/>
-                </picture>
+                <div id="logo">
+                    <picture>
+                        <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png">
+                        <source srcset="img/StudBoardLogo150x100.png">
+                        <img src="img/StudBoardLogo150x100.png" alt="Logo"/>
+                    </picture>
+                </div>
                 <h1>Neuigkeiten</h1>
             </header>
             <section>
@@ -43,7 +48,6 @@ and open the template in the editor.
                 </aside>
                 <section>
                     <article id ="neuigkeit1" class="news">
-                        <hr />
                         <header class="articleheader">
                             <h3>Neuigkeit1</h3>
                             by Me
@@ -69,8 +73,8 @@ and open the template in the editor.
                             © Heinz Marx, 2018
                         </footer>
                     </article>
+                    <br>
                     <article id ="neuigkeit2" class="news">
-                        <hr />
                         <header class="articleheader">
                             <h3>Neuigkeit2</h3>
                             by Me
@@ -96,8 +100,8 @@ and open the template in the editor.
                             © Gustav Marx, 2018
                         </footer>
                     </article>
+                    <br>
                     <article id ="neuigkeit3" class="news">
-                        <hr />
                         <header class="articleheader">
                             <h3>Neuigkeit3</h3>
                             by Me
@@ -123,8 +127,8 @@ and open the template in the editor.
                             © Hans Marx, 2018
                         </footer>
                     </article>
+                    <br>
                     <article id ="neuigkeit4" class="news">
-                        <hr />
                         <header class="articleheader">
                             <h3>Neuigkeit4</h3>
                             by Me
@@ -150,8 +154,8 @@ and open the template in the editor.
                             © Fritz Marx, 2018
                         </footer>
                     </article>
+                    <br>
                     <article id ="neuigkeit5" class="news">
-                        <hr />
                         <header class="articleheader">
                             <h3>Neuigkeit5</h3>
                             by Me
@@ -180,10 +184,10 @@ and open the template in the editor.
                 </section>
             </section>
             <hr />
-            <div id="top"><a href="/WBA_Website/news.html">top</a></div>
+            <a href="/WBA_Website/news.html"><div id="top">top</div></a>
             <footer>
                 © André Kirsch, Malte Riechmann, 2018 <br />
-                Kontaktdaten: akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de
+                akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de
             </footer>
         </section>
     </body>
