@@ -11,8 +11,8 @@ public class WebGetSomething : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //StartCoroutine(getSomething());
-        StartCoroutine(postSomething());
+        StartCoroutine(getSomething());
+        //StartCoroutine(postSomething());
 	}
 	
 	// Update is called once per frame

@@ -133,7 +133,7 @@ void initQuad()
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
 	const std::vector<glm::vec3> vertices = { { -1.0f, 1.0f, 0.0f }, { -1.0, -1.0, 0.0 }, { 1.0f, -1.0f, 0.0f }, { 1.0f, 1.0f, 0.0f } };
 	const std::vector<glm::vec3> colors = { { 1.0f, 0.0f, 0.0f }, { 0.0f, 1.0, 1.0f }, { 0.0f, 1.0f, 0.0f }, { 0.0f, 0.0f, 1.0f } };
-	const std::vector<GLushort> indices = { 0, 1, 2, 0, 2, 3 };
+	const std::vector<GLushort> indices = { 0, 1, 2, 3, 2, 0 };
 
 	GLuint programId = program.getHandle();
 	GLuint pos;

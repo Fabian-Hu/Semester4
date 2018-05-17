@@ -164,12 +164,16 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Face.cpp" />
+    <ClCompile Include="Face.h" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
+    <ClInclude Include="Model3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simple.frag" />
