@@ -12,6 +12,7 @@
 class Face {
 public:
 	Face(std::vector<glm::vec3> &vertices, glm::vec3 &color);
+	Face(std::vector<glm::vec3> &vertices, glm::vec3 &color, std::vector<GLushort> &indices);
 	Face(std::vector<glm::vec3> &vertices, std::vector<glm::vec3> &colors);
 
 	std::vector<glm::vec3> getVertices();
