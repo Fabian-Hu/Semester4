@@ -81,6 +81,18 @@ void Model3D::rotateX(float a) {
 	}
 }
 
+void Model3D::rotateY(float a) {
+	for (int i = 0; i < points.size(); i++) {
+		points[i] = glm::rotateY(points[i], a);
+	}
+}
+
+void Model3D::rotateZ(float a) {
+	for (int i = 0; i < points.size(); i++) {
+		points[i] = glm::rotateZ(points[i], a);
+	}
+}
+
 void Model3D::calculateModel () {
 	vertices.clear();
 	vertices.shrink_to_fit();
