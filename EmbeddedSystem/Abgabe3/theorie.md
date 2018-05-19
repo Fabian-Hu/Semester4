@@ -1,12 +1,10 @@
 # Praktikum 3 (10 Punkte) - Energia: Installation, Toolchain
 
-## Aufgabe 1
-
-Erledigt
+von Fabian Husemän und Tim Meier
 
 ## Aufgabe 2
 
-### a
+### a)
 
 1. Bibliotheken suchen
 2. Prototypen generieren
@@ -17,7 +15,7 @@ Erledigt
    2. Flash löschen
    3. Starten
 
-### b
+### b)
 
 assembler, um den Code in Binärcode zu ändern
 
@@ -29,19 +27,19 @@ DSLite, zum hochladen
 
 ## Aufgabe 3
 
-### a
+### a)
 
  ~/.energia15/packages/energia/hardware/tivac/1.0.3/cores/tivac
 
  ~/.energia15/packages/energia/hardware/tivac/1.0.3/variants/EK-TM4C123GXL
 
-### b
+### b)
 
 Ein Linker Skript ist eine Datei, in der die Optionen für einen Linker stehen, zum Beispiel wo die Positionen der einzelnen Segmente im Speicher festgelegt werden. 
 
-### c
+### c)
 
-``` c
+``` 
 Memory {
 	flash	(rx)  : ORIGIN = 0x00000000, LENGTH = 0x00040000
 	ram		(rwx) : ORIGIN = 0x20000000, LENGTH = 0x00008000     
