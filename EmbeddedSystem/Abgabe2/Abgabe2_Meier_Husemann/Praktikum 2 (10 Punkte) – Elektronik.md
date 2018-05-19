@@ -10,7 +10,7 @@ von Tim Steven Meier und Fabian Husemän
   * die Menge elektrischen Stroms, die in einer bestimmten Zeit durch einen Leiter fließt.
   * die Stromstärke I wird in Ampere gemessen
 * Spannung
-  * die Stärke des elektrischen Stroms
+  * die Spannung des elektrischen Stroms
   * Die Spannung U wird in Volt gemessen
 
 ![1](1a.png)
