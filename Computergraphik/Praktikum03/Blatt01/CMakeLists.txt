@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Blatt01)
 
 # list of source files to compile
-set(sources main.cpp GLSLProgram.cpp)
+set(sources main.cpp GLSLProgram.cpp Model3D.cpp Face.cpp)
 
 # find/include libraries
 find_package(OpenGL REQUIRED)

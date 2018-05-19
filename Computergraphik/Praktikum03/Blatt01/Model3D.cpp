@@ -1,14 +1,12 @@
 #include "Model3D.h"
+#include "glm/gtx/rotate_vector.hpp"
 
 void Model3D::addFace (Face & face) {
 	faces.push_back (face);
 }
 
 void Model3D::init (cg::GLSLProgram &program) {
-	const std::vector<glm::vec3> vertices = { glm::vec3 (-1.0f, 1.0f, 0.0f), glm::vec3 (1.0f, -1.0f, 0.0f), glm::vec3 (1.0f, 1.0f, 0.0f) };
-	const std::vector<glm::vec3> colors = { glm::vec3 (1.0f, 0.0f, 0.0f), glm::vec3 (0.0f, 1.0f, 0.0f), glm::vec3 (0.0f, 0.0f, 1.0f) };
-	const std::vector<GLushort> indices = { 0, 1, 2 };
-
+	calculateModel();
 	GLuint programId = program.getHandle ();
 	GLuint pos;
 
@@ -38,7 +36,6 @@ void Model3D::init (cg::GLSLProgram &program) {
 	glBindVertexArray (0);
 
 	model = glm::translate (glm::mat4 (1.0f), glm::vec3 (0.0f, 0.0f, 0.0f));
-
 }
 
 void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
@@ -52,18 +49,54 @@ void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 p
 	glBindVertexArray (0);
 }
 
-void Model3D::calculateModel () {
+void Model3D::build() {
 	GLushort i = 0;
 	for (Face &face : faces) {
-		std::vector<glm::vec3> faceVertices = face.getVertices ();
-		vertices.insert (vertices.end (), faceVertices.begin (), faceVertices.end ());
+		std::vector<glm::vec3> faceVertices = face.getVertices();
+		for (glm::vec3 &vec : faceVertices) {
+			int index = insertPoint(vec);
+			points_vertices.push_back(index);
+		}
 
-		std::vector<glm::vec3> faceColors = face.getColors ();
-		colors.insert (colors.end (), faceColors.begin (), faceColors.end ());
+		std::vector<glm::vec3> faceColors = face.getColors();
+		colors.insert(colors.end(), faceColors.begin(), faceColors.end());
 
-		for (GLushort index : face.getIndices ()) {
-			indices.push_back ((GLushort)(i * 3 + index));
+		for (GLushort index : face.getIndices()) {
+			indices.push_back((GLushort)(i * 3 + index));
 		}
 		i++;
 	}
+}
+
+void Model3D::releaseModel(){
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &indexBuffer);
+	glDeleteBuffers(1, &colorBuffer);
+	glDeleteBuffers(1, &positionBuffer);
+}
+
+void Model3D::rotateX(float a) {
+	for (int i = 0; i < points.size(); i++ ) {
+		points[i] = glm::rotateX(points[i], a);
+	}
+}
+
+void Model3D::calculateModel () {
+	vertices.clear();
+	vertices.shrink_to_fit();
+	for (int index: points_vertices) {
+		vertices.push_back(points[index]);
+	}
+}
+
+int Model3D::insertPoint(glm::vec3 &point) {
+	int index = 0;
+	for (glm::vec3 &vec : points) {
+		if (vec[0] == point[0] && vec[1] == point[1] && vec[2] == point[2]) {
+			return index;
+		}
+		index++;
+	}
+	points.push_back(point);
+	return index;
 }
