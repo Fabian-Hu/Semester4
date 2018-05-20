@@ -26,6 +26,9 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
+float zoomy = 4.0f;
+
+
 
 /*
 Struct to hold data for object rendering.
@@ -122,9 +125,9 @@ void initQuad()
 	{ 1.0, 0.0, 0.0 },
 	
 	{ 1.0, 1.0, 0.0 },
-	{ 1.0, 1.0, 1.0 },
-	{ 0.0, 0.0, 0.0 },
-	{ 0.0, 0.0, 0.0 },
+	{ 1.0, 1.0, 0.0 },
+	{ 1.0, 1.0, 0.0 },
+	{ 1.0, 1.0, 0.0 },
 	
 	{ 1.0, 0.0, 1.0 },
 	{ 1.0, 0.0, 1.0 },
@@ -225,6 +228,7 @@ void initQuad()
 
 	// Modify model matrix.
 	quad.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	//glEnable(GL_DEPTH_TEST);
 }
 
 /*
@@ -233,10 +237,10 @@ void initQuad()
 bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(1.0f, 0.2f, 0.2f, 0.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, 4.0f);
+	glm::vec3 eye(0.0f, 0.0f, zoomy);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -328,6 +332,14 @@ void glutMouse(int button, int state, int x, int y)
 	}
 }
 
+void zoom() {
+	glm::vec3 eye(0.0f, 0.0f, zoomy);
+	glm::vec3 center(0.0f, 0.0f, 0.0f);
+	glm::vec3 up(0.0f, 1.0f, 0.0f);
+
+	view = glm::lookAt(eye, center, up);
+}
+
 /*
  Callback for char input.
  */
@@ -339,11 +351,17 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  glutDestroyWindow ( glutID );
 	  return;
 	  
-	case '+':
-		// do something
+	case 'a':
+		if (zoomy < 10.0f) {
+			zoomy += 0.1f;
+			zoom();
+		}
 		break;
-	case '-':
-		// do something
+	case 's':
+		if (zoomy > 3.0f) {
+			zoomy -= 0.1f;
+			zoom();
+		}
 		break;
 	case 'x':
 		// do something
