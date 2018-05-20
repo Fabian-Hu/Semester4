@@ -1,4 +1,4 @@
-# Praktikum o3 - Toolchain
+# Praktikum 03 - Toolchain
 
 Malte Riechmann, André Kirsch
 
@@ -6,7 +6,7 @@ Malte Riechmann, André Kirsch
 
 Zuerst haben wir die Energia Entwicklungsumgebung installiert. Danach haben wie über den Boardverwalter die Energia TivaC Boards installiert. Über das Internet haben wir die passenden Treiber für das TivaC Series Launchpad heruntergeladen. Nach dem Anschließen des Launchpads konnten wir die fehlenden Treiber über den Geräte Manager installieren.
 
-Danach haben wir den Blink Sketch in die Energia Entwicklungsumgebung geladen und die geforderten Anpassungen ermacht.
+Danach haben wir den Blink Sketch in die Energia Entwicklungsumgebung geladen und die geforderten Anpassungen gemacht.
 
 ```c++
 #define LED RED_LED
@@ -102,30 +102,23 @@ const int delayBetweenSignal = 500;
 const int delayBetweenChars = 1000;
 const int delayBetweenWords = 2000;
 
-void sendLong() {
+void sendSignal(const int delay) {
   digitalWrite(LED, HIGH);
-  delay(longDelay);
-  digitalWrite(LED, LOW);
-  delay(delayBetweenSignal);
-}
-
-void sendShort() {
-  digitalWrite(LED, HIGH);
-  delay(shortDelay);
+  delay(delay);
   digitalWrite(LED, LOW);
   delay(delayBetweenSignal);
 }
 
 void sendO() {
   for (int i = 0; i < 3; i++) {
-    sendLong();
+    sendSignal(longDelay);
   }
   delay(delayBetweenChars);
 }
 
 void sendS() {
   for (int i = 0; i < 3; i++) {
-    sendShort();
+    sendSignal(shortDelay);
   }
   delay(delayBetweenChars);
 }

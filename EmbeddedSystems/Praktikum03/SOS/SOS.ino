@@ -6,30 +6,23 @@ const int delayBetweenSignal = 500;
 const int delayBetweenChars = 1000;
 const int delayBetweenWords = 2000;
 
-void sendLong() {
+void sendSignal(const int delay) {
   digitalWrite(LED, HIGH);
-  delay(longDelay);
-  digitalWrite(LED, LOW);
-  delay(delayBetweenSignal);
-}
-
-void sendShort() {
-  digitalWrite(LED, HIGH);
-  delay(shortDelay);
+  delay(delay);
   digitalWrite(LED, LOW);
   delay(delayBetweenSignal);
 }
 
 void sendO() {
   for (int i = 0; i < 3; i++) {
-    sendLong();
+    sendSignal(longDelay);
   }
   delay(delayBetweenChars);
 }
 
 void sendS() {
   for (int i = 0; i < 3; i++) {
-    sendShort();
+    sendSignal(shortDelay);
   }
   delay(delayBetweenChars);
 }
