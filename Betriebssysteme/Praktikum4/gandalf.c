@@ -15,10 +15,20 @@ int main() {
     char input[256];
     
     while(1){
-		printf("%s@%s\n",pfad, name);
+		getcwd(pfad, sizeof(pfad));	
+		printf("%s@%s:\n",pfad, name);
 		scanf("%s",input);
 		if(strcmp(input,"exit")==0){
-			sreturn 1;
+			return 1;
+		} else if(strcmp(input,"fork")==0){
+			
+			printf("Kindprozess erzeugt\n");
+		} else if(strcmp(input,"cd")==0){
+			scanf("%s",input);
+			chdir(input);
+		} else {
+			
+			printf("%s\n", input);
 		}
 	}
 }
