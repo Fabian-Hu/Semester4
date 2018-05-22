@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 
+int forky();
+
+int programmStarty();
 
 int main() {
 	char string[20];
@@ -21,14 +24,31 @@ int main() {
 		if(strcmp(input,"exit")==0){
 			return 1;
 		} else if(strcmp(input,"fork")==0){
-			
-			printf("Kindprozess erzeugt\n");
+			forky();
 		} else if(strcmp(input,"cd")==0){
 			scanf("%s",input);
 			chdir(input);
 		} else {
-			
-			printf("%s\n", input);
+			printf("%s\n", "Falsch Eingabe");
 		}
 	}
+}
+
+int forky() {
+	pid_t pid = fork();
+	if (pid == 0) {
+		//Child
+		printf("BubuBaba\n");
+		programmStarty();
+	} else {
+		//Parent
+		waitpid(0,NULL,WNOHANG);
+		printf("Daddy\n");
+	}
+}
+
+int programmStarty() {
+    char input[256];
+	scanf("%s",input);
+	printf("%s\n", input);
 }
