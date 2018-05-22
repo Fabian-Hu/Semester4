@@ -19,7 +19,7 @@ const int WINDOW_WIDTH  = 640;
 const int WINDOW_HEIGHT = 480;
 // GLUT window id/handle
 int glutID = 0;
-float cameraZPos = 4.0f;
+float cameraPos = 4.0f;
 
 cg::GLSLProgram program;
 
@@ -99,7 +99,7 @@ bool init() {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, cameraZPos);
+	glm::vec3 eye(cameraPos, cameraPos, cameraPos);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -166,9 +166,9 @@ void glutResize (int width, int height) {
 
 void moveCamera(float m) {
 	//glm::translate(view, glm::vec3(0.0f, 0.0f, m));
-	if ((cameraZPos > 2.0f || m > 0) && (cameraZPos < 15.0f || m < 0)) {
-		cameraZPos += m;
-		glm::vec3 eye(0.0f, 0.0f, cameraZPos);
+	if ((cameraPos > 2.0f || m > 0) && (cameraPos < 15.0f || m < 0)) {
+		cameraPos += m;
+		glm::vec3 eye(cameraPos, cameraPos, cameraPos);
 		glm::vec3 center(0.0f, 0.0f, 0.0f);
 		glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -192,18 +192,12 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		break;
 	case 'x':
 		cube.rotateX(0.1f);
-		release();
-		cube.init(program);
 		break;
 	case 'y':
 		cube.rotateY(0.1f);
-		release();
-		cube.init(program);
 		break;
 	case 'z':
 		cube.rotateZ(0.1f);
-		release();
-		cube.init(program);
 		break;
 	case 'a':
 		moveCamera(-0.1f);

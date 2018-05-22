@@ -50,22 +50,33 @@ void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 p
 }
 
 void Model3D::build() {
-	GLushort i = 0;
 	for (Face &face : faces) {
 		std::vector<glm::vec3> faceVertices = face.getVertices();
-		for (glm::vec3 &vec : faceVertices) {
-			int index = insertPoint(vec);
-			points_vertices.push_back(index);
-		}
-
 		std::vector<glm::vec3> faceColors = face.getColors();
-		colors.insert(colors.end(), faceColors.begin(), faceColors.end());
+		std::vector<GLushort> faceIndices = face.getIndices();
 
-		for (GLushort index : face.getIndices()) {
-			indices.push_back((GLushort)(i * 3 + index));
+		for (int i = 0; i < faceVertices.size(); i++) {
+			int index = insertPoint(faceVertices[i]);
+			int other = containsVertexColor(index, faceColors[i]);
+			if (other != -1) {
+				indices.push_back(other);
+			} else {
+				points_vertices.push_back(index);
+				colors.push_back(faceColors[i]);
+				indices.push_back((GLushort)points_vertices.size() - 1);
+			}
 		}
-		i++;
 	}
+}
+
+int Model3D::containsVertexColor(int index, glm::vec3 & color) {
+	for (int i = 0; i < points_vertices.size(); i++) {
+		if (points_vertices[i] == index && colors[i] == color) {
+			std::cout << "double at " << i << std::endl;
+			return i;
+		}
+	}
+	return -1;
 }
 
 void Model3D::releaseModel(){
@@ -75,22 +86,16 @@ void Model3D::releaseModel(){
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void Model3D::rotateX(float a) {
-	for (int i = 0; i < points.size(); i++ ) {
-		points[i] = glm::rotateX(points[i], a);
-	}
+void Model3D::rotateX(float angle) {
+	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) * model;
 }
 
-void Model3D::rotateY(float a) {
-	for (int i = 0; i < points.size(); i++) {
-		points[i] = glm::rotateY(points[i], a);
-	}
+void Model3D::rotateY(float angle) {
+	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) * model;
 }
 
-void Model3D::rotateZ(float a) {
-	for (int i = 0; i < points.size(); i++) {
-		points[i] = glm::rotateZ(points[i], a);
-	}
+void Model3D::rotateZ(float angle) {
+	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1)) * model;
 }
 
 void Model3D::calculateModel () {

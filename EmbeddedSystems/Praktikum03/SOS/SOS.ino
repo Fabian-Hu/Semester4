@@ -6,9 +6,9 @@ const int delayBetweenSignal = 500;
 const int delayBetweenChars = 1000;
 const int delayBetweenWords = 2000;
 
-void sendSignal(const int delay) {
+void sendSignal(const int dely) {
   digitalWrite(LED, HIGH);
-  delay(delay);
+  delay(dely);
   digitalWrite(LED, LOW);
   delay(delayBetweenSignal);
 }

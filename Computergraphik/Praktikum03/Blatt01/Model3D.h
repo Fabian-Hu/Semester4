@@ -3,6 +3,7 @@
 #include <vector>
 #include "Face.h"
 #include "GLSLProgram.h"
+#include <iostream>
 
 class Model3D {
 public:
@@ -10,6 +11,7 @@ public:
 	void init (cg::GLSLProgram &program);
 	void render (cg::GLSLProgram &program, glm::mat4x4 view, glm::mat4x4 projection);
 	void build();
+	int containsVertexColor(int index, glm::vec3 &color);
 	void releaseModel();
 	void rotateX(float a);
 	void rotateY(float a);
