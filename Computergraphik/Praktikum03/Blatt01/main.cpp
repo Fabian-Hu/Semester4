@@ -19,6 +19,7 @@ const int WINDOW_WIDTH  = 640;
 const int WINDOW_HEIGHT = 480;
 // GLUT window id/handle
 int glutID = 0;
+float cameraZPos = 4.0f;
 
 cg::GLSLProgram program;
 
@@ -28,11 +29,32 @@ glm::mat4x4 projection;
 float zNear = 0.1f;
 float zFar  = 100.0f;
 Model3D cube;
+Model3D coordinateAxes;
+
+void createCoordinateAxes() {
+	std::vector<glm::vec3> vertices;
+	glm::vec3 color= { 1.0f, 1.0f, 1.0f };
+
+	vertices = { { 0.01f, 0.0f, 0.0f },{ 0.01f, 2.0f, 0.0f },{ -0.01f, 0.0f, 0.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+	vertices = { { -0.01f, 0.0f, 0.0f },{ 0.01f, 2.0f, 0.0f },{ -0.01f, 2.0f, 0.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+
+	vertices = { { 0.0f, 0.01f, 0.0f },{ 2.0f, 0.01f, 0.0f },{ 0.0f, -0.01f, 0.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+	vertices = { { 0.0f, 0.01f, 0.0f },{ 2.01f, 0.01f, 0.0f },{ 2.0f, -0.01f, 0.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+
+	vertices = { { 0.0f, 0.01f, 0.0f },{ 0.0f, -0.01f, 0.0f },{ 0.0f, -0.01f, 2.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+	vertices = { { 0.0f, 0.01f, 0.0f },{ 0.0f, 0.01f, 2.0f },{ 0.0f, -0.01f, 2.0f } };
+	coordinateAxes.addFace(Face(vertices, color));
+}
 
 void createCube() {
 	std::vector<glm::vec3> vertices;
 	glm::vec3 color;
-	vertices = { { -1.0, 1.0, 1.0 },{ 1.0, -1.0, 1.0 },{ -1.0, -1.0, 1.0 } };
+	vertices = { { -1.0f, 1.0f, 1.0f },{ 1.0f, -1.0f, 1.0f },{ -1.0f, -1.0f, 1.0f } };
 	color = { 0.39f, 0.58f, 0.93f };
 	cube.addFace(Face(vertices, color));
 	vertices = { {1.0f, 1.0f, 1.0f}, {1.0f, -1.0f, 1.0f}, {-1.0f, 1.0f, 1.0f} };
@@ -72,13 +94,12 @@ void createCube() {
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
  */
-bool init()
-{
+bool init() {
 	// OpenGL: Set "background" color and enable depth testing.
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, 4.0f);
+	glm::vec3 eye(0.0f, 0.0f, cameraZPos);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -104,6 +125,7 @@ bool init()
 	}
 
 	cube.init(program);
+	coordinateAxes.init(program);
 	return true;
 }
 
@@ -119,14 +141,13 @@ void release()
 /*
  Rendering.
  */
-void render()
-{
+void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	cube.render(program, view, projection);
+	coordinateAxes.render(program, view, projection);
 }
 
-void glutDisplay ()
-{
+void glutDisplay () {
 	GLCODE(render());
 	glutSwapBuffers();
 }
@@ -134,14 +155,25 @@ void glutDisplay ()
 /*
  Resize callback.
  */
-void glutResize (int width, int height)
-{
+void glutResize (int width, int height) {
 	// Division by zero is bad...
 	height = height < 1 ? 1 : height;
 	glViewport(0, 0, width, height);
 
 	// Construct projection matrix.
 	projection = glm::perspective(45.0f, (float) width / height, zNear, zFar);
+}
+
+void moveCamera(float m) {
+	//glm::translate(view, glm::vec3(0.0f, 0.0f, m));
+	if ((cameraZPos > 2.0f || m > 0) && (cameraZPos < 15.0f || m < 0)) {
+		cameraZPos += m;
+		glm::vec3 eye(0.0f, 0.0f, cameraZPos);
+		glm::vec3 center(0.0f, 0.0f, 0.0f);
+		glm::vec3 up(0.0f, 1.0f, 0.0f);
+
+		view = glm::lookAt(eye, center, up);
+	}
 }
 
 /*
@@ -151,40 +183,49 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	switch (keycode){
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
-	  return;
-	  
+	  return;  
 	case '+':
-		// do something
+		moveCamera(0.1f);
 		break;
 	case '-':
 		// do something
 		break;
 	case 'x':
 		cube.rotateX(0.1f);
+		release();
+		cube.init(program);
 		break;
 	case 'y':
-		// do something
+		cube.rotateY(0.1f);
+		release();
+		cube.init(program);
 		break;
 	case 'z':
-		// do something
+		cube.rotateZ(0.1f);
+		release();
+		cube.init(program);
 		break;
+	case 'a':
+		moveCamera(-0.1f);
+		break;
+	case 's':
+		moveCamera(0.1f);
+		break;
+
 	}
-	release();
-	init();
 	glutPostRedisplay();
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 	// GLUT: Initialize freeglut library (window toolkit).
-    glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
+    glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(40,40);
 	glutInit(&argc, argv);
 
 	// GLUT: Create a window and opengl context (version 4.3 core profile).
 	glutInitContextVersion(4, 3);
-	glutInitContextFlags  (GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG);
-	glutInitDisplayMode   (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
+	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG);
+	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
 	glutCreateWindow("Aufgabenblatt 03");
 	glutID = glutGetWindow();
@@ -209,6 +250,8 @@ int main(int argc, char** argv)
 	// Create objects.
 	createCube();
 	cube.build();
+	createCoordinateAxes();
+	coordinateAxes.build();
 
 	// Init VAO.
 	{
@@ -221,7 +264,7 @@ int main(int argc, char** argv)
 
 	// GLUT: Loop until the user closes the window
 	// rendering & event handling
-	glutMainLoop ();
+	glutMainLoop();
 
 	// Clean up everything on termination.
 	release();
