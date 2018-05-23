@@ -1,6 +1,10 @@
 #include "Model3D.h"
 #include "glm/gtx/rotate_vector.hpp"
 
+Model3D::Model3D() :
+	position(0.0f, 0.0f, 0.0f) {
+}
+
 void Model3D::addFace (Face & face) {
 	faces.push_back (face);
 }
@@ -35,7 +39,7 @@ void Model3D::init (cg::GLSLProgram &program) {
 
 	glBindVertexArray (0);
 
-	model = glm::translate (glm::mat4 (1.0f), glm::vec3 (0.0f, 0.0f, 0.0f));
+	model = glm::translate (glm::mat4 (1.0f), position);
 }
 
 void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
@@ -87,15 +91,18 @@ void Model3D::releaseModel(){
 }
 
 void Model3D::rotateX(float angle) {
-	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) * model;
+	model = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(1, 0, 0)) * 
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) * model;
 }
 
 void Model3D::rotateY(float angle) {
-	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) * model;
+	model = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 1, 0)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) * model;
 }
 
 void Model3D::rotateZ(float angle) {
-	model = glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1)) * model;
+	model = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), angle, glm::vec3(0, 0, 1)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) * model;
 }
 
 void Model3D::calculateModel () {

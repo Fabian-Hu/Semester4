@@ -7,6 +7,7 @@
 
 class Model3D {
 public:
+	Model3D();
 	void addFace (Face &face);
 	void init (cg::GLSLProgram &program);
 	void render (cg::GLSLProgram &program, glm::mat4x4 view, glm::mat4x4 projection);
@@ -33,6 +34,8 @@ private:
 	GLuint indexBuffer;
 
 	glm::mat4x4 model;
+	glm::vec3 position;
+
 
 	void calculateModel ();
 	int insertPoint(glm::vec3 &point);
