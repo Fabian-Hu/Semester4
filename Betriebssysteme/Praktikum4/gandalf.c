@@ -7,6 +7,7 @@
 int forky();
 int programmStarty();
 int sety();
+int gety();
 
 pid_t pid;
 
@@ -37,6 +38,8 @@ int main() {
 			chdir(input);
 		} else if(strcmp(input,"set")==0){
 			sety();
+		} else if(strcmp(input,"get")==0){
+			gety();
 		} else {
 			printf("%s\n", "Falsch Eingabe");
 		}
@@ -87,7 +90,18 @@ int programmStarty() {
 	}
 }
 
-//Hier fehlt quasi alles
+//am besten an LOGNAME testen
 int sety(){
-	printf("Hier werden irgendwann Umgebungsvariablen gesetzt\n");
+    char input[256];
+	printf("Als nächstes jetzt die Umgebungsvariable und seinen Wert in der Form 'name=wert' hinschreiben\n");
+	scanf("%s",input);
+	printf("%s\n", input);
+	putenv(strdup(input));
+}
+
+int gety(){
+    char input[256];
+	printf("Welche Umgebungsvariable willst du checken?\n");
+	scanf("%s",input);
+	printf("%s\n",getenv(strdup(input)));
 }
