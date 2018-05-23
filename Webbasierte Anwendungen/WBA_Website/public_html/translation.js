@@ -37,12 +37,17 @@ let en_GB = {
     title_color : "Title color"
 };
 
+let myWindow = window.open("", "MsgWindow", "menubar=0,titlebar=0,toolbar=0,top=15%,resizable=0,width=600px,height=200px");
+
 if (navigator.language === 'de' || navigator.language === 'de-DE') {
     for (var key in de_DE) {
-    console.log(key + " : " + de_DE[key]);
-}
+        console.log(key + " : " + de_DE[key]);
+    }
+    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Wilkommen auf SAILI!</p>");
 }else if (navigator.language === 'en' || navigator.language === 'en-US' || navigator.language === 'en-GB') {
     for (var key in en_GB) {
-    console.log(key + " : " + en_GB[key]);
+        console.log(key + " : " + en_GB[key]);
+    }
+    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Welcome at SAILI!</p>");
 }
-}
+myWindow.setTimeout("close()", 5000);

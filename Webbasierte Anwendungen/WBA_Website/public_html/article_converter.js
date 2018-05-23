@@ -31,12 +31,3 @@ class ArticleConverter {
         return obj;
     }
 }
-
-articleConverter = new ArticleConverter();
-let articleStr = articleConverter.articleToJson(task1);
-console.log(articleStr);
-let article1 = articleConverter.jsonToArticle(articleStr);
-console.log(article1.constructor.name);
-for(var key in article1) {
-    console.log(key + " : " + article1[key])
-}
