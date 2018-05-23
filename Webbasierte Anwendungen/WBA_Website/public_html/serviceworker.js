@@ -18,6 +18,8 @@ this.addEventListener('install', function(event) {
 				'/WBA_Website/stylesheet.css',
 				'/WBA_Website/tasks.html',
 				'/WBA_Website/translation.js',
+				'/WBA_Website/article_loader.js',
+				'/WBA_Website/position.js',
 				'/WBA_Website/img/StudBoardLogo150x100.png',
 				'/WBA_Website/img/StudBoardLogo300x200.png',
 				'/WBA_Website/img/StudBoardLogo301x200.png'

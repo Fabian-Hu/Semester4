@@ -19,10 +19,10 @@ and open the template in the editor.
 		if (navigator.serviceWorker) {
 			navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
 				console.log('ServiceWorker erfolgreich registriert');
-			}),
+			},
 			function(err) {
 				console.log('Fehler beim Registrieren: ' + err);
-			}
+			});
 		}
 	</script>
     </head>
