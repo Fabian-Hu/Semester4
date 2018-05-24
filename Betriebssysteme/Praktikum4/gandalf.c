@@ -5,49 +5,45 @@
 #include <string.h>
 #include <strings.h>
 
-int forky();
-int programmStarty(char* spaty);
-int sety();
-int gety();
-int spockyy(char* hans);
+int forky(char* paffy[256]);
+int programmStarty(char* spaty[256]);
+int sety(char* rip[256]);
+int gety(char* rip2[256]);
+void parsusMaximus(char *input[]);
+int spockyy(char* hans[256]);
 pid_t pid;
 
 int main() {
-	
-	char string[20];
 	char name[50];
 	char pfad[1024];
     getcwd(pfad, sizeof(pfad));	
     strcpy(name, getenv("USERNAME"));
     system("clear");
-    char input[256];
+    char* input[256];
     
     while(1){
 		getcwd(pfad, sizeof(pfad));	
 		printf("%s@%s:\n",pfad, name);
-		scanf("%s",input);
-		//scanf("%s",input[1]);
-		if(strcmp(input,"exit")==0){
+		parsusMaximus(input);
+		
+		if(strcmp(input[0],"exit")==0){
 			return 1;
-		} else if(strcmp(input,"cd")==0){
-			scanf("%s",input);
-			chdir(input);
-		} else if(strcmp(input,"set")==0){
-			sety();
-		} else if(strcmp(input,"get")==0){
-			gety();
+		} else if(strcmp(input[0],"cd")==0){
+			chdir(input[1]);
+		} else if(strcmp(input[0],"set")==0){
+			sety(input);
+		} else if(strcmp(input[0],"get")==0){
+			gety(input);
 		} else {
 			spockyy(input);
 			if(pid==0){
 				return 1;
 			}
 		}
-		
 	}
 }
 
-
-int forky(char* paffy) {
+int forky(char* paffy[256]) {
 	pid = fork();
 	if (pid == 0) {
 		//Child
@@ -58,43 +54,47 @@ int forky(char* paffy) {
 		waitpid(pid,0,0);
 	}
 }
-int spockyy(char* hans) {
+
+int spockyy(char* hans[256]) {
+	printf("%s",hans[0]);
     char biny[256] = "/bin/";
     char useybiny[256] ="/usr/bin/";
-	strcat(useybiny,hans);			
-	strcat(biny,hans);
+	strcat(useybiny,hans[0]);			
+	strcat(biny,hans[0]);
 	if (access(useybiny, F_OK) != -1) {
-		forky(useybiny);
+		hans[0] = useybiny;
+		forky(hans);
 	} else if (access(biny, F_OK) != -1) {
-		forky(biny);
+		hans[0] = biny;
+		forky(hans);
 	} else {
 		printf("Programm nicht gefunden\n");
 	}
-	
 }
 
-int programmStarty(char* spaty) {
-	char* harry[256];
-	char input[256];
-	harry[0] = spaty;
-	scanf("%s",input);
-	printf("%s",input);
-    execvp(spaty,harry);
+int programmStarty(char* spaty[256]) {
+    execvp(spaty[0],spaty);
 }
 
 //am besten an LOGNAME testen
-int sety(){
-    char input[256];
-	printf("Als nächstes jetzt die Umgebungsvariable und seinen Wert in der Form 'name=wert' hinschreiben\n");
-	scanf("%s",input);
-	printf("%s\n", input);
-	putenv(strdup(input));
+int sety(char* rip[256]){
+	putenv(strdup(rip[1]));
 }
 
-int gety(){
-    char input[256];
-	printf("Welche Umgebungsvariable willst du checken?\n");
-	scanf("%s",input);
-	printf("%s\n",getenv(strdup(input)));
+int gety(char* rip2[256]){
+	printf("%s\n",getenv(strdup(rip2[1])));
 }
 
+void parsusMaximus(char *input[]) {
+	int i = 0;
+	
+	while(1){
+		char string[256];
+		scanf("%s",string);
+		if(strcmp(string,";")==0){
+			break;
+		}	
+		input[i] = strdup(string);
+		i++;
+	}
+}
