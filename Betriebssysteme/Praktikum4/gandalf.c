@@ -3,12 +3,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 
 int forky();
-int programmStarty();
+int programmStarty(char* spaty);
 int sety();
 int gety();
-
+int spockyy(char* hans);
 pid_t pid;
 
 int main() {
@@ -25,14 +26,9 @@ int main() {
 		getcwd(pfad, sizeof(pfad));	
 		printf("%s@%s:\n",pfad, name);
 		scanf("%s",input);
+		//scanf("%s",input[1]);
 		if(strcmp(input,"exit")==0){
 			return 1;
-		} else if(strcmp(input,"fork")==0){
-			forky();
-			if(pid==0){
-				return 1;
-			}
-			//system("clear");
 		} else if(strcmp(input,"cd")==0){
 			scanf("%s",input);
 			chdir(input);
@@ -41,53 +37,49 @@ int main() {
 		} else if(strcmp(input,"get")==0){
 			gety();
 		} else {
-			printf("%s\n", "Falsch Eingabe");
+			spockyy(input);
+			if(pid==0){
+				return 1;
+			}
 		}
 		
 	}
 }
 
-int forky() {
+
+int forky(char* paffy) {
 	pid = fork();
 	if (pid == 0) {
 		//Child
-		printf("Jetzt brauchen wir deinen Programmnamen:\n");
-		programmStarty();
-		
+		programmStarty(paffy);
+		printf("Programm beendet");	
 	} else {
 		//Parent
 		waitpid(pid,0,0);
 	}
 }
-
-int programmStarty() {
-    char input[256]="";
-    char path[256];
+int spockyy(char* hans) {
     char biny[256] = "/bin/";
     char useybiny[256] ="/usr/bin/";
-    char zwischy[256] = "";
-    //Bei firefox macht er es richtig, sonst total falsch
-	do {
-		scanf("%s",input);
-		strcat(zwischy, input);
-		printf("%s", zwischy);
-	} while (!strcmp(input,"")); 
-
-
-	//realpath(input, path);
-	strcat(useybiny,zwischy);
-	//möglicherweise klappt die if Bedingung, printf will es uns aber nicht sagen
+	strcat(useybiny,hans);			
+	strcat(biny,hans);
 	if (access(useybiny, F_OK) != -1) {
-		printf("ja");
-		//Die Parameterliste müssen wir noch einmal prüfen
-		execlp(useybiny,zwischy, NULL);
+		forky(useybiny);
+	} else if (access(biny, F_OK) != -1) {
+		forky(biny);
 	} else {
-		printf("nein");
-		strcat(biny,zwischy);
-		
-		//Die Parameterliste müssen wir noch einmal prüfen
-		execvp(biny, zwischy);
+		printf("Programm nicht gefunden\n");
 	}
+	
+}
+
+int programmStarty(char* spaty) {
+	char* harry[256];
+	char input[256];
+	harry[0] = spaty;
+	scanf("%s",input);
+	printf("%s",input);
+    execvp(spaty,harry);
 }
 
 //am besten an LOGNAME testen
@@ -105,3 +97,4 @@ int gety(){
 	scanf("%s",input);
 	printf("%s\n",getenv(strdup(input)));
 }
+
