@@ -3,24 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-/*
-if (typeof(Storage) !== "undefined") {
-    let visits = localStorage.getItem("visits"); 
-    if(visits) {   
-        visitsNo = parseInt(visits); 
-        visitsNo++; 
-        localStorage.setItem("visits",visitsNo);
-        if(visitsNo>5) { 
-            localStorage.removeItem("visits"); 
-        } 
-    } else {
-        localStorage.setItem("visits",1); 
-    } 
-    console.log("This is your " + localStorage.getItem("visits") + " visit"); 
-} else { 
-    console.log("Sorry! No Web Storage support.."); 
-}*/
  
 function newsLesen(){ 
     if (typeof(Storage) !== "undefined") {  
@@ -131,9 +113,10 @@ function articleSchreiben(obj){
     }
 }
 
-let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
+/*let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
 let task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");
 let projekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
+*/
 
 jsonUmwandler = new jsonUmwandler();
 //articleSchreiben(projekt1); // ACHTUNG! Doppel einträge
