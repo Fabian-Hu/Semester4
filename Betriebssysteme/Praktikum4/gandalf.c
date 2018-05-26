@@ -23,7 +23,7 @@ int main() {
     
     while(1){
 		getcwd(pfad, sizeof(pfad));	
-		printf("%s@%s:\n",pfad, name);
+		printf("%s@%s:\n",name, pfad);
 		parsusMaximus(input);
 		
 		if(strcmp(input[0],"exit")==0){
@@ -48,7 +48,7 @@ int forky(char* paffy[256]) {
 	if (pid == 0) {
 		//Child
 		programmStarty(paffy);
-		printf("Programm beendet");	
+		printf("Programm beendet\n");	
 	} else {
 		//Parent
 		waitpid(pid,0,0);
@@ -56,7 +56,6 @@ int forky(char* paffy[256]) {
 }
 
 int spockyy(char* hans[256]) {
-	printf("%s",hans[0]);
     char biny[256] = "/bin/";
     char useybiny[256] ="/usr/bin/";
 	strcat(useybiny,hans[0]);			
