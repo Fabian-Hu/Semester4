@@ -35,9 +35,13 @@ public:
     }
     //! Turn led finally off (emergency stop), state is set LOW, functionality off.
     void off() {
+        if(m_disabled == false){
+          Serial.println("Not-Aus-Knopf gedrückt"); 
+        } 
         m_disabled = true; 
         m_ledState = LOW;
-        digitalWrite(PORT_NB, m_ledState); // set led to current state      
+        digitalWrite(PORT_NB, m_ledState); // set led to current state 
+           
     }
 private:
     uint8_t m_ledState; // current state of led
@@ -45,22 +49,35 @@ private:
 };
 
 //....TODO: INSERT CODE FOR CLASS TBUTTON....
+template <const uint8_t PORT_NB>
+class TButton {
+public:
+  TButton(){
+    pinMode(PORT_NB,INPUT);
+  }
+
+   bool state(){
+    m_buttonState = digitalRead(PORT_NB);
+    while(digitalRead(PORT_NB) == HIGH) {
+    }
+    return m_buttonState;
+  }
+private:
+  bool m_buttonState;
+};
 
 // global instances for led output
 TLed<LedPortOut> Led;
 // and for button pin 
 TButton<ButtonPinIn> Button;
 
-void setup() {}
+void setup() {
+    Serial.begin(9600);
+}
 
 void loop() {
-    // if emergency stop, turn led off
-    if (Button.state() == HIGH) {
-        Led.off();
-    } else { //otherwise toggle
+    if (Button.state() == HIGH) {  
         Led.toggle();
     }
-    // wait
-    delay(Delay);
 }
 
