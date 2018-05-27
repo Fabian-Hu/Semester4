@@ -72,6 +72,7 @@ TLed<LedPortOut> Led;
 TButton<ButtonPinIn> Button;
 
 void interruptHandler() {
+  GPIOIntDisable(GPIO_PORTC_BASE, GPIO_PIN_4);
   Led.off();
 }
 
