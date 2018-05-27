@@ -1,12 +1,12 @@
 # Praktikum 4 (10 Punkte) - Energia: Polling und Interrupts 
 
-von Fabian Husemän und Tim Meier
+von Fabian Husemann und Tim Meier
 
 ## Aufgabe Pre 1
 
 Die Beschaltung des Tasters ist pull-down, da sich der Switch zwischen den 3,3V, dem digitalen Input und dem Widerstand befindet. 
 
-Die Schaltung ist low active, da sie aktiv ist, bis der Button gedrückt wird.
+Die Schaltung ist high active, da sie mit 3,3 V startet und mit 0V ausgeschaltet wird.
 
 ## Aufgabe 1
 
@@ -15,7 +15,4 @@ Gedrückt halten des Tasters ist eine bessere Alternative, da der Buttonstate nu
 
 
 
-## Aufgabe 4
-
-## 
-
+ die libs sind nicht mit hochgeladen, weil sie zu groß sind.
