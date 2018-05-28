@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>SAILI - Neuen Artikel erstellen</title>
+        <title class="article">SAILI - Neuen Artikel erstellen</title>
         <link rel="stylesheet" href="stylesheet.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,53 +25,53 @@ and open the template in the editor.
                     <img src="img/StudBoardLogo150x100.png" alt="Logo"/>
                 </picture>
             </div>
-            <h1>SAILI - Die Website für Studierende und Lehrende</h1>
+            <h1 class="site_title">SAILI - Die Website für Studierende und Lehrende</h1>
         </header>
         <section style="float: right">
             <header>
-                <h3>
+                <h3 class="nav">
                     Navigation
                 </h3>
             </header>
             <nav>
                 <ul>
                     <li>
-                        <a href="\WBA_Website\index.html">Startseite</a>
+                        <a class ="home" href="\WBA_Website\index.html">Startseite</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\news.html">News</a>
+                        <a class ="news_title" href="\WBA_Website\news.html">News</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\projects.html">Projekte</a>
+                        <a class ="projects" href="\WBA_Website\projects.html">Projekte</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\tasks.html">Aufgaben</a>
+                        <a class="tasks" href="\WBA_Website\tasks.html">Aufgaben</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
+                        <a class="article" href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
                     </li>
                 </ul>
             </nav>
         </section>
         <section>
-            <h2>Eingabeformular</h2>
+            <h2 class="input_form">Eingabeformular</h2>
             <form action="\WBA_Website\dataTarget.html" method="POST" enctype="text/plain">
-                <label for="artikelTitel">Titel:</label><br>
+                <label class="title" for="artikelTitel">Titel:</label><br>
                 <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br>
-                <label for="artikelText">Text:</label><br>
+                <label class="text" for="artikelText">Text:</label><br>
                 <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br>
-                <label for="artikelTyp">Artikeltyp:</label><br>
-                <input id="artikelTyp" name="artikelTyp" list="textformen"><br>
+                <label class="article_type" for="artikelTyp">Artikeltyp:</label><br>
+                <input id="artikel_typ" name="artikelTyp" list="textformen"><br>
                 <datalist id="textformen">
-                    <option>News</option>
-                    <option>Projekt</option>
-                    <option>Aufgabe</option>
+                    <option class="news_title">News</option>
+                    <option class="projects">Projekt</option>
+                    <option class="tasks">Aufgabe</option>
                 </datalist>
-                <label for="artikelStartdatum">Startdatum:</label><br>
+                <label class="start_date" for="artikelStartdatum">Startdatum:</label><br>
                 <input id="artikelStartdatum" type="date" name="startdatum"><br>
-                <label for="artikelEnddatum">Enddatum:</label><br>
+                <label class="end_date" for="artikelEnddatum">Enddatum:</label><br>
                 <input id="artikelEnddatum" type="date" name="enddatum"><br>
-                <label for="artikelTitelfarbe">Titelfarbe:</label><br>
+                <label class="title_color" for="artikelTitelfarbe">Titelfarbe:</label><br>
                 <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br><br>
                 <input type="submit" value="Absenden">
             </form>

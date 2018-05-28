@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>SAILI - Die Website für Studierende und Lehrende</title>
+        <title class="site_title">SAILI - Die Website für Studierende und Lehrende</title>
         <link rel="stylesheet" href="stylesheet.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,8 @@ and open the template in the editor.
         <script src="article_converter.js"></script>
         <script src="article_loader.js"></script>
         <script src="position.js"></script>
-        <script>
+        <!--script src="start_function.js"></script-->
+        <!--script>
 		if (navigator.serviceWorker) {
 			navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
 				console.log('ServiceWorker erfolgreich registriert');
@@ -24,7 +25,7 @@ and open the template in the editor.
 				console.log('Fehler beim Registrieren: ' + err);
 			});
 		}
-	</script>
+	</script-->
     </head>
     <body>
         <header>
@@ -35,86 +36,47 @@ and open the template in the editor.
                     <img src="img/StudBoardLogo150x100.png" alt="Logo"/>
                 </picture>
             </div>
-            <h1>SAILI - Die Website für Studierende und Lehrende</h1>
+            <h1 class="site_title">SAILI - Die Website für Studierende und Lehrende</h1>
         </header>
         <section style="float: right">
             <header>
-                <h3>
+                <h3 class="nav">
                     Navigation
                 </h3>
             </header>
             <nav>
                 <ul>
                     <li>
-                        <a href="\WBA_Website\index.html">Startseite</a>
+                        <a class ="home" href="\WBA_Website\index.html">Startseite</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\news.html">News</a>
+                        <a class ="news_title" href="\WBA_Website\news.html">News</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\projects.html">Projekte</a>
+                        <a class ="project" href="\WBA_Website\projects.html">Projekte</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\tasks.html">Aufgaben</a>
+                        <a class="tasks" href="\WBA_Website\tasks.html">Aufgaben</a>
                     </li>
                     <li>
-                        <a href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
+                        <a class="article" href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
                     </li>
                 </ul>
             </nav>
         </section>
         <hr />
-        <section>
-            <h3>Die letzten Artikel</h3>
-            <article class="task articledesc">
+        <section id="articles">
+            <h3 class="last_articles">Die letzten Artikel</h3>
+            <article id="example_article" class="task articledesc">
                 <header>
                     <h4>Aufgabe4</h4>
                 </header>
                 <p>
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br>
-                <a href="tasks.html#aufgabe2">Mehr anzeigen...</a>
+                <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
                 </p>
                 <footer>
                     © Fritz Marx, 2018
-                </footer>
-            </article>
-            <br>
-            <article class="news articledesc">
-                <header>
-                    <h4>Neuigkeit1</h4>
-                </header>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br>
-                <a href="news.html#neuigkeit1">Mehr anzeigen...</a>
-                </p>
-                <footer>
-                    © Heinz Marx, 2018
-                </footer>
-            </article>
-            <br>
-            <article class="project articledesc">
-                <header>
-                    <h4>Projekt5</h4>
-                </header>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br>
-                <a href="projects.html#projekt5">Mehr anzeigen...</a>
-                </p>
-                <footer>
-                    © Karl Marx, 2018
-                </footer>
-            </article>
-            <br>
-            <article class="task articledesc">
-                <header>
-                    <h4>Aufgabe2</h4>
-                </header>
-                <p>
-                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.<br>
-                <a href="tasks.html#aufgabe2">Mehr anzeigen...</a>
-                </p>
-                <footer>
-                    © Gustav Marx, 2018
                 </footer>
             </article>
         </section>

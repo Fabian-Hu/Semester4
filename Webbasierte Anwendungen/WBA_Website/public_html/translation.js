@@ -3,8 +3,8 @@ let de_DE = {
     site_title : "SAILI - Die Website für Studierende und Lehrende",
     nav : "Navigation",
     home : "Startseite",
-    news: "Neuigkeiten",
-    project : "Projekte",
+    news_title: "Neuigkeiten",
+    projects : "Projekte",
     tasks : "Aufgaben",
     article : "Neuen Artikel anlegen",
     last_articles : "Die letzten Artikel",
@@ -22,8 +22,8 @@ let en_GB = {
     site_title : "SAILI - The website for students and teachers",
     nav : "Navigation",
     home : "Home",
-    news : "News",
-    project : "Projects",
+    news_title : "News",
+    projects : "Projects",
     tasks : "Tasks",
     article : "Create new article",
     last_articles : "The last articles",
@@ -37,17 +37,30 @@ let en_GB = {
     title_color : "Title color"
 };
 
+window.onload = function() {
+    let lang;
+    if (navigator.language === 'de' || navigator.language === 'de-DE') {
+        lang = de_DE;
+    }else if (navigator.language === 'en' || navigator.language === 'en-US' || navigator.language === 'en-GB') {
+        lang = en_GB;
+    }
+    for (let args in lang) {
+        let elems = document.getElementsByClassName(args);
+        console.log(elems);
+        for (part of elems) {
+            part.firstChild.nodeValue = lang[args];
+        }
+        //if (elem)
+            //
+    }
+    
+};
+
 let myWindow = window.open("", "MsgWindow", "menubar=0,titlebar=0,toolbar=0,top=15%,resizable=0,width=600px,height=200px");
 
 if (navigator.language === 'de' || navigator.language === 'de-DE') {
-    for (var key in de_DE) {
-        console.log(key + " : " + de_DE[key]);
-    }
     myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Wilkommen auf SAILI!</p>");
 }else if (navigator.language === 'en' || navigator.language === 'en-US' || navigator.language === 'en-GB') {
-    for (var key in en_GB) {
-        console.log(key + " : " + en_GB[key]);
-    }
-    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Welcome at SAILI!</p>");
+    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Welcome to SAILI!</p>");
 }
 myWindow.setTimeout("close()", 5000);
