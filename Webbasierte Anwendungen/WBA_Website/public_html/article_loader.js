@@ -50,6 +50,19 @@ localStorage.setItem("history/1", "project/1");
 localStorage.setItem("history/2", "news/0");
 localStorage.setItem("history/3", "project/0");
  */
+function loadArticlesByMenu(menu) {
+    let articles = localStorage.getItem(menu);
+    for (let i = 1; i < articles; i++) {
+        console.log(menu + "/" + (article - i));
+        let article_Key = localStorage.getItem(menu + "/" + (article - i));
+        let article_JSON = localStorage.getItem(article_Key);
+        if (article_JSON) {
+            article = articleConverter.jsonToArticle(article_JSON);
+            createArticle(article);
+        } 
+    }
+}
+
 function createArticle(article){
     let newArticle = document.getElementById("example_article").cloneNode(true);
     console.log(newArticle);
@@ -100,8 +113,3 @@ let historyNum = localStorage.getItem("history");
 if (!historyNum) {
     localStorage.setItem("history", "0");
 }
-
-window.onload = function() {
-    loadArticles(5);
-};
-

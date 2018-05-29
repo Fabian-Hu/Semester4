@@ -37,7 +37,7 @@ let en_GB = {
     title_color : "Title color"
 };
 
-window.onload = function() {
+function setLanguage() {
     let lang;
     if (navigator.language === 'de' || navigator.language === 'de-DE') {
         lang = de_DE;
@@ -47,13 +47,10 @@ window.onload = function() {
     for (let args in lang) {
         let elems = document.getElementsByClassName(args);
         console.log(elems);
-        for (part of elems) {
+        for (let part of elems) {
             part.firstChild.nodeValue = lang[args];
         }
-        //if (elem)
-            //
     }
-    
 };
 
 let myWindow = window.open("", "MsgWindow", "menubar=0,titlebar=0,toolbar=0,top=15%,resizable=0,width=600px,height=200px");
