@@ -15,6 +15,7 @@ and open the template in the editor.
         <script src="article_converter.js"></script>
         <script src="article_loader.js"></script>
         <script src="position.js"></script>
+        <script src="article_creator.js"></script>
     </head>
     <body>
         <header>
@@ -55,8 +56,8 @@ and open the template in the editor.
         </section>
         <section>
             <h2 class="input_form">Eingabeformular</h2>
-            <form action="\WBA_Website\dataTarget.html" method="POST" enctype="text/plain">
-                <label class="title" for="artikelTitel">Titel:</label><br>
+            /*action="\WBA_Website\dataTarget.html" method="POST" enctype="text/plain"*/
+            <form id="articleForm">
                 <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br>
                 <label class="text" for="artikelText">Text:</label><br>
                 <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br>
