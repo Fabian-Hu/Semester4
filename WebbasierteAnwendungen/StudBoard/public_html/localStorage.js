@@ -5,6 +5,7 @@
  */
  
 function newsLesen(){ 
+    let jsonUmwandler = new jsonUmwandler();
     if (typeof(Storage) !== "undefined") {  
         let news = [];
         let i=1;
@@ -25,6 +26,7 @@ function newsLesen(){
 }
 
 function taskLesen(){ 
+    let jsonUmwandler = new jsonUmwandler();
     if (typeof(Storage) !== "undefined") {  
         let task = [];
         let i=1;
@@ -45,6 +47,7 @@ function taskLesen(){
 }
 
 function proLesen(){ 
+    let jsonUmwandler = new jsonUmwandler();
     if (typeof(Storage) !== "undefined") {  
         let pro = [];
         let i=1;
@@ -66,6 +69,7 @@ function proLesen(){
 
 function articleSchreiben(obj){   
     let i=1;
+    let jsonUmwandler = new jsonUmwandler();
     if(obj.type === "News"){          
         while(true){
             string1 = "news"+i; 
@@ -113,17 +117,19 @@ function articleSchreiben(obj){
     }
 }
 
-/*let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
+/*
+let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
 let task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");
 let projekt1 = new projects("Project X unterliegt der Geheimhaltung", "Project X", "#ff00ff", "2018-2-1", "2018-2-1", "Florian Fehring", "23");
+news12.ausgabe();
 */
-
-jsonUmwandler = new jsonUmwandler();
+//jsonUmwandler = new jsonUmwandler();
 //articleSchreiben(projekt1); // ACHTUNG! Doppel einträge
 //localStorage.removeItem("news3"); //ACHTUNG! Wenn du mittten drin was löscht wird nur noch bis dort angezeigt 
-console.log("News:");
+
+/*console.log("News:");
 newsLesen();
 console.log("Project:");
 proLesen();
 console.log("Task:");
-taskLesen();
+taskLesen();*/
