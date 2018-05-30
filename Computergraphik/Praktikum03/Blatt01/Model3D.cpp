@@ -49,7 +49,7 @@ void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 p
 	program.setUniform ("mvp", mvp);
 
 	glBindVertexArray (vao);
-	glDrawElements (GL_TRIANGLES, faces.size() * 3, GL_UNSIGNED_SHORT, 0);
+	glDrawElements (GL_LINE_STRIP_ADJACENCY, faces.size() * 4, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray (0);
 }
 

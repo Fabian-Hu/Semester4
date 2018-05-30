@@ -52,10 +52,18 @@ public:
     pinMode(PORT_NB, INPUT);
   }
 
-  unsigned int state() {
-    unsigned int value = digitalRead(PORT_NB);
-    delay(Delay);
-    return value;
+  /*nachgucken, wie man aus PORT_NB, pin un ´d port bekommt. Methode nicth optimal, wegen pause bessere Lösungen https://www.mikrocontroller.net/articles/Entprellung
+  unsigned int state(uint8_t *port, uint8_t *pin) {
+    if ( !(*port & (1 << pin)) ) {
+        /* Pin wurde auf Masse gezogen, 100ms warten   */
+        delay(100);   // beachten, vgl. Dokumentation der avr-libc
+        if ( *port & (1 << pin) ) {
+            /* Anwender Zeit zum Loslassen des Tasters geben */
+            delay(100); 
+            return HIGH;
+        }
+    }
+    return LOW;
   }
 };
 

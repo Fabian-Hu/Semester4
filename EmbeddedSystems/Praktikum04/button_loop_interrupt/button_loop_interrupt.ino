@@ -73,9 +73,13 @@ void buttonInterruptHandler() {
 
 void setup() {
   Serial.begin(9600);
-
-  GPIOIntEnable(GPIO_PORTC_BASE, GPIO_PIN_4);
+  GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_4);
+  
+  GPIOIntDisable(GPIO_PORTC_BASE, GPIO_PIN_4);
+  GPIOIntClear(GPIO_PORTC_BASE, GPIO_PIN_4);
   GPIOIntRegister(GPIO_PORTC_BASE, buttonInterruptHandler);
+  GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_RISING_EDGE); 
+  GPIOIntEnable(GPIO_PORTC_BASE, GPIO_PIN_4);
 }
 
 void loop() {
