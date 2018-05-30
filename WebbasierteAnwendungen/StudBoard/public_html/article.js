@@ -3,31 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-function choooose() {
-    var type,x;
-    x = document.getElementById("form1");
-    type = x.elements["artikelTyp"].value;
-    console.log(type);
-    if (type === "News") {
-        var n = new news(x.elements["artikelText"].value, 
-        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
-        x.elements["startdatum"].value, x.elements["enddatum"].value,
-        "kategorie", "quellenangabe");
-    } else if (type === "Projekt") {
-        var p = new projects(x.elements["artikelText"].value, 
-        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
-        x.elements["startdatum"].value, x.elements["enddatum"].value,
-        "professor", "plaetze");
-    } else if (type === "Aufgabe") {
-        var t = new tasks(x.elements["artikelText"].value, 
-        x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
-        x.elements["startdatum"].value, x.elements["enddatum"].value,
-        "fach");
-    } else {
-        alert("Oops, something went wrong");
-    }
-}
-
 class article {
     constructor(content, titel, titelfarbe, startdatum, enddatum) {
         this.content = content;
@@ -46,6 +21,10 @@ class news extends article {
         this.quellenangabe = quellenangabe;
         this.type = "News";
     }   
+    
+    ausgabe(){
+        alert(this.type);
+    }
 }
 
 class projects extends article {
@@ -68,4 +47,3 @@ class tasks extends article {
 //news(content, titel, titelfarbe, startdatum, enddatum, kategorie, quellenangabe)
 //projects(content, titel, titelfarbe, startdatum, enddatum, professor, plaetze)
 //tasks(content, titel, titelfarbe, startdatum, enddatum, fach)
-

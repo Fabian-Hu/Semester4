@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var de = ["Titel:", "Text:", "Artikeltyp:", "Projekte", "Aufgaben", "Neuigkeiten","Startdatum:","Enddatum:","TitelFarbe:","Senden","Neuen Artikel erstellen","Eingabeformular"];
+var de = ["Titel:", "Text:", "Artikeltyp:", "Projekte", "Aufgabe", "Neuigkeiten","Startdatum:","Enddatum:","TitelFarbe:","Senden","Neuen Artikel erstellen","Eingabeformular"];
 var en = ["Title:", "Text:", "Articletype:", "Project", "Tasks", "News","Startdate:","Enddate:","Titlecolor:","Send", "Create a new article","Entry form"];
 
 if (navigator.language.indexOf("en") > -1) {
