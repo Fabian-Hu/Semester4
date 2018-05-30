@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/matrix_inverse.hpp>
-#include "glm/gtx/rotate_vector.hpp"
+
 #include "GLSLProgram.h"
 #include "GLTools.h"
 
@@ -26,7 +26,6 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-float zoomy = 4.0f;
 
 
 
@@ -35,86 +34,75 @@ Struct to hold data for object rendering.
 */
 struct Object
 {
+	inline Object ()
+		: vao(0),
+		positionBuffer(0),
+		colorBuffer(0),
+		indexBuffer(0)
+	{}
+
 	/* IDs for several buffers. */
 	GLuint vao;
 
 	GLuint positionBuffer;
 	GLuint colorBuffer;
-
 	GLuint indexBuffer;
 
 	/* Model matrix */
 	glm::mat4x4 model;
 };
 
-Object coordinates;
+//
+//
+//
+//
+// In eine .h datei!!!
+void translate(Object thing, float x, float y, float z);
+
+Object wireSphere; // GLUT geometry
 
 
-void renderCoordinates()
+void renderWireSphere ()
 {
 	// Create mvp.
-	glm::mat4x4 mvp = projection * view * coordinates.model;
+	glm::mat4x4 mvp = projection * view * wireSphere.model;
 
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", mvp);
 
-	// Bind vertex array object so we can render the 2 triangles.
-	glBindVertexArray(coordinates.vao);
-	glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_SHORT, 0);
+	// GLUT: bind vertex-array-object
+	// this vertex-array-object must be bound before the glutWireSphere call
+	glBindVertexArray(wireSphere.vao);
+
+    //glLineWidth(1.0f);
+	glutWireSphere(1.0, 20, 20);
+
+	// GLUT: unbind vertex-array-object
 	glBindVertexArray(0);
 }
 
-void initCoordinates()
+
+void initWireSphere() 
 {
-	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { glm::vec3(-100.0f, 0.0f, 0.0f), glm::vec3(100.0f, 0.01f, 0.0f), glm::vec3(100.0f, 0.0f, 0.0f), 
-		glm::vec3(0.01f, 100.0f, 0.0f), glm::vec3(0.0f, -100.0f, 0.0f), glm::vec3(0.0f, 100.0f, 0.0f),
-		glm::vec3(0.001f, 0.001f, 100.0f), glm::vec3(0.0f, 0.0f, 100.0f), glm::vec3(0.001f, 0.0f, -100.0f) };
-	const std::vector<glm::vec3> colors = { glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), 
-		glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 1.0f), 
-		glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 1.0f) };
-	const std::vector<GLushort> indices = { 0, 1, 2, 3, 4, 5, 6, 7, 8};
-
+	// set attribute locations (of shader) for GLUT
 	GLuint programId = program.getHandle();
-	GLuint pos;
-
-	// Step 0: Create vertex array object.
-	glGenVertexArrays(1, &coordinates.vao);
-	glBindVertexArray(coordinates.vao);
-
-	// Step 1: Create vertex buffer object for position attribute and bind it to the associated "shader attribute".
-	glGenBuffers(1, &coordinates.positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, coordinates.positionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
-
-	// Bind it to position.
-	pos = glGetAttribLocation(programId, "position");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// Step 2: Create vertex buffer object for color attribute and bind it to...
-	glGenBuffers(1, &coordinates.colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, coordinates.colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
-
-	// Bind it to color.
-	pos = glGetAttribLocation(programId, "color");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	// Step 3: Create vertex buffer object for indices. No binding needed here.
-	glGenBuffers(1, &coordinates.indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, coordinates.indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
-
-	// Unbind vertex array object (back to default).
-	glBindVertexArray(0);
+	// position attribute to variable "position"
+	glutSetVertexAttribCoord3(glGetAttribLocation(programId, "position"));
+	// normal attribute to variable "color"
+	// this creates a colorful sphere :-)
+	glutSetVertexAttribNormal(glGetAttribLocation(programId, "color"));
+	// create a vertex-array-object for GLUT geometry
+	glGenVertexArrays(1, &wireSphere.vao);
 
 	// Modify model matrix.
-	coordinates.model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	wireSphere.model = glm::mat4(1.0f);
+	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
+void translate(Object thing, float x, float y, float z) {
+	thing.model = glm::translate(thing.model, glm::vec3(x, y, z));
+}
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -122,10 +110,11 @@ void initCoordinates()
 bool init()
 {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, zoomy);
+	glm::vec3 eye(0.0f, 0.0f, 12.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -150,9 +139,11 @@ bool init()
 		return false;
 	}
 
-	// Create objects.
-	//initQuad();
-	initCoordinates();
+	// Create all objects.
+	// GLUT: create vertex-array-object for glut geometry, the "default"
+	// must be bound before the glutWireSphere call
+	initWireSphere();
+
 	return true;
 }
 
@@ -173,7 +164,8 @@ void releaseObject(Object& obj)
 void release()
 {
 	// Shader program will be released upon program termination.
-	releaseObject(coordinates);
+
+	releaseObject(wireSphere);
 }
 
 /*
@@ -183,14 +175,13 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	renderCoordinates();
+	renderWireSphere();
 }
 
 void glutDisplay ()
 {
    GLCODE(render());
    glutSwapBuffers();
-
 }
 
 /*
@@ -207,27 +198,6 @@ void glutResize (int width, int height)
 }
 
 /*
-Callback for dings mit der Maus.
-*/
-void glutMouse(int button, int state, int x, int y)
-{
-	//weil ich zu faul bin meinen Finger bis zum Esc oder dem X oben rechts zu bewegen
-	if (button == GLUT_RIGHT_BUTTON)
-	{
-		glutDestroyWindow(glutID);
-	}
-}
-
-void zoom() {
-	glm::vec3 eye(0.0f, 0.0f, zoomy);
-	glm::vec3 center(0.0f, 0.0f, 0.0f);
-	glm::vec3 up(0.0f, 1.0f, 0.0f);
-
-	view = glm::lookAt(eye, center, up);
-}
-
-
-/*
  Callback for char input.
  */
 void glutKeyboard (unsigned char keycode, int x, int y)
@@ -238,17 +208,24 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	  glutDestroyWindow ( glutID );
 	  return;
 	  
-	case 'a':
-		if (zoomy < 10.0f) {
-			zoomy += 0.1f;
-			zoom();
-		}
+	case 't':
+		translate(wireSphere, 1.0f, 1.0f, 0.0f);
+		releaseObject(wireSphere);
+		initWireSphere();
 		break;
-	case 's':
-		if (zoomy > 3.0f) {
-			zoomy -= 0.1f;
-			zoom();
-		}
+	case 'u':
+		translate(wireSphere, 1.0f, -1.0f, 0.0f);
+		releaseObject(wireSphere);
+		initWireSphere();
+		break;
+	case 'x':
+		// do something
+		break;
+	case 'y':
+		// do something
+		break;
+	case 'z':
+		// do something
 		break;
 	}
 	glutPostRedisplay();
@@ -257,7 +234,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 int main(int argc, char** argv)
 {
 	// GLUT: Initialize freeglut library (window toolkit).
-        glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
+    glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(40,40);
 	glutInit(&argc, argv);
 
@@ -266,9 +243,9 @@ int main(int argc, char** argv)
 	glutInitContextFlags  (GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG);
 	glutInitDisplayMode   (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
-	glutCreateWindow("Sonnensystem");
+	glutCreateWindow("Aufgabenblatt 04");
 	glutID = glutGetWindow();
-
+	  
 	// GLEW: Load opengl extensions
 	glewExperimental = GL_TRUE;
 	GLenum result = glewInit();
@@ -283,9 +260,8 @@ int main(int argc, char** argv)
 	//glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
-	glutMouseFunc(glutMouse);
 
-	// Init VAO.
+	// init vertex-array-objects.
 	{
 		GLCODE(bool result = init());
 		if (!result) {
@@ -298,8 +274,9 @@ int main(int argc, char** argv)
 	// rendering & event handling
 	glutMainLoop ();
 
-	// Clean up everything on termination.
+	// Cleanup everything on termination.
 	release();
 
 	return 0;
 }
+
