@@ -32,9 +32,9 @@ glm::mat4x4 projection;
 float zNear = 0.1f;
 float zFar  = 100.0f;
 
-Orb sun(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES);
-Orb earth(glm::vec3(3.5f, 0, 0), 0.5f, 3, glm::vec3(0.2f, 0.75f, 0.2f), GL_LINES);
-Orb mars(glm::vec3(0, 0, 2.2f), 0.4f, 3, glm::vec3(0.5f, 0.28f, 0.0f), GL_LINES);
+Orb sun(&Sphere(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES), glm::vec3 (0, 1, 0));
+Orb earth(&Sphere (glm::vec3(3.5f, 0, 0), 0.5f, 3, glm::vec3(0.2f, 0.75f, 0.2f), GL_LINES), glm::vec3 (0, 1, 0));
+Orb mars(&Sphere (glm::vec3(0, 0, 2.2f), 0.4f, 3, glm::vec3(0.5f, 0.28f, 0.0f), GL_LINES), glm::vec3 (0, 1, 1));
 Axis sunAxis({ 0.0f,0.0f,0.0f }, 6, { 1.0f, 1.0f, 0.0f });
 
 /*
@@ -71,7 +71,7 @@ bool init() {
 	}
 
 	//Init Models
-	sun.initAll (program);
+	sun.init (program);
 	sunAxis.init(program);
 	return true;
 }
@@ -81,7 +81,7 @@ bool init() {
  */
 void release() {
 	// Shader program will be released upon program termination.
-	sun.releaseAllModels ();
+	sun.release ();
 	sunAxis.releaseModel();
 }
 
@@ -90,11 +90,14 @@ void release() {
  */
 void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	sun.renderAll (program, view, projection);
+	sun.render (program, view, projection);
 	sunAxis.render(program, view, projection);
 }
 
 void glutDisplay () {
+	//earth.rotate (0.001f);
+	//earth.rotateLocal (0.01f);
+	//mars.rotate (0.003f);
 	GLCODE(render());
 	glutSwapBuffers();
 }
@@ -138,21 +141,25 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		// do something
 		break;
 	case 'x':
-		sun.rotate(0.1f, glm::vec3(1, 0, 0));
 		break;
 	case 'y':
-		sun.rotate(0.05f, glm::vec3(0, 1, 0));
-		earth.rotate (0.1f, glm::vec3 (0, 1, 0));
-		mars.rotate (0.15f, glm::vec3 (0, 1, 0));
+		//earth.rotate (0.01f);
+		//earth.rotateLocal (0.1f);
+		//mars.rotate (0.15f);
 		break;
 	case 'z':
-		sun.rotate(0.1f, glm::vec3(0, 0, 1));
 		break;
 	case 'a':
 		moveCamera(-0.1f);
 		break;
 	case 's':
-		moveCamera(0.1f);
+		moveCamera (0.1f);
+		break;
+	case 't':
+		sun.translate (glm::vec3 (0.0f, -0.04f, 0.0f));
+		break;
+	case 'T':
+		sun.translate(glm::vec3 (0.0f, 0.04f, 0.0f));
 		break;
 
 	}
@@ -186,14 +193,14 @@ int main(int argc, char** argv) {
 	// GLUT: Set callbacks for events.
 	glutReshapeFunc(glutResize);
 	glutDisplayFunc(glutDisplay);
-	//glutIdleFunc   (glutDisplay); // redisplay when idle
+	glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
 
 	// Create objects.
-	sun.addOrb(earth);
-	sun.addOrb(mars);
-	sun.buildAll ();
+	sun.addChild(earth);
+	sun.addChild(mars);
+	sun.build ();
 	sunAxis.build();
 
 	// Init VAO.

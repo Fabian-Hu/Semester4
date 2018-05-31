@@ -1,17 +1,12 @@
 #pragma once
 #include "Sphere.h"
+#include "WorldObject.h"
 
-class Orb : public Sphere {
+class Orb : public WorldObject {
 public:
-	Orb(glm::vec3 position, float radius, int numSplits, glm::vec3 color, GLenum mode);
-	void addOrb(Orb &orb);
-	void buildAll();
-	void initAll(cg::GLSLProgram &program);
-	void renderAll(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
-	void releaseAllModels();
+	Orb(Model3D *model, glm::vec3 axis);
 
 private:
 	glm::vec3 rotationPoint;
 	glm::vec3 rotationAxis;
-	std::vector<Orb *> orbs;
 };

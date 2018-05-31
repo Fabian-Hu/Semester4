@@ -172,6 +172,7 @@
     <ClCompile Include="Model3D.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Model3D.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="WorldObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simple.frag" />

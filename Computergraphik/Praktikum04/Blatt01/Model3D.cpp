@@ -14,11 +14,6 @@ Model3D::Model3D(glm::vec3 position, GLenum mode) :
 	position(position), origin(position), mode(mode) {
 }
 
-void Model3D::addChild (Model3D & model) {
-	model.setOrigin (getPosition ());
-	childs.push_back (&model);
-}
-
 void Model3D::addFace (Face & face) {
 	faces.push_back (face);
 }
@@ -59,12 +54,12 @@ void Model3D::init (cg::GLSLProgram &program) {
 void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
 	glm::mat4x4 mvp = projection * view * model;
 
-	GLCODE(program.use ());
-	GLCODE (program.setUniform ("mvp", mvp));
+	program.use ();
+	program.setUniform ("mvp", mvp);
 
-	GLCODE (glBindVertexArray(vao));
-	GLCODE (glDrawElements(mode, faces.size() * 6, GL_UNSIGNED_SHORT, 0));
-	GLCODE (glBindVertexArray(0));
+	glBindVertexArray(vao);
+	glDrawElements(mode, faces.size() * 6, GL_UNSIGNED_SHORT, 0);
+	glBindVertexArray(0);
 }
 
 void Model3D::build() {
@@ -103,15 +98,26 @@ void Model3D::releaseModel(){
 	glDeleteBuffers(1, &positionBuffer);
 }
 
-void Model3D::rotate(float angle, glm::vec3 direction) {
-	model = glm::translate(glm::mat4(1.0f), origin) * glm::rotate(glm::mat4(1.0f), angle, direction) *
-		glm::translate(glm::mat4(1.0f), glm::vec3(-origin[0], -origin[1], -origin[2])) * model;
+void Model3D::rotate(float a, glm::vec3 direction) {
+	rotateAroundPoint (a, direction, origin);
+}
+
+void Model3D::rotateLocal (float a, glm::vec3 direction) {
+	rotateAroundPoint (a, direction, position);
+}
+
+void Model3D::rotateAroundPoint (float a, glm::vec3 direction, glm::vec3 point) {
+	glm::vec4 positionPoint (position[0], position[1], position[2], 1);
+	model = glm::translate (glm::mat4 (1.0f), point) * glm::rotate (glm::mat4 (1.0f), a, direction) *
+		glm::translate (glm::mat4 (1.0f), glm::vec3 (-point[0], -point[1], -point[2])) * model;
+	position = glm::translate (glm::mat4 (1.0f), point) * glm::rotate (glm::mat4 (1.0f), a, direction) *
+		glm::translate (glm::mat4 (1.0f), glm::vec3 (-point[0], -point[1], -point[2])) * positionPoint;
 }
 
 void Model3D::translate (glm::vec3 direction) {
 	position += direction;
 	origin += direction;
-	model = glm::translate (glm::mat4 (1.0f), direction);
+	model = glm::translate (glm::mat4 (1.0f), direction) * model;
 }
 
 void Model3D::calculateModel () {
