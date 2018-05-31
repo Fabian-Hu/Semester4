@@ -38,7 +38,7 @@ float zFar  = 100.0f;
  */
 bool init() {
 	// OpenGL: Set "background" color and enable depth testing.
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Construct view matrix.
 	glm::vec3 eye(cameraPos, cameraPos, cameraPos);
