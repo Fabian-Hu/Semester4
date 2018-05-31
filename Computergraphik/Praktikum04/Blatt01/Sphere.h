@@ -10,6 +10,6 @@ public:
 private:
 	float radius;
 	glm::vec3 color;
-	void createSphere(int numSplits);
+	void createSphere(glm::vec3 position, int numSplits);
 
 };

@@ -1,16 +1,22 @@
 #include "Model3D.h"
 #include "glm/gtx/rotate_vector.hpp"
+#include "GLTools.h"
 
 Model3D::Model3D() :
-	position(0.0f, 0.0f, 0.0f), mode(GL_TRIANGLES) {
+	position(0.0f, 0.0f, 0.0f), origin (0.0f, 0.0f, 0.0f), mode(GL_TRIANGLES) {
 }
 
 Model3D::Model3D(GLenum mode) :
-	position(0.0f, 0.0f, 0.0f), mode(mode) {
+	position(0.0f, 0.0f, 0.0f), origin(0.0f, 0.0f, 0.0f), mode(mode) {
 }
 
 Model3D::Model3D(glm::vec3 position, GLenum mode) :
-	position(position), mode(mode) {
+	position(position), origin(position), mode(mode) {
+}
+
+void Model3D::addChild (Model3D & model) {
+	model.setOrigin (getPosition ());
+	childs.push_back (&model);
 }
 
 void Model3D::addFace (Face & face) {
@@ -53,12 +59,12 @@ void Model3D::init (cg::GLSLProgram &program) {
 void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
 	glm::mat4x4 mvp = projection * view * model;
 
-	program.use ();
-	program.setUniform ("mvp", mvp);
+	GLCODE(program.use ());
+	GLCODE (program.setUniform ("mvp", mvp));
 
-	glBindVertexArray(vao);
-	glDrawElements(mode, faces.size() * 6, GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
+	GLCODE (glBindVertexArray(vao));
+	GLCODE (glDrawElements(mode, faces.size() * 6, GL_UNSIGNED_SHORT, 0));
+	GLCODE (glBindVertexArray(0));
 }
 
 void Model3D::build() {
@@ -98,8 +104,14 @@ void Model3D::releaseModel(){
 }
 
 void Model3D::rotate(float angle, glm::vec3 direction) {
-	model = glm::translate(glm::mat4(1.0f), position) * glm::rotate(glm::mat4(1.0f), angle, direction) *
-		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) * model;
+	model = glm::translate(glm::mat4(1.0f), origin) * glm::rotate(glm::mat4(1.0f), angle, direction) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-origin[0], -origin[1], -origin[2])) * model;
+}
+
+void Model3D::translate (glm::vec3 direction) {
+	position += direction;
+	origin += direction;
+	model = glm::translate (glm::mat4 (1.0f), direction);
 }
 
 void Model3D::calculateModel () {
@@ -124,4 +136,8 @@ int Model3D::insertPoint(glm::vec3 &point) {
 
 glm::vec3 Model3D::getPosition() {
 	return position;
+}
+
+void Model3D::setOrigin (glm::vec3 origin){
+	this->origin = origin;
 }

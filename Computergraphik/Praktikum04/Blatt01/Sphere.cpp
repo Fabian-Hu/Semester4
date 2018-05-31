@@ -4,15 +4,15 @@
 
 Sphere::Sphere(float radius, int numSplits, glm::vec3 color, GLenum mode) :
 	Model3D(mode), radius(radius), color(color) {
-	createSphere(numSplits);
+	createSphere(glm::vec3(0.0f, 0.0f, 0.0f), numSplits);
 }
 
 Sphere::Sphere(glm::vec3 position, float radius, int numSplits, glm::vec3 color, GLenum mode) :
-	Model3D(position, mode), radius(radius), color(color) {
-	createSphere(numSplits);
+	Model3D(mode), radius(radius), color(color) {
+	createSphere(position, numSplits);
 }
 
-void Sphere::createSphere(int numSplits) {
+void Sphere::createSphere(glm::vec3 position, int numSplits) {
 	std::vector<Face> faces;
 	for (int x = -1; x <= 1; x += 2) {
 		for (int y = -1; y <= 1; y += 2) {
@@ -42,6 +42,8 @@ void Sphere::createSphere(int numSplits) {
 		addFace(faces.back());
 		faces.pop_back();
 	}
+
+	translate (position);
 }
 
 void Sphere::build() {

@@ -33,9 +33,9 @@ float zNear = 0.1f;
 float zFar  = 100.0f;
 
 Orb sun(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES);
-Orb earth(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES);
-Orb mars(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES);
-Axis sunAxis({ 0.0f,0.0f,0.0f }, 4, { 1.0f, 1.0f, 0.0f });
+Orb earth(glm::vec3(3.5f, 0, 0), 0.5f, 3, glm::vec3(0.2f, 0.75f, 0.2f), GL_LINES);
+Orb mars(glm::vec3(0, 0, 2.2f), 0.4f, 3, glm::vec3(0.5f, 0.28f, 0.0f), GL_LINES);
+Axis sunAxis({ 0.0f,0.0f,0.0f }, 6, { 1.0f, 1.0f, 0.0f });
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -71,7 +71,7 @@ bool init() {
 	}
 
 	//Init Models
-	sun.init(program);
+	sun.initAll (program);
 	sunAxis.init(program);
 	return true;
 }
@@ -81,7 +81,7 @@ bool init() {
  */
 void release() {
 	// Shader program will be released upon program termination.
-	sun.releaseModel();
+	sun.releaseAllModels ();
 	sunAxis.releaseModel();
 }
 
@@ -90,7 +90,7 @@ void release() {
  */
 void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	sun.render(program, view, projection);
+	sun.renderAll (program, view, projection);
 	sunAxis.render(program, view, projection);
 }
 
@@ -141,7 +141,9 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		sun.rotate(0.1f, glm::vec3(1, 0, 0));
 		break;
 	case 'y':
-		sun.rotate(0.1f, glm::vec3(0, 1, 0));
+		sun.rotate(0.05f, glm::vec3(0, 1, 0));
+		earth.rotate (0.1f, glm::vec3 (0, 1, 0));
+		mars.rotate (0.15f, glm::vec3 (0, 1, 0));
 		break;
 	case 'z':
 		sun.rotate(0.1f, glm::vec3(0, 0, 1));
@@ -168,7 +170,7 @@ int main(int argc, char** argv) {
 	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE | GLUT_DEBUG);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE);
 
-	glutCreateWindow("Aufgabenblatt 03");
+	glutCreateWindow("Aufgabenblatt 04");
 	glutID = glutGetWindow();
 
 	glEnable(GL_DEPTH_TEST);
@@ -189,7 +191,9 @@ int main(int argc, char** argv) {
 	glutKeyboardFunc(glutKeyboard);
 
 	// Create objects.
-	sun.build();
+	sun.addOrb(earth);
+	sun.addOrb(mars);
+	sun.buildAll ();
 	sunAxis.build();
 
 	// Init VAO.
