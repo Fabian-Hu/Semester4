@@ -144,6 +144,10 @@ glm::vec3 Model3D::getPosition() {
 	return position;
 }
 
+glm::vec3 Model3D::getOrigin () {
+	return origin;
+}
+
 void Model3D::setOrigin (glm::vec3 origin){
 	this->origin = origin;
 }

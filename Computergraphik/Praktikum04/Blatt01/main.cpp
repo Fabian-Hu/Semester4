@@ -15,6 +15,7 @@
 #include "Sphere.h"
 #include "Axis.h"
 #include "Orb.h"
+#include "SunSystemData.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -22,7 +23,7 @@ const int WINDOW_WIDTH  = 640;
 const int WINDOW_HEIGHT = 480;
 // GLUT window id/handle
 int glutID = 0;
-float cameraPos = 4.0f;
+float cameraPos = 8.0f;
 
 cg::GLSLProgram program;
 
@@ -31,11 +32,6 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
-
-Orb sun(&Sphere(glm::vec3(0, 0, 0), 1.0f, 3, glm::vec3(1.0f, 0.78f, 0.0f), GL_LINES), glm::vec3 (0, 1, 0));
-Orb earth(&Sphere (glm::vec3(3.5f, 0, 0), 0.5f, 3, glm::vec3(0.2f, 0.75f, 0.2f), GL_LINES), glm::vec3 (0, 1, 0));
-Orb mars(&Sphere (glm::vec3(0, 0, 2.2f), 0.4f, 3, glm::vec3(0.5f, 0.28f, 0.0f), GL_LINES), glm::vec3 (0, 1, 1));
-Axis sunAxis({ 0.0f,0.0f,0.0f }, 6, { 1.0f, 1.0f, 0.0f });
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -72,7 +68,6 @@ bool init() {
 
 	//Init Models
 	sun.init (program);
-	sunAxis.init(program);
 	return true;
 }
 
@@ -82,7 +77,6 @@ bool init() {
 void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
-	sunAxis.releaseModel();
 }
 
 /*
@@ -91,13 +85,10 @@ void release() {
 void render() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
-	sunAxis.render(program, view, projection);
 }
 
 void glutDisplay () {
-	//earth.rotate (0.001f);
-	//earth.rotateLocal (0.01f);
-	//mars.rotate (0.003f);
+	sun.rotate ();
 	GLCODE(render());
 	glutSwapBuffers();
 }
@@ -133,33 +124,54 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	switch (keycode){
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
-	  return;  
-	case '+':
-		moveCamera(0.1f);
-		break;
-	case '-':
-		// do something
-		break;
-	case 'x':
-		break;
-	case 'y':
-		//earth.rotate (0.01f);
-		//earth.rotateLocal (0.1f);
-		//mars.rotate (0.15f);
-		break;
-	case 'z':
-		break;
-	case 'a':
-		moveCamera(-0.1f);
-		break;
-	case 's':
-		moveCamera (0.1f);
-		break;
+	  return;
 	case 't':
-		sun.translate (glm::vec3 (0.0f, -0.04f, 0.0f));
+		if (sunHeight > MIN_SUNHEIGHT) {
+			sun.translate (glm::vec3 (0.0f, -sunHeightSpeed, 0.0f));
+			sunHeight--;
+		}
 		break;
 	case 'T':
-		sun.translate(glm::vec3 (0.0f, 0.04f, 0.0f));
+		if (sunHeight < MAX_SUNHEIGHT) {
+			sun.translate (glm::vec3 (0.0f, sunHeightSpeed, 0.0f));
+			sunHeight++;
+		}
+		break;
+	case 'l':
+		if (earthHeight > MIN_EARTHHEIGHT) {
+			earth.translate (glm::vec3 (0, -earthHeightSpeed, 0));
+			earthHeight--;
+		}
+		break;
+	case 'L':
+		if (earthHeight < MAX_EARTHHEIGHT) {
+			earth.translate (glm::vec3 (0, earthHeightSpeed, 0));
+			earthHeight++;
+		}
+		break;
+	case 'p':
+		mars.rotateWithAxis (-marsRotSpeed, glm::vec3 (0, 0, 1));
+		break;
+	case 'P':
+		mars.rotateWithAxis (marsRotSpeed, glm::vec3 (0, 0, 1));
+		break;
+	case 'w':
+		if (speed > MIN_SPEED) {
+			sun.multiplyRotationAngle (speedMultiplierDecreaseValue);
+			speed--;
+		}
+		break;
+	case 'W':
+		if (speed < MAX_SPEED) {
+			sun.multiplyRotationAngle (speedMultiplierIncreaseValue);
+			speed++;
+		}
+		break;
+	case 'a':
+		moveCamera(-cameraMovementValue);
+		break;
+	case 's':
+		moveCamera (cameraMovementValue);
 		break;
 
 	}
@@ -200,8 +212,23 @@ int main(int argc, char** argv) {
 	// Create objects.
 	sun.addChild(earth);
 	sun.addChild(mars);
+	sun.addChild (sunAxisObject);
+	earth.addChild (earthMoon1);
+	earth.addChild (earthMoon2);
+	earth.addChild (earthMoon3);
+	earth.addChild (earthAxisObject);
+	mars.addChild (marsMoon1);
+	mars.addChild (marsMoon2);
+	mars.addChild (marsMoon3);
+	mars.addChild (marsMoon4);
+	mars.addChild (marsMoon5);
+	mars.addChild (marsMoon6);
+	mars.addChild (marsMoon7);
+	mars.addChild (marsMoon8);
+	mars.addChild (marsMoon9);
+	mars.addChild (marsMoon10);
+	mars.addChild (marsAxisObject);
 	sun.build ();
-	sunAxis.build();
 
 	// Init VAO.
 	{

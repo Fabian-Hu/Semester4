@@ -11,9 +11,9 @@ public:
 	Model3D(GLenum mode);
 	Model3D(glm::vec3 position, GLenum mode);
 	void addFace (Face &face);
-	void init (cg::GLSLProgram &program);
+	virtual void init (cg::GLSLProgram &program);
 	void render (cg::GLSLProgram &program, glm::mat4x4 view, glm::mat4x4 projection);
-	void build();
+	virtual void build();
 	int containsVertexColor(int index, glm::vec3 &color);
 	void releaseModel();
 	void rotate (float a, glm::vec3 direction);
@@ -21,6 +21,7 @@ public:
 	void rotateAroundPoint (float a, glm::vec3 direction, glm::vec3 point);
 	void translate (glm::vec3 direction);
 	glm::vec3 getPosition();
+	glm::vec3 getOrigin ();
 	void setOrigin (glm::vec3 origin);
 
 private:

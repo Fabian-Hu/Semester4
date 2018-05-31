@@ -4,13 +4,16 @@
 
 class WorldObject {
 public:
-	WorldObject (Model3D *model, glm::vec3 axis);
+	WorldObject (Model3D *model, glm::vec3 axis, bool rotateWithParent = true);
 	void setOrigin (glm::vec3 origin);
 	void addChild (WorldObject &child);
 
 	void translate (glm::vec3 direction);
 	void rotate (float a);
+	void rotateWithAxis (float a, glm::vec3 direction);
+	void rotate (float a, glm::vec3 origin, glm::vec3 axis);
 	void rotateLocal (float a);
+	void rotateChilds (float a, glm::vec3 origin, glm::vec3 axis);
 
 	void build ();
 	void init (cg::GLSLProgram &program);
@@ -18,11 +21,13 @@ public:
 	void release ();
 
 private:
+	friend class Orb;
 	Model3D *model;
 	WorldObject *parent;
 	std::vector<WorldObject *> childs;
 
 	glm::vec3 axis;
 	void setParent (WorldObject *parent);
+	bool rotateWithParent;
 
 };

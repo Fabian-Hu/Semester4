@@ -1,6 +1,6 @@
 #include "WorldObject.h"
 
-WorldObject::WorldObject (Model3D *model, glm::vec3 axis) : model(model), axis(axis) { }
+WorldObject::WorldObject (Model3D *model, glm::vec3 axis, bool rotateWithParent) : model (model), axis (axis), rotateWithParent(rotateWithParent) { }
 
 void WorldObject::setOrigin (glm::vec3 origin) {
 	model->setOrigin (origin);
@@ -28,17 +28,37 @@ void WorldObject::rotate (float a) {
 	if (parent)
 		axis = parent->axis;
 	else
-		axis = glm::vec3 (0, 0, 0);
-	model->rotate (a, axis);
+		axis = glm::vec3 (0, 1, 0);
+	rotate (a, model->getOrigin (), axis);
+}
+
+void WorldObject::rotateWithAxis (float a, glm::vec3 direction) {
+	model->rotateLocal (a, direction);
+	glm::vec4 axisVec (axis[0], axis[1], axis[2], 1);
+	axis = glm::rotate (glm::mat4 (1.0f), a, direction) * axisVec;
+
 	for each (WorldObject *childObj in childs) {
-		childObj->rotate (a);
+		childObj->rotate (a, model->getPosition(), direction);
 	}
+}
+
+void WorldObject::rotate (float a, glm::vec3 origin, glm::vec3 axis) {
+	
+	model->rotateAroundPoint (a, axis, origin);
+	rotateChilds (a, origin, axis);
 }
 
 void WorldObject::rotateLocal (float a) {
 	model->rotateLocal (a, axis);
+	//rotateChilds (a, model->getPosition());
+}
+
+void WorldObject::rotateChilds (float a, glm::vec3 origin, glm::vec3 axis) {
 	for each (WorldObject *childObj in childs) {
-		childObj->rotateLocal (a);
+		if (childObj->rotateWithParent)
+			childObj->rotate (a, origin, axis);
+		else
+			childObj->rotate (a, origin + childObj->model->getPosition () - model->getPosition (), axis);
 	}
 }
 
