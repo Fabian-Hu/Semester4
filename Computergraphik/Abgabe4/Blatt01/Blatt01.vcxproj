@@ -165,11 +165,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GLSLProgram.cpp" />
+    <ClCompile Include="Himmelsding.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
+    <ClInclude Include="Himmelsding.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simple.frag" />
