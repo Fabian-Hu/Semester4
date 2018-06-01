@@ -31,9 +31,9 @@ bool init()
 	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, 20.0f);
+	glm::vec3 eye(0.0f, 0.0f, 60.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
-	glm::vec3 up(0.0f, 1.0f, 0.0f);
+	glm::vec3 up(0.0f, 0.10f, 0.0f);
 
 	view = glm::lookAt(eye, center, up);
 
@@ -96,6 +96,8 @@ void render()
 void glutDisplay ()
 {
    GLCODE(render());
+   uranus.rotateY(0.01f);
+   pluto.rotateY(0.01f);
    glutSwapBuffers();
 }
 
@@ -180,7 +182,7 @@ int main(int argc, char** argv)
 	// GLUT: Set callbacks for events.
 	glutReshapeFunc(glutResize);
 	glutDisplayFunc(glutDisplay);
-	//glutIdleFunc   (glutDisplay); // redisplay when idle
+	glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
 	glutMouseFunc(glutMouse);

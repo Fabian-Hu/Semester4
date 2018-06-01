@@ -33,7 +33,7 @@ void Achse::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 proje
 void Achse::init(cg::GLSLProgram& program)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { glm::vec3(-100.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.01f, 0.0f), glm::vec3(100.0f, 0.0f,100.0f) };
+	const std::vector<glm::vec3> vertices = { glm::vec3(-0.1f, laenge, 0.0f), glm::vec3(-0.1f, -laenge, 0.0f), glm::vec3(0.1f, 0.0f, 0.0f) };
 	const std::vector<glm::vec3> colors = { glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f) };
 	const std::vector<GLushort> indices = { 0, 1, 2 };
 

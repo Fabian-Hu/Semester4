@@ -52,7 +52,9 @@ void Himmelsding::init(cg::GLSLProgram& program)
 	wireSphere.model = glm::mat4(1.0f);
 	rotateX(360);
 	rotateZ(schiefigkeitus);
-
+	if (schiefigkeitus != 0) {
+		translate(0.0f, -3.0f, 0.0f);
+	}
 	translate(position);
 }
 
