@@ -12,6 +12,10 @@ class article {
         this.enddatum = enddatum;
         this.type = "Article";
     }
+    
+    ausgabe(){
+        alert(this.content);
+    }
 }
 
 class news extends article {
@@ -21,10 +25,6 @@ class news extends article {
         this.quellenangabe = quellenangabe;
         this.type = "News";
     }   
-    
-    ausgabe(){
-        alert(this.type);
-    }
 }
 
 class projects extends article {
