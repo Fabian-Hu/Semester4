@@ -1,12 +1,11 @@
 #pragma once
+#include "Masterding.h"
 
-#include "MasterDing.h"
-
-class Himmelsding : Masterding {
+class Achse : Masterding {
 public:
-	Himmelsding();
-	Himmelsding::Himmelsding(float x, float y, float z, float radio);
-	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit);
+	Achse();
+	Achse(float x, float y, float z, float laenge);
+	Achse(float x, float y, float z, float laenge, float schiefigkeit);
 
 	void render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection);
 	void init(cg::GLSLProgram& program);
@@ -20,12 +19,10 @@ public:
 	void rotateZ(float angle);
 
 private:
-	Object wireSphere; // GLUT geometry
+	Object wireSphere;
 
-	float radius = 1.0f;
 	float schiefigkeitus = 0.0f;
+	float laenge = 6.0f;
 
 	glm::vec3 position;
-
 };
-
