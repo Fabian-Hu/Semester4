@@ -1,4 +1,6 @@
+#include "Masterding.h"
 #include "Himmelsding.h"
+#include "Achse.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -17,6 +19,7 @@ float zFar  = 100.0f;
 Himmelsding sonne;
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.5f);
 Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.5f, 45.0f);
+Achse allesDrehtSichUmMich;
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -56,9 +59,10 @@ bool init()
 	// Create all objects.
 	// GLUT: create vertex-array-object for glut geometry, the "default"
 	// must be bound before the glutWireSphere call
-	sonne.initWireSphere(program);
-	uranus.initWireSphere(program);
-	pluto.initWireSphere(program);
+	sonne.init(program);
+	uranus.init(program);
+	pluto.init(program);
+	allesDrehtSichUmMich.init(program);
 	return true;
 }
 
@@ -73,6 +77,7 @@ void release()
 	sonne.releaseObject();
 	uranus.releaseObject();
 	pluto.releaseObject();
+	allesDrehtSichUmMich.releaseObject();
 }
 
 /*
@@ -82,16 +87,16 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	sonne.renderWireSphere(program, view, projection);
-	uranus.renderWireSphere(program, view, projection);
-	pluto.renderWireSphere(program, view, projection);
+	sonne.render(program, view, projection);
+	uranus.render(program, view, projection);
+	pluto.render(program, view, projection);
+	allesDrehtSichUmMich.render(program, view, projection);
 }
 
 void glutDisplay ()
 {
    GLCODE(render());
    glutSwapBuffers();
-   uranus.rotateY(100.0f);
 }
 
 /*

@@ -15,7 +15,7 @@ Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigk
 {
 }
 
-void Himmelsding::renderWireSphere(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection)
+void Himmelsding::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection)
 {
 	// Create mvp.
 	glm::mat4x4 mvp = projection * view * wireSphere.model;
@@ -35,7 +35,7 @@ void Himmelsding::renderWireSphere(cg::GLSLProgram& program, glm::mat4x4 view, g
 	glBindVertexArray(0);
 }
 
-void Himmelsding::initWireSphere(cg::GLSLProgram& program)
+void Himmelsding::init(cg::GLSLProgram& program)
 {
 	// set attribute locations (of shader) for GLUT
 	GLuint programId = program.getHandle();
@@ -51,7 +51,7 @@ void Himmelsding::initWireSphere(cg::GLSLProgram& program)
 	// zur richtigen Startposition
 	wireSphere.model = glm::mat4(1.0f);
 	rotateX(360);
-	rotateZ(-schiefigkeitus);
+	rotateZ(schiefigkeitus);
 
 	translate(position);
 }

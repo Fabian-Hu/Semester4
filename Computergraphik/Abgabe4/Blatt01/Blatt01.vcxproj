@@ -164,14 +164,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Achse.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="Himmelsding.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MasterDing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Achse.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="Himmelsding.h" />
+    <ClInclude Include="MasterDing.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simple.frag" />
