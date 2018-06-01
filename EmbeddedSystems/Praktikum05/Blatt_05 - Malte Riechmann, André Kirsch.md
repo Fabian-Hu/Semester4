@@ -62,7 +62,19 @@ Im Folgenden werden die Anweisungen von 2ae bis 2da erläutert
 
 Bei den Größen lässt sich erkennen, dass der Teil des Programmcodes um 44 Byte geschrumpft ist. Hier konnte der Compiler also durch die Optimierung den Programmcode ein wenig komprimieren.
 
-Sofort erkennbare Änderungen im Assembler Code sind zum einen die komplett fehlenden Delay Funktion. Diese ist mit in die Main Funktion gerutscht. Als Folge davon gibt es aber in der Main Funktion wesentlich mehr Sprünge durch den Programmcode. Desweiteren werden alle Speicherstellen, die abhängig vom Programmcounter sind, zu Beginn der Main Funktion in die Register geladen. Dadurch wurde die Anzahl der gesamten ldr Aufrufe verringert.
+Sofort erkennbare Änderungen im Assembler Code sind zum einen die komplett fehlenden Delay Funktion. Diese ist mit in die Main Funktion gerutscht. Als Folge davon gibt es aber in der Main Funktion wesentlich mehr Sprünge durch den Programmcode. Desweiteren werden alle Speicherstellen, die abhängig vom Programmcounter sind, zu Beginn der Main Funktion in die Register geladen. Dadurch wurde die Anzahl der gesamten ldr Aufrufe verringert und es wird eine größere Anzahl an Registern verwendet.
+
+| Codestelle | Beschreibung                                        |
+| ---------- | --------------------------------------------------- |
+| ab 26c     | Vorladen aller wichtigen Adressen                   |
+| ab 278     | Anweisungen vor der while-Schleife                  |
+| ab 288     | Beginn der while-Schleife und bitweise OR-Anweisung |
+| ab 292     | Erste Delay-Funktion                                |
+| ab 2a4     | Bitweises Clearen                                   |
+| ab 2ae     | Zweite Delay-Funktion                               |
+| ab 2c0     | Sprung zurück zu Beginn der while-Schleife          |
+
+
 
 ### Aufgabe 3
 
