@@ -5,7 +5,7 @@
  */
 let articleConverter = new ArticleConverter();
 
-function saveNewArticleToLocalStorage() {
+var saveNewArticleToLocalStorage = function() {
     let typeSelector = document.getElementById("artikelTyp").value;
     let titel = document.getElementById("artikelTitel").value;
     let text = document.getElementById("artikelText").value;
@@ -26,6 +26,7 @@ function saveNewArticleToLocalStorage() {
             article = new News(titel, text, farbe, start, ende, "", "");
             break;
         case "Projekt":
+        case "Project":
             id = localStorage.getItem("project");
             if (id === null) {
                 id = 0;
@@ -35,6 +36,7 @@ function saveNewArticleToLocalStorage() {
             article = new Project(titel, text, farbe, start, ende, "", "");
             break;
         case "Aufgabe":
+        case "Task":
             id = localStorage.getItem("task");
             if (id === null) {
                 id = 0;
@@ -51,8 +53,4 @@ function saveNewArticleToLocalStorage() {
         history = 0;
     localStorage.setItem("history/" + history, key);
     localStorage.setItem("history", parseInt(history) + 1);
-}
-
-window.onload = function() {
-    document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
 };
