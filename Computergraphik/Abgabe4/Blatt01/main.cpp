@@ -97,7 +97,7 @@ void glutDisplay ()
 {
    GLCODE(render());
    uranus.rotateY(0.01f);
-   //pluto.rotateY(0.01f);
+   pluto.rotateY(0.01f);
    glutSwapBuffers();
 }
 

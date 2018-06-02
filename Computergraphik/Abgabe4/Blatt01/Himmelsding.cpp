@@ -51,8 +51,10 @@ void Himmelsding::init(cg::GLSLProgram& program)
 	// zur richtigen Startposition
 	if (schiefigkeitus != 0) {
 
-		//rotateX(360);
-		transRotate(position, schiefigkeitus);
+		rotateX(360);
+		rotateZ(45);
+		translate(position);
+		//transRotate(position, schiefigkeitus);
 	}
 	else {
 		wireSphere.model = glm::mat4(1.0f);
@@ -75,11 +77,11 @@ void Himmelsding::releaseObject()
 }
 
 void Himmelsding::translate(float x, float y, float z) {
-	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
 }
 
 void Himmelsding::translate(glm::vec3 position) {
-	wireSphere.model = glm::translate(wireSphere.model, position);
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
 }
 
 void Himmelsding::transRotate(glm::vec3 position, float angle) {
