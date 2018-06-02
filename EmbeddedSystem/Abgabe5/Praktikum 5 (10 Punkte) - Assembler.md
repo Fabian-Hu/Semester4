@@ -61,3 +61,13 @@ Die vierte Spalte zeigt die Register
 Die fünfte Spalte beinhaltet die benutzten Operatoren
 
 Alles nach einem Semikolon ist ein Kommentar
+
+
+
+## Aufgabe 2
+
+
+
+
+
+## Aufgabe 3
