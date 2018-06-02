@@ -183,6 +183,7 @@
     <ClInclude Include="Model3D.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SunSystemData.h" />
     <ClInclude Include="WorldObject.h" />
   </ItemGroup>
   <ItemGroup>
