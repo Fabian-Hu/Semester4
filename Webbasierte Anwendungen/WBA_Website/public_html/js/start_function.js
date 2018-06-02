@@ -1,7 +1,7 @@
 window.onload = function() {
     setLanguage();
     let url = document.URL;
-    let parts = url.split("/");
+    let parts = url.split("#")[0].split("/");
     console.log(parts[parts.length - 1].split(".")[0]);
     let side = parts[parts.length - 1].split(".")[0];
     

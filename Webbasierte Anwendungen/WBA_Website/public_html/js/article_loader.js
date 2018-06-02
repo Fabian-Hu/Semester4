@@ -51,36 +51,54 @@ localStorage.setItem("history/2", "news/0");
 localStorage.setItem("history/3", "project/0");
  */
 
-function loadArticlesByMenu(menu) {
-    let articles = localStorage.getItem(menu);
-    if (menu) {
-        for (let i = 1; i <= articles; i++) {
-            console.log(menu + "/" + (articles - i));
-            let article_Key = localStorage.getItem(menu + "/" + (articles - i));
-            let article_JSON = localStorage.getItem(article_Key);
-            if (article_JSON) {
-                article = articleConverter.jsonToArticle(article_JSON);
-                createArticle(article);
-            } 
-        }
-    }
+function addToNavgation(title, key) {
+    let navPoint = document.getElementById("parentNavigation");
+    console.log(navPoint);
+    let li = document.createElement("li");
+    let a = document.createElement("a");
+    
+    let link = document.createAttribute("href");
+    link.value = "#" + key;
+    a.attributes.setNamedItem(link);
+    a.text = title.substring(0, 20) + "...";
+    
+    li.appendChild(a);
+    navPoint.appendChild(li);
 }
 
-function createArticle(article){
+function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
+    console.log(newArticle);
     newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
     newArticle.childNodes[3].firstChild.nodeValue = article.content.substring(0, 400) + "...";
+    newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = 
     newArticle.attributes["class"].nodeValue = article.type + " articledesc";
+    newArticle.id = key;
+    
     if (article.type === "news") {
-        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = article.type + ".html#" + article.title;
+        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = "\WBA_Website\article.html?" + key;
     } else {
-        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = article.type + "s.html#" + article.title;
+        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = "\WBA_Website\article.html?" + key;
     }
-    newArticle.removeAttribute("id");
     
     let br = document.createElement("br");
-    document.getElementById("articles").appendChild(br);
-    document.getElementById("articles").appendChild(newArticle);
+    document.getElementById("example_article").parentNode.appendChild(br);
+    document.getElementById("example_article").parentNode.appendChild(newArticle);
+}
+
+function loadArticlesByMenu(menu) {
+    let articles = localStorage.getItem(menu);
+    if (articles) {
+        for (let i = 1; i <= articles; i++) {
+            let article_JSON = localStorage.getItem(menu + "/" + (articles - i));
+            if (article_JSON) {
+                let article = articleConverter.jsonToArticle(article_JSON);
+                createArticle(article, menu + "/" + (articles - i));
+                addToNavgation(article.title, menu + "/" + (articles - i));
+            } 
+        }
+        document.getElementById("articles").removeChild(document.getElementById("example_article"));
+    }
 }
 
 function loadArticles(num) {
@@ -91,7 +109,7 @@ function loadArticles(num) {
             let article_JSON = localStorage.getItem(article_Key);
             if (article_JSON) {
                 let article = articleConverter.jsonToArticle(article_JSON);
-                createArticle(article);
+                createArticle(article, article_Key);
             } 
         }
         document.getElementById("articles").removeChild(document.getElementById("example_article"));
