@@ -50,6 +50,7 @@ localStorage.setItem("history/1", "project/1");
 localStorage.setItem("history/2", "news/0");
 localStorage.setItem("history/3", "project/0");
  */
+
 function loadArticlesByMenu(menu) {
     let articles = localStorage.getItem(menu);
     for (let i = 1; i < articles; i++) {

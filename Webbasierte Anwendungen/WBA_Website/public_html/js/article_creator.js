@@ -22,7 +22,6 @@ function saveNewArticleToLocalStorage() {
                 id = 0;
             }
             key = "news/" + id;
-            key = "news/0";
             localStorage.setItem("news", parseInt(id) + 1);
             article = new News(titel, text, farbe, start, ende, "", "");
             break;
@@ -32,7 +31,6 @@ function saveNewArticleToLocalStorage() {
                 id = 0;
             }
             key = "project/" + id;
-            key = "projects/0";
             localStorage.setItem("project", parseInt(id) + 1);
             article = new Project(titel, text, farbe, start, ende, "", "");
             break;
