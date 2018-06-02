@@ -26,7 +26,6 @@ var saveNewArticleToLocalStorage = function() {
             article = new News(titel, text, farbe, start, ende, "", "");
             break;
         case "Projekt":
-        case "Project":
             id = localStorage.getItem("project");
             if (id === null) {
                 id = 0;
@@ -36,7 +35,6 @@ var saveNewArticleToLocalStorage = function() {
             article = new Project(titel, text, farbe, start, ende, "", "");
             break;
         case "Aufgabe":
-        case "Task":
             id = localStorage.getItem("task");
             if (id === null) {
                 id = 0;

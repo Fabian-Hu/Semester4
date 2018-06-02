@@ -53,14 +53,16 @@ localStorage.setItem("history/3", "project/0");
 
 function loadArticlesByMenu(menu) {
     let articles = localStorage.getItem(menu);
-    for (let i = 1; i < articles; i++) {
-        console.log(menu + "/" + (article - i));
-        let article_Key = localStorage.getItem(menu + "/" + (article - i));
-        let article_JSON = localStorage.getItem(article_Key);
-        if (article_JSON) {
-            article = articleConverter.jsonToArticle(article_JSON);
-            createArticle(article);
-        } 
+    if (menu) {
+        for (let i = 1; i <= articles; i++) {
+            console.log(menu + "/" + (articles - i));
+            let article_Key = localStorage.getItem(menu + "/" + (articles - i));
+            let article_JSON = localStorage.getItem(article_Key);
+            if (article_JSON) {
+                article = articleConverter.jsonToArticle(article_JSON);
+                createArticle(article);
+            } 
+        }
     }
 }
 
@@ -83,15 +85,17 @@ function createArticle(article){
 
 function loadArticles(num) {
     let history = localStorage.getItem("history");
-    for (i = 1; i <= num; i++) {
-        let article_Key = localStorage.getItem("history/" + (history - i));
-        let article_JSON = localStorage.getItem(article_Key);
-        if (article_JSON) {
-            article = articleConverter.jsonToArticle(article_JSON);
-            createArticle(article);
-        } 
+    if (history) {
+        for (i = 1; i <= num; i++) {
+            let article_Key = localStorage.getItem("history/" + (history - i));
+            let article_JSON = localStorage.getItem(article_Key);
+            if (article_JSON) {
+                let article = articleConverter.jsonToArticle(article_JSON);
+                createArticle(article);
+            } 
+        }
+        document.getElementById("articles").removeChild(document.getElementById("example_article"));
     }
-    document.getElementById("articles").removeChild(document.getElementById("example_article"));
 }
 
 let taskNum = localStorage.getItem("task");

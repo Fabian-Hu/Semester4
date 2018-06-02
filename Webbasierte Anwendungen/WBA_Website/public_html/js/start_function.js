@@ -2,7 +2,8 @@ window.onload = function() {
     setLanguage();
     let url = document.URL;
     let parts = url.split("/");
-    let side = "index";
+    console.log(parts[parts.length - 1].split(".")[0]);
+    let side = parts[parts.length - 1].split(".")[0];
     
     switch(side) {
         case "index":
