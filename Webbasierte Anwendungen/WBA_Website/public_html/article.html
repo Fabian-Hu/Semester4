@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title class="site_title">SAILI - Die Website für Studierende und Lehrende</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/translation.js"></script>
+        <script src="js/article.js"></script>
+        <script src="js/article_converter.js"></script>
+        <script src="js/article_loader.js"></script>
+        <script src="js/position.js"></script>
+        <script src="js/start_function.js"></script>
+        <!--script>
+		if (navigator.serviceWorker) {
+			navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
+				console.log('ServiceWorker erfolgreich registriert');
+			},
+			function(err) {
+				console.log('Fehler beim Registrieren: ' + err);
+			});
+		}
+	</script-->
+    </head>
+    <body>
+        <header>
+            <div id="logo">
+                <picture>
+                    <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png">
+                    <source srcset="img/StudBoardLogo150x100.png">
+                    <img src="img/StudBoardLogo150x100.png" alt="Logo"/>
+                </picture>
+            </div>
+            <h1 class="site_title">SAILI - Die Website für Studierende und Lehrende</h1>
+        </header>
+        <section style="float: right">
+            <header>
+                <h3 class="nav">
+                    Navigation
+                </h3>
+            </header>
+            <nav>
+                <ul>
+                    <li>
+                        <a class ="home" href="\WBA_Website\index.html">Startseite</a>
+                    </li>
+                    <li>
+                        <a class ="news_title" href="\WBA_Website\news.html">News</a>
+                    </li>
+                    <li>
+                        <a class ="projects" href="\WBA_Website\projects.html">Projekte</a>
+                    </li>
+                    <li>
+                        <a class="tasks" href="\WBA_Website\tasks.html">Aufgaben</a>
+                    </li>
+                    <li>
+                        <a class="article" href="\WBA_Website\createNewArticle.html">Neuen Artikel anlegen</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <hr />
+        <section id="article">
+            <article id="articleBody" class="articledesc">
+                <header>
+                    <h4 id="articleTitle">Titel</h4>
+                </header>
+                <p id="articleContent">
+                    
+                </p>
+                <footer id="articleFooter">
+                    <p id="articleStart"></p>
+                    <p id="articleEnd"></p>
+                </footer>
+            </article>
+        </section>
+        <hr />
+        <div id="top"><a href="/WBA_Website/index.html">top</a></div>
+        <footer>
+            © André Kirsch, Malte Riechmann, 2018 <br />
+            akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de
+        </footer>
+    </body>
+</html>
