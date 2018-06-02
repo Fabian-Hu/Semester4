@@ -1,5 +1,5 @@
 
-var articleConverter = new ArticleConverter();
+let articleConverter = new ArticleConverter();
 
 /*let news1_DOM = localStorage.getItem("news/0");
 if (news1_DOM) {
@@ -66,7 +66,6 @@ function loadArticlesByMenu(menu) {
 
 function createArticle(article){
     let newArticle = document.getElementById("example_article").cloneNode(true);
-    console.log(newArticle);
     newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
     newArticle.childNodes[3].firstChild.nodeValue = article.content.substring(0, 400) + "...";
     newArticle.attributes["class"].nodeValue = article.type + " articledesc";

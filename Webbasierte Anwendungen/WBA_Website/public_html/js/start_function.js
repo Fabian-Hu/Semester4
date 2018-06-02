@@ -1,6 +1,22 @@
 window.onload = function() {
     setLanguage();
-    loadArticles(5);
-    console.log(document.URL);
+    let url = document.URL;
+    let parts = url.split("/");
+    let side = "index";
+    
+    switch(side) {
+        case "index":
+            loadArticles(5);
+            break;
+        
+        case "createNewArticle":
+            document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
+            break;
+        
+        default:
+            loadArticlesByMenu(side);
+            break;
+    }
+    
 };
 

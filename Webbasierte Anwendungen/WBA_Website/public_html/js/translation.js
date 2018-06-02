@@ -46,7 +46,6 @@ function setLanguage() {
     }
     for (let args in lang) {
         let elems = document.getElementsByClassName(args);
-        console.log(elems);
         for (let part of elems) {
             part.firstChild.nodeValue = lang[args];
         }
