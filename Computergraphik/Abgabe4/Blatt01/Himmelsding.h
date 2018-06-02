@@ -14,6 +14,7 @@ public:
 
 	void translate(float x, float y, float z);
 	void translate(glm::vec3 position);
+	void transRotate(glm::vec3 position, float angle);
 
 	void rotateX(float angle);
 	void rotateY(float angle);

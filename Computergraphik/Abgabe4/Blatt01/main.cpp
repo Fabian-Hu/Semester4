@@ -18,7 +18,7 @@ float zFar  = 100.0f;
 
 Himmelsding sonne;
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.5f);
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.5f, 45.0f);
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 1.5f, 45.0f);
 Achse allesDrehtSichUmMich;
 
 /*
@@ -31,7 +31,7 @@ bool init()
 	glEnable(GL_DEPTH_TEST);
 
 	// Construct view matrix.
-	glm::vec3 eye(0.0f, 0.0f, 60.0f);
+	glm::vec3 eye(0.0f, 0.0f, 40.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 0.10f, 0.0f);
 
@@ -97,7 +97,7 @@ void glutDisplay ()
 {
    GLCODE(render());
    uranus.rotateY(0.01f);
-   pluto.rotateY(0.01f);
+   //pluto.rotateY(0.01f);
    glutSwapBuffers();
 }
 
