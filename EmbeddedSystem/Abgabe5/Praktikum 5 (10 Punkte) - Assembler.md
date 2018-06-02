@@ -1,30 +1,35 @@
 # Praktikum 5 (10 Punkte) - Assembler
 
+von Tim Steven Meier und Fabian Husemann
+
 ## Aufgabe 1
 
 #### -O0
 
-Reduce compilation time and make debugging produce the expected results. This is the default.
+Reduziert Kompilierzeit und liefert das erwartete Ergebnis beim Debugging. (Standard)
 
 #### -O2
 
-Optimize even more. GCC performs nearly all supported optimizations that do not involve a space-speed tradeoff. As com
-
-pared to -O, this option increases both compilation time and the performance of the generated code.
-
--O2 turns on all optimization flags specified by -O. It also turns on the following optimization flags:
+Optimiert mit allen möglichen Optimierungen . Das Kompilieren (GCC) dauert länger aber die Performanz des Codes ist besser.
 
 #### -Os
 
-Optimize for size. -Os enables all -O2 optimizations that do not typically increase code size. It also performs further optimizations designed to reduce code size.
+Benutzt die ähnlichen Optimierungen wie -O2 lässt jedoch die Optimireungen weg die die Größe des Codes vergrößern. Erreicht dadurch die kleinst mögliche Größe
 
--Os disables the following optimization flags:
+-Os deaktiviert die folgenen Optimierungs flags:
 
 -falign-functions  -falign-jumps  -falign-loops 
 -falign-labels  -freorder-blocks  -freorder-blocks-algorithm=stc 
 -freorder-blocks-and-partition  -fprefetch-loop-arrays
 
+### Compiler Version
+
+![arm-none-eabi-gcc Version 6.3.1](/home/tim_meier/Schreibtisch/Semester4/EmbeddedSystem/Abgabe5/Aufgabe1.2.png)
+
 ### Code
+
+![](/home/tim_meier/Schreibtisch/Semester4/EmbeddedSystem/Abgabe5/makeAlles.PNG)
+
 
 ```assembly
 2ae:	4b0d      	ldr	r3, [pc, #52]	; (2e4 <main+0x48>)
@@ -45,7 +50,6 @@ Optimize for size. -Os enables all -O2 optimizations that do not typically incre
 2d0:	f023 0308 	bic.w	r3, r3, #8
 2d4:	6013      	str	r3, [r2, #0]
 2d6:	f7ff ffc9 	bl	26c <delay>
-2da:	e7ee      	b.n	2ba <main+0x1e>
 ```
 
 
@@ -56,18 +60,48 @@ Die zweite Spalte ist der Befehl in Maschinensprache, hier in Hexadezimal, dabei
 
 Die dritte Spalte zeigt den Befehl
 
-Die vierte Spalte zeigt die Register
-
-Die fünfte Spalte beinhaltet die benutzten Operatoren
-
 Alles nach einem Semikolon ist ein Kommentar
+
+
+
+
+| Befehl               | Erläuterung                                                  |
+| -------------------- | :----------------------------------------------------------- |
+| ldr	r3, [pc, #52] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 52 (GPIO_PORTF_DIR_R Adresse) in das Register r3 |
+| movs	r2, #8       | Lädt den Wert 8 in das Register r2                           |
+| str	r2, [r3, #0]  | Speichert r2 in r3                                           |
+| ldr	r3, [pc, #48] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 48 (GPIO_PORTF_DEN_R Adresse) in das Register r3 |
+| movs	r2, #8       | Lädt den Wert 8 in das Register r2                           |
+| str	r2, [r3, #0]  | Speichert den Wert von r2 in r3                              |
+| ldr	r2, [pc, #48] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 48 (GPIO_PORTF_DEN_R Adresse) in das Register r2 |
+| ldr	r3, [pc, #44] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 44 in das Register r3 |
+| ldr	r3, [r3, #0]  | Lädt den Wert des Registers R3 in R3                         |
+| orr.w	r3, r3, #8  | Der Befehl verknüpft r3 und 8 mit einem Logischen OR. Das .w steht dafür das der Assambler ein 32 Bit Encoding verwendet |
+| str	r3, [r2, #0]  | Speichert den Wert von r3 in r2                              |
+| bl	26c \<delay>   | Der Programmcounter wird auf die Adresse 26c (delay) gesetzt |
+| ldr	r2, [pc, #32] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 32 in das Register r2 |
+| ldr	r3, [pc, #28] | Lädt den Wert der Adresse des Programmcounters mit einem Offset von 28 in das Register r3 |
+| ldr	r3, [r3, #0]  | Lädt den Wert des Registers R3 in R3                         |
+| bic.w	r3, r3, #8  | Das Register r3 wird gecleared. Das .w steht dafür das der Assambler ein 32 Bit Encoding verwendet |
+| str	r3, [r2, #0]  | Speichert den Wert von r3 in r2                              |
+| bl	26c \<delay>   | Der Programmcounter wird auf die Adresse 26c (delay) gesetzt |
+
+
 
 
 
 ## Aufgabe 2
 
+![](/home/tim_meier/Studium/git/Semester4/EmbeddedSystem/Abgabe5/makeAlles2.PNG)
 
+Durch -O2 hat sich der Programmcode um 44 Bytes verkleinert.
+
+In der neu erzeugten Datei gibt es keinen eigenen Abschnitt mit <delay>, dadurch ist die Main Methode zwar etwas größer, aber insgesamt ist es dadurch kleiner.
 
 
 
 ## Aufgabe 3
+
+volatile ist in C ein Zusatz beim deklarieren von Variablen und  gibt an, dass sich der Wert der Variablen jederzeit ändern kann. Dadurch führt der Compiler an der Stelle keinen Optimierungen durch. volatile ist nun nicht mehr vorhanden und dadurch gibt es auch an jeder Stelle Optimierungen
+
+In der neu erzeugten Datei ohne volatile gibt es einen Abschnitt mit delay, welcher in der main zweimal aufgerufen wird. Dadurch ist die main kleiner, da der Code nicht zweimal aufgeschrieben werden musste. Ansonsten sind beide Dateien ziemlich ähnlich.
