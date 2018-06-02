@@ -21,27 +21,31 @@ function generateTableOfContents() {
     content = document.getElementById("articleContent");
     headers = content.querySelectorAll("h1, h2, h3, h4, h5, h6");
     
-    list = "";
     size = 0;
-    height = 0;
+    currentNode = document.createElement("nav");
+    
     headers.forEach(function(current) {
         if (current.localName[1] > size) {
-            list += "<ul>";
+            next = document.createElement("ul");
+            currentNode.appendChild(next);
+            currentNode = next;
             size = parseInt(current.localName[1]);
-            height++;
         } else if (current.localName[1] < size) {
-            list += "</ul>";
+            currentNode = currentNode.parentNode;
             size = parseInt(current.localName[1]);
-            height--;
         }
-        list += "<li><a href='#" + current.innerText + "'>" + current.innerText + "</a></li>";
+        item = document.createElement("li");
+        link = document.createElement("a");
+        link.text = current.innerText;
+        link.href = "#" + current.innerText;
+        item.appendChild(link);
+        currentNode.appendChild(item);
         current.id = current.innerText;
     });
-    while (height > 0) {
-        list += "</ul>";
-        height--;
-    }
-    document.getElementById("navigationList").innerHTML = list;
+    while (currentNode.parentNode !== null)
+        currentNode = currentNode.parentNode;
+    navigation = document.getElementById("navigationList");
+    navigation.parentNode.insertBefore(currentNode, navigation.nextSibling);
 }
 
 
