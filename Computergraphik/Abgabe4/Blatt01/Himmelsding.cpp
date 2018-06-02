@@ -49,13 +49,19 @@ void Himmelsding::init(cg::GLSLProgram& program)
 
 	// Modify model matrix.
 	// zur richtigen Startposition
-	wireSphere.model = glm::mat4(1.0f);
-	rotateX(360);
-	rotateZ(schiefigkeitus);
 	if (schiefigkeitus != 0) {
-		translate(0.0f, -3.0f, 0.0f);
+
+		rotateX(360);
+		rotateZ(45);
+		translate(position);
+		//transRotate(position, schiefigkeitus);
 	}
-	translate(position);
+	else {
+		wireSphere.model = glm::mat4(1.0f);
+		rotateX(360);
+
+		translate(position);
+	}
 }
 
 
@@ -71,11 +77,36 @@ void Himmelsding::releaseObject()
 }
 
 void Himmelsding::translate(float x, float y, float z) {
-	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
 }
 
 void Himmelsding::translate(glm::vec3 position) {
-	wireSphere.model = glm::translate(wireSphere.model, position);
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
+}
+
+void Himmelsding::transRotate(glm::vec3 position, float angle) {
+	glm::mat4x4 translatierMatrix;
+	//translatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, position[0]);
+	//translatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, position[1]);
+	//translatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, position[2]);
+	translatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, -12.0f);
+	translatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	translatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+	translatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glm::mat4x4 zRotatierMatrix;
+	//zRotatierMatrix[0] = glm::vec4(cos(-angle), -sin(-angle), 0.0f, 0.0f);
+	//zRotatierMatrix[1] = glm::vec4(sin(-angle), cos(-angle), 0.0f, 0.0f);
+	zRotatierMatrix[0] = glm::vec4( 0.525f, 0.851f, 0.0f, 0.0f);
+	zRotatierMatrix[1] = glm::vec4(-0.851f, 0.525f, 0.0f, 0.0f);
+	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glm::mat4x4 zwischenMatrix = translatierMatrix * zRotatierMatrix;
+
+	//wireSphere.model = zwischenMatrix * wireSphere.model;
+	//wireSphere.model = zRotatierMatrix * wireSphere.model;
+	wireSphere.model = translatierMatrix * wireSphere.model;
 }
 
 void Himmelsding::rotateX(float angle)
