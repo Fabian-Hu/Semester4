@@ -99,31 +99,41 @@ void Achse::translate(glm::vec3 position) {
 	wireSphere.model = glm::translate(wireSphere.model, position);
 }
 
+float Achse::degreeToRadians(float angle) {
+	return (angle * PI / 180);
+}
+
 void Achse::rotateX(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 xRotatierMatrix;
 	xRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-angle), -sin(-angle), 0.0f);
-	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-angle), cos(-angle), 0.0f);
+	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-radians), -sin(-radians), 0.0f);
+	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
 	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = xRotatierMatrix * wireSphere.model;
 }
 
 void Achse::rotateY(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 yRotatierMatrix;
-	yRotatierMatrix[0] = glm::vec4(cos(-angle), 0.0f, sin(-angle), 0.0f);
+	yRotatierMatrix[0] = glm::vec4(cos(-radians), 0.0f, sin(-radians), 0.0f);
 	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	yRotatierMatrix[2] = glm::vec4(-sin(-angle), 0.0f, cos(-angle), 0.0f);
+	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
 	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = yRotatierMatrix * wireSphere.model;
 }
 
 void Achse::rotateZ(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 zRotatierMatrix;
-	zRotatierMatrix[0] = glm::vec4(cos(-angle), -sin(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(sin(-angle), cos(-angle), 0.0f, 0.0f);
+	zRotatierMatrix[0] = glm::vec4(cos(-radians), -sin(-radians), 0.0f, 0.0f);
+	zRotatierMatrix[1] = glm::vec4(sin(-radians), cos(-radians), 0.0f, 0.0f);
 	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = zRotatierMatrix * wireSphere.model;

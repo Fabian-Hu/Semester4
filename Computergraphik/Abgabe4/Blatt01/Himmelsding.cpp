@@ -49,19 +49,14 @@ void Himmelsding::init(cg::GLSLProgram& program)
 
 	// Modify model matrix.
 	// zur richtigen Startposition
+
+	wireSphere.model = glm::mat4(1.0f);
+	rotateX(90);
 	if (schiefigkeitus != 0) {
-
-		rotateX(360);
 		rotateZ(45);
-		translate(position);
-		//transRotate(position, schiefigkeitus);
 	}
-	else {
-		wireSphere.model = glm::mat4(1.0f);
-		rotateX(360);
-
-		translate(position);
-	}
+	translate(position);
+	
 }
 
 
@@ -84,57 +79,42 @@ void Himmelsding::translate(glm::vec3 position) {
 	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
 }
 
-void Himmelsding::transRotate(glm::vec3 position, float angle) {
-	glm::mat4x4 translatierMatrix;
-	//translatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, position[0]);
-	//translatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, position[1]);
-	//translatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, position[2]);
-	translatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, -12.0f);
-	translatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	translatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	translatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
-	glm::mat4x4 zRotatierMatrix;
-	//zRotatierMatrix[0] = glm::vec4(cos(-angle), -sin(-angle), 0.0f, 0.0f);
-	//zRotatierMatrix[1] = glm::vec4(sin(-angle), cos(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[0] = glm::vec4( 0.525f, 0.851f, 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(-0.851f, 0.525f, 0.0f, 0.0f);
-	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
-	glm::mat4x4 zwischenMatrix = translatierMatrix * zRotatierMatrix;
-
-	//wireSphere.model = zwischenMatrix * wireSphere.model;
-	//wireSphere.model = zRotatierMatrix * wireSphere.model;
-	wireSphere.model = translatierMatrix * wireSphere.model;
+float Himmelsding::degreeToRadians(float angle) {
+	return (angle * PI / 180);
 }
 
 void Himmelsding::rotateX(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 xRotatierMatrix;
 	xRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-angle), -sin(-angle), 0.0f);
-	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-angle), cos(-angle), 0.0f);
+	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-radians), -sin(-radians), 0.0f);
+	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
 	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = xRotatierMatrix * wireSphere.model;
 }
-	
+
 void Himmelsding::rotateY(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 yRotatierMatrix;
-	yRotatierMatrix[0] = glm::vec4(cos(-angle), 0.0f, sin(-angle), 0.0f);
+	yRotatierMatrix[0] = glm::vec4(cos(-radians), 0.0f, sin(-radians), 0.0f);
 	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	yRotatierMatrix[2] = glm::vec4(-sin(-angle), 0.0f, cos(-angle), 0.0f);
+	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
 	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = yRotatierMatrix * wireSphere.model;
 }
 
 void Himmelsding::rotateZ(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 zRotatierMatrix;
-	zRotatierMatrix[0] = glm::vec4(cos(-angle), -sin(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(sin(-angle), cos(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f , 0.0f);
+	zRotatierMatrix[0] = glm::vec4(cos(-radians), -sin(-radians), 0.0f, 0.0f);
+	zRotatierMatrix[1] = glm::vec4(sin(-radians), cos(-radians), 0.0f, 0.0f);
+	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = zRotatierMatrix * wireSphere.model;
 }
