@@ -16,7 +16,7 @@ and open the template in the editor.
         <script src="js/articleSite.js"></script>
         <script src="js/article_loader.js"></script>
         <script src="js/position.js"></script>
-        <!--<script src="js/start_function.js"></script>-->
+        <script src="js/start_function.js"></script>
         <!--script>
 		if (navigator.serviceWorker) {
 			navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
@@ -79,6 +79,18 @@ and open the template in the editor.
                 </footer>
             </article>
         </section>
+        <form action="\WBA_Website\dataTarget" method="POST" enctype="text/plain">
+            <textarea name="message" rows="5" cols="100">The cat was playing in the garden.</textarea>
+            <br />
+            <input type="file" name="anhang">
+            <br />
+            1: <input type="radio" name="rate" value="1">
+            2: <input type="radio" name="rate" value="2">
+            3: <input type="radio" name="rate" value="3">
+            4: <input type="radio" name="rate" value="4">
+            5: <input type="radio" name="rate" value="5">
+            <input type="submit">
+        </form>
         <hr />
         <div id="top"><a href="/WBA_Website/index.html">top</a></div>
         <footer>

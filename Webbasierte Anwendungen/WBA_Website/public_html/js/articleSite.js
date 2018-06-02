@@ -44,10 +44,4 @@ function generateTableOfContents() {
     document.getElementById("navigationList").innerHTML = list;
 }
 
-window.onload = function() {
-    let urlParams = new URLSearchParams(window.location.search);
-    showArticle(urlParams.get("id"));
-    generateTableOfContents();
-};
-
 

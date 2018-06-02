@@ -10,6 +10,12 @@ window.onload = function() {
             loadArticles(5);
             break;
         
+        case "article":
+            let urlParams = new URLSearchParams(window.location.search);
+            showArticle(urlParams.get("id"));
+            generateTableOfContents();
+            break;
+        
         case "createNewArticle":
             document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
             break;
