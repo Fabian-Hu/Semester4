@@ -33,7 +33,7 @@ void Achse::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 proje
 void Achse::init(cg::GLSLProgram& program)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { glm::vec3(-0.1f, laenge, 0.0f), glm::vec3(-0.1f, -laenge, 0.0f), glm::vec3(0.1f, 0.0f, 0.0f) };
+	const std::vector<glm::vec3> vertices = { glm::vec3(-0.05f, laenge, 0.0f), glm::vec3(-0.05f, -laenge, 0.0f), glm::vec3(0.05f, 0.0f, 0.0f) };
 	const std::vector<glm::vec3> colors = { glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f) };
 	const std::vector<GLushort> indices = { 0, 1, 2 };
 
@@ -76,9 +76,12 @@ void Achse::init(cg::GLSLProgram& program)
 	// zur richtigen Startposition
 	wireSphere.model = glm::mat4(1.0f);
 
+	if (schiefigkeitus != 0) {
+		rotateZ(schiefigkeitus);
+	}
+
 	translate(position);
 }
-
 
 /*
 Release object resources.
@@ -92,11 +95,11 @@ void Achse::releaseObject()
 }
 
 void Achse::translate(float x, float y, float z) {
-	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
 }
 
 void Achse::translate(glm::vec3 position) {
-	wireSphere.model = glm::translate(wireSphere.model, position);
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
 }
 
 float Achse::degreeToRadians(float angle) {

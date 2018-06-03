@@ -1,5 +1,6 @@
 #include "Masterding.h"
 #include "Himmelsding.h"
+#include "Moons.h"
 #include "Achse.h"
 
 // Standard window width
@@ -20,9 +21,15 @@ float zoomy = 0.0f;
 float zoomz = 40.0f;
 
 Himmelsding sonne;
-Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, 45.0f);
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
+
+Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
+Achse urAchse(8.0f, 0.0f, 0.0f, 1.2f);
+Moons uranusMoons(&uranus, 3);
+
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, 45.0f);
+Achse pluse(-12.0f, 0.0f, 0.0f, 0.9f, 45.0f);
+Moons plutoMoons(&pluto, 3, 4, 2, 4, 2.0f);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -65,10 +72,15 @@ bool init()
 	sonne.init(program);
 	uranus.init(program);
 	pluto.init(program);
+
+	uranusMoons.init(program);
+	//plutoMoons.init(program);
+
 	allesDrehtSichUmMich.init(program);
+	urAchse.init(program);
+	pluse.init(program);
 	return true;
 }
-
 
 /*
  Release resources on termination.
@@ -80,7 +92,13 @@ void release()
 	sonne.releaseObject();
 	uranus.releaseObject();
 	pluto.releaseObject();
+
+	uranusMoons.releaseObject();
+	//plutoMoons.releaseObject();
+
 	allesDrehtSichUmMich.releaseObject();
+	urAchse.releaseObject();
+	pluse.releaseObject();
 }
 
 /*
@@ -93,14 +111,27 @@ void render()
 	sonne.render(program, view, projection);
 	uranus.render(program, view, projection);
 	pluto.render(program, view, projection);
+
+	uranusMoons.render(program, view, projection);
+	//plutoMoons.render(program, view, projection);
+
 	allesDrehtSichUmMich.render(program, view, projection);
+	urAchse.render(program, view, projection);
+	pluse.render(program, view, projection);
 }
 
 void glutDisplay ()
 {
-   GLCODE(render());
-   uranus.rotateY(0.7f);
-   pluto.rotateY(0.5f);
+   
+   //uranus.rotateY(0.7f);
+   //urAchse.rotateY(0.7f);
+   //uranusMoons.rotateY(0.7f);
+   //pluto.rotateY(0.5f);
+   //pluse.rotateY(0.5f);
+   //plutoMoons.rotateY(0.5f);
+   
+   //GLCODE(render());
+	render();
    glutSwapBuffers();
 }
 
@@ -142,7 +173,7 @@ void glutMouse(int button, int state, int x, int y)
 		}
 	}
 	else if (button == 3) {
-		if (zoomz > 24.0f) {
+		if (zoomz > 12.0f) {
 			zoomz -= 1.0f;
 			zoom();
 		}
@@ -170,10 +201,16 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		// do something
 		break;
 	case 'y':
-		// do something
+		if (zoomy > -30.0f) {
+			zoomy -= 1.0f;
+			zoom();
+		}
 		break;
-	case 'z':
-		// do something
+	case 'Y':
+		if (zoomy < 30.0f) {
+			zoomy += 1.0f;
+			zoom();
+		}
 		break;
 	}
 	glutPostRedisplay();
@@ -228,4 +265,3 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-

@@ -61,5 +61,4 @@ private:
 	float schiefigkeitus = 0.0f;
 
 	glm::vec3 position;
-
 };

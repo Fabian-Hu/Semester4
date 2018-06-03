@@ -1,34 +1,39 @@
 #pragma once
+#include "Himmelsding.h"
 
-#include "MasterDing.h"
-
-class Himmelsding : Masterding {
+class Moons : Masterding {
 public:
-	Himmelsding();
-	Himmelsding::Himmelsding(float x, float y, float z, float radio);
-	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit);
+	Moons::Moons(Himmelsding *planet, int anzahlMonde);
+	Moons::Moons(Himmelsding *planet, int anzahlRinge, int anzahlMonde1, int anzahlMonde2, int anzahlMonde3, float abstand);
 
 	void render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection);
 	void init(cg::GLSLProgram& program);
 	void releaseObject();
 
+	void calculateMoons();
+
 	void translate(float x, float y, float z);
 	void translate(glm::vec3 position);
 
 	float degreeToRadians(float angle);
-	glm::vec3 substract(glm::vec3 eins, glm::vec3 zwei);
 
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
-	void rotateMoonY(Himmelsding *planet, float angle);
-
 	glm::vec3 getPosition();
 
 private:
 	Object wireSphere; // GLUT geometry
+	Himmelsding *planet;
+	std::vector<Himmelsding> monde;
 
-	float radius = 1.0f;
+	int anzahlRinge = 1;
+	int anzahlMonde = 1;
+	int anzahlMonde1;
+	int anzahlMonde2;
+	int anzahlMonde3;
+
+	float abstand = 0.0f;
 	float schiefigkeitus = 0.0f;
 
 	glm::vec3 position;

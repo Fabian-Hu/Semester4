@@ -16,7 +16,7 @@ Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigk
 }
 
 void Himmelsding::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection)
-{
+{	
 	// Create mvp.
 	glm::mat4x4 mvp = projection * view * wireSphere.model;
 
@@ -27,9 +27,9 @@ void Himmelsding::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4
 	// GLUT: bind vertex-array-object
 	// this vertex-array-object must be bound before the glutWireSphere call
 	glBindVertexArray(wireSphere.vao);
-
+	
     //glLineWidth(1.0f);
-	glutWireSphere(radius, 20, 20);
+	GLCODE(glutWireSphere(radius, 20, 20));
 
 	// GLUT: unbind vertex-array-object
 	glBindVertexArray(0);
@@ -53,12 +53,10 @@ void Himmelsding::init(cg::GLSLProgram& program)
 	wireSphere.model = glm::mat4(1.0f);
 	rotateX(90);
 	if (schiefigkeitus != 0) {
-		rotateZ(45);
+		rotateZ(schiefigkeitus);
 	}
 	translate(position);
-	
 }
-
 
 /*
  Release object resources.
@@ -80,7 +78,12 @@ void Himmelsding::translate(glm::vec3 position) {
 }
 
 float Himmelsding::degreeToRadians(float angle) {
-	return (angle * PI / 180);
+	return (angle * (float)PI / 180.0f);
+}
+
+glm::vec3 Himmelsding::substract(glm::vec3 eins, glm::vec3 zwei) {
+	glm::vec3 result(eins[0] - zwei[0], eins[1] - zwei[1], eins[2] - zwei[2]);
+	return result;
 }
 
 void Himmelsding::rotateX(float angle)
@@ -117,4 +120,40 @@ void Himmelsding::rotateZ(float angle)
 	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = zRotatierMatrix * wireSphere.model;
+}
+
+void Himmelsding::rotateMoonY(Himmelsding *planet, float angle) 
+{
+	float radians = degreeToRadians(angle);
+
+	glm::mat4x4 yRotatierMatrix;
+	yRotatierMatrix[0] = glm::vec4(cos(-radians), 0.0f, sin(-radians), 0.0f);
+	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
+	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glm::vec3 planetPosition = planet->getPosition();
+	glm::vec3 mondPlanet = substract(position, planetPosition);
+
+	glm::mat4x4 mondTranslationsMatrix;
+	mondTranslationsMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, mondPlanet[0]);
+	mondTranslationsMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, mondPlanet[1]);
+	mondTranslationsMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, mondPlanet[2]);
+	mondTranslationsMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glm::mat4x4 planetTranslationsMatrix;
+	planetTranslationsMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, planetPosition[0]);
+	planetTranslationsMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, planetPosition[1]);
+	planetTranslationsMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, planetPosition[2]);
+	planetTranslationsMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	
+
+	glm::mat4x4 gesamtMatrix = planetTranslationsMatrix * mondTranslationsMatrix * -planetTranslationsMatrix;
+
+	wireSphere.model = gesamtMatrix * wireSphere.model;
+}
+
+glm::vec3 Himmelsding::getPosition()
+{
+	return position;
 }

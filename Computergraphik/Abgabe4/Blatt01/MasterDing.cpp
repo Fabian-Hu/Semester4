@@ -12,7 +12,6 @@ void Masterding::init(cg::GLSLProgram& program)
 {
 }
 
-
 /*
 Release object resources.
 */
@@ -25,17 +24,16 @@ void Masterding::releaseObject()
 }
 
 void Masterding::translate(float x, float y, float z) {
-	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
 }
 
 void Masterding::translate(glm::vec3 position) {
-	wireSphere.model = glm::translate(wireSphere.model, position);
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
 }
 
 float Masterding::degreeToRadians(float angle) {
 	return (angle * PI / 180);
 }
-
 
 void Masterding::rotateX(float angle)
 {
