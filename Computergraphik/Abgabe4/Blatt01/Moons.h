@@ -4,13 +4,14 @@
 class Moons : Masterding {
 public:
 	Moons::Moons(Himmelsding *planet, int anzahlMonde);
-	Moons::Moons(Himmelsding *planet, int anzahlRinge, int anzahlMonde1, int anzahlMonde2, int anzahlMonde3, float abstand);
+	Moons::Moons(Himmelsding *planet, int anzahlRinge, int anzahlMonde1, int anzahlMonde2, int anzahlMonde3, float abstand, float schiefigkeitigkeit);
 
 	void render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection);
 	void init(cg::GLSLProgram& program);
 	void releaseObject();
 
 	void calculateMoons();
+	void calculateMoreMoons();
 
 	void translate(float x, float y, float z);
 	void translate(glm::vec3 position);
@@ -34,7 +35,7 @@ private:
 	int anzahlMonde3;
 
 	float abstand = 0.0f;
-	float schiefigkeitus = 0.0f;
+	float schiefigkeitigkeit = 0.0f;
 
 	glm::vec3 position;
 };

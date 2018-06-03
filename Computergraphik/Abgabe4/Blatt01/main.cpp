@@ -19,6 +19,8 @@ float zFar  = 100.0f;
 float zoomx = 0.0f;
 float zoomy = 0.0f;
 float zoomz = 40.0f;
+float maximaleFlughoehe = 0.0f;
+float maximaleFlughoeheUranus = 0.0f;
 
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
@@ -29,7 +31,7 @@ Moons uranusMoons(&uranus, 3);
 
 Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, 45.0f);
 Achse pluse(-12.0f, 0.0f, 0.0f, 0.9f, 45.0f);
-Moons plutoMoons(&pluto, 3, 4, 2, 4, 2.0f);
+Moons plutoMoons(&pluto, 3, 2, 4, 4, 2.0f, 45.0f);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -74,7 +76,7 @@ bool init()
 	pluto.init(program);
 
 	uranusMoons.init(program);
-	//plutoMoons.init(program);
+	plutoMoons.init(program);
 
 	allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
@@ -94,7 +96,7 @@ void release()
 	pluto.releaseObject();
 
 	uranusMoons.releaseObject();
-	//plutoMoons.releaseObject();
+	plutoMoons.releaseObject();
 
 	allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
@@ -113,7 +115,7 @@ void render()
 	pluto.render(program, view, projection);
 
 	uranusMoons.render(program, view, projection);
-	//plutoMoons.render(program, view, projection);
+	plutoMoons.render(program, view, projection);
 
 	allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
@@ -122,17 +124,22 @@ void render()
 
 void glutDisplay ()
 {
-   
-   uranus.rotateY(0.7f);
-   urAchse.rotateY(0.7f);
-   uranusMoons.rotateY(0.7f);
-   //pluto.rotateY(0.5f);
-   //pluse.rotateY(0.5f);
-   //plutoMoons.rotateY(0.5f);
-   
-   //GLCODE(render());
+
+	uranus.rotateSelf(-0.7f);
+	uranus.rotateY(0.7f);
+	urAchse.rotateY(0.7f);
+	uranusMoons.rotateY(0.7f);
+
+	/*
+	pluto.rotateSelf(-0.5f);
+	pluto.rotateY(0.5f);
+	pluse.rotateY(0.5f);
+	plutoMoons.rotateY(0.5f);
+	*/
+
+	//GLCODE(render());
 	render();
-   glutSwapBuffers();
+	glutSwapBuffers();
 }
 
 /*
@@ -190,15 +197,63 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
 	  return;
-	  
+
 	case 't':
-		
+
+		if (maximaleFlughoehe < 30.0f) {
+			//Uranus nach oben verschieben
+			sonne.translate(0.0f, 0.5f, 0.0f);
+			allesDrehtSichUmMich.translate(0.0f, 0.5f, 0.0f);
+
+			pluto.translate(0.0f, 0.5f, 0.0f);
+			pluse.translate(0.0f, 0.5f, 0.0f);
+			plutoMoons.translate(0.0f, 0.5f, 0.0f);
+
+			maximaleFlughoehe++;
+		}
+		if (maximaleFlughoeheUranus < 30.0f) {
+			uranus.translate(0.0f, 0.5f, 0.0f);
+			urAchse.translate(0.0f, 0.5f, 0.0f);
+			uranusMoons.translate(0.0f, 0.5f, 0.0f);
+			maximaleFlughoeheUranus++;
+		}
 		break;
 	case 'T':
-		
+		if (maximaleFlughoehe > -30.0) {
+			//Uranus nach unten verschieben
+			sonne.translate(0.0f, -0.5f, 0.0f);
+			allesDrehtSichUmMich.translate(0.0f, -0.5f, 0.0f);
+
+			pluto.translate(0.0f, -0.5f, 0.0f);
+			pluse.translate(0.0f, -0.5f, 0.0f);
+			plutoMoons.translate(0.0f, -0.5f, 0.0f);
+
+			maximaleFlughoehe--;
+		}
+		if (maximaleFlughoeheUranus > -30.0f) {
+			uranus.translate(0.0f, -0.5f, 0.0f);
+			urAchse.translate(0.0f, -0.5f, 0.0f);
+			uranusMoons.translate(0.0f, -0.5f, 0.0f);
+			maximaleFlughoeheUranus--;
+		}
 		break;
-	case 'x':
-		// do something
+	case 'l':
+		if (maximaleFlughoeheUranus < 30.0f) {
+			//Uranus nach oben verschieben
+			uranus.translate(0.0f, 0.5f, 0.0f);
+			urAchse.translate(0.0f, 0.5f, 0.0f);
+			uranusMoons.translate(0.0f, 0.5f, 0.0f);
+			maximaleFlughoeheUranus++;
+		}
+		break;
+	case 'L':
+		if (maximaleFlughoeheUranus > -30.0) {
+			//Uranus nach unten verschieben
+			uranus.translate(0.0f, -0.5f, 0.0f);
+			urAchse.translate(0.0f, -0.5f, 0.0f);
+			uranusMoons.translate(0.0f, -0.5f, 0.0f);
+			maximaleFlughoeheUranus--;
+		}
 		break;
 	case 'Y':
 		if (zoomy > -30.0f) {
