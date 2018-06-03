@@ -1,30 +1,13 @@
 
-
-
-function addToNavgation(title, key) {
-    let navPoint = document.getElementById("parentNavigation");
-    console.log(navPoint);
-    let li = document.createElement("li");
-    let a = document.createElement("a");
-    
-    let link = document.createAttribute("href");
-    link.value = "#" + key;
-    a.attributes.setNamedItem(link);
-    a.text = title.substring(0, 20) + "...";
-    
-    li.appendChild(a);
-    navPoint.appendChild(li);
-}
-
 function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
     console.log(newArticle);
-    newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
+    newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.titel;
     newArticle.childNodes[3].innerHTML = article.content.substring(0, 400) + "...";
-    newArticle.attributes["class"].nodeValue = article.type + " articledesc";
+    newArticle.attributes["class"].nodeValue = article.type;
     newArticle.id = key;
     
-    if (article.type === "news") {
+    if (article.type === "News") {
         newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
     } else {
         newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
@@ -44,14 +27,14 @@ function loadArticlesByMenu(menu) {
             if (article_JSON) {
                 let article = jsonUmwandler.jsonToArcticle(article_JSON);
                 createArticle(article, menu + "/" + (articles - i));
-                addToNavgation(article.title, menu + "/" + (articles - i));
+                //addToNavgation(article.title, menu + "/" + (articles - i));
             } 
         }
         document.getElementById("articles").removeChild(document.getElementById("example_article"));
     }
 }
 
-function loadArticles(num) {
+function loadArticles(num) {   
     jsonUmwandler = new jsonUmwandler();
     let history = localStorage.getItem("history");
     if (history) {

@@ -11,7 +11,7 @@ window.onload = function() {
         case "article":
             let urlParams = new URLSearchParams(window.location.search);
             showArticle(urlParams.get("id"));
-            generateTableOfContents();
+            // generateTableOfContents();
             document.getElementById("commentForm").addEventListener("submit", function(event) {
                 event.preventDefault();
                 saveComment();
@@ -24,10 +24,15 @@ window.onload = function() {
             break;*/
         
         default:
-            if (side === "Aufgaben" || side === "Projekte" || side === "News")
-                side = side.substring(0, side.length - 1);
-            console.log(side);
-            loadArticlesByMenu(side);
+            if (side === "Aufgaben"){
+                loadArticlesByMenu("task");
+            }else if (side === "Projekte"){
+                loadArticlesByMenu("project");
+            }else if (side === "News"){
+                loadArticlesByMenu("news");
+            }
+            
+            
             break;
     }
     

@@ -5,7 +5,7 @@
  */
 
 class jsonUmwandler {
-    jsonUmwandler(){
+    constructor(){
         
     }
     
