@@ -12,7 +12,7 @@ h1 {
     font-family: "courier", Times, serif;
 }
 
-article::first-letter {
+p::first-letter {
     font-size: 28px;
 }
 
@@ -59,17 +59,17 @@ picture {
 	right: 0;
 }
 
-.news {
+.News {
 	border-style: solid;
 	border-color: red;
 }
 
-.aufgaben {
+.Tasks {
 	border-style: solid;
 	border-color: blue;
 }
 
-.projekte {
+.Projects {
 	border-style: solid;
 	border-color: green;
 }
@@ -81,3 +81,4 @@ article form textarea {
 article form textarea:focus {
     background: white;
 }
+

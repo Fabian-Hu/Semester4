@@ -10,35 +10,26 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/cascade.css" />
-        <!--<script type="text/javascript" src="js/popup.js"></script>  -->     
         <script type="text/javascript" src="js/article.js"></script>
         <script type="text/javascript" src="js/JSONUmwandler.js"></script> 
         <script type="text/javascript" src="js/localStorage.js"></script>
-        <!--<script type="text/javascript" src="js/geolocation.js"></script>-->
+        <script type="text/javascript" src="js/articleSeite.js"></script>
         <script type="text/javascript" src="js/articleGen.js"></script>
+        <script type="text/javascript" src="js/Kommentar.js"></script>
         <script type="text/javascript" src="js/start.js"></script>
-       <!-- <script>
-            if(navigator.serviceWorker) {
-                navigator.serviceWorker.register('js/serviceworker.js').then(function(reg) {
-                    console.log("Erfolgreich registriert"); 
-                }, 
-                function(err) {
-                    console.log("Fehler beim Registrieren: " + err); 
-                });  
-            } 
-        </script>-->
-    </head> 
+    </head>
     <body>
         <header>
             <picture style="float:right">
                 <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png" />
                 <source media="(min-width: 465px)" srcset="img/StudBoardLogo150x100.png" />
-                <img src="img/StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
+                <img src="/imgStudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
             </picture>
-            <h1>StudBoard</h1>
-            <hr>
-            <nav>
-                <h2 id="nav">Navigation</h2>
+            <h1 id="titlenews">Artikel</h1>
+        </header>
+        <section>    
+            <nav style="float:right" >
+                <h2 id="navigationList">Navigation</h2>
                 <ul>
                     <li>
                         <a href="index.html"><div id="navstart">Startseite</div></a>
@@ -56,31 +47,39 @@ and open the template in the editor.
                         <a href="NeuerArtikel.html"><div id="navneu">Neuer Artikel</div></a>
                     </li>
                 </ul>
-            </nav> 
-        </header>
-        
-        <div id="top"> <a href="index.html">TOP</a> </div>
-        
-       <section id="articles">
-            <h3 class="last_articles">Die letzten Artikel</h3>
-            <article id="example_article" class="task articledesc">
-                <header>
-                    <h4>Aufgabe4</h4>
-                </header>
-                <p>
-                    Lorem ipsum 
-                </p>
-                <br>
-                <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
-                <footer>
-                    © Peter Silie
-                </footer>
-            </article>         
+            </nav>
         </section>
-        <br />
+        <hr />
+        <section id="article">
+            <article id="articleBody">
+                <header>
+                    <h3 id="articleTitle">Titel</h3>
+                </header>
+                <p id="articleContent">
+                    
+                </p>
+                <footer id="articleFooter">
+                </footer>
+            </article>
+        </section>
+        <form id="commentForm">
+            <textarea id="text" name="message" rows="5" cols="100"></textarea>
+            <br />
+            <input id="attachment" type="file" name="anhang">
+            <br />
+            1: <input type="radio" name="rate" value="1">
+            2: <input type="radio" name="rate" value="2">
+            3: <input type="radio" name="rate" value="3">
+            4: <input type="radio" name="rate" value="4">
+            5: <input type="radio" name="rate" value="5">
+            <input type="submit">
+        </form>
+        <section id="comments">
+            <h4>Kommentare</h4>
+        </section>
+        <hr />
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
-        <script type="text/javascript" src="js/sprache_nav.js"></script>
     </body>
 </html>

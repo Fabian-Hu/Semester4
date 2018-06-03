@@ -6,10 +6,12 @@
 
 function choooose() {
     let type,x;
+    localStorage2 = new localStorage2();
     x = document.getElementById("form1");
     type = x.elements["artikelTyp"].value;
-    localStorage2 = new localStorage2();
+   
     
+   
     if (type === "News"||type === "Neuigkeiten") { 
         news1 = new news(x.elements["artikelText"].value, 
         x.elements["artikelTitel"].value, x.elements["titelFarbe"].value,
