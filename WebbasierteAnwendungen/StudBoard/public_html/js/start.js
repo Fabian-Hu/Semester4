@@ -8,9 +8,9 @@ window.onload = function() {
             loadArticles(5);
             break;
         
-        case "article":
+        case "Artikel":
             let urlParams = new URLSearchParams(window.location.search);
-            showArticle(urlParams.get("id"));
+            zeigeArtikel(urlParams.get("id"));
             // generateTableOfContents();
             document.getElementById("commentForm").addEventListener("submit", function(event) {
                 event.preventDefault();

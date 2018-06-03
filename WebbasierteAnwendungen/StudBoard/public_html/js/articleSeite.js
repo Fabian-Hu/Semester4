@@ -5,7 +5,7 @@
  */
 
 
-function showArticle(id) {   
+function zeigeArtikel(id) {   
     jsonUmwandler = new jsonUmwandler();
     article = jsonUmwandler.jsonToArcticle(localStorage.getItem(id));
     if(article !== null) {

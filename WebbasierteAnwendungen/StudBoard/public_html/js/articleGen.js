@@ -8,9 +8,9 @@ function createArticle(article, key){
     newArticle.id = key;
     
     if (article.type === "News") {
-        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
+        newArticle.childNodes[7].attributes["href"].nodeValue = "\Artikel.html?id=" + key;
     } else {
-        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
+        newArticle.childNodes[7].attributes["href"].nodeValue = "\Artikel.html?id=" + key;
     }
     
     let br = document.createElement("br");
