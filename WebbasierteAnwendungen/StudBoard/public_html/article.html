@@ -13,7 +13,9 @@ and open the template in the editor.
         <script type="text/javascript" src="article.js"></script>
         <script type="text/javascript" src="JSONUmwandler.js"></script> 
         <script type="text/javascript" src="localStorage.js"></script>
+        <script type="text/javascript" src="articleSite.js"></script>
         <script type="text/javascript" src="articleGen.js"></script>
+        <script type="text/javascript" src="Kommentar.js"></script>
         <script type="text/javascript" src="start.js"></script>
     </head>
     <body>
@@ -27,7 +29,7 @@ and open the template in the editor.
         </header>
         <section>    
             <nav style="float:right" >
-                <h2 id="nav">Navigation</h2>
+                <h2 id="navigationList">Navigation</h2>
                 <ul>
                     <li>
                         <a href="index.html"><div id="navstart"></div></a>
@@ -47,36 +49,38 @@ and open the template in the editor.
                 </ul>
             </nav>
         </section>
-        
-        <div id="top"> <a href="News.html">TOP</a> </div>
-        
-        <section id="articles">
-                    <article id="example_article" class="task articledesc">
-                        <header>
-                            <h4>Aufgabe4</h4>
-                        </header>
-                            <p>
-                                Lorem ipsum 
-                            </p>
-                            <br>
-                            <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
-                        <footer>
-                            © Fritz Marx, 2018
-                        </footer>
-                    </article>
-         </section>
-                
-        <br />
+        <hr />
+        <section id="article">
+            <article id="articleBody" class="articledesc">
+                <header>
+                    <h3 id="articleTitle">Titel</h3>
+                </header>
+                <p id="articleContent">
+                    
+                </p>
+                <footer id="articleFooter">
+                </footer>
+            </article>
+        </section>
+        <form id="commentForm">
+            <textarea id="text" name="message" rows="5" cols="100"></textarea>
+            <br />
+            <input id="attachment" type="file" name="anhang">
+            <br />
+            1: <input type="radio" name="rate" value="1">
+            2: <input type="radio" name="rate" value="2">
+            3: <input type="radio" name="rate" value="3">
+            4: <input type="radio" name="rate" value="4">
+            5: <input type="radio" name="rate" value="5">
+            <input type="submit">
+        </form>
+        <section id="comments">
+            <h4>Kommentare</h4>
+        </section>
+        <hr />
+        <div id="top"><a href="/WBA_Website/index.html">top</a></div>
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
-        <script type="text/javascript" src="sprache_nav.js"></script>
-        <script>
-            if (navigator.language.indexOf("en") > -1) {
-                document.getElementById("titlenews").innerHTML = "News"
-            } else if (navigator.language.indexOf("de") > -1) {
-                document.getElementById("titlenews").innerHTML = "Neuigkeiten"
-            }
-        </script>
     </body>
 </html>

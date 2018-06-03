@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
- 
+
 class localStorage2 {
     
-    newsLesen(){ 
+    newsLesen(){        
         jsonUmwandler = new jsonUmwandler();
         if (typeof(Storage) !== "undefined") {  
             let news = [];
@@ -27,7 +27,7 @@ class localStorage2 {
         }
     }
 
-    articleLesen(){ 
+    articleLesen(){        
         jsonUmwandler = new jsonUmwandler();
         let string1;
         let art = [];
@@ -69,7 +69,7 @@ class localStorage2 {
         }
     }
 
-    articleSchreiben(obj){   
+    /*articleSchreiben(obj){   
         let i=1; 
         jsonUmwandler = new jsonUmwandler(); 
         let string1,string;
@@ -85,15 +85,60 @@ class localStorage2 {
         string1 = "art"+i; 
         string = jsonUmwandler.articleToJson(obj);
         localStorage.setItem(string1,string);
-    }
-    /*
-    articleSchreiben(obj){   
+    }*/
+    
+    articleSchreiben(obj){
+        jsonUmwandler = new jsonUmwandler();
+        let key;
+        let id = 0;
+        let string;
+        switch(obj.type) {
+            case "News":
+                id = localStorage.getItem("news");
+                alert(id);
+                if (id === null) {
+                    id = 0;
+                }
+                key = "news/" + id;
+                localStorage.setItem("news", parseInt(id) + 1);
+                break;
+            case "Projects":
+                id = localStorage.getItem("project");
+                if (id === null) {
+                    id = 0;
+                }
+                key = "project/" + id;
+                localStorage.setItem("project", parseInt(id) + 1);
+                
+                break;
+            case "Tasks":
+                id = localStorage.getItem("task");
+                if (id === null) {
+                    id = 0;
+                }
+                key = "task/" + id;
+                localStorage.setItem("task", parseInt(id) + 1);
+               
+                break;
+        }
+        string = jsonUmwandler.articleToJson(obj);
+        alert(string);
+        localStorage.setItem(key, string );
+
+        let history = localStorage.getItem("history");
+        if (history === null)
+            history = 0;
+        localStorage.setItem("history/" + history, key);
+        localStorage.setItem("history", parseInt(history) + 1);
+}
+
+    /*articleSchreiben(obj){   
         let i=1; 
         jsonUmwandler = new jsonUmwandler(); 
         let string1,string;
         if(obj.type === "News"){         
             while(true){                
-                string1 = "news"+i; 
+                string1 = "news/"+i; 
                 let news1 = localStorage.getItem(string1);              
                 if(news1){               
                     i++;
@@ -106,7 +151,7 @@ class localStorage2 {
             localStorage.setItem(string1,string);
         } else if(obj.type === "Projects"){
             while(true){
-                string1 = "pro"+i; 
+                string1 = "pro/"+i; 
                 let pro = localStorage.getItem(string1);         
                 if(pro){
                     i++;
@@ -119,7 +164,7 @@ class localStorage2 {
             localStorage.setItem(string1,string);
         } else if(obj.type === "Tasks"){
             while(true){
-                string1 = "task"+i; 
+                string1 = "task/"+i; 
                 let task = localStorage.getItem(string1);         
                 if(task){
                     i++;
@@ -135,6 +180,8 @@ class localStorage2 {
         }
     }*/
 }
+
+
 
 //let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");
 //let task1 = new tasks("Webanwendung machen", "Aufgabe", "#f0f0f0", "2018-2-1", "2018-2-1", "das beste Fach des Universums");

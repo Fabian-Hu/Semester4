@@ -14,8 +14,9 @@ and open the template in the editor.
         <script type="text/javascript" src="article.js"></script>
         <script type="text/javascript" src="JSONUmwandler.js"></script> 
         <script type="text/javascript" src="localStorage.js"></script>
-        <script type="text/javascript" src="geolocation.js"></script>
+        <!--<script type="text/javascript" src="geolocation.js"></script>-->
         <script type="text/javascript" src="articleGen.js"></script>
+        <script type="text/javascript" src="start.js"></script>
        <!-- <script>
             if(navigator.serviceWorker) {
                 navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
@@ -60,19 +61,22 @@ and open the template in the editor.
         
         <div id="top"> <a href="index.html">TOP</a> </div>
         
-        <section>
-            <article class="projekte">
+       <section id="articles">
+            <h3 class="last_articles">Die letzten Artikel</h3>
+            <article id="example_article" class="task articledesc">
                 <header>
-                    <h3>Die Überfischung der Pfützen von Fritz Mütze</h3>
+                    <h4>Aufgabe4</h4>
                 </header>
-                    <p>Ich habe in meinem ganzen Leben noch nie einen Fisch <a href="Projekte.html#projekt3">mehr anzeigen ...</a></p>
+                <p>
+                    Lorem ipsum 
+                </p>
+                <br>
+                <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
                 <footer>
-                    <div>Hier könnten ihre Füße stehen</div>
+                    © Peter Silie
                 </footer>
-                <br />
             </article>
-            <br />
-	</section>	
+        </section>
 
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
