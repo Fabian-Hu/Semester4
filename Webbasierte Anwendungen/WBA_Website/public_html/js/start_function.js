@@ -2,12 +2,22 @@ window.onload = function() {
     setLanguage();
     let url = document.URL;
     let parts = url.split("?")[0].split("#")[0].split("/");
-    console.log(parts[parts.length - 1].split(".")[0]);
     let side = parts[parts.length - 1].split(".")[0];
     
     switch(side) {
         case "index":
             loadArticles(5);
+            break;
+        
+        case "article":
+            let urlParams = new URLSearchParams(window.location.search);
+            showArticle(urlParams.get("id"));
+            generateTableOfContents();
+            document.getElementById("commentForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                saveComment();
+            });
+            loadComments();
             break;
         
         case "createNewArticle":

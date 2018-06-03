@@ -70,15 +70,14 @@ function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
     console.log(newArticle);
     newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
-    newArticle.childNodes[3].firstChild.nodeValue = article.content.substring(0, 400) + "...";
-    newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = 
+    newArticle.childNodes[3].innerHTML = article.content.substring(0, 400) + "...";
     newArticle.attributes["class"].nodeValue = article.type + " articledesc";
     newArticle.id = key;
     
     if (article.type === "news") {
-        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = "\WBA_Website\article.html?" + key;
+        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
     } else {
-        newArticle.childNodes[3].childNodes[3].attributes["href"].nodeValue = "\WBA_Website\article.html?" + key;
+        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + key;
     }
     
     let br = document.createElement("br");
