@@ -83,6 +83,7 @@ void Moons::rotateY(float angle)
 {
 	for (unsigned i = 0; i < monde.size(); i++) {
 		monde[i].rotateMoonY(planet, angle);
+		//monde[i].rotateY(angle);
 	}
 }
 

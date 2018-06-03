@@ -123,9 +123,9 @@ void render()
 void glutDisplay ()
 {
    
-   //uranus.rotateY(0.7f);
-   //urAchse.rotateY(0.7f);
-   //uranusMoons.rotateY(0.7f);
+   uranus.rotateY(0.7f);
+   urAchse.rotateY(0.7f);
+   uranusMoons.rotateY(0.7f);
    //pluto.rotateY(0.5f);
    //pluse.rotateY(0.5f);
    //plutoMoons.rotateY(0.5f);
@@ -200,13 +200,13 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	case 'x':
 		// do something
 		break;
-	case 'y':
+	case 'Y':
 		if (zoomy > -30.0f) {
 			zoomy -= 1.0f;
 			zoom();
 		}
 		break;
-	case 'Y':
+	case 'y':
 		if (zoomy < 30.0f) {
 			zoomy += 1.0f;
 			zoom();
