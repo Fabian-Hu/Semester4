@@ -58,6 +58,7 @@ void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 p
 	program.setUniform ("mvp", mvp);
 
 	glBindVertexArray(vao);
+	//evtl. besser faces.size() * 6 zu indices.size()
 	glDrawElements(mode, faces.size() * 6, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
