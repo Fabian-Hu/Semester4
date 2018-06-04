@@ -15,6 +15,7 @@ public:
 
 	void translate(float x, float y, float z);
 	void translate(glm::vec3 position);
+	void weirdTranslate(glm::vec3 position);
 
 	float degreeToRadians(float angle);
 	glm::vec3 substract(glm::vec3 eins, glm::vec3 zwei);
@@ -23,6 +24,8 @@ public:
 	void rotateY(float angle);
 	void rotateZ(float angle);
 	void rotateSelf(float angle);
+	void Himmelsding::rotateAroundAxis(Himmelsding *planet, float angle);
+	void Himmelsding::rotateAroundAxis(Himmelsding *planet, float angle, float axis1, float axis2, float axis3);
 	void rotatePlutosOffsetDinger(float angle, float offset, Himmelsding *planet);
 	void rotateMoonY(Himmelsding *planet, float angle);
 

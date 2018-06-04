@@ -21,6 +21,7 @@ float zoomy = 0.0f;
 float zoomz = 40.0f;
 float maximaleFlughoehe = 0.0f;
 float maximaleFlughoeheUranus = 0.0f;
+float geschwindigkeit = 0.6f;
 
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
@@ -125,17 +126,18 @@ void render()
 void glutDisplay ()
 {
 
-	uranus.rotateSelf(-0.7f);
-	uranus.rotateY(0.7f);
-	urAchse.rotateY(0.7f);
-	uranusMoons.rotateY(0.7f);
+	uranus.rotateSelf(geschwindigkeit * -1.2f);
+	uranus.rotateY(geschwindigkeit * 1.2f);
+	urAchse.rotateY(geschwindigkeit * 1.2f);
+	uranusMoons.rotateY(geschwindigkeit *1.2f);
 
-	/*
-	pluto.rotateSelf(-0.5f);
-	pluto.rotateY(0.5f);
-	pluse.rotateY(0.5f);
-	plutoMoons.rotateY(0.5f);
-	*/
+	
+	pluto.rotateSelf(geschwindigkeit * -0.8f);
+	pluto.rotateY(geschwindigkeit * 0.8f);
+	pluse.rotateY(geschwindigkeit * 0.8f);
+	//plutoMoons.rotateY(geschwindigkeit * 0.8f);
+	plutoMoons.rotateSchief(geschwindigkeit * 0.8f, -1.0f, 1.0f, 0.0f);
+
 
 	//GLCODE(render());
 	render();
@@ -265,6 +267,16 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		if (zoomy < 30.0f) {
 			zoomy += 1.0f;
 			zoom();
+		}
+		break;
+	case 'w':
+		if (geschwindigkeit > 0.2f) {
+			geschwindigkeit -= 0.1f;
+		}
+		break;
+	case 'W':
+		if (geschwindigkeit < 3.0f) {
+			geschwindigkeit += 0.1f;
 		}
 		break;
 	}

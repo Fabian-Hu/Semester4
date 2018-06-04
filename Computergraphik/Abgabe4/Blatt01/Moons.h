@@ -21,6 +21,7 @@ public:
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
+	void rotateSchief(float angle, float axis1, float axis2, float axis3);
 	glm::vec3 getPosition();
 
 private:
