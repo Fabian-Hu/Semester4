@@ -22,7 +22,9 @@ float zoomz = 40.0f;
 float maximaleFlughoehe = 0.0f;
 float maximaleFlughoeheUranus = 0.0f;
 float geschwindigkeit = 0.0f;
-float winkel = 45.0f;
+namespace Global { extern float winkel = 45.0f; }
+
+glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
@@ -31,9 +33,9 @@ Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
 Moons uranusMoons(&uranus, 3);
 
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, winkel);
-Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, winkel);
-Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, winkel);
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, Global::winkel);
+Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
+Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -131,11 +133,11 @@ void glutDisplay ()
 	urAchse.rotateY(geschwindigkeit * 1.2f);
 	uranusMoons.rotateY(geschwindigkeit * 1.2f);
 	
-	pluto.rotateSelf(geschwindigkeit * -0.8f);
-	pluse.rotateSelf(geschwindigkeit * -0.8f);
-	pluto.rotateY(geschwindigkeit * 0.8f);
-	pluse.rotateY(geschwindigkeit * 0.8f);
-	plutoMoons.rotateSchief(geschwindigkeit * 0.8f);
+	pluto.rotateSelf(geschwindigkeit * -0.8f, axis);	// axis
+	pluse.rotateSelf(geschwindigkeit * -0.8f);	// nicht
+	pluto.rotateY(geschwindigkeit * 0.8f);		// nicht
+	pluse.rotateY(geschwindigkeit * 0.8f);		// nicht
+	plutoMoons.rotateSchief(geschwindigkeit * 0.8f, axis);	// axis
 
 	//GLCODE(render());
 	render();
@@ -161,6 +163,13 @@ void zoom() {
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 	view = glm::lookAt(eye, center, up);
+}
+
+void calculateAxis(float winkel){
+	float radians = winkel * (float)PI / 180.0f;
+	axis[0] = sin(-radians);
+	axis[1] = cos(-radians);
+	axis[2] = 0.0f;
 }
 
 /*
@@ -256,24 +265,25 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		}
 		break;
 	case 'p':
-		if (winkel <= 360.0f) {
-			winkel = 0.0f;
+		if (Global::winkel >= 360.0f) {
+			Global::winkel = 0.0f;
 		}
 		pluto.rotateSelfZ(4.0f);
 		plutoMoons.rotateWinkel(4.0f);
 		pluse.rotateZ(4.0f);
-
-		winkel += 4.0f;
+		Global::winkel = Global::winkel + 4.0f;
+		calculateAxis(Global::winkel);
 		break;
 	case 'P':
-		if (maximaleFlughoeheUranus >= 0.0f) {
-			winkel = 360.0f;
+		if (maximaleFlughoeheUranus <= 0.0f) {
+			Global::winkel = 360.0f;
 		}
 		pluto.rotateSelfZ(-4.0f);
 		plutoMoons.rotateWinkel(-4.0f);
 		pluse.rotateZ(-4.0f);
 
-		winkel -= 4.0f;
+		Global::winkel = Global::winkel - 4.0f;
+		calculateAxis(Global::winkel);
 		break;
 	case 'Y':
 		if (zoomy > -30.0f) {

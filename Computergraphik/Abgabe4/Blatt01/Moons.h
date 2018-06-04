@@ -22,7 +22,7 @@ public:
 	void rotateY(float angle);
 	void rotateZ(float angle);
 	void rotateWinkel(float angle);
-	void rotateSchief(float angle);
+	void rotateSchief(float angle, glm::vec3 axis);
 	glm::vec3 getPosition();
 
 private:

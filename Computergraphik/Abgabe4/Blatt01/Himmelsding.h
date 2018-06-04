@@ -24,9 +24,10 @@ public:
 	void rotateY(float angle);
 	void rotateZ(float angle);
 	void rotateSelf(float angle);
+	void rotateSelf(float angle, glm::vec3 axis);
 	void rotateAroundAxis(float angle);
 	void rotateAroundAxis(float angle, Himmelsding *planet);
-	void rotateSchief(Himmelsding *planet, float angle);
+	void rotateSchief(Himmelsding *planet, float angle, glm::vec3 axis);
 	void rotateSelfZ(float angle);
 	void rotateAroundAxis(Himmelsding *planet, float angle, float axis1, float axis2, float axis3);
 	void rotateMoonY(Himmelsding *planet, float angle);

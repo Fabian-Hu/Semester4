@@ -132,10 +132,10 @@ void Moons::rotateZ(float angle)
 	wireSphere.model = zRotatierMatrix * wireSphere.model;
 }
 
-void Moons::rotateSchief(float angle)
+void Moons::rotateSchief(float angle, glm::vec3 axis)
 {
 	for (unsigned i = 0; i < monde.size(); i++) {
-		monde[i].rotateSchief(planet, angle);
+		monde[i].rotateSchief(planet, angle, axis);
 	}
 }
 
