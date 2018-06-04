@@ -22,6 +22,7 @@ float zoomz = 40.0f;
 float maximaleFlughoehe = 0.0f;
 float maximaleFlughoeheUranus = 0.0f;
 float geschwindigkeit = 0.6f;
+float winkel = 45.0f;
 
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
@@ -30,9 +31,9 @@ Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 1.2f);
 Moons uranusMoons(&uranus, 3);
 
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, 45.0f);
-Achse pluse(-12.0f, 0.0f, 0.0f, 0.9f, 45.0f);
-Moons plutoMoons(&pluto, 3, 2, 4, 4, 2.0f, 45.0f);
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, winkel);
+Achse pluse(-12.0f, 0.0f, 0.0f, 0.9f, winkel);
+Moons plutoMoons(&pluto, 3, 2, 4, 4, 2.0f, winkel);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -125,19 +126,15 @@ void render()
 
 void glutDisplay ()
 {
-
-	uranus.rotateSelf(geschwindigkeit * -1.2f);
+	uranus.rotateSelf(geschwindigkeit * -2.4f);
 	uranus.rotateY(geschwindigkeit * 1.2f);
 	urAchse.rotateY(geschwindigkeit * 1.2f);
 	uranusMoons.rotateY(geschwindigkeit *1.2f);
-
 	
-	pluto.rotateSelf(geschwindigkeit * -0.8f);
+	pluto.rotateSelf(geschwindigkeit * -1.6f);
 	pluto.rotateY(geschwindigkeit * 0.8f);
 	pluse.rotateY(geschwindigkeit * 0.8f);
-	//plutoMoons.rotateY(geschwindigkeit * 0.8f);
 	plutoMoons.rotateSchief(geschwindigkeit * 0.8f, -1.0f, 1.0f, 0.0f);
-
 
 	//GLCODE(render());
 	render();
@@ -256,6 +253,26 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 			uranusMoons.translate(0.0f, -0.5f, 0.0f);
 			maximaleFlughoeheUranus--;
 		}
+		break;
+	case 'p':
+		if (winkel <= 360.0f) {
+			winkel = 0.0f;
+		}
+		pluto.rotateAroundAxis(4.0f);
+		pluse.rotateAroundAxis(4.0f);
+		//plutoMoons.rotateWinkel(4.0f);
+
+		winkel += 4.0f;
+		break;
+	case 'P':
+		if (maximaleFlughoeheUranus >= 0.0f) {
+			winkel = 360.0f;
+		}
+		pluto.rotateAroundAxis(-4.0f);
+		pluse.rotateAroundAxis(-4.0f);
+		//plutoMoons.rotateWinkel(-4.0f);
+
+		winkel -= 4.0f;
 		break;
 	case 'Y':
 		if (zoomy > -30.0f) {

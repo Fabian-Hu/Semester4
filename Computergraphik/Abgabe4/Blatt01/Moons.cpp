@@ -141,7 +141,12 @@ void Moons::rotateSchief(float angle, float axis1, float axis2, float axis3)
 	}
 }
 
-
+void Moons::rotateWinkel(float angle)
+{
+	for (unsigned i = 0; i < monde.size(); i++) {
+		monde[i].rotateAroundAxis(angle, planet);
+	}
+}
 
 glm::vec3 Moons::getPosition()
 {

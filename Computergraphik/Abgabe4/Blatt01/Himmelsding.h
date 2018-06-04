@@ -20,13 +20,17 @@ public:
 	float degreeToRadians(float angle);
 	glm::vec3 substract(glm::vec3 eins, glm::vec3 zwei);
 
+	glm::vec3 getOrthoAchse();
+	glm::vec3 getOrthoAchse(Himmelsding *planet);
+
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
 	void rotateSelf(float angle);
-	void Himmelsding::rotateAroundAxis(Himmelsding *planet, float angle);
-	void Himmelsding::rotateAroundAxis(Himmelsding *planet, float angle, float axis1, float axis2, float axis3);
-	void rotatePlutosOffsetDinger(float angle, float offset, Himmelsding *planet);
+	void rotateAroundAxis(float angle);
+	void rotateAroundAxis(float angle, Himmelsding *planet);
+	void rotateAroundAxis(Himmelsding *planet, float angle);
+	void rotateAroundAxis(Himmelsding *planet, float angle, float axis1, float axis2, float axis3);
 	void rotateMoonY(Himmelsding *planet, float angle);
 
 	glm::vec3 getPosition();

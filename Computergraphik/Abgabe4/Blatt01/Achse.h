@@ -19,6 +19,9 @@ public:
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
+	glm::vec3 Achse::getPosition();
+	void rotateAroundAxis(float angle);
+	glm::vec3 getOrthoAchse();
 
 private:
 	Object wireSphere;
