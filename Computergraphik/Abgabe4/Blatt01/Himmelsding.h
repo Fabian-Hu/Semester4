@@ -20,16 +20,14 @@ public:
 	float degreeToRadians(float angle);
 	glm::vec3 substract(glm::vec3 eins, glm::vec3 zwei);
 
-	glm::vec3 getOrthoAchse();
-	glm::vec3 getOrthoAchse(Himmelsding *planet);
-
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
 	void rotateSelf(float angle);
 	void rotateAroundAxis(float angle);
 	void rotateAroundAxis(float angle, Himmelsding *planet);
-	void rotateAroundAxis(Himmelsding *planet, float angle);
+	void rotateSchief(Himmelsding *planet, float angle);
+	void rotateSelfZ(float angle);
 	void rotateAroundAxis(Himmelsding *planet, float angle, float axis1, float axis2, float axis3);
 	void rotateMoonY(Himmelsding *planet, float angle);
 
@@ -43,5 +41,7 @@ private:
 	float schiefigkeitus = 0.0f;
 	float schiefigkeitigkeit = 0.0f;
 	float offset = 0.0f;
+	glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
+
 	glm::vec3 position;
 };

@@ -21,19 +21,19 @@ float zoomy = 0.0f;
 float zoomz = 40.0f;
 float maximaleFlughoehe = 0.0f;
 float maximaleFlughoeheUranus = 0.0f;
-float geschwindigkeit = 0.6f;
+float geschwindigkeit = 0.0f;
 float winkel = 45.0f;
 
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
-Achse urAchse(8.0f, 0.0f, 0.0f, 1.2f);
+Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
 Moons uranusMoons(&uranus, 3);
 
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.3f, winkel);
-Achse pluse(-12.0f, 0.0f, 0.0f, 0.9f, winkel);
-Moons plutoMoons(&pluto, 3, 2, 4, 4, 2.0f, winkel);
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, winkel);
+Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, winkel);
+Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, winkel);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -129,12 +129,13 @@ void glutDisplay ()
 	uranus.rotateSelf(geschwindigkeit * -2.4f);
 	uranus.rotateY(geschwindigkeit * 1.2f);
 	urAchse.rotateY(geschwindigkeit * 1.2f);
-	uranusMoons.rotateY(geschwindigkeit *1.2f);
+	uranusMoons.rotateY(geschwindigkeit * 1.2f);
 	
-	pluto.rotateSelf(geschwindigkeit * -1.6f);
+	pluto.rotateSelf(geschwindigkeit * -0.8f);
+	pluse.rotateSelf(geschwindigkeit * -0.8f);
 	pluto.rotateY(geschwindigkeit * 0.8f);
 	pluse.rotateY(geschwindigkeit * 0.8f);
-	plutoMoons.rotateSchief(geschwindigkeit * 0.8f, -1.0f, 1.0f, 0.0f);
+	plutoMoons.rotateSchief(geschwindigkeit * 0.8f);
 
 	//GLCODE(render());
 	render();
@@ -258,9 +259,9 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		if (winkel <= 360.0f) {
 			winkel = 0.0f;
 		}
-		pluto.rotateAroundAxis(4.0f);
-		pluse.rotateAroundAxis(4.0f);
-		//plutoMoons.rotateWinkel(4.0f);
+		pluto.rotateSelfZ(4.0f);
+		plutoMoons.rotateWinkel(4.0f);
+		pluse.rotateZ(4.0f);
 
 		winkel += 4.0f;
 		break;
@@ -268,9 +269,9 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		if (maximaleFlughoeheUranus >= 0.0f) {
 			winkel = 360.0f;
 		}
-		pluto.rotateAroundAxis(-4.0f);
-		pluse.rotateAroundAxis(-4.0f);
-		//plutoMoons.rotateWinkel(-4.0f);
+		pluto.rotateSelfZ(-4.0f);
+		plutoMoons.rotateWinkel(-4.0f);
+		pluse.rotateZ(-4.0f);
 
 		winkel -= 4.0f;
 		break;
@@ -294,6 +295,18 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	case 'W':
 		if (geschwindigkeit < 3.0f) {
 			geschwindigkeit += 0.1f;
+		}
+		break;
+	case 'g':
+		pluto.rotateY(45.0f);
+		pluse.rotateY(45.0f);
+		break;
+	case ' ':
+		if (geschwindigkeit != 0) {
+			geschwindigkeit = 0.0f;
+		}
+		else {
+			geschwindigkeit = 0.6f;
 		}
 		break;
 	}

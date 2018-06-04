@@ -10,8 +10,8 @@ Achse::Achse(float x, float y, float z, float laenge) :
 {
 }
 
-Achse::Achse(float x, float y, float z, float laenge, float schiefigkeit) :
-	position(x, y, z), laenge(laenge), schiefigkeitus(schiefigkeit)
+Achse::Achse(Himmelsding *planet, float x, float y, float z, float laenge, float schiefigkeit) :
+	planet(planet), position(x, y, z), laenge(laenge), schiefigkeitus(schiefigkeit)
 {
 }
 
@@ -76,11 +76,12 @@ void Achse::init(cg::GLSLProgram& program)
 	// zur richtigen Startposition
 	wireSphere.model = glm::mat4(1.0f);
 
+	
+
+	translate(position);
 	if (schiefigkeitus != 0) {
 		rotateZ(schiefigkeitus);
 	}
-
-	translate(position);
 }
 
 /*
@@ -118,44 +119,6 @@ void Achse::rotateX(float angle)
 	wireSphere.model = xRotatierMatrix * wireSphere.model;
 }
 
-
-void Achse::rotateAroundAxis(float angle) {
-	glm::vec3 axis = getOrthoAchse();
-
-	float radians = degreeToRadians(angle);
-	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
-		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(axis[0], axis[1], axis[2])) *
-		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
-		wireSphere.model;
-}
-
-glm::vec3 Achse::getOrthoAchse()
-{
-	glm::vec3 position2(position[2], position[1], position[0]);
-
-	float weirdo = 0.0f;
-	float posi1 = position2[0];
-	float posi2 = position2[2];
-	if (posi1 < 0) {
-		posi1 = posi1 * -1;
-	}
-	if (posi2 < 0) {
-		posi2 = posi2 * -1;
-	}
-	weirdo = posi1 + posi2;
-	if (weirdo < 0) {
-		weirdo = weirdo * -1;
-	}
-	if (position2[0] != 0) {
-		position2[0] = position2[0] / weirdo;
-	}
-	if (position2[2] != 0) {
-		position2[2] = position2[2] / weirdo;
-	}
-
-	return position2;
-}
-
 void Achse::rotateY(float angle)
 {
 	float radians = degreeToRadians(angle);
@@ -178,14 +141,21 @@ void Achse::rotateZ(float angle)
 {
 	float radians = degreeToRadians(angle);
 
-	glm::mat4x4 zRotatierMatrix;
-	zRotatierMatrix[0] = glm::vec4(cos(-radians), -sin(-radians), 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(sin(-radians), cos(-radians), 0.0f, 0.0f);
-	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	wireSphere.model = zRotatierMatrix * wireSphere.model;
+	std::cout << position[0] << "," << position[1] << "," << position[2] << " Mond" << std::endl;
+	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
+		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
+		wireSphere.model;
 }
 
+void Achse::rotateSelf(float angle) {
+	float radians = degreeToRadians(angle);
+	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
+		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
+		wireSphere.model;
+	
+}
 
 glm::vec3 Achse::getPosition()
 {
