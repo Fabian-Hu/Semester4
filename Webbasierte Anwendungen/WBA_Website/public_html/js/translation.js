@@ -15,7 +15,7 @@ let de_DE = {
     article_type : "Artikeltyp",
     start_date : "Startdatum",
     end_date : "Enddatum",
-    title_color : "Titelfarbe"
+    title_color : "Titelfarbe",
 };
 
 let en_GB = {
@@ -34,7 +34,7 @@ let en_GB = {
     article_type : "Article type",
     start_date : "Start date",
     end_date : "End date",
-    title_color : "Title color"
+    title_color : "Title color",
 };
 
 function setLanguage() {
@@ -51,12 +51,3 @@ function setLanguage() {
         }
     }
 };
-
-let myWindow = window.open("", "MsgWindow", "menubar=0,titlebar=0,toolbar=0,top=15%,resizable=0,width=600px,height=200px");
-
-if (navigator.language === 'de' || navigator.language === 'de-DE') {
-    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Wilkommen auf SAILI!</p>");
-}else if (navigator.language === 'en' || navigator.language === 'en-US' || navigator.language === 'en-GB') {
-    myWindow.document.write("<p style=\"text-align: center; position: absolute; left: 37%; top: 40%\">Welcome to SAILI!</p>");
-}
-myWindow.setTimeout("close()", 5000);

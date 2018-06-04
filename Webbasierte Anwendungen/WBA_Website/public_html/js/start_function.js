@@ -3,7 +3,6 @@ window.onload = function() {
     let url = document.URL;
     let parts = url.split("?")[0].split("#")[0].split("/");
     let side = parts[parts.length - 1].split(".")[0];
-    
     switch(side) {
         case "index":
             loadArticles(5);
