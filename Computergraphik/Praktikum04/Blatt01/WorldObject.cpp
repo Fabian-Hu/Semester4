@@ -23,6 +23,7 @@ void WorldObject::translate (glm::vec3 direction) {
 	}
 }
 
+//rotates without changing rotating the axis -> rotation axis of mars is always the same
 void WorldObject::rotate (float a) {
 	glm::vec3 axis;
 	if (parent)

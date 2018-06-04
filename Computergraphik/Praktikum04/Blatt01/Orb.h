@@ -8,6 +8,7 @@ public:
 	Orb (Model3D *model, glm::vec3 axis, float angle, float angleLocal, bool rotateWithParent = true);
 
 	void rotate ();
+	void rotate(float a, glm::vec3 axis);
 	void multiplyRotationAngle (float num);
 
 private:

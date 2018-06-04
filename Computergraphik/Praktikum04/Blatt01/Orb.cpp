@@ -18,6 +18,13 @@ void Orb::rotate () {
 	}
 }
 
+
+void Orb::rotate(float a, glm::vec3 axis) {
+
+	model->rotateAroundPoint(a, axis, model->getPosition());
+	rotateChilds(a, model->getPosition(), axis);
+}
+
 void Orb::multiplyRotationAngle (float num) {
 	rotationAngle *= num;
 	rotationAngleLocal *= num;

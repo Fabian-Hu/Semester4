@@ -1,4 +1,7 @@
 #pragma once
+#include "Sphere.h"
+#include "Axis.h"
+#include "Orb.h"
 const float sunHeightSpeed = 0.04f;
 const float earthHeightSpeed = 0.04f;
 const float marsRotSpeed = 0.01f;
@@ -61,4 +64,4 @@ Orb marsMoon9 (&sphereMarsMoon9, glm::vec3 (0, 1, 1), -0.01f, 0.0f, false);
 Orb marsMoon10 (&sphereMarsMoon10, glm::vec3 (0, 1, 1), -0.01f, 0.0f, false);
 Orb sunAxisObject (&sunAxis, glm::vec3 (0, 1, 0));
 Orb earthAxisObject (&earthAxis, glm::vec3 (0, 1, 0));
-Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.002f);
+Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);

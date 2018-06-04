@@ -68,6 +68,7 @@ bool init() {
 
 	//Init Models
 	sun.init (program);
+	sphereMars.rotate(0.785398f, glm::vec3(0, 0, 1));
 	return true;
 }
 
@@ -88,6 +89,7 @@ void render() {
 }
 
 void glutDisplay () {
+	mars.rotate(-0.002f, glm::vec3(0, 1, 0));
 	sun.rotate ();
 	GLCODE(render());
 	glutSwapBuffers();
@@ -208,6 +210,7 @@ int main(int argc, char** argv) {
 	glutIdleFunc   (glutDisplay); // redisplay when idle
 
 	glutKeyboardFunc(glutKeyboard);
+
 
 	// Create objects.
 	sun.addChild(earth);
