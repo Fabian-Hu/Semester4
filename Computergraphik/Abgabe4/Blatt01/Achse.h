@@ -20,8 +20,10 @@ public:
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
-	glm::vec3 getPosition();
 	void rotateSelf(float angle);
+
+	glm::vec3 getPosition();
+
 private:
 	Object wireSphere;
 	Himmelsding *planet;

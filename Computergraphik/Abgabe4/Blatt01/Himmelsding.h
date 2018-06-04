@@ -18,7 +18,6 @@ public:
 	void weirdTranslate(glm::vec3 position);
 
 	float degreeToRadians(float angle);
-	glm::vec3 substract(glm::vec3 eins, glm::vec3 zwei);
 
 	void rotateX(float angle);
 	void rotateY(float angle);

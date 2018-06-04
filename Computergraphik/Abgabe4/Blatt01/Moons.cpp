@@ -81,9 +81,6 @@ void Moons::calculateMoreMoons() {
 	}
 }
 
-
-
-
 void Moons::translate(float x, float y, float z) {
 	for (unsigned i = 0; i < monde.size(); i++) {
 		monde[i].translate(x, y, z);
@@ -100,36 +97,11 @@ float Moons::degreeToRadians(float angle) {
 	return (angle * (float)PI / 180.0f);
 }
 
-void Moons::rotateX(float angle)
-{
-	float radians = degreeToRadians(angle);
-
-	glm::mat4x4 xRotatierMatrix;
-	xRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-radians), -sin(-radians), 0.0f);
-	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
-	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	wireSphere.model = xRotatierMatrix * wireSphere.model;
-}
-
 void Moons::rotateY(float angle)
 {
 	for (unsigned i = 0; i < monde.size(); i++) {
 		monde[i].rotateMoonY(planet, angle);
-		//monde[i].rotateY(angle);
 	}
-}
-
-void Moons::rotateZ(float angle)
-{
-	float radians = degreeToRadians(angle);
-
-	glm::mat4x4 zRotatierMatrix;
-	zRotatierMatrix[0] = glm::vec4(cos(-radians), -sin(-radians), 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(sin(-radians), cos(-radians), 0.0f, 0.0f);
-	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	wireSphere.model = zRotatierMatrix * wireSphere.model;
 }
 
 void Moons::rotateSchief(float angle, glm::vec3 axis)

@@ -83,7 +83,6 @@ void Himmelsding::releaseObject()
 }
 
 void Himmelsding::translate(float x, float y, float z) {
-	//wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
 	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
 	position[0] = position[0] + x;
 	position[1] = position[1] + y;
@@ -91,25 +90,15 @@ void Himmelsding::translate(float x, float y, float z) {
 }
 
 void Himmelsding::translate(glm::vec3 position2) {
-	//wireSphere.model = glm::translate(wireSphere.model, position);
 	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position2) * wireSphere.model;
-	/*position[0] = position[0] + position2[0];
-	position[1] = position[1] + position2[1];
-	position[2] = position[2] + position2[2];*/
 }
 
 void Himmelsding::weirdTranslate(glm::vec3 position) {
 	wireSphere.model = glm::translate(wireSphere.model, position);
-	//wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
 }
 
 float Himmelsding::degreeToRadians(float angle) {
 	return (angle * (float)PI / 180.0f);
-}
-
-glm::vec3 Himmelsding::substract(glm::vec3 eins, glm::vec3 zwei) {
-	glm::vec3 result(eins[0] - zwei[0], eins[1] - zwei[1], eins[2] - zwei[2]);
-	return result;
 }
 
 void Himmelsding::rotateX(float angle)
@@ -179,7 +168,6 @@ void Himmelsding::rotateAroundAxis(float angle, Himmelsding *planet) {
 	float radians = degreeToRadians(angle);
 	glm::vec3 position = planet->getPosition();
 	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
-		//glm::rotate(glm::mat4(1.0f), radians, glm::vec3(axis[0], axis[1], axis[2])) *
 		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) *
 		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
 		wireSphere.model;
@@ -204,7 +192,6 @@ void Himmelsding::rotateSelf(float angle) {
 		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 1.0f, 0.0f)) *
 		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
 		wireSphere.model;
-	
 }
 
 void Himmelsding::rotateSelf(float angle, glm::vec3 axis) {
@@ -214,8 +201,6 @@ void Himmelsding::rotateSelf(float angle, glm::vec3 axis) {
 		glm::rotate(glm::mat4(1.0f), radians, axis) *
 		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
 		wireSphere.model;
-	//std::cout << axis[0] << "," << axis[1] << "," << axis[2] << std::endl;
-
 }
 
 

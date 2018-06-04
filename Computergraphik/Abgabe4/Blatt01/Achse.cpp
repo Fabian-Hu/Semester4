@@ -97,6 +97,9 @@ void Achse::releaseObject()
 
 void Achse::translate(float x, float y, float z) {
 	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
+	position[0] = position[0] + x;
+	position[1] = position[1] + y;
+	position[2] = position[2] + z;
 }
 
 void Achse::translate(glm::vec3 position) {
@@ -141,7 +144,6 @@ void Achse::rotateZ(float angle)
 {
 	float radians = degreeToRadians(angle);
 
-	//std::cout << position[0] << "," << position[1] << "," << position[2] << " Mond" << std::endl;
 	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
 		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) *
 		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
