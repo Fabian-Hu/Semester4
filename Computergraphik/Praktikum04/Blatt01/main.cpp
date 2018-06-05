@@ -68,7 +68,7 @@ bool init() {
 
 	//Init Models
 	sun.init (program);
-	sphereMars.rotate(0.785398f, glm::vec3(0, 0, 1));
+	sun.setUp();
 	return true;
 }
 
@@ -89,7 +89,6 @@ void render() {
 }
 
 void glutDisplay () {
-	mars.rotate(-0.002f, glm::vec3(0, 1, 0));
 	sun.rotate ();
 	GLCODE(render());
 	glutSwapBuffers();
@@ -111,7 +110,7 @@ void moveCamera(float m) {
 	//glm::translate(view, glm::vec3(0.0f, 0.0f, m));
 	if ((cameraPos > 2.0f || m > 0) && (cameraPos < 15.0f || m < 0)) {
 		cameraPos += m;
-		glm::vec3 eye(cameraPos, cameraPos, cameraPos);
+		glm::vec3 eye(0, 0, cameraPos);
 		glm::vec3 center(0.0f, 0.0f, 0.0f);
 		glm::vec3 up(0.0f, 1.0f, 0.0f);
 
@@ -211,7 +210,8 @@ int main(int argc, char** argv) {
 
 	glutKeyboardFunc(glutKeyboard);
 
-
+	mars.addSetUp(rotateMarsSetUp);
+	mars.addRotation(rotateMars);
 	// Create objects.
 	sun.addChild(earth);
 	sun.addChild(mars);

@@ -2,17 +2,18 @@
 #include <queue>
 #include "math.h"
 
-Sphere::Sphere(float radius, int numSplits, glm::vec3 color, GLenum mode) :
+Sphere::Sphere(GLenum mode, float radius, int numSplits, glm::vec3 color) :
 	Model3D(mode), radius(radius), color(color) {
-	createSphere(glm::vec3(0.0f, 0.0f, 0.0f), numSplits);
+	createSphere(numSplits);
+
 }
 
-Sphere::Sphere(glm::vec3 position, float radius, int numSplits, glm::vec3 color, GLenum mode) :
-	Model3D(mode), radius(radius), color(color) {
-	createSphere(position, numSplits);
+Sphere::Sphere(GLenum mode, glm::vec3 position, float radius, int numSplits, glm::vec3 color) :
+	Model3D(mode, position), radius(radius), color(color) {
+	createSphere(numSplits);
 }
 
-void Sphere::createSphere(glm::vec3 position, int numSplits) {
+void Sphere::createSphere(int numSplits) {
 	std::vector<Face> faces;
 	for (int x = -1; x <= 1; x += 2) {
 		for (int y = -1; y <= 1; y += 2) {
@@ -38,40 +39,8 @@ void Sphere::createSphere(glm::vec3 position, int numSplits) {
 	}
 
 	while (!faces.empty()) {
-		faces.back().normalize(getPosition(), radius);
+		faces.back().normalize(glm::vec3(0), radius);
 		addFace(faces.back());
 		faces.pop_back();
-	}
-
-	translate (position);
-}
-
-void Sphere::build() {
-	for (Face &face : faces) {
-		std::vector<glm::vec3> faceVertices = face.getVertices();
-		std::vector<glm::vec3> faceColors = face.getColors();
-		std::vector<GLushort> faceIndices = face.getIndices();
-
-		GLushort indicesTriangle[3];
-
-		for (int i = 0; i < faceVertices.size(); i++) {
-			int index = insertPoint(faceVertices[i]);
-			int other = containsVertexColor(index, faceColors[i]);
-			if (other != -1) {
-				indicesTriangle[i] = other;
-			}
-			else {
-				points_vertices.push_back(index);
-				colors.push_back(faceColors[i]);
-				indicesTriangle[i] = points_vertices.size() - 1;
-			}
-		}
-
-		indices.push_back(indicesTriangle[0]);
-		indices.push_back(indicesTriangle[1]);
-		indices.push_back(indicesTriangle[0]);
-		indices.push_back(indicesTriangle[2]);
-		indices.push_back(indicesTriangle[1]);
-		indices.push_back(indicesTriangle[2]);
 	}
 }

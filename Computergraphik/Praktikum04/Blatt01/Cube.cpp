@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-Cube::Cube() : Model3D() {
+Cube::Cube() : Model3D(GL_TRIANGLES) {
 	createCube();
 }
 

@@ -169,9 +169,11 @@
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3D.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,10 +182,12 @@
     <ClInclude Include="Face.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Model3D.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SunSystemData.h" />
+    <ClInclude Include="WireframeSphere.h" />
     <ClInclude Include="WorldObject.h" />
   </ItemGroup>
   <ItemGroup>

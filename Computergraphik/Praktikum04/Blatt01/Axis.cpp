@@ -1,21 +1,23 @@
 #include "Axis.h"
 
-Axis::Axis(glm::vec3 position, float length, glm::vec3 color, float angle, glm::vec3 axis) :
-	Model3D(position, GL_LINES), length(length), color(color), angle(angle), axis(axis) {}
 
-void Axis::build() {
-	points.push_back({ 0.0f, length / 2, 0.0f } );
-	points.push_back({ 0.0f, -length / 2, 0.0f });
-	points_vertices.push_back(0);
-	points_vertices.push_back(1);
-	colors.push_back(color);
-	colors.push_back(color);
-	indices.push_back(0);
-	indices.push_back(1);
-	addFace(Face());
+Axis::Axis() : Model(GL_LINES, glm::vec3(0, 0, 0)) {}
+
+Axis::Axis(glm::vec3 position, glm::vec3 point1, glm::vec3 point2) : Model(GL_LINES, position) {
+	vertices.push_back(point1);
+	vertices.push_back(point2);
+	indices = { 0, 1 };
 }
 
-void Axis::init (cg::GLSLProgram &program) {
-	Model3D::init (program);
-	rotate (angle, axis);
+Axis::Axis(glm::vec3 position, float length) : Model(GL_LINES, position) {
+	vertices.push_back(glm::vec3(0, length/2.0f, 0));
+	vertices.push_back(glm::vec3(0, length / -2.0f, 0));
+	indices = { 0, 1 };
 }
+
+Axis::Axis(glm::vec3 position, float length, glm::vec3 color) : Axis(position, length) {
+	colors.push_back(color);
+	colors.push_back(color);
+}
+
+void Axis::build(){}

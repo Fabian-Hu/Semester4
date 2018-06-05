@@ -1,26 +1,23 @@
 #include "Face.h"
 
-Face::Face(){
+Face::Face(){}
+
+Face::Face(GLenum mode) : Model(mode) {}
+
+Face::Face(GLenum mode, glm::vec3 position) : Model(mode, position) {}
+
+Face::Face(std::vector<glm::vec3>& vertices, glm::vec3 &color) {
+	setVertices(vertices);
+	setColors(std::vector<glm::vec3>({ color, color, color }));
+	setIndices(std::vector<GLushort>({ 0, 1, 2 }));
 }
 
-Face::Face(std::vector<glm::vec3> &vertices, glm::vec3 &color) {
-	this->vertices = vertices;
-	for (int i = 0; i < vertices.size(); i++) {
-		colors.push_back(color);
-	}
-}
+Face::Face(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors) : Face(vertices, colors, std::vector<GLushort>({0, 1, 2})) {}
 
-Face::Face(std::vector<glm::vec3> &vertices, glm::vec3 &color, std::vector<GLushort> &indices) {
-	this->vertices = vertices;
-	for (int i = 0; i < vertices.size(); i++) {
-		colors.push_back(color);
-	}
-	this->indices = indices;
-}
-
-Face::Face(std::vector<glm::vec3> &vertices, std::vector<glm::vec3> &colors) {
-	this->vertices = vertices;
-	this->colors = colors;
+Face::Face(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors, std::vector<GLushort>& indices) {
+	setVertices(vertices);
+	setColors(colors);
+	setIndices(indices);
 }
 
 void Face::splitFace(Face *faces) {

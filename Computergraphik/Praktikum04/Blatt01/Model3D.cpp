@@ -2,17 +2,9 @@
 #include "glm/gtx/rotate_vector.hpp"
 #include "GLTools.h"
 
-Model3D::Model3D() :
-	position(0.0f, 0.0f, 0.0f), origin (0.0f, 0.0f, 0.0f), mode(GL_TRIANGLES) {
-}
+Model3D::Model3D(GLenum mode) : Model(mode) {}
 
-Model3D::Model3D(GLenum mode) :
-	position(0.0f, 0.0f, 0.0f), origin(0.0f, 0.0f, 0.0f), mode(mode) {
-}
-
-Model3D::Model3D(glm::vec3 position, GLenum mode) :
-	position(position), origin(position), mode(mode) {
-}
+Model3D::Model3D(GLenum mode, glm::vec3 position) : Model(mode, position) {}
 
 void Model3D::addFace (Face & face) {
 	faces.push_back (face);
@@ -20,46 +12,7 @@ void Model3D::addFace (Face & face) {
 
 void Model3D::init (cg::GLSLProgram &program) {
 	calculateModel();
-	GLuint programId = program.getHandle ();
-	GLuint pos;
-
-	glGenVertexArrays (1, &vao);
-	glBindVertexArray (vao);
-
-	glGenBuffers (1, &positionBuffer);
-	glBindBuffer (GL_ARRAY_BUFFER, positionBuffer);
-	glBufferData (GL_ARRAY_BUFFER, vertices.size () * sizeof (glm::vec3), vertices.data (), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation (programId, "position");
-	glEnableVertexAttribArray (pos);
-	glVertexAttribPointer (pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glGenBuffers (1, &colorBuffer);
-	glBindBuffer (GL_ARRAY_BUFFER, colorBuffer);
-	glBufferData (GL_ARRAY_BUFFER, colors.size () * sizeof (glm::vec3), colors.data (), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation (programId, "color");
-	glEnableVertexAttribArray (pos);
-	glVertexAttribPointer (pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glGenBuffers (1, &indexBuffer);
-	glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	glBufferData (GL_ELEMENT_ARRAY_BUFFER, indices.size () * sizeof (GLushort), indices.data (), GL_STATIC_DRAW);
-
-	glBindVertexArray (0);
-
-	model = glm::translate (glm::mat4 (1.0f), position);
-}
-
-void Model3D::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
-	glm::mat4x4 mvp = projection * view * model;
-
-	program.use ();
-	program.setUniform ("mvp", mvp);
-
-	glBindVertexArray(vao);
-	glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
+	Model::init(program);
 }
 
 void Model3D::build() {
@@ -91,35 +44,6 @@ int Model3D::containsVertexColor(int index, glm::vec3 & color) {
 	return -1;
 }
 
-void Model3D::releaseModel(){
-	glDeleteVertexArrays(1, &vao);
-	glDeleteBuffers(1, &indexBuffer);
-	glDeleteBuffers(1, &colorBuffer);
-	glDeleteBuffers(1, &positionBuffer);
-}
-
-void Model3D::rotate(float a, glm::vec3 direction) {
-	rotateAroundPoint (a, direction, origin);
-}
-
-void Model3D::rotateLocal (float a, glm::vec3 direction) {
-	rotateAroundPoint (a, direction, position);
-}
-
-void Model3D::rotateAroundPoint (float a, glm::vec3 direction, glm::vec3 point) {
-	glm::vec4 positionPoint (position[0], position[1], position[2], 1);
-	model = glm::translate (glm::mat4 (1.0f), point) * glm::rotate (glm::mat4 (1.0f), a, direction) *
-		glm::translate (glm::mat4 (1.0f), glm::vec3 (-point[0], -point[1], -point[2])) * model;
-	position = glm::translate (glm::mat4 (1.0f), point) * glm::rotate (glm::mat4 (1.0f), a, direction) *
-		glm::translate (glm::mat4 (1.0f), glm::vec3 (-point[0], -point[1], -point[2])) * positionPoint;
-}
-
-void Model3D::translate (glm::vec3 direction) {
-	position += direction;
-	origin += direction;
-	model = glm::translate (glm::mat4 (1.0f), direction) * model;
-}
-
 void Model3D::calculateModel () {
 	vertices.clear();
 	vertices.shrink_to_fit();
@@ -138,16 +62,4 @@ int Model3D::insertPoint(glm::vec3 &point) {
 	}
 	points.push_back(point);
 	return index;
-}
-
-glm::vec3 Model3D::getPosition() {
-	return position;
-}
-
-glm::vec3 Model3D::getOrigin () {
-	return origin;
-}
-
-void Model3D::setOrigin (glm::vec3 origin){
-	this->origin = origin;
 }

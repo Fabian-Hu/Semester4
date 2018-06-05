@@ -1,9 +1,11 @@
 #include "WorldObject.h"
 
-WorldObject::WorldObject (Model3D *model, glm::vec3 axis, bool rotateWithParent) : model (model), axis (axis), rotateWithParent(rotateWithParent) { }
+WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent) {
+	origin = model->getPosition();
+}
 
 void WorldObject::setOrigin (glm::vec3 origin) {
-	model->setOrigin (origin);
+	this->origin = origin;
 }
 
 void WorldObject::addChild (WorldObject &child) {
@@ -23,43 +25,39 @@ void WorldObject::translate (glm::vec3 direction) {
 	}
 }
 
-//rotates without changing rotating the axis -> rotation axis of mars is always the same
-void WorldObject::rotate (float a) {
-	glm::vec3 axis;
-	if (parent)
-		axis = parent->axis;
-	else
-		axis = glm::vec3 (0, 1, 0);
-	rotate (a, model->getOrigin (), axis);
-}
-
-void WorldObject::rotateWithAxis (float a, glm::vec3 direction) {
-	model->rotateLocal (a, direction);
-	glm::vec4 axisVec (axis[0], axis[1], axis[2], 1);
-	axis = glm::rotate (glm::mat4 (1.0f), a, direction) * axisVec;
-
-	for each (WorldObject *childObj in childs) {
-		childObj->rotate (a, model->getPosition(), direction);
+void WorldObject::rotate(float a, glm::vec3 origin, glm::vec3 axis, int childs) {
+	model->rotate (a, axis, origin);
+	if (childs == 1) {
+		rotateChilds(a, origin, axis);
+	} else if (childs == 2) {
+		rotateChilds(a, origin, axis, true);
 	}
 }
 
-void WorldObject::rotate (float a, glm::vec3 origin, glm::vec3 axis) {
-	
-	model->rotateAroundPoint (a, axis, origin);
-	rotateChilds (a, origin, axis);
+void WorldObject::rotate(float a, glm::vec3 axis, int childs) {
+	model->rotate(a, axis, origin);
+	if (childs == 1) {
+		rotateChilds(a, origin, axis);
+	} else if (childs == 2) {
+		rotateChilds(a, origin, axis, true);
+	}
 }
 
-void WorldObject::rotateLocal (float a) {
-	model->rotateLocal (a, axis);
-	//rotateChilds (a, model->getPosition());
-}
-
-void WorldObject::rotateChilds (float a, glm::vec3 origin, glm::vec3 axis) {
+void WorldObject::rotateChilds(float a, glm::vec3 origin, glm::vec3 axis, bool withAllChilds) {
 	for each (WorldObject *childObj in childs) {
-		if (childObj->rotateWithParent)
-			childObj->rotate (a, origin, axis);
+		if (childObj->rotateWithParent || withAllChilds)
+			childObj->rotate(a, origin, axis, withAllChilds);
 		else
-			childObj->rotate (a, origin + childObj->model->getPosition () - model->getPosition (), axis);
+			childObj->rotate(a, origin + childObj->model->getPosition() - model->getPosition(), axis, withAllChilds);
+	}
+}
+
+void WorldObject::rotateLocal(float a, glm::vec3 axis, int childs) {
+	model->rotateCenter (a, axis);
+	if (childs == 1) {
+		rotateChilds(a, model->getPosition(), axis);
+	} else if (childs == 2) {
+		rotateChilds(a, model->getPosition(), axis, true);
 	}
 }
 
