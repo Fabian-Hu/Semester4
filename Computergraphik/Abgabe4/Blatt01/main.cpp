@@ -135,6 +135,7 @@ void glutDisplay ()
 	
 	pluto.rotateSelf(geschwindigkeit * -0.8f, axis);	// axis
 	pluse.rotateSelf(geschwindigkeit * -0.8f);	// nicht
+
 	pluto.rotateY(geschwindigkeit * 0.8f);		// nicht
 	pluse.rotateY(geschwindigkeit * 0.8f);		// nicht
 	plutoMoons.rotateSchief(geschwindigkeit * 0.8f, axis);	// axis
@@ -167,9 +168,8 @@ void zoom() {
 
 void calculateAxis(float winkel){
 	float radians = winkel * (float)PI / 180.0f;
-	axis[0] = sin(-radians);
-	axis[1] = cos(-radians);
-	axis[2] = 0.0f;
+
+	axis = glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) * glm::vec4(axis[0], axis[1], axis[2], 1);
 }
 
 /*
@@ -272,7 +272,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		plutoMoons.rotateWinkel(4.0f);
 		pluse.rotateZ(4.0f);
 		Global::winkel = Global::winkel + 4.0f;
-		calculateAxis(Global::winkel);
+		calculateAxis(4.0f);
 		break;
 	case 'P':
 		if (maximaleFlughoeheUranus <= 0.0f) {
@@ -283,7 +283,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		pluse.rotateZ(-4.0f);
 
 		Global::winkel = Global::winkel - 4.0f;
-		calculateAxis(Global::winkel);
+		calculateAxis(-4.0f);
 		break;
 	case 'Y':
 		if (zoomy > -30.0f) {

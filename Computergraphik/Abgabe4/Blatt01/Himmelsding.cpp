@@ -177,13 +177,13 @@ void Himmelsding::rotateSchief(Himmelsding *planet, float angle, glm::vec3 axis)
 	float radians = degreeToRadians(angle);
 	glm::vec3 position = planet->getPosition();
 
+	wireSphere.model = glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 1.0f, 0.0f)) * wireSphere.model;
 	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
 		glm::rotate(glm::mat4(1.0f), radians, -glm::vec3(0.0f, 1.0f, 0.0f)) *
 		glm::rotate(glm::mat4(1.0f), radians, axis) *
 			glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
 				wireSphere.model;
 
-	wireSphere.model = glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 1.0f, 0.0f)) * wireSphere.model;
 }
 
 void Himmelsding::rotateSelf(float angle) {
