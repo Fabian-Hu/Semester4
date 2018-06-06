@@ -96,7 +96,7 @@ Alles nach einem Semikolon ist ein Kommentar
 
 Durch -O2 hat sich der Programmcode um 44 Bytes verkleinert.
 
-In der neu erzeugten Datei gibt es keinen eigenen Abschnitt mit <delay>, dadurch ist die Main Methode zwar etwas größer, aber insgesamt ist es dadurch kleiner.
+In der neu erzeugten Datei gibt es keinen eigenen Abschnitt mit \<delay>, dadurch ist die Main Methode zwar etwas größer, aber insgesamt ist es dadurch kleiner.
 
 
 
@@ -105,3 +105,16 @@ In der neu erzeugten Datei gibt es keinen eigenen Abschnitt mit <delay>, dadurch
 volatile ist in C ein Zusatz beim deklarieren von Variablen und  gibt an, dass sich der Wert der Variablen jederzeit ändern kann. Dadurch führt der Compiler an der Stelle keinen Optimierungen durch. volatile ist nun nicht mehr vorhanden und dadurch gibt es auch an jeder Stelle Optimierungen
 
 In der neu erzeugten Datei ohne volatile gibt es einen Abschnitt mit delay, welcher in der main zweimal aufgerufen wird. Dadurch ist die main kleiner, da der Code nicht zweimal aufgeschrieben werden musste. Ansonsten sind beide Dateien ziemlich ähnlich.
+
+
+
+
+
+# Fehler
+
+1. falsch ldr/str machen was anderes, ein Befehl zu wenig
+
+2. delay ist in die main gewandert
+
+3. aus versehen -o0 benutzt. eigentlich hätte die schleife weggekürzt
+
