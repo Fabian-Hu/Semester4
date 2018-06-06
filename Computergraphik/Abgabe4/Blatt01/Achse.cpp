@@ -10,8 +10,8 @@ Achse::Achse(float x, float y, float z, float laenge) :
 {
 }
 
-Achse::Achse(float x, float y, float z, float laenge, float schiefigkeit) :
-	position(x, y, z), laenge(laenge), schiefigkeitus(schiefigkeit)
+Achse::Achse(Himmelsding *planet, float x, float y, float z, float laenge, float schiefigkeit) :
+	planet(planet), position(x, y, z), laenge(laenge), schiefigkeitus(schiefigkeit)
 {
 }
 
@@ -33,7 +33,7 @@ void Achse::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 proje
 void Achse::init(cg::GLSLProgram& program)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = { glm::vec3(-0.1f, laenge, 0.0f), glm::vec3(-0.1f, -laenge, 0.0f), glm::vec3(0.1f, 0.0f, 0.0f) };
+	const std::vector<glm::vec3> vertices = { glm::vec3(-0.05f, laenge, 0.0f), glm::vec3(-0.05f, -laenge, 0.0f), glm::vec3(0.05f, 0.0f, 0.0f) };
 	const std::vector<glm::vec3> colors = { glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f) };
 	const std::vector<GLushort> indices = { 0, 1, 2 };
 
@@ -76,9 +76,13 @@ void Achse::init(cg::GLSLProgram& program)
 	// zur richtigen Startposition
 	wireSphere.model = glm::mat4(1.0f);
 
-	translate(position);
-}
+	
 
+	translate(position);
+	if (schiefigkeitus != 0) {
+		rotateZ(schiefigkeitus);
+	}
+}
 
 /*
 Release object resources.
@@ -92,39 +96,70 @@ void Achse::releaseObject()
 }
 
 void Achse::translate(float x, float y, float z) {
-	wireSphere.model = glm::translate(wireSphere.model, glm::vec3(x, y, z));
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), glm::vec3(x, y, z)) * wireSphere.model;
+	position[0] = position[0] + x;
+	position[1] = position[1] + y;
+	position[2] = position[2] + z;
 }
 
 void Achse::translate(glm::vec3 position) {
-	wireSphere.model = glm::translate(wireSphere.model, position);
+	wireSphere.model = glm::translate(glm::mat4x4(1.0f), position) * wireSphere.model;
+}
+
+float Achse::degreeToRadians(float angle) {
+	return (angle * PI / 180);
 }
 
 void Achse::rotateX(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 xRotatierMatrix;
 	xRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
-	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-angle), -sin(-angle), 0.0f);
-	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-angle), cos(-angle), 0.0f);
+	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-radians), -sin(-radians), 0.0f);
+	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
 	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = xRotatierMatrix * wireSphere.model;
 }
 
 void Achse::rotateY(float angle)
 {
+	float radians = degreeToRadians(angle);
+
 	glm::mat4x4 yRotatierMatrix;
-	yRotatierMatrix[0] = glm::vec4(cos(-angle), 0.0f, sin(-angle), 0.0f);
+	yRotatierMatrix[0] = glm::vec4(cos(-radians), 0.0f, sin(-radians), 0.0f);
 	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
-	yRotatierMatrix[2] = glm::vec4(-sin(-angle), 0.0f, cos(-angle), 0.0f);
+	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
 	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	wireSphere.model = yRotatierMatrix * wireSphere.model;
+
+	glm::vec4 posi(position[0], position[1], position[2], 1);
+	posi = yRotatierMatrix * posi;
+	position[0] = posi[0];
+	position[1] = posi[1];
+	position[2] = posi[2];
 }
 
 void Achse::rotateZ(float angle)
 {
-	glm::mat4x4 zRotatierMatrix;
-	zRotatierMatrix[0] = glm::vec4(cos(-angle), -sin(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[1] = glm::vec4(sin(-angle), cos(-angle), 0.0f, 0.0f);
-	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
-	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	wireSphere.model = zRotatierMatrix * wireSphere.model;
+	float radians = degreeToRadians(angle);
+
+	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
+		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
+		wireSphere.model;
+}
+
+void Achse::rotateSelf(float angle) {
+	float radians = degreeToRadians(angle);
+	wireSphere.model = glm::translate(glm::mat4(1.0f), position) *
+		glm::rotate(glm::mat4(1.0f), radians, glm::vec3(0.0f, 1.0f, 0.0f)) *
+		glm::translate(glm::mat4(1.0f), glm::vec3(-position[0], -position[1], -position[2])) *
+		wireSphere.model;
+	
+}
+
+glm::vec3 Achse::getPosition()
+{
+	return position;
 }

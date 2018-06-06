@@ -13,6 +13,8 @@
 
 #include "GLTools.h"
 
+#define PI 3.14159265
+
 /*
 Struct to hold data for object rendering.
 */
@@ -47,6 +49,8 @@ public:
 	void translate(float x, float y, float z);
 	void translate(glm::vec3 position);
 
+	float degreeToRadians(float angle);
+
 	void rotateX(float angle);
 	void rotateY(float angle);
 	void rotateZ(float angle);
@@ -57,5 +61,4 @@ private:
 	float schiefigkeitus = 0.0f;
 
 	glm::vec3 position;
-
 };

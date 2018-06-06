@@ -9,14 +9,19 @@ and open the template in the editor.
         <title>StudBoard</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="cascade.css" />
+        <link rel="stylesheet" href="css/cascade.css" />
+        <script type="text/javascript" src="js/article.js"></script>
+        <script type="text/javascript" src="js/JSONUmwandler.js"></script> 
+        <script type="text/javascript" src="js/localStorage.js"></script>
+        <script type="text/javascript" src="js/articleGen.js"></script>
+        <script type="text/javascript" src="js/start.js"></script>
     </head>
     <body>
         <header>
             <picture style="float:right">
-                <source media="(min-width: 650px)" srcset="StudBoardLogo300x200.png" />
-                <source media="(min-width: 465px)" srcset="StudBoardLogo150x100.png" />
-                <img src="StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
+                <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png" />
+                <source media="(min-width: 465px)" srcset="img/StudBoardLogo150x100.png" />
+                <img src="img/StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
             </picture>
             <h1 id="titleauf"></h1><hr>
         </header>
@@ -45,88 +50,27 @@ and open the template in the editor.
         
         <div id="top"> <a href="Aufgaben.html">TOP</a> </div>
         
-        <article id="aufgabe1" class="aufgaben">
-            <header class="stickyheady">
-                <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
-            </header>
-                <p>Ich habe in meinem ganzen Leben noch nie einen Fisch in einer Pfütze gesehen.<br />Also fordere ich euch auf gegen die Überfischung der Pfützen anzugehen.<br />Vernichtet diejenigen, die in Pfützen fischen und zwar <b>ohne Gnade</b></p>
-            <footer>
-                <div>Hier könnten ihre Füße stehen</div>
-            </footer>
-            <br /> 
-             <form action="\blanko.html" method="POST" enctype="text/plain">
-                <textarea name="kommentar" rows="5" cols="100"></textarea>
-                <br />
-                <input type="file" name="anhang">
-                <br />
-                Bewertung:
-                <br />
-                1 <input type="radio" name="rate" value="1">
-                2 <input type="radio" name="rate" value="1">
-                3 <input type="radio" name="rate" value="1">
-                4 <input type="radio" name="rate" value="1">
-                5 <input type="radio" name="rate" value="1">
-                <input type="submit">
-            </form>
-        </article>
-        
-        <br />
-        <article id="aufgabe2" class="aufgaben">
-            <header class="stickyheady">
-                <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
-            </header>
-                <p>Ich habe in meinem ganzen Leben noch nie einen Fisch in einer Pfütze gesehen.<br />Also fordere ich euch auf gegen die Überfischung der Pfützen anzugehen.<br />Vernichtet diejenigen, die in Pfützen fischen und zwar <b>ohne Gnade</b></p>
-            <footer>
-                <div>Hier könnten ihre Füße stehen</div>
-            </footer>
-            <br /> 
-             <form action="\blanko.html" method="POST" enctype="text/plain">
-                <textarea name="kommentar" rows="5" cols="100"></textarea>
-                <br />
-                <input type="file" name="anhang">
-                <br />
-                Bewertung:
-                <br />
-                1 <input type="radio" name="rate" value="1">
-                2 <input type="radio" name="rate" value="1">
-                3 <input type="radio" name="rate" value="1">
-                4 <input type="radio" name="rate" value="1">
-                5 <input type="radio" name="rate" value="1">
-                <input type="submit">
-            </form>
-        </article>
-        
-        <br />
-        <article id="aufgabe3" class="aufgaben">
-            <header class="stickyheady">
-                <h2>Die Überfischung der Pfützen von Fritz Mütze</h2>
-            </header>
-                <p>Ich habe in meinem ganzen Leben noch nie einen Fisch in einer Pfütze gesehen.<br />Also fordere ich euch auf gegen die Überfischung der Pfützen anzugehen.<br />Vernichtet diejenigen, die in Pfützen fischen und zwar <b>ohne Gnade</b></p>
-            <footer>
-                <div>Hier könnten ihre Füße stehen</div>
-            </footer>
-            <br /> 
-            <form action="\blanko.html" method="POST" enctype="text/plain">
-                <textarea name="kommentar" rows="5" cols="100"></textarea>
-                <br />
-                <input type="file" name="anhang">
-                <br />
-                Bewertung:
-                <br />
-                1 <input type="radio" name="rate" value="1">
-                2 <input type="radio" name="rate" value="1">
-                3 <input type="radio" name="rate" value="1">
-                4 <input type="radio" name="rate" value="1">
-                5 <input type="radio" name="rate" value="1">
-                <input type="submit">
-            </form>
-        </article>
+        <section id="articles">
+                    <article id="example_article" class="task articledesc">
+                        <header>
+                            <h4>Aufgabe4</h4>
+                        </header>
+                            <p>
+                                Lorem ipsum 
+                            </p>
+                            <br>
+                            <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
+                        <footer>
+                            © Fritz Marx, 2018
+                        </footer>
+                    </article>
+         </section>
         
         <br />
         <footer>
             <div>©2018 StudBoard von Tim Meier und Fabian Husemann</div>
         </footer>
-        <script type="text/javascript" src="sprache_nav.js"></script>
+        <script type="text/javascript" src="js/sprache_nav.js"></script>
         <script>            
             if (navigator.language.indexOf("en") > -1) {
                 document.getElementById("titleauf").innerHTML = "Task"
