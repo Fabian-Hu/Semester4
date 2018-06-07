@@ -36,17 +36,15 @@ void listeErstellen(DataList *liste){
 
 void main(){
 	DataList liste;
-	DataList liste2;
 	
 	listeErstellen(&liste);
-	listeErstellen(&liste2);
 	//printListe(&liste);
-	firstComeFirstServe(&liste);
-	shortestJobFirst(&liste);
-	priority(&liste);
+	//firstComeFirstServe(&liste);
+	//shortestJobFirst(&liste);
+	//priority(&liste);
 	
-	
-	
+	rrIndependentPrio(&liste);	
+	//rrWithPrio(&liste);
 }
 
 
