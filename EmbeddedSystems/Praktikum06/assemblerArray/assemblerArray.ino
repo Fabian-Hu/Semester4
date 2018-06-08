@@ -16,16 +16,21 @@ void setup() {
   fibData[1] = 1;
   
   asm volatile(
-    "ldr r8, %[fibo]\n"
+    "movs r0, %[fibo]\n\t"
+    "movs r3, %[index]\n"
+    "subs r3, #1\n\t"
+    "subs r3, #1\n\t"
     "fibonacci:\n\t"
-    "ldr r9, [r8, #0]\n\t"
-    "ldr r10, [r8, #1]\n\t"
-    "add r9, r10\n\t"
-    "str r9, [r8, #2]\n\t"
-    "add r8, #1\n\t"
-    "cmp r9, #233\n\t"
+    "ldr r1, [r0, #0]\n\t"
+    "ldr r2, [r0, #1]\n\t"
+    "add r1, r2\n\t"
+    "str r1, [r0, #2]\n\t"
+    "add r0, #1\n\t"
+    "subs r3, #1\n\t"
     "bpl fibonacci"
-    : [fibo] "+r" (fibData) :
+    : 
+    : [index] "r" (lastFiboIndex), [fibo] "r" (fibData)
+    : "r0", "r1", "r2", "r3", "cc", "memory"
   );
 }
 
