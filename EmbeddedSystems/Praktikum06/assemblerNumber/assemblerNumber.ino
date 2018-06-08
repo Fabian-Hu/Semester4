@@ -16,15 +16,16 @@ void loop() {
   Serial.println(number);
   
   asm volatile(
-    "movs r0, %[value]\n\t"
-    "ldr r1, [r0, #0]\n\t"
+    "movs r1, %[num]\n\t"
     "lsl r1, r1, #1\n\t"
     "cmp r1, #256\n\t"
     "it eq\n\t"
     "moveq r1, #1\n\t"
-    "str r1, [r0, #0]\n\t"
-  :[result] "=r" (number)
-  :[value] "r" (number)
-  : "r0", "r1", "r2", "cc" 
+    "movs %[num], r1 \n\t"
+  : [num] "+r" (number)
+  : 
+  : "r1", "cc" 
   );
+
+  delay(500);
 }
