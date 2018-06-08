@@ -5,7 +5,7 @@ window.onload = function() {
     let side = parts[parts.length - 1].split(".")[0];
     switch(side) {
         case "index":
-            loadArticles(5);
+            loadArticlesFromServer(5);
             break;
         
         case "article":
@@ -27,7 +27,7 @@ window.onload = function() {
             if (side === "tasks" || side === "projects")
                 side = side.substring(0, side.length - 1);
             console.log(side);
-            loadArticlesByMenu(side);
+            loadSpecialArticlesFromServer(side);
             break;
     }
     
