@@ -69,11 +69,11 @@ $$
 | Prozesse       | A(2) | B(1) | C(5) | D(4) | E(3) | Verweilzeit |
 | :------------- | :--: | :--: | :--: | :--: | :--: | :---------: |
 | Laufzeit       |  30  |  20  |  25  |  28  |  18  |             |
-| Erster fertig  |  20  |  15  |  -   |  8   |  3   |    E:75     |
-| Zweiter fertig |  18  |  14  |  -   |  4   |  -   |    B:85     |
-| Dritter fertig |  16  |  13  |  -   |  -   |  -   |    C:92     |
-| Vierter fertig |  -   |  5   |  -   |  -   |  -   |    D:116    |
-| Fünfter fertig |  -   |  -   |  -   |  -   |  -   |    A:121    |
+| Erster fertig  |  20  |  15  |  -   |  8   |  3   |    C:75     |
+| Zweiter fertig |  18  |  14  |  -   |  4   |  -   |    E:85     |
+| Dritter fertig |  16  |  13  |  -   |  -   |  -   |    D:92     |
+| Vierter fertig |  -   |  5   |  -   |  -   |  -   |    A:116    |
+| Fünfter fertig |  -   |  -   |  -   |  -   |  -   |    B:121    |
 
 Mittlere Verweilzeit:
 $$
