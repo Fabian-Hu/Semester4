@@ -26,7 +26,7 @@ void setup() {
     "str r5, [r4, #2]\n\t"
     "add r4, #1\n\t"
     "subs r7, #1\n\t"
-    "beq fibonacci"
+    "bne fibonacci"
     : 
     : [index] "r" (lastFiboIndex), [fibo] "r" (fibData)
     : "r4", "r5", "r6", "r7", "cc", "memory"

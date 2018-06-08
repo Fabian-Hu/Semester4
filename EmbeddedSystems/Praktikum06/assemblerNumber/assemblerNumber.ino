@@ -18,6 +18,7 @@ void loop() {
   asm volatile(
     "movs r4, %[num]\n\t"
     "lsl r4, r4, #1\n\t"
+    "cmp r4, #256\n\t"
     "it eq\n\t"
     "moveq r4, #1\n\t"
     "movs %[num], r4 \n\t"
