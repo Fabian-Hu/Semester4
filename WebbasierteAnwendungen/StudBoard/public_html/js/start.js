@@ -38,3 +38,20 @@ window.onload = function() {
     
 };
 
+var readyStateCallbackFunction = function() {
+    if (this.readyState === 4 && this.status === 200) {
+        console.log("Folgene Antwort erhalten: ");
+        console.log(this.responseText);
+    } else { 
+        console.log("readyState: " + this.readyState + " Status: " + this.status); 
+    } 
+};
+
+window.onload = function() {
+    let requestor = new XMLHttpRequest();
+    
+    requestor.open("GET","http://localhost:8080/studfileserver/web.json");
+    requestor.setRequestHeader("Accept","image.gif");
+    requestor.onreadystatechange = readyStateCallbackFunction;
+    requestor.send(); 
+}
