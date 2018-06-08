@@ -16,7 +16,7 @@ void setup() {
   fibData[1] = 1;
   
   asm volatile(
-    "ldr r8, %[fibDataInput]\n"
+    "ldr r8, %[fibo]\n"
     "fibonacci:\n\t"
     "ldr r9, [r8, #0]\n\t"
     "ldr r10, [r8, #1]\n\t"
@@ -25,8 +25,7 @@ void setup() {
     "add r8, #1\n\t"
     "cmp r9, #233\n\t"
     "bpl fibonacci"
-    : [fibDataOutput] "=r" (fibData)
-    : [fibDataInput] "r" (fibData)
+    : [fibo] "+r" (fibData) :
   );
 }
 
