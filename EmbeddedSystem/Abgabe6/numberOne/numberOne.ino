@@ -21,10 +21,11 @@ void loop() {
     "ITE eq\n\t"
     "MOVEQ r3, #1 \n\t"
     "ADDNE r3, r3\n\t"
+    "MOV %[value],r3\n\t"
 	
 	: [value] "r+" (number0)
-	:
-	: "r3", "cc", "memory"
+  :
+  : "r3", "cc", "memory"
   );
 
   delay(waitTime);

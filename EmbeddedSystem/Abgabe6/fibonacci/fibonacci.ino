@@ -13,7 +13,7 @@ void setup() {
   // init first two Fibonacci numbers
   fibData[0] = 1;
   fibData[1] = 1;
- //"MOVS r7, %[index]\n\t"
+
   asm volatile(
   "MOV r4, %[fib] \n\t"
   "loopfibo:\n\t"
