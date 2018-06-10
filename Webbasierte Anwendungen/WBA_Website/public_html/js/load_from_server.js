@@ -4,18 +4,33 @@
  * and open the template in the editor.
  */
 function getLogo() {
-    fetch('http://localhost:8080/studfileserver/img/example.json').then(
+    console.log("getLogo()")
+    fetch('http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png').then(
         function(response) {
-            console.log(response.ok);
-            console.log(response.status);
-            console.log(response.statusText);
-            let res = response.json();
-            console.log(res);
-            return res;
+            return response.blob();
         }
     ).then(
-        function(jsonData) {
-            console.log(jsonData);
+        function(blob) {
+            let src = document.getElementById("smallImg");
+            let image = document.getElementById("defaultImg");
+            let objectURL = URL.createObjectURL(blob);
+            image.src = objectURL;
+            src.attributes.srcset.nodeValue = objectURL;
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
+    fetch('http://localhost:8080/studfileserver/img/StudBoardLogo300x200.png').then(
+        function(response) {
+            return response.blob();
+        }
+    ).then(
+        function(blob) {
+            let src = document.getElementById("largeImg");
+            let objectURL = URL.createObjectURL(blob);
+            src.attributes.srcset.nodeValue = objectURL;
         }
     ).catch(
         function(err) {

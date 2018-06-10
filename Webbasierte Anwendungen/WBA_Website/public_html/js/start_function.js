@@ -3,6 +3,8 @@ window.onload = function() {
     let url = document.URL;
     let parts = url.split("?")[0].split("#")[0].split("/");
     let side = parts[parts.length - 1].split(".")[0];
+    getLogo();
+    
     switch(side) {
         case "index":
             loadArticlesFromServer(5);
