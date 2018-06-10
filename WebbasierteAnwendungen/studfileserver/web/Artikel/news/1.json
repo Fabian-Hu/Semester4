@@ -1,0 +1,10 @@
+{
+    "title": "Fünf verschiedene Papierkörbe: Microsoft führt Mülltrennung bei Dateien ein",
+    "content": "<h2>Skandal!</h2>\nRedmond (Archiv) - Windows wird endlich grün: Ein ab heute verfügbares Update für Windows 10 bringt nach Angaben von Microsoft erstmals Mülltrennung auf heimische PCs. Umweltschützer kritisieren schon seit Jahren, dass auf Computern alle Dateien bislang ungeachtet ihres Formats im selben Mülleimer landen. \nStatt des altbekannten Papierkorbs sind nach dem Update nun fünf verschiedenfarbige Behälter auf dem Desktop zu sehen – jeweils einer für Fotos, Videos, Musikdateien, Textdokumente und Restmüll. Nutzer werden dazu angehalten, ihre Daten entsprechend nachhaltig zu entsorgen.\nDateien mit folgenden Endungen gehören beispielsweise in die Fototonne: .jpg, .png, .psd, .tiff, .gif, .bmp, .svg\nIn den Papierkorb kommen: .doc, .docx, .pdf, .txt, .xls, .xlsx\nDateien mit folgenden Endungen gehören in den Altvideomüll: .wmv, .mp4, .avi, .mkv, .flv\nIn der Musiktonne landen: .wma, .mp3, .wav, .flac, .alac, .m4a, .\n\n<h3>Restmüll für alles!</h3>\nDie meisten anderen Dateien landen im Restmüll. \nBeim Leeren des Mülleimers werden die entsorgten Dateien dann nicht einfach gelöscht, sondern nach Möglichkeit recycelt. Die Farbe aus alten Fotos wird so zum Beispiel genutzt, um den Farbeimer in Microsoft Paint ressourcenschonend zu befüllen. Alte Worddokumente wiederum werden zu neuen, etwas graueren Worddokumenten verarbeitet.\nEinige besonders toxische und nicht recyclebare Dateien wie Computer-Viren, GILF-Pornovideos oder Helene-Fischer-Songs können allerdings nicht mehr direkt auf dem Desktop entsorgt werden, sondern müssen auf einen USB-Stick transferiert und anschließend auf dem Postweg zur Sondermüllentsorgung an Microsoft geschickt werden. ",
+    "color": "#ff0000",
+    "start": "2018-06-03",
+    "end": "2018-06-04",
+    "type": "news",
+    "category":"", 
+    "source":""
+}
