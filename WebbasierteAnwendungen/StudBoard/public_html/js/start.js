@@ -5,8 +5,7 @@ window.onload = function() {
     
     switch(side) {
         case "index":
-            alert("Test");
-            loadArticles(5);
+            loadArticlesFromServer(5);
             break;
         
         case "Artikel":
@@ -26,11 +25,11 @@ window.onload = function() {
         
         default:
             if (side === "Aufgaben"){
-                loadArticlesByMenu("task");
+                loadSpecialArticlesFromServer("task");
             }else if (side === "Projekte"){
-                loadArticlesByMenu("project");
+                loadSpecialArticlesFromServer("project");
             }else if (side === "News"){
-                loadArticlesByMenu("news");
+                loadSpecialArticlesFromServer("news");
             }
             
             

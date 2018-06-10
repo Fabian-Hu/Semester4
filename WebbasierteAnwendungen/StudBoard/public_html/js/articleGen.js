@@ -50,44 +50,74 @@ function loadArticles(num) {
     }
 }
 
-function loadArticlesFromServer(num) {   
-    fetch('http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png').then(
-		function(response) {
-			return response.json();
-		}
-	).then(
-            function(jsonData) {
-                for (i = 1; i <= num; i++) {
-                    let article_Key = localStorage.getItem("history/" + (history - i));
-                    let article_JSON = localStorage.getItem(article_Key);
-                    if (article_JSON) {
-                        let article = jsonUmwandler.jsonToArcticle(article_JSON);
-                        createArticle(article, article_Key);
-                    } 
+function loadArticlesFromServer(num) {
+    fetch('http://localhost:8080/studfileserver/articles/history.json').then(
+        function(response) {
+            let res = response.json();
+            return res;
+        }
+    ).then(
+        function(jsonData) {
+            for (let i = 1; i <= num; i++) {
+                if (jsonData.length - i >= 0) {
+                    getArticle(jsonData[jsonData.length - i]);
                 }
-                document.getElementById("articles").removeChild(document.getElementById("example_article"));
-		}
-	).catch(function(err) {
-		console.log("Error: ", err);
-	});
+            }
+            document.getElementById("example_article").style.display = "none";
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
 }
 
-let taskNum = localStorage.getItem("task");
-if (!taskNum) {
-    localStorage.setItem("task", "0");
+function loadSpecialArticlesFromServer(article) {
+    fetch('http://localhost:8080/studfileserver/Artikel/' + article + '/history.json').then(
+        function(response) {
+            let res = response.json();
+            return res;
+        }
+    ).then(
+        function(jsonData) {
+            for (let i = 0; i < jsonData.length; i++) {
+                getArticle(jsonData[i]);
+            }
+            document.getElementById("example_article").style.display = "none";
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
 }
 
-let projectsNum = localStorage.getItem("project");
-if (!projectsNum) {
-    localStorage.setItem("project", "0");
-}
-
-let newsNum = localStorage.getItem("news");
-if (!newsNum) {
-    localStorage.setItem("news", "0");
-}
-
-let historyNum = localStorage.getItem("history");
-if (!historyNum) {
-    localStorage.setItem("history", "0");
-}
+var getArticle = function(file) {
+    let filename = file.split('/');
+    console.log(filename);
+    let articleNum = localStorage.getItem(filename[0]);
+    if (!articleNum || articleNum < parseInt(filename[1]) + 1) {
+        localStorage.setItem(filename[0], parseInt(filename[1]) + 1);
+    }
+    let articleJson = localStorage.getItem(file);
+    if (articleJson === null) {
+        let path = 'http://localhost:8080/studfileserver/articles/' + file + '.json';
+        fetch(path).then(
+            function(response) {
+                let res = response.json();
+                return res;
+            }
+        ).then(
+            function(jsonData) {
+                createArticle(jsonData, file);
+                localStorage.setItem(file, articleConverter.articleToJson(jsonData));
+            }
+        ).catch(
+            function(err) {
+                console.log("error: " + err);
+            }
+        );
+    } else {
+        createArticle(articleConverter.jsonToArticle(articleJson), file);
+    }
+};

@@ -77,9 +77,50 @@ function showComment(id) {
 function loadComments() {
     urlParams = new URLSearchParams(window.location.search);
     num = parseInt(localStorage.getItem("comment/" + urlParams.get("id")));
-    if(num) {
-        for(i = 0; i < num; i++) {
-            showComment("comment/" + urlParams.get("id") + "/" + i);
+    if(!num)
+        num = 0;
+    fetch('http://localhost:8080/studfileserver/Kommentar/' + urlParams.get("id") + '.json').then(
+        function(response) {
+            let res = response.json();
+            return res;
         }
+    ).then(
+        function(jsonData) {
+            if (num < jsonData) {
+                num = jsonData;
+                localStorage.setItem("comment/" + urlParams.get("id"), num);
+            }
+            for (let i = 0; i < num; i++) {
+                loadComment('comment/' + urlParams.get("id") + "/" + i);
+            }
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
+}
+
+function loadComment(file) {
+    comment_JSON = localStorage.getItem(file);;
+    if (comment_JSON === null) {
+        let path = 'http://localhost:8080/studfileserver/' + file + '.json';
+        fetch(path).then(
+            function(response) {
+                let res = response.json();
+                return res;
+            }
+        ).then(
+            function(jsonData) {
+                showComment(jsonData, file);
+                localStorage.setItem(file, JSON.stringify(jsonData));
+            }
+        ).catch(
+            function(err) {
+                console.log("error: " + err);
+            }
+        );
+    } else {
+        showComment(JSON.parse(comment_JSON), file);
     }
 }
