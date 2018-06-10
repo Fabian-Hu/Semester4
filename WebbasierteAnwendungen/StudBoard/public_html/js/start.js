@@ -11,17 +11,12 @@ window.onload = function() {
         case "Artikel":
             let urlParams = new URLSearchParams(window.location.search);
             zeigeArtikel(urlParams.get("id"));
-            // generateTableOfContents();
             document.getElementById("commentForm").addEventListener("submit", function(event) {
                 event.preventDefault();
                 saveComment();
             });
             loadComments();
             break;
-        
-        /*case "NeuerArtikel":
-            document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
-            break;*/
         
         default:
             if (side === "Aufgaben"){
@@ -30,9 +25,7 @@ window.onload = function() {
                 loadSpecialArticlesFromServer("project");
             }else if (side === "News"){
                 loadSpecialArticlesFromServer("news");
-            }
-            
-            
+            } 
             break;
     }
     

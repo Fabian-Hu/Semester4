@@ -5,8 +5,8 @@
  */
 /* global URL, fetch */
 
-let url = document.URL;
-window.onload = function() {
+window.onload = function() {    
+        console.log("Bild vom Server");
 	fetch('http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png').then(
 		function(response) {
 			return response.blob();

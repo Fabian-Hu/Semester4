@@ -48,7 +48,7 @@ class localStorage2 {
     }
 }
 function sendArticleToServer(key, article) {
-    console.log('hallo');
+    alert('hochladen');
     return fetch('http://localhost:8080/studfileserver/' + key + '.json', {
         body: article,
         cache: 'no-cache',

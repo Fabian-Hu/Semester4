@@ -1,4 +1,6 @@
 
+/* global fetch */
+
 function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
     console.log(newArticle);
@@ -51,7 +53,7 @@ function loadArticles(num) {
 }
 
 function loadArticlesFromServer(num) {
-    fetch('http://localhost:8080/studfileserver/articles/history.json').then(
+    fetch('http://localhost:8080/studfileserver/Artikel/history.json').then(
         function(response) {
             let res = response.json();
             return res;
@@ -93,6 +95,7 @@ function loadSpecialArticlesFromServer(article) {
 }
 
 var getArticle = function(file) {
+    jsonUmwandler = new jsonUmwandler();
     let filename = file.split('/');
     console.log(filename);
     let articleNum = localStorage.getItem(filename[0]);
@@ -101,7 +104,7 @@ var getArticle = function(file) {
     }
     let articleJson = localStorage.getItem(file);
     if (articleJson === null) {
-        let path = 'http://localhost:8080/studfileserver/articles/' + file + '.json';
+        let path = 'http://localhost:8080/studfileserver/Artikel/' + file + '.json';
         fetch(path).then(
             function(response) {
                 let res = response.json();
@@ -110,7 +113,7 @@ var getArticle = function(file) {
         ).then(
             function(jsonData) {
                 createArticle(jsonData, file);
-                localStorage.setItem(file, articleConverter.articleToJson(jsonData));
+                localStorage.setItem(file, jsonUmwandler.articleToJson(jsonData));
             }
         ).catch(
             function(err) {
@@ -118,6 +121,6 @@ var getArticle = function(file) {
             }
         );
     } else {
-        createArticle(articleConverter.jsonToArticle(articleJson), file);
+        createArticle(jsonUmwandler.jsonToArticle(articleJson), file);
     }
 };
