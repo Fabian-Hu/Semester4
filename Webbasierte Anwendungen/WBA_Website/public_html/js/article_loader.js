@@ -18,10 +18,10 @@ function addToNavgation(title, key) {
 
 function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
-    console.log(newArticle);
     newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
     newArticle.childNodes[3].innerHTML = article.content.substring(0, 400) + "...";
     newArticle.attributes["class"].nodeValue = article.type + " articledesc";
+    newArticle.style.display = "block";
     newArticle.id = key;
     
     if (article.type === "news") {
@@ -35,34 +35,18 @@ function createArticle(article, key){
     document.getElementById("example_article").parentNode.appendChild(newArticle);
 }
 
-function loadArticlesByMenu(menu) {
-    let articles = localStorage.getItem(menu);
-    if (articles) {
-        for (let i = 1; i <= articles; i++) {
-            let article_JSON = localStorage.getItem(menu + "/" + (articles - i));
-            if (article_JSON) {
-                let article = articleConverter.jsonToArticle(article_JSON);
-                createArticle(article, menu + "/" + (articles - i));
-                addToNavgation(article.title, menu + "/" + (articles - i));
-            } 
-        }
-        document.getElementById("articles").removeChild(document.getElementById("example_article"));
-    }
-}
-
 function loadSpecialArticlesFromServer(article) {
     fetch('http://localhost:8080/studfileserver/articles/' + article + '/history.json').then(
         function(response) {
             let res = response.json();
-            console.log("history");
             return res;
         }
     ).then(
         function(jsonData) {
-            console.log(jsonData);
             for (let i = 0; i < jsonData.length; i++) {
                 getArticle(jsonData[i]);
             }
+            document.getElementById("example_article").style.display = "none";
         }
     ).catch(
         function(err) {
@@ -75,16 +59,15 @@ function loadArticlesFromServer(num) {
     fetch('http://localhost:8080/studfileserver/articles/history.json').then(
         function(response) {
             let res = response.json();
-            console.log("history");
             return res;
         }
     ).then(
         function(jsonData) {
-            console.log(jsonData);
             for (let i = 1; i <= num; i++) {
-                if (jsonData.length - i > 0)
+                if (jsonData.length - i >= 0)
                     getArticle(jsonData[jsonData.length - i]);
             }
+            document.getElementById("example_article").style.display = "none";
         }
     ).catch(
         function(err) {
@@ -94,41 +77,25 @@ function loadArticlesFromServer(num) {
 }
 
 var getArticle = function(file) {
-    let path = 'http://localhost:8080/studfileserver/articles/' + file + '.json';
-    fetch(path).then(
-        function(response) {
-            let res = response.json();
-            console.log(res);
-            return res;
-        }
-    ).then(
-        function(jsonData) {
-            console.log(jsonData);
-            createArticle(jsonData, jsonData.type + '/' + file);
-        }
-    ).catch(
-        function(err) {
-            console.log("error: " + err);
-        }
-    );
-}
-
-let taskNum = localStorage.getItem("task");
-if (!taskNum) {
-    localStorage.setItem("task", "0");
-}
-
-let projectsNum = localStorage.getItem("project");
-if (!projectsNum) {
-    localStorage.setItem("project", "0");
-}
-
-let newsNum = localStorage.getItem("news");
-if (!newsNum) {
-    localStorage.setItem("news", "0");
-}
-
-let historyNum = localStorage.getItem("history");
-if (!historyNum) {
-    localStorage.setItem("history", "0");
-}
+    let articleJson = localStorage.getItem(file);
+    if (articleJson === null) {
+        let path = 'http://localhost:8080/studfileserver/articles/' + file + '.json';
+        fetch(path).then(
+            function(response) {
+                let res = response.json();
+                return res;
+            }
+        ).then(
+            function(jsonData) {
+                createArticle(jsonData, file);
+                localStorage.setItem(file, articleConverter.articleToJson(jsonData));
+            }
+        ).catch(
+            function(err) {
+                console.log("error: " + err);
+            }
+        );
+    } else {
+        createArticle(articleConverter.jsonToArticle(articleJson), file);
+    }
+};
