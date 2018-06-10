@@ -64,8 +64,9 @@ function loadArticlesFromServer(num) {
     ).then(
         function(jsonData) {
             for (let i = 1; i <= num; i++) {
-                if (jsonData.length - i >= 0)
+                if (jsonData.length - i >= 0) {
                     getArticle(jsonData[jsonData.length - i]);
+                }
             }
             document.getElementById("example_article").style.display = "none";
         }
@@ -77,6 +78,12 @@ function loadArticlesFromServer(num) {
 }
 
 var getArticle = function(file) {
+    let filename = file.split('/');
+    console.log(filename);
+    let articleNum = localStorage.getItem(filename[0]);
+    if (!articleNum || articleNum < parseInt(filename[1]) + 1) {
+        localStorage.setItem(filename[0], parseInt(filename[1]) + 1);
+    }
     let articleJson = localStorage.getItem(file);
     if (articleJson === null) {
         let path = 'http://localhost:8080/studfileserver/articles/' + file + '.json';

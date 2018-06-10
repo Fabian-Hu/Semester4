@@ -5,7 +5,8 @@
  */
 let articleConverter = new ArticleConverter();
 
-var saveNewArticleToLocalStorage = function() {
+var saveNewArticleToLocalStorage = function(event) {
+    event.prevent.preventDefault();
     let typeSelector = document.getElementById("artikelTyp").value;
     let titel = document.getElementById("artikelTitel").value;
     let text = document.getElementById("artikelText").value;
@@ -45,10 +46,26 @@ var saveNewArticleToLocalStorage = function() {
             break;
     }
     localStorage.setItem(key, articleConverter.articleToJson(article));
+    sendArticleToServer(key, articleConverter.articleToJson(article)).then(
+            function(data) {
+                console.log(data);
+            }
+        ).catch(error => console.error(error));
     
-    let history = localStorage.getItem("history");
-    if (history === null)
-        history = 0;
-    localStorage.setItem("history/" + history, key);
-    localStorage.setItem("history", parseInt(history) + 1);
 };
+
+function sendArticleToServer(key, article) {
+    console.log('hallo');
+    return fetch('http://localhost:8080/studfileserver/' + key + '.json', {
+        body: article,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer'
+    }).then(response => response.json());
+}

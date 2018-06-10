@@ -27,7 +27,7 @@ memory - Kennzeichnung für den Compiler, dass der Assembler-Block die Speichero
 | Zyklen maximal | 6      |
 | Zyklen minimal | 5      |
 
-Bei den Taktzyklen werden nicht durch den Compiler eventuell hinzugefügt load oder store Befehle zur Verarbeitung der In- und Output Variablen berücksichtigt
+Bei den Taktzyklen werden durch den Compiler eventuell hinzugefügte load oder store Befehle zur Verarbeitung der In- und Output Variablen hier nicht berücksichtigt.
 
 ````c
   asm volatile(
@@ -47,6 +47,28 @@ Bei den Taktzyklen werden nicht durch den Compiler eventuell hinzugefügt load o
 
 Zuerst laden wir die Speicherstelle des *fiboData* Arrays in das Register r4. Dazu verwenden wir den Befehl ``movs r4, %[fibo]``. *Fibo* haben wir als Input Variable am Ende des Assembler Codes angegeben: ``[fibo] "r" (fiboData)``. Des Weiteren laden wir auch den *lastFiboIndex* in ein Register: ``movs r7, %(index)``. Auch diesen haben wir analog zur *fibo* Variable angegeben. Da schon die ersten zwei Werte in das Array eingetragen sind, können wir die ersten zwei Durchläufe überspringen. Dies tun wir mit dem Befehl ``subs r7, #2``. Den restlichen Verlauf des Assembler Abschnittes haben wir in die Funktion ``fibonacci:`` zusammengefasst. Darin laden wir zuerst die Werte an der ersten und zweiten des Arrays abhängig von der aktuellen Position des Zeigers in die Register r5 und r6: ``ldr r5, [r4, #0]`` `` ldr r6, [r4, #1]``. Danach addieren wir die Werte aus r5 und r6: ``add r5, r6`` und schreiben das Ergebnis wieder zurück nach r5. Danach schreiben wir r5 zurück in den Array in die nächste freie Stelle ``str r5, [r4, #2]``. Anschließend schieben wir den Array um eine Stelle weiter: ``add r4, #1`` und verringern die *index*-Variable um eins: ``subs r7, #1``. Dabei werden gleichzeitig die Flags gesetzt. Der letzte Befehl ``bne fibonacci`` ist ein bedingter branch Befehl. Dabei springt er jedes Mal zum Beginn der fibonacci Funktion, solange das zero-Flag nicht gesetzt wurde bzw. in Kombination mit dem vorherigen Befehl der Index noch nicht null erreicht hat. Die Input und Output Variablen und die Clobber List sind Analog zu Aufgabe 1 mit mehr Registern. Die Aufzählung der genutzten Registern in der Clobber List sorgt dafür, dass die Register nach der Durchführung ihre ursprünglichen Werte bekommen.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Taktzyklen:**
 
 | Anweisung | Zyklen                                                       |
@@ -57,7 +79,7 @@ Zuerst laden wir die Speicherstelle des *fiboData* Arrays in das Register r4. Da
 | str (1x)  | 2                                                            |
 | b (1x)    | 1 (+ P) -> +P nur wenn der Sprung durchgeführt wird, wobei P 1-3 groß sein kann. |
 | add (2x)  | 1                                                            |
-| Gesamt    | 3 + 10 * (lastFiboIndex - 2) + P * (lastFiboIndex - 3) -> in diesem Fall: 3 + 10 * 11 + P * 10 = 113 + 10P |
+| Gesamt    | 3 -> Die ersten drei Zeilen                                                                                                                    10 + P -> Zeile 5-11 wenn der Sprung durgeführt wird (10 mal)                                                                 10 -> Zeile 5-11 ohne Sprung |
 
 ````c
   asm volatile(
