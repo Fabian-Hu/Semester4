@@ -31,7 +31,22 @@ var saveComment = function() {
     localStorage.setItem("comment/" + urlParams.get("id") + "/" + count, JSON.stringify(comment));
     
     localStorage.setItem("comment/" + urlParams.get("id"), parseInt(count) + 1);
-    showComment("comment/" + urlParams.get("id") + "/" + count);
+    showComment(comment);
+    
+    fetch('http://localhost:8080/studfileserver/comment/' + urlParams.get("id")  + "/" + count + '.json', {
+        body: JSON.stringify(comment),
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer'
+    }).then (function(response) {
+       console.log(response.text());
+    });
 };
 
 function showComment(comment) {
@@ -72,11 +87,8 @@ function loadComment(file) {
 function loadComments() {
     urlParams = new URLSearchParams(window.location.search);
     num = parseInt(localStorage.getItem("comment/" + urlParams.get("id")));
-    if(num) {
-        for(i = 0; i < num; i++) {
-            showComment("comment/" + urlParams.get("id") + "/" + i);
-        }
-    }
+    if(!num)
+        num = 0;
     fetch('http://localhost:8080/studfileserver/comment/' + urlParams.get("id") + '.json').then(
         function(response) {
             let res = response.json();
@@ -84,7 +96,11 @@ function loadComments() {
         }
     ).then(
         function(jsonData) {
-            for (let i = 0; i < jsonData; i++) {
+            if (num < jsonData) {
+                num = jsonData;
+                localStorage.setItem("comment/" + urlParams.get("id"), num);
+            }
+            for (let i = 0; i < num; i++) {
                 loadComment('comment/' + urlParams.get("id") + "/" + i);
             }
         }
