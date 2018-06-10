@@ -1,5 +1,3 @@
-package de.fhbielefeld.scl.server.filter;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,7 +25,7 @@ public class ExpiresFilter implements Filter
             //HTTP header date format: Thu, 01 Dec 1994 16:00:00 GMT
             String o = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss zzz").format( c.getTime() );            
             ((HttpServletResponse) response).setHeader( "Expires", o );
-//            ((HttpServletResponse) response).setHeader( "WWW-Authenticate", "Basic realm=myRealm");
+            ((HttpServletResponse) response).setHeader( "", "Basic realm=myRealm");
 //            ((HttpServletResponse) response).setStatus(401);
         }
 

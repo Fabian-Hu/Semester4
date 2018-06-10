@@ -50,6 +50,28 @@ function loadArticles(num) {
     }
 }
 
+function loadArticlesFromServer(num) {   
+    fetch('http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png').then(
+		function(response) {
+			return response.json();
+		}
+	).then(
+            function(jsonData) {
+                for (i = 1; i <= num; i++) {
+                    let article_Key = localStorage.getItem("history/" + (history - i));
+                    let article_JSON = localStorage.getItem(article_Key);
+                    if (article_JSON) {
+                        let article = jsonUmwandler.jsonToArcticle(article_JSON);
+                        createArticle(article, article_Key);
+                    } 
+                }
+                document.getElementById("articles").removeChild(document.getElementById("example_article"));
+		}
+	).catch(function(err) {
+		console.log("Error: ", err);
+	});
+}
+
 let taskNum = localStorage.getItem("task");
 if (!taskNum) {
     localStorage.setItem("task", "0");

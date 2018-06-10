@@ -11,6 +11,8 @@
  * and open the template in the editor.
  */
 
+/* global fetch */
+
 class Comment {
     constructor(text, rating, file) {
         this.text = text;
@@ -19,12 +21,12 @@ class Comment {
     }
 }
 
-var saveComment = function() {
+var saveComment = function () {
     text = document.getElementById("text").value;
     attachment = document.getElementById("attachment").value;
     radioButtons = document.getElementsByName("rate");
     rating = 0;
-    for(var i = 0; i < radioButtons.length; i++) {
+    for (var i = 0; i < radioButtons.length; i++) {
         if (radioButtons[i].checked) {
             rating = radioButtons[i].value;
         }
@@ -34,11 +36,27 @@ var saveComment = function() {
     count = localStorage.getItem("comment/" + urlParams.get("id"));
     if (count === null)
         count = 0;
-    
+
     localStorage.setItem("comment/" + urlParams.get("id") + "/" + count, JSON.stringify(comment));
-    
+
     localStorage.setItem("comment/" + urlParams.get("id"), parseInt(count) + 1);
     showComment("comment/" + urlParams.get("id") + "/" + count);
+
+    fetch("http://localhost:8080/studfileserver/Kommentar/" +urlParams.get("id")+"/"+count+".json", {
+        body: JSON.stringify(data), // must match 'Content-Type' header 
+        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-ifcached 
+        credentials: 'same-origin', // include, *omit 
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'POST', // *GET, PUT, DELETE, etc. 
+        mode: 'cors', // no-cors, *same-origin 
+        redirect: 'follow', // *manual, error 
+        referrer: 'no-referrer', // *client 
+    }).then(function (res){ // parses response to JSON 
+        console.log(res.text());
+    });
+
 };
 
 function showComment(id) {

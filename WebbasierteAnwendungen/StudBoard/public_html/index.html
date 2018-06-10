@@ -17,6 +17,7 @@ and open the template in the editor.
         <!--<script type="text/javascript" src="js/geolocation.js"></script>-->
         <script type="text/javascript" src="js/articleGen.js"></script>
         <script type="text/javascript" src="js/start.js"></script>
+        <script type="text/javascript" src="js/ladeLogo.js"></script>
        <!-- <script>
             if(navigator.serviceWorker) {
                 navigator.serviceWorker.register('js/serviceworker.js').then(function(reg) {
@@ -31,9 +32,9 @@ and open the template in the editor.
     <body>
         <header>
             <picture style="float:right">
-                <source media="(min-width: 650px)" srcset="img/StudBoardLogo300x200.png" />
-                <source media="(min-width: 465px)" srcset="img/StudBoardLogo150x100.png" />
-                <img src="img/StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
+                <source id="groß" media="(min-width: 650px)" srcset="http://localhost:8080/studfileserver/img/StudBoardLogo300x200.png" />
+                <source id="klein" media="(min-width: 465px)" srcset="http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png" />
+                <img id="klein" src="http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png" alt="Hallo, das Bild ist Pfutsch" />
             </picture>
             <h1>StudBoard</h1>
             <hr>
