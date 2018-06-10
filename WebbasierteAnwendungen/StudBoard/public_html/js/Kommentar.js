@@ -42,7 +42,7 @@ var saveComment = function () {
     localStorage.setItem("comment/" + urlParams.get("id"), parseInt(count) + 1);
     showComment("comment/" + urlParams.get("id") + "/" + count);
 
-    fetch("http://localhost:8080/studfileserver/Kommentar/" +urlParams.get("id")+"/"+count+".json", {
+    fetch("http://localhost:8080/studfileserver/comment/" +urlParams.get("id")+"/"+count+".json", {
         body: JSON.stringify(data), // must match 'Content-Type' header 
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-ifcached 
         credentials: 'same-origin', // include, *omit 
@@ -60,6 +60,7 @@ var saveComment = function () {
 };
 
 function showComment(id) {
+    console.log("Kommentar ID: "+id);
     comment_JSON = localStorage.getItem(id);
     if(comment_JSON) {
         comment = JSON.parse(comment_JSON);
@@ -74,18 +75,22 @@ function showComment(id) {
     }
 }
 
+
 function loadComments() {
     urlParams = new URLSearchParams(window.location.search);
     num = parseInt(localStorage.getItem("comment/" + urlParams.get("id")));
     if(!num)
         num = 0;
-    fetch('http://localhost:8080/studfileserver/Kommentar/' + urlParams.get("id") + '.json').then(
+    let com = urlParams.get("id");
+    console.log(com);
+    fetch('http://localhost:8080/studfileserver/comment/' + com + '.json').then(
         function(response) {
             let res = response.json();
             return res;
         }
     ).then(
         function(jsonData) {
+            console.log(jsonData);
             if (num < jsonData) {
                 num = jsonData;
                 localStorage.setItem("comment/" + urlParams.get("id"), num);
@@ -102,17 +107,18 @@ function loadComments() {
 }
 
 function loadComment(file) {
-    comment_JSON = localStorage.getItem(file);;
+    comment_JSON = localStorage.getItem(file);
     if (comment_JSON === null) {
         let path = 'http://localhost:8080/studfileserver/' + file + '.json';
         fetch(path).then(
             function(response) {
                 let res = response.json();
+                
                 return res;
             }
         ).then(
             function(jsonData) {
-                showComment(jsonData, file);
+                showComment(file);
                 localStorage.setItem(file, JSON.stringify(jsonData));
             }
         ).catch(
@@ -121,6 +127,7 @@ function loadComment(file) {
             }
         );
     } else {
-        showComment(JSON.parse(comment_JSON), file);
+        
+        showComment(file);
     }
 }

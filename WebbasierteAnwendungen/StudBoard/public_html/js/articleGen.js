@@ -3,7 +3,7 @@
 
 function createArticle(article, key){
     let newArticle = document.getElementById("example_article").cloneNode(true);
-    console.log(newArticle);
+    
     newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.titel;
     newArticle.childNodes[3].innerHTML = article.content.substring(0, 400) + "...";
     newArticle.attributes["class"].nodeValue = article.type;
@@ -83,6 +83,7 @@ function loadSpecialArticlesFromServer(article) {
     ).then(
         function(jsonData) {
             for (let i = 0; i < jsonData.length; i++) {
+                console.log(jsonData[i]);
                 getArticle(jsonData[i]);
             }
             document.getElementById("example_article").style.display = "none";
@@ -95,7 +96,7 @@ function loadSpecialArticlesFromServer(article) {
 }
 
 var getArticle = function(file) {
-    jsonUmwandler = new jsonUmwandler();
+    json2 = new jsonUmwandler();
     let filename = file.split('/');
     console.log(filename);
     let articleNum = localStorage.getItem(filename[0]);
@@ -113,7 +114,7 @@ var getArticle = function(file) {
         ).then(
             function(jsonData) {
                 createArticle(jsonData, file);
-                localStorage.setItem(file, jsonUmwandler.articleToJson(jsonData));
+                localStorage.setItem(file, json2.articleToJson(jsonData));
             }
         ).catch(
             function(err) {
@@ -121,6 +122,11 @@ var getArticle = function(file) {
             }
         );
     } else {
-        createArticle(jsonUmwandler.jsonToArticle(articleJson), file);
+        console.log(articleJson+", "+file);
+        console.log("test");
+        let arti = json2.jsonToArcticle(articleJson);
+        console.log("tes2t");
+        console.log(arti);
+        createArticle(arti, file);
     }
 };

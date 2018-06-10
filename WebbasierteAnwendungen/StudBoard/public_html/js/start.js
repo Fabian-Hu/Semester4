@@ -15,7 +15,9 @@ window.onload = function() {
                 event.preventDefault();
                 saveComment();
             });
+            console.log("Lade Comments...");
             loadComments();
+            console.log("fertig");
             break;
         
         default:
