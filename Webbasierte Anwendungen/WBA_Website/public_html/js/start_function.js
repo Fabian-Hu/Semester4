@@ -22,7 +22,10 @@ window.onload = function() {
             break;
         
         case "createNewArticle":
-            document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
+            document.getElementById("articleForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+                saveNewArticleToLocalStorage();
+            });
             break;
         
         default:

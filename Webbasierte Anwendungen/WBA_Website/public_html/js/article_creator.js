@@ -5,8 +5,7 @@
  */
 let articleConverter = new ArticleConverter();
 
-var saveNewArticleToLocalStorage = function(event) {
-    event.prevent.preventDefault();
+var saveNewArticleToLocalStorage = function() {
     let typeSelector = document.getElementById("artikelTyp").value;
     let titel = document.getElementById("artikelTitel").value;
     let text = document.getElementById("artikelText").value;
@@ -47,11 +46,10 @@ var saveNewArticleToLocalStorage = function(event) {
     }
     localStorage.setItem(key, articleConverter.articleToJson(article));
     sendArticleToServer(key, articleConverter.articleToJson(article)).then(
-            function(data) {
-                console.log(data);
-            }
-        ).catch(error => console.error(error));
-    
+        function(data) {
+            console.log(data);
+        }
+    ).catch(error => console.error(error));
 };
 
 function sendArticleToServer(key, article) {
