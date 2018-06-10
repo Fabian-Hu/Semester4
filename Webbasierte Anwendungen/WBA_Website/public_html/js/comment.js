@@ -34,18 +34,38 @@ var saveComment = function() {
     showComment("comment/" + urlParams.get("id") + "/" + count);
 };
 
-function showComment(id) {
-    comment_JSON = localStorage.getItem(id);
-    if(comment_JSON) {
-        comment = JSON.parse(comment_JSON);
-        article = document.createElement("article");
-        p1 = document.createElement("p");
-        
-        p1.innerHTML = comment.text + "<br><br>Anhang: " + comment.file + "<br><br>Bewertung: " + comment.rating + "/5";
-        
-        article.appendChild(document.createElement("hr"));
-        article.appendChild(p1);
-        document.getElementById("comments").appendChild(article);
+function showComment(comment) {
+    article = document.createElement("article");
+    p1 = document.createElement("p");
+
+    p1.innerHTML = comment.text + "<br><br>Anhang: " + comment.file + "<br><br>Bewertung: " + comment.rating + "/5";
+
+    article.appendChild(document.createElement("hr"));
+    article.appendChild(p1);
+    document.getElementById("comments").appendChild(article);
+}
+
+function loadComment(file) {
+    comment_JSON = localStorage.getItem(file);;
+    if (comment_JSON === null) {
+        let path = 'http://localhost:8080/studfileserver/' + file + '.json';
+        fetch(path).then(
+            function(response) {
+                let res = response.json();
+                return res;
+            }
+        ).then(
+            function(jsonData) {
+                showComment(jsonData, file);
+                localStorage.setItem(file, JSON.stringify(jsonData));
+            }
+        ).catch(
+            function(err) {
+                console.log("error: " + err);
+            }
+        );
+    } else {
+        showComment(JSON.parse(comment_JSON), file);
     }
 }
 
@@ -57,4 +77,20 @@ function loadComments() {
             showComment("comment/" + urlParams.get("id") + "/" + i);
         }
     }
+    fetch('http://localhost:8080/studfileserver/comment/' + urlParams.get("id") + '.json').then(
+        function(response) {
+            let res = response.json();
+            return res;
+        }
+    ).then(
+        function(jsonData) {
+            for (let i = 0; i < jsonData; i++) {
+                loadComment('comment/' + urlParams.get("id") + "/" + i);
+            }
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
 }
