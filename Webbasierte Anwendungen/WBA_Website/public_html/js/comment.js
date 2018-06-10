@@ -31,30 +31,82 @@ var saveComment = function() {
     localStorage.setItem("comment/" + urlParams.get("id") + "/" + count, JSON.stringify(comment));
     
     localStorage.setItem("comment/" + urlParams.get("id"), parseInt(count) + 1);
-    showComment("comment/" + urlParams.get("id") + "/" + count);
+    showComment(comment);
+    
+    fetch('http://localhost:8080/studfileserver/comment/' + urlParams.get("id")  + "/" + count + '.json', {
+        body: JSON.stringify(comment),
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer'
+    }).then (function(response) {
+       console.log(response.text());
+    });
 };
 
-function showComment(id) {
-    comment_JSON = localStorage.getItem(id);
-    if(comment_JSON) {
-        comment = JSON.parse(comment_JSON);
-        article = document.createElement("article");
-        p1 = document.createElement("p");
-        
-        p1.innerHTML = comment.text + "<br><br>Anhang: " + comment.file + "<br><br>Bewertung: " + comment.rating + "/5";
-        
-        article.appendChild(document.createElement("hr"));
-        article.appendChild(p1);
-        document.getElementById("comments").appendChild(article);
+function showComment(comment) {
+    article = document.createElement("article");
+    p1 = document.createElement("p");
+
+    p1.innerHTML = comment.text + "<br><br>Anhang: " + comment.file + "<br><br>Bewertung: " + comment.rating + "/5";
+
+    article.appendChild(document.createElement("hr"));
+    article.appendChild(p1);
+    document.getElementById("comments").appendChild(article);
+}
+
+function loadComment(file) {
+    comment_JSON = localStorage.getItem(file);;
+    if (comment_JSON === null) {
+        let path = 'http://localhost:8080/studfileserver/' + file + '.json';
+        fetch(path).then(
+            function(response) {
+                let res = response.json();
+                return res;
+            }
+        ).then(
+            function(jsonData) {
+                showComment(jsonData, file);
+                localStorage.setItem(file, JSON.stringify(jsonData));
+            }
+        ).catch(
+            function(err) {
+                console.log("error: " + err);
+            }
+        );
+    } else {
+        showComment(JSON.parse(comment_JSON), file);
     }
 }
 
 function loadComments() {
     urlParams = new URLSearchParams(window.location.search);
     num = parseInt(localStorage.getItem("comment/" + urlParams.get("id")));
-    if(num) {
-        for(i = 0; i < num; i++) {
-            showComment("comment/" + urlParams.get("id") + "/" + i);
+    if(!num)
+        num = 0;
+    fetch('http://localhost:8080/studfileserver/comment/' + urlParams.get("id") + '.json').then(
+        function(response) {
+            let res = response.json();
+            return res;
         }
-    }
+    ).then(
+        function(jsonData) {
+            if (num < jsonData) {
+                num = jsonData;
+                localStorage.setItem("comment/" + urlParams.get("id"), num);
+            }
+            for (let i = 0; i < num; i++) {
+                loadComment('comment/' + urlParams.get("id") + "/" + i);
+            }
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
 }
