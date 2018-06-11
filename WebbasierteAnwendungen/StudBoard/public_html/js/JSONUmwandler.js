@@ -19,10 +19,10 @@ class jsonUmwandler {
             return new news(jsonObj["content"],jsonObj["titel"],jsonObj["titelfarbe"],jsonObj["startdatum"],jsonObj["enddatum"],jsonObj["kategorie"],jsonObj["quellenangabe"]);
         } else if(jsonObj["type"] === "Projects"){
             return new projects(jsonObj["content"],jsonObj["titel"],jsonObj["titelfarbe"],jsonObj["startdatum"],jsonObj["enddatum"],jsonObj["professor"],jsonObj["plaetze"]);
-        } else if(jsonObj["type"] === "Tasks"){
+        } else if(jsonObj["type"] === "Task"){
             return new tasks(jsonObj["content"],jsonObj["titel"],jsonObj["titelfarbe"],jsonObj["startdatum"],jsonObj["enddatum"],jsonObj["fach"]);
         } else {
-            // ERROR
+           console.log("Error beim Erstellen");
         }
     }
 }

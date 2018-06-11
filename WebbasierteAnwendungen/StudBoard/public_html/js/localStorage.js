@@ -44,14 +44,24 @@ class localStorage2 {
         string = jsonUmwandler.articleToJson(obj);
         localStorage.setItem(key, string );
 
-        let history = localStorage.getItem("history");
-        if (history === null)
-            history = 0;
-        localStorage.setItem("history/" + history, key);
-        localStorage.setItem("history", parseInt(history) + 1);
+        sendArticleToServer(key, string);
     }
 }
-
+function sendArticleToServer(key, article) {
+    alert('hochladen');
+    return fetch('http://localhost:8080/studfileserver/' + key + '.json', {
+        body: article,
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+            'content-type': 'application/json'
+        },
+        method: 'POST',
+        mode: 'cors',
+        redirect: 'follow',
+        referrer: 'no-referrer'
+    }).then(response => response.json());
+}
 
 
 let news12 = new news("Hallo","Igelhaus","#000000","2018-2-1", "2018-12-3", "wichtig", "aus unserem Gehirn");

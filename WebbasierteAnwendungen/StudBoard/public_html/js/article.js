@@ -40,7 +40,7 @@ class tasks extends article {
     constructor(content, titel, titelfarbe, startdatum, enddatum, fach) {
         super(content, titel, titelfarbe, startdatum, enddatum);
         this.fach = fach;
-        this.type = "Tasks";
+        this.type = "Task";
     }
 }
 

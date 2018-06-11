@@ -5,53 +5,30 @@ window.onload = function() {
     
     switch(side) {
         case "index":
-            loadArticles(5);
+            loadArticlesFromServer(5);
             break;
         
         case "Artikel":
             let urlParams = new URLSearchParams(window.location.search);
             zeigeArtikel(urlParams.get("id"));
-            // generateTableOfContents();
             document.getElementById("commentForm").addEventListener("submit", function(event) {
                 event.preventDefault();
                 saveComment();
             });
+            console.log("Lade Comments...");
             loadComments();
+            console.log("fertig");
             break;
-        
-        /*case "NeuerArtikel":
-            document.getElementById("articleForm").addEventListener("submit", saveNewArticleToLocalStorage);
-            break;*/
         
         default:
             if (side === "Aufgaben"){
-                loadArticlesByMenu("task");
+                loadSpecialArticlesFromServer("task");
             }else if (side === "Projekte"){
-                loadArticlesByMenu("project");
+                loadSpecialArticlesFromServer("project");
             }else if (side === "News"){
-                loadArticlesByMenu("news");
-            }
-            
-            
+                loadSpecialArticlesFromServer("news");
+            } 
             break;
     }
     
 };
-
-var readyStateCallbackFunction = function() {
-    if (this.readyState === 4 && this.status === 200) {
-        console.log("Folgene Antwort erhalten: ");
-        console.log(this.responseText);
-    } else { 
-        console.log("readyState: " + this.readyState + " Status: " + this.status); 
-    } 
-};
-
-window.onload = function() {
-    let requestor = new XMLHttpRequest();
-    
-    requestor.open("GET","http://localhost:8080/studfileserver/web.json");
-    requestor.setRequestHeader("Accept","image.gif");
-    requestor.onreadystatechange = readyStateCallbackFunction;
-    requestor.send(); 
-}
