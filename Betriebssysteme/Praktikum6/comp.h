@@ -1,19 +1,27 @@
 #include "queue.h"
 #include <dirent.h>
 
+typedef struct threadManager {
+	pthread_mutex_t *mutex;
+	pthread_cond_t *cond;
+	int activeThreads;
+	int readingThread;
+} ThreadManager;
+
 typedef struct Mutex_Queue {
-	pthread_mutex_t *mutext;
+	pthread_mutex_t *mutex;
 	Queue queue;
 } Mutex_Queue;
 
 typedef struct threadArgs {
 	DIR *dir;
 	char *path;
-	Queue queue;
-	int *running;
+	Mutex_Queue *queue;
+	ThreadManager *manager;
 } threadArgs;
 
 typedef struct job {
+	pthread_mutex_t *mutex;
 	char *name;
 	char *content;
 } job;
@@ -21,9 +29,11 @@ typedef struct job {
 typedef struct compThreadArgs {
 	job *currentJob;
 	int id;
+	ThreadManager *manager;
 } compThreadArgs;
 
-const unsigned int threads_num = 5;
+
+const unsigned int maxThreads = 5;
 const char *compressedEnding = ".compr";
 
 void deleteJob(job *deleteJob);
