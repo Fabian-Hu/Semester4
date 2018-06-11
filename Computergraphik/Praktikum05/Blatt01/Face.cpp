@@ -10,6 +10,8 @@ Face::Face(std::vector<glm::vec3>& vertices, glm::vec3 &color) {
 	setVertices(vertices);
 	setColors(std::vector<glm::vec3>({ color, color, color }));
 	setIndices(std::vector<GLushort>({ 0, 1, 2 }));
+	origin = glm::vec3(0.0f);
+	calculateNormals();
 }
 
 Face::Face(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors) : Face(vertices, colors, std::vector<GLushort>({0, 1, 2})) {}
@@ -18,6 +20,8 @@ Face::Face(std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors, std
 	setVertices(vertices);
 	setColors(colors);
 	setIndices(indices);
+	origin = glm::vec3(0.0f);
+	calculateNormals();
 }
 
 void Face::splitFace(Face *faces) {
@@ -48,6 +52,24 @@ void Face::normalize(glm::vec3 middle, float distance) {
 
 		vertices[i] = { x, y, z };
 	}
+	calculateNormals();
+}
+
+void Face::calculateNormals() {
+	normals.clear();
+	glm::vec3 vec1 = vertices[1] - vertices[0];
+	glm::vec3 vec2 = vertices[2] - vertices[0];
+	
+	glm::vec3 normal = glm::normalize(glm::cross(vec1, vec2));
+	
+	glm::vec3 center = vertices[0] + vec1 / 2.0f + vec2 / 2.0f;
+	if (glm::distance(origin + normal, center) < glm::distance(origin - normal, center)) {
+		normal *= -1.0f;
+	}
+
+	normals.push_back(normal);
+	normals.push_back(normal);
+	normals.push_back(normal);
 }
 
 std::vector<glm::vec3> Face::getVertices() {
@@ -60,6 +82,14 @@ std::vector<glm::vec3> Face::getColors() {
 
 std::vector<GLushort> Face::getIndices() {
 	return indices;
+}
+
+std::vector<glm::vec3> Face::getNormals() {
+	return normals;
+}
+
+void Face::setOrigin(glm::vec3 origin) {
+	this->origin = origin;
 }
 
 glm::vec3 Face::splitEdge(glm::vec3 & vert1, glm::vec3 & vert2) {

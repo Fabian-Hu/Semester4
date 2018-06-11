@@ -25,6 +25,10 @@ void WorldObject::translate (glm::vec3 direction) {
 	}
 }
 
+void WorldObject::translateWithoutChilds(glm::vec3 direction){
+	model->translate(direction);
+}
+
 void WorldObject::rotate(float a, glm::vec3 origin, glm::vec3 axis, int childs) {
 	model->rotate (a, axis, origin);
 	if (childs == 1) {

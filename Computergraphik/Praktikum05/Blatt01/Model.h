@@ -31,12 +31,14 @@ private:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
+	std::vector<glm::vec3> normals;
 
 	GLuint vao;
 
 	GLuint positionBuffer;
 	GLuint colorBuffer;
 	GLuint indexBuffer;
+	GLuint normalBuffer;
 
 	glm::vec3 position;
 	glm::mat4x4 model;

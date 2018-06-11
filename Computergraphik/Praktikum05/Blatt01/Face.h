@@ -1,13 +1,5 @@
 #pragma once
 #include "Model.h"
-//#include <vector>
-
-//#include <GL/glew.h>
-//#include <GL/freeglut.h>
-
-//#include <glm/glm.hpp>
-//#include <glm/gtc/matrix_transform.hpp>
-//#include <glm/gtc/matrix_inverse.hpp>
 
 class Face : public Model {
 public:
@@ -21,11 +13,15 @@ public:
 	void splitFace(Face *faces);
 	void normalize(glm::vec3 middle, float distance);
 	void build() {};
+	void calculateNormals();
 
 	std::vector<glm::vec3> getVertices();
 	std::vector<glm::vec3> getColors();
 	std::vector<GLushort> getIndices();
+	std::vector<glm::vec3> getNormals();
+	void setOrigin(glm::vec3 origin);
 
 private:
 	glm::vec3 splitEdge(glm::vec3 &vert1, glm::vec3 &vert2);
+	glm::vec3 origin;
 };

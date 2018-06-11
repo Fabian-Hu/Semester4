@@ -21,5 +21,6 @@ private:
 
 	void calculateModel ();
 	int insertPoint(glm::vec3 &point);
-	int containsVertexColor(int index, glm::vec3 &color);
+	int containsVertexColor(int index, glm::vec3 & color, glm::vec3 & normal);
+
 };

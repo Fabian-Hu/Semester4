@@ -41,20 +41,20 @@ bool init() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	// Construct view matrix.
-	glm::vec3 eye(cameraPos, cameraPos, cameraPos);
+	glm::vec3 eye(0, 0, cameraPos);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/simple.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/flat_shaded.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/simple.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/flat_shaded.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
@@ -65,6 +65,8 @@ bool init() {
 		std::cerr << program.log();
 		return false;
 	}
+	program.use();
+	program.setUniform("lightDirection", glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f)));
 
 	//Init Models
 	sun.init (program);

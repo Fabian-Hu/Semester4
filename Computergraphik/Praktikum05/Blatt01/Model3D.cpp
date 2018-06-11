@@ -20,24 +20,27 @@ void Model3D::build() {
 		std::vector<glm::vec3> faceVertices = face.getVertices();
 		std::vector<glm::vec3> faceColors = face.getColors();
 		std::vector<GLushort> faceIndices = face.getIndices();
+		face.calculateNormals();
+		std::vector<glm::vec3> faceNormals = face.getNormals();
 
 		for (int i = 0; i < faceVertices.size(); i++) {
 			int index = insertPoint(faceVertices[i]);
-			int other = containsVertexColor(index, faceColors[i]);
+			int other = containsVertexColor(index, faceColors[i], faceNormals[i]);
 			if (other != -1) {
 				indices.push_back(other);
 			} else {
 				points_vertices.push_back(index);
 				colors.push_back(faceColors[i]);
 				indices.push_back((GLushort)points_vertices.size() - 1);
+				normals.push_back(faceNormals[i]);
 			}
 		}
 	}
 }
 
-int Model3D::containsVertexColor(int index, glm::vec3 & color) {
+int Model3D::containsVertexColor(int index, glm::vec3 &color, glm::vec3 &normal) {
 	for (int i = 0; i < points_vertices.size(); i++) {
-		if (points_vertices[i] == index && colors[i] == color) {
+		if (points_vertices[i] == index && colors[i] == color && normals[i] == normal) {
 			return i;
 		}
 	}

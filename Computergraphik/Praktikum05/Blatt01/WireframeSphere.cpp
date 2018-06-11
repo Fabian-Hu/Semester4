@@ -10,12 +10,13 @@ void WireframeSphere::build() {
 		std::vector<glm::vec3> faceVertices = face.getVertices();
 		std::vector<glm::vec3> faceColors = face.getColors();
 		std::vector<GLushort> faceIndices = face.getIndices();
+		std::vector<glm::vec3> faceNormals = face.getNormals();
 
 		GLushort indicesTriangle[3];
 
 		for (int i = 0; i < faceVertices.size(); i++) {
 			int index = insertPoint(faceVertices[i]);
-			int other = containsVertexColor(index, faceColors[i]);
+			int other = containsVertexColor(index, faceColors[i], faceNormals[i]);
 			if (other != -1) {
 				indicesTriangle[i] = other;
 			}

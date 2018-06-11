@@ -1,6 +1,9 @@
 #include "Model.h"
 #include "GLTools.h"
 #include "glm/gtx/rotate_vector.hpp"
+#include <GL/glew.h>
+
+#include <glm/gtc/matrix_inverse.hpp>
 
 Model::Model() : Model(GL_LINES) {}
 
@@ -15,6 +18,7 @@ void Model::init(cg::GLSLProgram & program) {
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
+	//Position
 	glGenBuffers(1, &positionBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
@@ -23,6 +27,7 @@ void Model::init(cg::GLSLProgram & program) {
 	glEnableVertexAttribArray(pos);
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+	//Color
 	glGenBuffers(1, &colorBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
 	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
@@ -31,6 +36,16 @@ void Model::init(cg::GLSLProgram & program) {
 	glEnableVertexAttribArray(pos);
 	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+	//Normal
+	GLCODE(glGenBuffers(1, &normalBuffer));
+	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, normalBuffer));
+	GLCODE(glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW));
+
+	pos = glGetAttribLocation(programId, "normal");
+	GLCODE(glEnableVertexAttribArray(pos));
+	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
+
+	//Index
 	glGenBuffers(1, &indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
@@ -43,8 +58,12 @@ void Model::init(cg::GLSLProgram & program) {
 void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
 	glm::mat4x4 mvp = projection * view * model;
 
+	// Create normal matrix (nm) from model matrix.
+	glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
+
 	program.use();
 	program.setUniform("mvp", mvp);
+	program.setUniform("nm", nm);
 
 	glBindVertexArray(vao);
 	glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);

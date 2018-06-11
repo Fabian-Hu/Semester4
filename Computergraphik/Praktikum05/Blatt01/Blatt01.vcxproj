@@ -172,6 +172,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3D.cpp" />
     <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
@@ -185,12 +186,15 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Model3D.h" />
     <ClInclude Include="Orb.h" />
+    <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SunSystemData.h" />
     <ClInclude Include="WireframeSphere.h" />
     <ClInclude Include="WorldObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shader\flat_shaded.frag" />
+    <None Include="shader\flat_shaded.vert" />
     <None Include="shader\simple.frag" />
     <None Include="shader\simple.vert" />
   </ItemGroup>

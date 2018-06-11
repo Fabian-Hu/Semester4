@@ -3,6 +3,7 @@
 #include "Axis.h"
 #include "Orb.h"
 #include "WireframeSphere.h"
+#include "SolidSphere.h"
 
 const float sunHeightSpeed = 0.04f;
 const float earthHeightSpeed = 0.04f;
@@ -22,27 +23,28 @@ const int MIN_EARTHHEIGHT = -64;
 int speed = 0;
 const int MAX_SPEED = 256;
 const int MIN_SPEED = -128;
+const float marsRotation = 45.0f;
 
-WireframeSphere sphereSun (glm::vec3 (0, 0, 0), 1.0f, 3, glm::vec3 (1.0f, 0.78f, 0.0f));
-WireframeSphere sphereEarth (glm::vec3 (3.5f, 0, 0), 0.5f, 3, glm::vec3 (0.2f, 0.75f, 0.2f));
-WireframeSphere sphereMars (glm::vec3 (0, 0, 5.8f), 0.4f, 3, glm::vec3 (0.5f, 0.28f, 0.0f));
+SolidSphere sphereSun (glm::vec3 (0, 0, 0), 1.0f, 3, glm::vec3 (1.0f, 0.78f, 0.0f));
+SolidSphere sphereEarth (glm::vec3 (3.5f, 0, 0), 0.5f, 3, glm::vec3 (0.2f, 0.75f, 0.2f));
+SolidSphere sphereMars (glm::vec3 (0, 0, 5.8f), 0.4f, 3, glm::vec3 (0.5f, 0.28f, 0.0f));
 
-WireframeSphere sphereEarthMoon1 (glm::vec3 (2.6f, 0, 0.0f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereEarthMoon2 (glm::vec3 (3.95f, 0, 0.9f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereEarthMoon3 (glm::vec3 (3.95f, 0, -0.9f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereEarthMoon1 (glm::vec3 (2.6f, 0, 0.0f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereEarthMoon2 (glm::vec3 (3.95f, 0, 0.9f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereEarthMoon3 (glm::vec3 (3.95f, 0, -0.9f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
 
-WireframeSphere sphereMarsMoon1 (glm::vec3 (-0.8, 0.0, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon2 (glm::vec3 (0.8, 0.0, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon1 (glm::vec3 (-0.8, 0.0, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon2 (glm::vec3 (0.8, 0.0, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
 
-WireframeSphere sphereMarsMoon3 (glm::vec3 (-0.8, 1.8, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon4 (glm::vec3 (0.8, 1.8, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon5 (glm::vec3 (0.0, 1.8, 6.6f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon6 (glm::vec3 (0.0, 1.8, 5.0f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon3 (glm::vec3 (-0.8, 1.8, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon4 (glm::vec3 (0.8, 1.8, 5.8f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon5 (glm::vec3 (0.0, 1.8, 6.6f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon6 (glm::vec3 (0.0, 1.8, 5.0f), 0.1f, 3, glm::vec3 (0.4f, 0.4f, 0.4f));
 
-WireframeSphere sphereMarsMoon7(glm::vec3(-0.8, -1.8, 5.8f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon8(glm::vec3(0.8, -1.8, 5.8f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon9(glm::vec3(0.0, -1.8, 6.6f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
-WireframeSphere sphereMarsMoon10(glm::vec3(0.0, -1.8, 5.0f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon7(glm::vec3(-0.8, -1.8, 5.8f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon8(glm::vec3(0.8, -1.8, 5.8f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon9(glm::vec3(0.0, -1.8, 6.6f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
+SolidSphere sphereMarsMoon10(glm::vec3(0.0, -1.8, 5.0f), 0.1f, 3, glm::vec3(0.4f, 0.4f, 0.4f));
 
 Axis sunAxis ({ 0.0f,0.0f,0.0f }, 6, { 1.0f, 1.0f, 0.0f });
 Axis earthAxis ({ 3.5f,0.0f,0.0f }, 4, { 1.0f, 0.6f, 0.0f });
@@ -69,7 +71,7 @@ Orb earthAxisObject (&earthAxis, glm::vec3 (0, 1, 0));
 Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);
 
 void rotateMarsSetUp(Orb *orb) {
-	orb->rotateWithAxis(0.785398f, glm::vec3(0, 0, 1));
+	orb->rotateWithAxis(glm::radians(marsRotation), glm::vec3(0, 0, 1));
 }
 
 void rotateMars(Orb *orb) {
