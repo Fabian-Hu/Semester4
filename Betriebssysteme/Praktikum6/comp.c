@@ -51,15 +51,15 @@ int main(int argc, char *argv[]) {
 	/*Start compr threads*/
 	int id = 0;
 	int running = 1;
-	while(running) {
-		pthread_mutex_lock(queue.mutex);
-		int empty = queue_empty(queue.queue);
-		pthread_mutex_unlock(queue.mutex);
-		
+	while(running) {		
 		pthread_mutex_lock(manager.mutex);
 		int currentThreads = manager.activeThreads;
 		int readThread = manager.readingThread;
 		pthread_mutex_unlock(manager.mutex);
+		
+		pthread_mutex_lock(queue.mutex);
+		int empty = queue_empty(queue.queue);
+		pthread_mutex_unlock(queue.mutex);
 		
 		if (!empty && currentThreads < maxThreads) {
 			pthread_mutex_lock(queue.mutex);
@@ -93,7 +93,6 @@ int main(int argc, char *argv[]) {
 			pthread_mutex_unlock(manager.mutex);
 		}
 	}
-	pthread_join(readFileThread, (void **)&args);
 	
 	pthread_mutex_lock(manager.mutex);
 	while(manager.activeThreads) {
@@ -120,12 +119,13 @@ void *readFiles(void *args) {
 				newJob->mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 				pthread_mutex_init(newJob->mutex, NULL);
 	
-				char realname[sizeof(path) + sizeof(file->d_name) + 1];
+				char realname[sizeof(path) + sizeof(file->d_name) + 2];
 				realname[0] = '\0';
 				strcat(realname, path);
 				char *divider = "/\0";
 				strcat(realname, divider);
 				strcat(realname, file->d_name);
+				realname[sizeof(realname) - 1] = '\0';
 				
 				pthread_mutex_lock(newJob->mutex);
 				newJob->name = (char *)malloc(sizeof(realname));
@@ -153,7 +153,9 @@ void deleteJob(job *deleteJob) {
 	free(deleteJob->name);
 	free(deleteJob->content);
 	pthread_mutex_unlock(deleteJob->mutex);
+	
 	pthread_mutex_destroy(deleteJob->mutex);
+	
 	free(deleteJob->mutex);
 	free(deleteJob);
 	deleteJob = NULL;
@@ -186,27 +188,26 @@ void *comprFile(void *args) {
 	job *currentJob = ((compThreadArgs *)args)->currentJob;
 	ThreadManager *manager = ((compThreadArgs *)args)->manager;
 	
-	printf("Hello: %s\n", currentJob->name);
-	
 	pthread_mutex_unlock(currentJob->mutex);
 	Result *comprResult = compress_string(currentJob->content);
 	pthread_mutex_unlock(currentJob->mutex);
 
-	char newName[sizeof(currentJob->name) + sizeof(compressedEnding) ];
+	char newName[strlen(currentJob->name) + sizeof(compressedEnding) + 1];
 	newName[0] = '\0';
 	
-	pthread_mutex_unlock(currentJob->mutex);
-	strcat(newName, currentJob->name);
+	pthread_mutex_lock(currentJob->mutex);
+	strcat(newName, currentJob->name); //<- FEHLER!!!!!
 	pthread_mutex_unlock(currentJob->mutex);
 	
 	strcat(newName, compressedEnding);
+	printf("Hello: %s\n", newName);
 	FILE *newFile = fopen(newName, "w");
 	
 	if (newFile) {
 		pthread_mutex_lock(currentJob->mutex);
 		
 		for(int i = 0; i < sizeof(comprResult->data); i++) {
-			fputs(comprResult->data[i], newFile);
+			fputc(comprResult->data[i], newFile);
 		}
 		fclose(newFile);
 		
