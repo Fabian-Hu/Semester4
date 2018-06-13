@@ -4,7 +4,7 @@
 
 Malte Riechmann, André Kirsch
 
-#### Aufgabe 1
+### Aufgabe 1
 
 Um die Zustandsmaschine 'beep-test' umzusetzen, haben wir zuerst zwei Klassen für die Buttons und den Buzzer erstellt. Über eine Template Konstante geben wir den Pin an, an den der Aktor bzw. Sensor an das TivaC Board angeschlossen wurde. Über _state()_ können wir bei den Buttons den aktuellen Status abfragen. Der Buzzer lässt sich über _setActive(uint8_t state)_ aktivieren.
 
@@ -89,7 +89,7 @@ In der Funktion _loop_ speichern wir einen statischen Pointer auf den aktuellen 
 
 ###Aufgabe 2
 
-Um Morsecode-Übersetzer zu realisieren haben wir zunächst ein Array aus Char-Pointern erstellt, in dem die verschiedenen Codierungen für die Buchstaben stehen. Der Integer-Wert eines Chars stellt dann den jeweiligen Index für die Codierung dar. Die Zahlen die keine Morse-Zeichen besitzen haben NULL als Wert. Um die Morse-Zeichen nicht doppelt zu speichern, wird es nur für den Großbuchstaben gespeichert.
+Um Morsecode-Übersetzer zu realisieren haben wir zunächst ein Array aus Char-Pointern erstellt, in dem die verschiedenen Codierungen für die Buchstaben stehen. Der Integer-Wert eines Chars stellt dann den jeweiligen Index für die Codierung dar. Die Zahlen, die keine Morse-Zeichen besitzen, haben NULL als Wert. Um die Morse-Zeichen nicht doppelt zu speichern, wird es nur für den Großbuchstaben gespeichert.
 
 ````c++
 const char *CHAR_TO_MORSE[128] = {
@@ -112,9 +112,7 @@ const char *CHAR_TO_MORSE[128] = {
 };
 ````
 
-
-
-Dieses Array nutzen wir in der  abstrakten Klasse AbstractController. Diese besitzt eine Methode ``morseString()`` , der der auszugebene String übergeben wird. Diese Methode durch läuft den String in einer Schleife für jeden char. Wenn der Char ein Leerzeichen ist wird eine gewisse Dauer gewartet, bevor der der nächste Char verarbeitet wird. Wenn der übergeben Char ein Kleinbuchstabe ist wird auf ihn ein Offset gerechnet, um den ASCII-Wert für den Großbuchstaben zu erhalten. Anhand dieses Wertes wird aus dem oben beschriebenem Array. Der so erhaltene C-String wird nun durchlaufen und für ein '-'-Zeichen wird die abstrakte Methode morseLong(), bzw. für ein '.'-Zeichen die abstrakte Methode morseShort() aufgerufen. 
+Dieses Array nutzen wir in der  abstrakten Klasse AbstractController. Diese besitzt eine Methode ``morseString()``, der der auszugebene String übergeben wird. Diese Methode durchläuft den String in einer Schleife für jeden char. Wenn der Char ein Leerzeichen ist wird eine gewisse Dauer gewartet, bevor der der nächste Char verarbeitet wird. Wenn der übergeben Char ein Kleinbuchstabe ist wird auf ihn ein Offset gerechnet, um den ASCII-Wert für den Großbuchstaben zu erhalten. Anhand dieses Wertes wird aus dem oben beschriebenen Array der Morsecode ausgelesen. Der so erhaltene C-String wird nun durchlaufen und für ein '-'-Zeichen wird die abstrakte Methode morseLong(), bzw. für ein '.'-Zeichen die abstrakte Methode morseShort() aufgerufen. 
 
 Diese zwei Methoden werden in den erbenden Klassen implementiert.
 
@@ -167,7 +165,7 @@ private:
 };
 ````
 
-Die Klasse Actor wird in der Klasse PinConroller als Attribut verwendet. Die Klasse erbt von AbstractContoller und implementiert die beiden Abstrakten Methoden, indem es den Pin auf `HIGH` setzt, eine bestimmte Zeit wartet und den Pin dann wieder auf `LOW`setzt.
+Die Klasse Actor wird in der Klasse PinController als Attribut verwendet. Die Klasse erbt von AbstractContoller und implementiert die beiden Abstrakten Methoden, indem es den Pin auf `HIGH` setzt, eine bestimmte Zeit wartet und den Pin dann wieder auf `LOW`setzt.
 
 ````c++
 class PinController : public AbstractController {
@@ -194,7 +192,7 @@ private:
 
 Zur Verwaltung der Buttons haben wir die Klasse aus Aufgabe 1 genutzt.
 
-Wenn der eine Button gedrückt wird, wird die Variable `currentActor`  inkrementiert und von dem PinController Objekt wird die LED als Actor übergeben. Wenn `currentActor` größer als 0 ist, wenn der Knopf gedrückt wird, wird die Variable auf 0 gesetzt und der Buzzer wird als Actor übergeben.
+Wenn der eine Button gedrückt wird, wird die Variable `currentActor`  inkrementiert und dem PinController Objekt wird die LED als Actor übergeben. Wenn `currentActor` größer als 0 ist, wenn der Knopf gedrückt wird, wird die Variable auf 0 gesetzt und der Buzzer wird als Actor übergeben.
 
 ````c++
   if (buttonB.state() == HIGH) {
@@ -222,7 +220,7 @@ Um den String einzulesen haben wir eine String Variable angelegt und Speicher in
   input.reserve(strLength);
 ````
 
-Eingelesen wir die Eingabe in der `serialEvent()`- Methode. Wenn neue Daten verfügbar sind werden diese über `Serial.read()` eingelesen und solange an den String angefügt, bis eine gewisse Zeit lang keine neuen Daten mehr gekommen sind oder bis der String die 128 Zeichen als länge erreicht hat. Kommen dann noch weitere Zeichen werden diese ignoriert.
+Eingelesen wir die Eingabe in der `serialEvent()`- Methode. Wenn neue Daten verfügbar sind werden diese über `Serial.read()` eingelesen und solange an den String angefügt, bis eine gewisse Zeit lang keine neuen Daten mehr gekommen sind oder bis der String die 128 Zeichen als Länge erreicht hat. Kommen dann noch weitere Zeichen, werden diese ignoriert.
 
 ````c++
 void serialEvent() {
