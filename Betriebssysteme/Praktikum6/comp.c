@@ -6,8 +6,12 @@
 #include "comp.h"
 #include <string.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <time.h>
 
 int main(int argc, char *argv[]) {
+	time_t start;
+	time(&start);
 	/*check if dirame is given*/
 	if (argc != 2) {
 		return EXIT_FAILURE;
@@ -28,18 +32,10 @@ int main(int argc, char *argv[]) {
 	pthread_mutex_init(queue.mutex, NULL);
 	
 	/*Init Thread Manager*/
-	ThreadManager manager;
-	manager.activeThreads = 0;
-	manager.readingThread = 0;
-	manager.mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(manager.mutex, NULL);
-	manager.cond = (pthread_cond_t *)malloc(sizeof(pthread_cond_t));
-	pthread_cond_init(manager.cond, NULL);
-	
+	ThreadManager manager = createThreadManager();
+
 	/*start dir content reading thread*/
-	pthread_mutex_lock(manager.mutex);
-	manager.readingThread = 1;
-	pthread_mutex_unlock(manager.mutex);
+	setReadingThread(&manager, 1);
 	
 	threadArgs args = {dir, realname, &queue, &manager};
 	pthread_t readFileThread;
@@ -51,32 +47,27 @@ int main(int argc, char *argv[]) {
 	/*Start compr threads*/
 	int id = 0;
 	int running = 1;
-	while(running) {		
-		pthread_mutex_lock(manager.mutex);
-		int currentThreads = manager.activeThreads;
-		int readThread = manager.readingThread;
-		pthread_mutex_unlock(manager.mutex);
+	while(running) {
+		int currentThreads = getActiveThreads(&manager);
+		int readThread = getReadingThreads(&manager);
 		
 		pthread_mutex_lock(queue.mutex);
 		int empty = queue_empty(queue.queue);
 		pthread_mutex_unlock(queue.mutex);
 		
 		if (!empty && currentThreads < maxThreads) {
+			/*If queue is not empty and there are free threads left*/
 			pthread_mutex_lock(queue.mutex);
 			job *head = queue_head(queue.queue);
 			queue_delete(queue.queue);
 			pthread_mutex_unlock(queue.mutex);
-			
-			printf("Job %s\n", head->name);
 			
 			compThreadArgs *comprArgs = (compThreadArgs *)malloc(sizeof(compThreadArgs));
 			comprArgs->currentJob = head;
 			comprArgs->id = id;
 			comprArgs->manager = &manager;
 			
-			pthread_mutex_lock(manager.mutex);
-			manager.activeThreads++;
-			pthread_mutex_unlock(manager.mutex);
+			incActiveThreads(&manager);
 			
 			pthread_t compThread;
 			if (pthread_create(&compThread, NULL, comprFile, comprArgs)) {
@@ -84,24 +75,23 @@ int main(int argc, char *argv[]) {
 			}
 			id++;
 		} else if (empty && !readThread) {
+			/*If queue is empty and reading Thread is not reading end loop*/
 			running = 0;
 		} else {
-			pthread_mutex_lock(manager.mutex);
-			while(manager.activeThreads >= maxThreads) {
-				pthread_cond_wait(manager.cond, manager.mutex);
-			}
-			pthread_mutex_unlock(manager.mutex);
+			/*Wait for free thread*/
+			waitForThreads(&manager, maxThreads - 1);
 		}
 	}
 	
-	pthread_mutex_lock(manager.mutex);
-	while(manager.activeThreads) {
-		pthread_cond_wait(manager.cond, manager.mutex);
-	}
-	pthread_mutex_unlock(manager.mutex);
+	waitForThreads(&manager, 0);	
 	
-	printf("%d\n", manager.activeThreads);
-	//Queue und Manager freen
+	deleteManager(&manager);
+	
+	
+	time_t end;
+	time(&end);
+	double diff = difftime(end, start);
+	printf("Laufzeit: %f\nThreads: %d\n", diff, maxThreads);
 	return EXIT_SUCCESS;
 }
 
@@ -110,6 +100,13 @@ void *readFiles(void *args) {
 	char *path = ((threadArgs *)args)->path;
 	Mutex_Queue *queue = ((threadArgs *)args)->queue;
 	ThreadManager *manager = ((threadArgs *)args)->manager;
+	readDir(dir, queue, path);
+	
+	setReadingThread(manager, 0);
+	return args;
+}
+
+void readDir(DIR *dir, Mutex_Queue *queue, char *path) {
 	struct dirent *file;
 	
 	while (file = readdir(dir)) {
@@ -138,14 +135,24 @@ void *readFiles(void *args) {
 				pthread_mutex_lock(queue->mutex);
 				queue_insert(queue->queue, newJob);
 				pthread_mutex_unlock(queue->mutex);
+				if (sleepTime) {
+					sleep(1);
+				}
+			}
+		} else if (strcmp (file->d_name, ".") && strcmp (file->d_name, "..") && file->d_type == DT_DIR){
+			char realname[sizeof(path) + sizeof(file->d_name) + 2];
+			realname[0] = '\0';
+			strcat(realname, path);
+			char *divider = "/\0";
+			strcat(realname, divider);
+			strcat(realname, file->d_name);
+			realname[sizeof(realname) - 1] = '\0';
+			DIR *newdir = opendir(realname);
+			if (newdir) {
+				readDir(newdir, queue, realname);
 			}
 		}
 	}
-	
-	pthread_mutex_lock(manager->mutex);
-	manager->readingThread = 0;
-	pthread_mutex_unlock(manager->mutex);
-	return args;
 }
 
 void deleteJob(job *deleteJob) {
@@ -196,11 +203,10 @@ void *comprFile(void *args) {
 	newName[0] = '\0';
 	
 	pthread_mutex_lock(currentJob->mutex);
-	strcat(newName, currentJob->name); //<- FEHLER!!!!!
+	strcat(newName, currentJob->name); 
 	pthread_mutex_unlock(currentJob->mutex);
 	
 	strcat(newName, compressedEnding);
-	printf("Hello: %s\n", newName);
 	FILE *newFile = fopen(newName, "w");
 	
 	if (newFile) {
@@ -213,17 +219,18 @@ void *comprFile(void *args) {
 		
 		pthread_mutex_unlock(currentJob->mutex);
 	}
+	if (sleepTime) {
+		sleep(3);
+	}
 	
 	free(comprResult->data);
 	free(comprResult);
 	deleteJob(currentJob);
 	
-	pthread_mutex_lock(manager->mutex);
-	manager->activeThreads--;
-	pthread_mutex_unlock(manager->mutex);
-	pthread_cond_signal(manager->cond);
+	decActiveThreads(manager);
 	
 	free(args);
+	
 	return NULL;
 }
 

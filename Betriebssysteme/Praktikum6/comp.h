@@ -1,12 +1,6 @@
-#include "queue.h"
 #include <dirent.h>
-
-typedef struct threadManager {
-	pthread_mutex_t *mutex;
-	pthread_cond_t *cond;
-	int activeThreads;
-	int readingThread;
-} ThreadManager;
+#include "threadManager.h"
+#include "queue.h"
 
 typedef struct Mutex_Queue {
 	pthread_mutex_t *mutex;
@@ -33,8 +27,9 @@ typedef struct compThreadArgs {
 } compThreadArgs;
 
 
-const unsigned int maxThreads = 5;
+const unsigned int maxThreads = 4;
 const char *compressedEnding = ".compr";
+const int sleepTime = 0;
 
 void deleteJob(job *deleteJob);
 
@@ -43,3 +38,5 @@ void *readFiles(void *arg);
 void getFileContent(job *dest, const char *filename);
 
 void *comprFile(void *arg);
+;
+void readDir(DIR *dir, Mutex_Queue *queue, char *path);
