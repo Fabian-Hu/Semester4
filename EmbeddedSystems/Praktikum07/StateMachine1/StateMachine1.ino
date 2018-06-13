@@ -94,7 +94,6 @@ State *states3[] = {&state01, &state10};
 int events3[] = {event_b, event_d};
 
 void setup() {
-  Serial.begin(9600);
   state00.setStates(states, 2, events);
   state01.setStates(states1, 2, events1);
   state10.setStates(states2, 2, events2);
