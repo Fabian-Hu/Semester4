@@ -29,12 +29,12 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(restWebService.ArticleCommentsResource.class);
         resources.add(restWebService.ArticleCreateResource.class);
         resources.add(restWebService.ArticleHistoryResource.class);
         resources.add(restWebService.ArticleResource.class);
-        resources.add(restWebService.CommentResource.class);
-        resources.add(restWebService.ArticleCommentsResource.class);
         resources.add(restWebService.CommentCreateResource.class);
+        resources.add(restWebService.CommentResource.class);
     }
     
 }

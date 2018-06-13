@@ -1,0 +1,18 @@
+const char *CHAR_TO_MORSE[128] = {
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, "-.-.--", ".-..-.", NULL, NULL, NULL, NULL, ".----.",
+        "-.--.", "-.--.-", NULL, NULL, "--..--", "-....-", ".-.-.-", "-..-.",
+        "-----", ".----", "..---", "...--", "....-", ".....", "-....", "--...",
+        "---..", "----.", "---...", NULL, NULL, "-...-", NULL, "..--..",
+        ".--.-.", ".-", "-...", "-.-.", "-..", ".", "..-.", "--.",
+        "....", "..", ".---", "-.-", ".-..", "--", "-.", "---",
+        ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--",
+        "-..-", "-.--", "--..", NULL, NULL, NULL, NULL, "..--.-",
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+};
