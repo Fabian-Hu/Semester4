@@ -330,3 +330,5 @@ ASALocalRun/
 
 .suo
 /Webbasierte Anwendungen/studfileserver/build/
+/Webbasierte Anwendungen/studboardREST/nbproject/private/
+/Webbasierte Anwendungen/studboardREST/build/

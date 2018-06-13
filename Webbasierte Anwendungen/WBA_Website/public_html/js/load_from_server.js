@@ -7,6 +7,9 @@ function getLogo() {
     console.log("getLogo()")
     fetch('http://localhost:8080/studfileserver/img/StudBoardLogo150x100.png').then(
         function(response) {
+            for (var pair of response.headers.entries()) {
+               console.log(pair[0] + ": " + pair[1]);
+            }
             return response.blob();
         }
     ).then(
