@@ -12,7 +12,7 @@
     <filter>
         <description>Set cache expiry for static content</description>
         <filter-name>ExpiresFilter</filter-name>
-        <filter-class>filter.ExpiresFilter</filter-class>
+        <filter-class>de.fhbielefeld.scl.server.filter.ExpiresFilter</filter-class>
         <init-param>
             <description>Add an Expires Header</description>
             <param-name>days</param-name>
@@ -21,7 +21,7 @@
     </filter>
     <filter-mapping>
         <filter-name>ExpiresFilter</filter-name>
-        <url-pattern>*.png, *.mp4</url-pattern>
+        <url-pattern>*.html</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 </web-app>

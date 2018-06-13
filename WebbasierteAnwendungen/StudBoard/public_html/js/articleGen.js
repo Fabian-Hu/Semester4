@@ -112,9 +112,9 @@ var getArticle = function(file) {
                 return res;
             }
         ).then(
-            function(jsonData) {
-                createArticle(jsonData, file);
+            function(jsonData) {        
                 localStorage.setItem(file, json2.articleToJson(jsonData));
+                createArticle(jsonData, file);
             }
         ).catch(
             function(err) {

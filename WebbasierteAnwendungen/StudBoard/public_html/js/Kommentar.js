@@ -43,7 +43,7 @@ var saveComment = function () {
     showComment("comment/" + urlParams.get("id") + "/" + count);
 
     fetch("http://localhost:8080/studfileserver/comment/" +urlParams.get("id")+"/"+count+".json", {
-        body: JSON.stringify(data), // must match 'Content-Type' header 
+        body: JSON.stringify(comment), // must match 'Content-Type' header 
         cache: 'no-cache', // *default, no-cache, reload, force-cache, only-ifcached 
         credentials: 'same-origin', // include, *omit 
         headers: {
