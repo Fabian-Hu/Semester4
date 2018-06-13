@@ -25,6 +25,10 @@ const int WINDOW_HEIGHT = 480;
 int glutID = 0;
 float cameraPos = 8.0f;
 
+const glm::vec3 directionLight = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
+const glm::vec3 pointLight = glm::vec3(0.0f, 0.0f, cameraPos);
+int lightMode = 0;
+
 cg::GLSLProgram program;
 
 glm::mat4x4 view;
@@ -66,7 +70,9 @@ bool init() {
 		return false;
 	}
 	program.use();
-	program.setUniform("lightDirection", glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f)));
+	program.setUniform("lightDirection", directionLight);
+	program.setUniform("pointLight", pointLight);
+	program.setUniform("light", lightMode);
 
 	//Init Models
 	sun.init (program);
@@ -176,8 +182,11 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	case 's':
 		moveCamera (cameraMovementValue);
 		break;
-
+	case '1':
+		lightMode = (lightMode) ? 0 : 1;
+		program.setUniform("light", lightMode);
 	}
+
 	glutPostRedisplay();
 }
 

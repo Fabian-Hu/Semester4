@@ -60,16 +60,21 @@ void Face::calculateNormals() {
 	glm::vec3 vec1 = vertices[1] - vertices[0];
 	glm::vec3 vec2 = vertices[2] - vertices[0];
 	
-	glm::vec3 normal = glm::normalize(glm::cross(vec1, vec2));
+	/*glm::vec3 normal = glm::normalize(glm::cross(vec1, vec2));
 	
 	glm::vec3 center = vertices[0] + vec1 / 2.0f + vec2 / 2.0f;
 	if (glm::distance(origin + normal, center) < glm::distance(origin - normal, center)) {
 		normal *= -1.0f;
 	}
+	
+	normals.push_back(normal);
+	normals.push_back(normal);
+	normals.push_back(normal);
+	*/
 
-	normals.push_back(normal);
-	normals.push_back(normal);
-	normals.push_back(normal);
+	normals.push_back(glm::normalize(vertices[0] - origin));
+	normals.push_back(glm::normalize(vertices[1] - origin));
+	normals.push_back(glm::normalize(vertices[2] - origin));
 }
 
 std::vector<glm::vec3> Face::getVertices() {
