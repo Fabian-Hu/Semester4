@@ -5,15 +5,19 @@
  */
 
 
-function zeigeArtikel(id) {   
-    jsonUmwandler = new jsonUmwandler();
-    article = jsonUmwandler.jsonToArcticle(localStorage.getItem(id));
-    if(article !== null) {
-        document.getElementById("articleBody").classList.add(article.type);
-        document.getElementById("articleTitle").innerHTML = article.titel;
-        document.getElementById("articleTitle").style = "color: " + article.titelfarbe + ";";
-        document.getElementById("articleContent").innerHTML = article.content;
-        document.getElementById("articleFooter").innerHTML = "Start: " + article.startdatum + "<br>Ende: " + article.enddatum;
-    }
+/* global fetch */
+
+function zeigeArtikel(id) {    
+    fetch('http://localhost:8080/studboardREST/artikel?id='+id)
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(myJson) {
+            document.getElementById("articleBody").classList.add(myJson["type"]);
+            document.getElementById("articleTitle").innerHTML = myJson["titel"];
+            document.getElementById("articleTitle").style = "color: " + myJson["titelfarbe"] + ";";
+            document.getElementById("articleContent").innerHTML = myJson["content"];
+            document.getElementById("articleFooter").innerHTML = "Start: " + myJson["startdatum"] + "<br>Ende: " + myJson["enddatum"];
+    });
 }
 

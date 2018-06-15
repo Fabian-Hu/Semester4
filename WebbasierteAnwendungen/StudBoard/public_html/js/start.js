@@ -16,17 +16,17 @@ window.onload = function() {
                 saveComment();
             });
             console.log("Lade Comments...");
-            loadComments();
+            loadComments(urlParams.get("id"));
             console.log("fertig");
             break;
         
         default:
             if (side === "Aufgaben"){
-                loadSpecialArticlesFromServer("task");
+                loadSpecialArticlesFromServer(5,"Task");
             }else if (side === "Projekte"){
-                loadSpecialArticlesFromServer("project");
+                loadSpecialArticlesFromServer(5,"Projects");
             }else if (side === "News"){
-                loadSpecialArticlesFromServer("news");
+                loadSpecialArticlesFromServer(5,"News");
             } 
             break;
     }

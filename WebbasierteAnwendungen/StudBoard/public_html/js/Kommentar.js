@@ -21,6 +21,17 @@ class Comment {
     }
 }
 
+function showComment(json) {   
+    console.log(json);
+    article = document.createElement("article");
+    p1 = document.createElement("p");
+    p1.innerHTML = json["text"] + "<br><br>Anhang: " + json["file"] + "<br><br>Bewertung: " + json["rating"];
+    article.appendChild(document.createElement("hr"));
+    article.appendChild(p1);
+    document.getElementById("comments").appendChild(article);
+    
+}
+
 var saveComment = function () {
     text = document.getElementById("text").value;
     attachment = document.getElementById("attachment").value;
@@ -31,7 +42,7 @@ var saveComment = function () {
             rating = radioButtons[i].value;
         }
     }
-    comment = new Comment(text, rating, attachment);
+    comment = new Comment(text, rating+"/5", attachment);
     urlParams = new URLSearchParams(window.location.search);
     count = localStorage.getItem("comment/" + urlParams.get("id"));
     if (count === null)
@@ -40,25 +51,45 @@ var saveComment = function () {
     localStorage.setItem("comment/" + urlParams.get("id") + "/" + count, JSON.stringify(comment));
 
     localStorage.setItem("comment/" + urlParams.get("id"), parseInt(count) + 1);
-    showComment("comment/" + urlParams.get("id") + "/" + count);
-
-    fetch("http://localhost:8080/studfileserver/comment/" +urlParams.get("id")+"/"+count+".json", {
+    alert(JSON.parse(JSON.stringify(comment)));
+    showComment(JSON.parse(JSON.stringify(comment)));
+    
+    fetch("http://localhost:8080/studboardREST/comment/erstellen", {
+        method: 'POST', // *GET, PUT, DELETE, etc. 
         body: JSON.stringify(comment), // must match 'Content-Type' header 
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-ifcached 
-        credentials: 'same-origin', // include, *omit 
         headers: {
             'content-type': 'application/json'
-        },
-        method: 'POST', // *GET, PUT, DELETE, etc. 
-        mode: 'cors', // no-cors, *same-origin 
-        redirect: 'follow', // *manual, error 
-        referrer: 'no-referrer', // *client 
+        }  
     }).then(function (res){ // parses response to JSON 
         console.log(res.text());
     });
 
 };
 
+function loadComments(id) {
+    fetch('http://localhost:8080/studboardREST/comment/liste?id='+id).then(
+        function(response) {
+            let res = response.json();
+            return res;
+        }
+    ).then(
+        function(jsonData) {
+            for(i=0;i<jsonData.length;i++){
+                showComment(jsonData[i]);
+            }
+        }
+    ).catch(
+        function(err) {
+            console.log("error: " + err);
+        }
+    );
+}
+
+
+
+
+
+/*
 function showComment(id) {
     console.log("Kommentar ID: "+id);
     comment_JSON = localStorage.getItem(id);
@@ -130,4 +161,4 @@ function loadComment(file) {
         
         showComment(file);
     }
-}
+}*/
