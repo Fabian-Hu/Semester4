@@ -5,6 +5,8 @@
  */
 
 
+/* global fetch */
+
 class localStorage2 {
      
     articleSchreiben(obj){  
@@ -44,22 +46,17 @@ class localStorage2 {
         string = jsonUmwandler.articleToJson(obj);
         localStorage.setItem(key, string );
 
-        sendArticleToServer(key, string);
+        sendArticleToServer(string);
     }
 }
-function sendArticleToServer(key, article) {
-    alert('hochladen');
-    return fetch('http://localhost:8080/studfileserver/' + key + '.json', {
-        body: article,
-        cache: 'no-cache',
-        credentials: 'same-origin',
-        headers: {
-            'content-type': 'application/json'
-        },
+function sendArticleToServer(article) {
+    
+    return fetch('http://localhost:8080/studboardREST/artikel/erstellen', {
         method: 'POST',
-        mode: 'cors',
-        redirect: 'follow',
-        referrer: 'no-referrer'
+        body: article,
+        headers: {
+            'Content-Type': 'application/json'
+        }    
     }).then(response => response.json());
 }
 

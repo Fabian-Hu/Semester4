@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/ffehring/Documents/NetBeansProjects/scl/RESTServices/src/java/de/fhbielefeld/rest/LocationResource.java</file>
-            <file>file:/C:/Users/ffehring/Documents/NetBeansProjects/scl/RESTServices/src/java/org/netbeans/rest/application/config/ApplicationConfig.java</file>
+            <file>file:/C:/Users/Fabian/Desktop/Semester4Git/Semester4/WebbasierteAnwendungen/Abgabe8/RESTServices/src/java/de/fhbielefeld/scl/server/filter/ExpiresFilter.java</file>
+            <file>file:/C:/Users/Fabian/Desktop/Semester4Git/Semester4/WebbasierteAnwendungen/Abgabe8/RESTServices/src/java/de/fhbielefeld/rest/LocationResource.java</file>
+            <file>file:/C:/Users/Fabian/Desktop/Semester4Git/Semester4/WebbasierteAnwendungen/Abgabe8/RESTServices/web/index.html</file>
         </group>
     </open-files>
 </project-private>
