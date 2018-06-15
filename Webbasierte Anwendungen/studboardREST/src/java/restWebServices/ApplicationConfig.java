@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package restWebService;
+package restWebServices;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -12,7 +12,7 @@ import javax.ws.rs.core.Application;
  *
  * @author Andre
  */
-@javax.ws.rs.ApplicationPath("")
+@javax.ws.rs.ApplicationPath("resources")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -29,12 +29,12 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(restWebService.ArticleCommentsResource.class);
-        resources.add(restWebService.ArticleCreateResource.class);
-        resources.add(restWebService.ArticleHistoryResource.class);
-        resources.add(restWebService.ArticleResource.class);
-        resources.add(restWebService.CommentCreateResource.class);
-        resources.add(restWebService.CommentResource.class);
+        resources.add(restWebServices.ArticleCommentsResource.class);
+        resources.add(restWebServices.ArticleCreateResource.class);
+        resources.add(restWebServices.ArticleHistoryResource.class);
+        resources.add(restWebServices.ArticleResource.class);
+        resources.add(restWebServices.CommentCreateResource.class);
+        resources.add(restWebServices.CommentResource.class);
     }
     
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package restWebService.models;
+package restWebServices.models;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,7 +18,7 @@ public class Task extends Article{
 
     public Task(String subject, int id, String title, String content, String color, String start, String end) {
         super(id, title, content, color, start, end);
-        type = "Task";
+        type = "task";
         this.subject = subject;
     }
 

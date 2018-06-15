@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package restWebService;
+package restWebServices;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,21 +11,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import restWebService.models.Comment;
+import restWebServices.exampleData.ExampleData;
 
 /**
  *
  * @author Andre
  */
-@Path("comment")
-public class CommentResource {
+@Path("article")
+public class ArticleResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getComment(@QueryParam("id") int id) {
+    public Response getArticle(@QueryParam("id") int id) {
+        if (id < ExampleData.getInstance().getArticles().size())
+            return Response.ok(ExampleData.getInstance().getArticles().get(id)).build();
         
-        Comment comment = new Comment(0, 0, "Ich glaube, der ist mal wieder am Rasen mähen", "4", "");
-        
-        return Response.ok(comment).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
