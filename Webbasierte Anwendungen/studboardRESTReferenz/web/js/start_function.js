@@ -9,7 +9,7 @@ window.onload = function() {
         case "":
             loadArticlesFromServer(5);
             break;
-			
+            
         case "index":
             loadArticlesFromServer(5);
             break;
@@ -22,7 +22,6 @@ window.onload = function() {
                 event.preventDefault();
                 saveComment();
             });
-            loadComments();
             break;
         
         case "createNewArticle":
