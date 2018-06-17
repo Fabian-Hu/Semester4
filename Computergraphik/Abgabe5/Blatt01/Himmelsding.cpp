@@ -24,15 +24,15 @@ void Himmelsding::render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4
 {	
 	// Create mvp.
 	glm::mat4x4 mvp = projection * view * wireSphere.model;
-	glm::mat3 nm = glm::inverseTranspose(glm::mat3(wireSphere.model));
+	glm::mat3 normaleMatrix = glm::inverseTranspose(glm::mat3(wireSphere.model));
 
 	// Bind the shader program and set uniform(s).
 	program.use();
 	program.setUniform("mvp", mvp);
-	program.setUniform("nm", nm);
+	program.setUniform("normaleMatrix", normaleMatrix);
 	program.setUniform("model", wireSphere.model);
 	program.setUniform("material", material);
-	program.setUniform("shininess", shininess);
+	program.setUniform("scheinHeiligKeit", scheinHeiligKeit);
 	program.setUniform("farbe", farbe);
 
 	// GLUT: bind vertex-array-object

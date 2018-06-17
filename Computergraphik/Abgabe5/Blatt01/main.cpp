@@ -25,14 +25,12 @@ float geschwindigkeit = 0.0f;
 namespace Global { extern float winkel = 45.0f; }
 
 // lighting
-const glm::vec3 directionLight = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
-glm::vec3 pointLight = glm::vec3(zoomx, zoomy, zoomz);
-int lightMode = 0;
+const glm::vec3 richtungLicht = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
+glm::vec3 punktLicht = glm::vec3(zoomx, zoomy, zoomz);
+int lichtungsArt = 0;
 
 // 0 = directional light
-glm::vec4 currentLight = glm::vec4(directionLight, lightMode);
-
-
+glm::vec4 dasJetztLicht = glm::vec4(richtungLicht, lichtungsArt);
 
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
@@ -65,9 +63,9 @@ bool init()
 
 	// Create a shader program and set light direction.
 	
-	if (!program.compileShaderFromFile("shader/flatShading.vert", cg::GLSLShader::VERTEX))
+	//if (!program.compileShaderFromFile("shader/flatShading.vert", cg::GLSLShader::VERTEX))
 	//if (!program.compileShaderFromFile("shader/gurkenShading.vert", cg::GLSLShader::VERTEX))
-	//if (!program.compileShaderFromFile("shader/phongShading.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/phongShading.vert", cg::GLSLShader::VERTEX))
 	
 	//if (!program.compileShaderFromFile("shader/simple.vert", cg::GLSLShader::VERTEX))
 	{
@@ -75,9 +73,9 @@ bool init()
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/flatShading.frag", cg::GLSLShader::FRAGMENT))
+	//if (!program.compileShaderFromFile("shader/flatShading.frag", cg::GLSLShader::FRAGMENT))
 	//if (!program.compileShaderFromFile("shader/gurkenShading.frag", cg::GLSLShader::FRAGMENT))
-	//if (!program.compileShaderFromFile("shader/phongShading.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/phongShading.frag", cg::GLSLShader::FRAGMENT))
 	
 	//if (!program.compileShaderFromFile("shader/simple.frag", cg::GLSLShader::FRAGMENT))
 	{
@@ -92,7 +90,7 @@ bool init()
 	}
 
 	program.use();
-	program.setUniform("light", currentLight);
+	program.setUniform("light", dasJetztLicht);
 	program.setUniform("viewpoint", eye);
 
 	// Create all objects.
@@ -190,9 +188,9 @@ void zoom() {
 
 	program.use();
 	program.setUniform("viewpoint", eye);
-	if (lightMode == 1) {
-		pointLight = glm::vec3(zoomx, zoomy, zoomz);
-		program.setUniform("light", currentLight);
+	if (lichtungsArt == 1) {
+		punktLicht = glm::vec3(zoomx, zoomy, zoomz);
+		program.setUniform("light", dasJetztLicht);
 	}
 }
 
@@ -350,22 +348,22 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		}
 		break;
 	 case '1':
-		if (lightMode == 0) {
-			lightMode = 1;
+		if (lichtungsArt == 0) {
+			lichtungsArt = 1;
 		}
 		else {
-			lightMode = 0;
+			lichtungsArt = 0;
 		}
-		if (lightMode == 0) {
-			currentLight = glm::vec4(directionLight, lightMode);
+		if (lichtungsArt == 0) {
+			dasJetztLicht = glm::vec4(richtungLicht, lichtungsArt);
 			std::cout << "Richtungslicht: " << std::endl;
 		}
 		else {
-			currentLight = glm::vec4(pointLight, lightMode);
+			dasJetztLicht = glm::vec4(punktLicht, lichtungsArt);
 			std::cout << "Punktlicht: " << std::endl;
 		}
 
-		program.setUniform("light", currentLight);
+		program.setUniform("light", dasJetztLicht);
 	}
 	glutPostRedisplay();
 }

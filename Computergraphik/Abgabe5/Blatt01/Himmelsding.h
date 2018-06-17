@@ -46,5 +46,5 @@ private:
 	glm::vec3 position;
 	glm::vec3 material = {1.0f, 1.0f, 1.0f};
 	glm::vec3 farbe = { 0.95f, 0.62f, 0.1f };
-	int shininess = 16;
+	int scheinHeiligKeit = 16;
 };

@@ -3,10 +3,8 @@
 in vec3 position;
 in vec3 normal;
 
+uniform mat4 mvp;
 uniform vec3 farbe;
-uniform mat4 mvp;  // model-view-projection
-uniform mat3 nm;   // normal matrix
-
 smooth out vec3 fragmentNormal;
 smooth out vec3 fragmentPosition;
 flat out vec3 fragmentColor;
