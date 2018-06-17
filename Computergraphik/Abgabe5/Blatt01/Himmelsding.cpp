@@ -5,18 +5,18 @@ Himmelsding::Himmelsding() :
 {
 }
 
-Himmelsding::Himmelsding(float x, float y, float z, float radio) :
-	position(x, y, z), radius(radio)
+Himmelsding::Himmelsding(float x, float y, float z, float radio, float r, float g, float b) :
+	position(x, y, z), radius(radio), farbe(r, g, b)
 {
 }
 
-Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit) :
-	position(x, y, z), radius(radio), schiefigkeitus(schiefigkeit)
+Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit, float r, float g, float b) :
+	position(x, y, z), radius(radio), schiefigkeitus(schiefigkeit), farbe(r, g, b)
 {
 }
 
-Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeitigkeit, float offset, Himmelsding *planet) :
-	position(x, y, z), radius(radio), schiefigkeitigkeit(schiefigkeitigkeit), offset(offset), planet(planet)
+Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeitigkeit, float offset, Himmelsding *planet, float r, float g, float b) :
+	position(x, y, z), radius(radio), schiefigkeitigkeit(schiefigkeitigkeit), offset(offset), planet(planet), farbe(r, g, b)
 {
 }
 

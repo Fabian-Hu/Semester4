@@ -5,9 +5,9 @@
 class Himmelsding : Masterding {
 public:
 	Himmelsding();
-	Himmelsding::Himmelsding(float x, float y, float z, float radio);
-	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit);
-	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeitigkeit, float offset, Himmelsding *planet);
+	Himmelsding::Himmelsding(float x, float y, float z, float radio, float r, float g, float b);
+	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeit, float r, float g, float b);
+	Himmelsding::Himmelsding(float x, float y, float z, float radio, float schiefigkeitigkeit, float offset, Himmelsding *planet, float r, float g, float b);
 
 	void render(cg::GLSLProgram& program, glm::mat4x4 view, glm::mat4x4 projection);
 	void init(cg::GLSLProgram& program);
@@ -45,6 +45,6 @@ private:
 
 	glm::vec3 position;
 	glm::vec3 material = {1.0f, 1.0f, 1.0f};
-	glm::vec3 farbe = { 1.0f, 0.0f, 0.0f };
+	glm::vec3 farbe = { 0.95f, 0.62f, 0.1f };
 	int shininess = 16;
 };

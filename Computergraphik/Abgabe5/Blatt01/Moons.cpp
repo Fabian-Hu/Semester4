@@ -1,13 +1,13 @@
 #include "Moons.h"
 
-Moons::Moons(Himmelsding *planet, int anzahlMonde) :
-	planet(planet),anzahlMonde(anzahlMonde)
+Moons::Moons(Himmelsding *planet, int anzahlMonde, float r, float g, float b) :
+	planet(planet),anzahlMonde(anzahlMonde), farbe(r, g, b)
 {
 	calculateMoons();
 }
 
-Moons::Moons(Himmelsding *planet, int anzahlRinge, int anzahlMonde1, int anzahlMonde2, int anzahlMonde3, float abstand, float schiefigkeitigkeit) :
-	planet(planet), anzahlMonde(anzahlMonde1 + anzahlMonde2 + anzahlMonde3), anzahlRinge(anzahlRinge), anzahlMonde1(anzahlMonde1), anzahlMonde2(anzahlMonde2), anzahlMonde3(anzahlMonde3), abstand(abstand), schiefigkeitigkeit(schiefigkeitigkeit)
+Moons::Moons(Himmelsding *planet, int anzahlRinge, int anzahlMonde1, int anzahlMonde2, int anzahlMonde3, float abstand, float schiefigkeitigkeit, float r, float g, float b) :
+	planet(planet), anzahlMonde(anzahlMonde1 + anzahlMonde2 + anzahlMonde3), anzahlRinge(anzahlRinge), anzahlMonde1(anzahlMonde1), anzahlMonde2(anzahlMonde2), anzahlMonde3(anzahlMonde3), abstand(abstand), schiefigkeitigkeit(schiefigkeitigkeit), farbe(r, g, b)
 {
 	calculateMoreMoons();
 }
@@ -48,7 +48,7 @@ void Moons::calculateMoons() {
 		float x = sinf(angle);
 		float z = cosf(angle);
 		//Himmelsding mond(position3[0] + x, position3[1], position3[2] + z, 0.2f);
-		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f));
+		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, farbe[0], farbe[1], farbe[2]));
 	}
 }
 
@@ -61,7 +61,7 @@ void Moons::calculateMoreMoons() {
 		float x = sinf(angle);
 		float z = cosf(angle);
 		//Himmelsding mond(position3[0] + x, position3[1], position3[2] + z, 0.2f);
-		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, 0.0f, planet));
+		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, 0.0f, planet, farbe[0], farbe[1], farbe[2]));
 	}
 	for (int i = 0; i < anzahlMonde2; i++) {
 		float angle = float(i) / float(anzahlMonde2) * 2.0f * 3.14f;
@@ -69,7 +69,7 @@ void Moons::calculateMoreMoons() {
 		float x = sinf(angle);
 		float z = cosf(angle);
 		//Himmelsding mond(position3[0] + x, position3[1], position3[2] + z, 0.2f);
-		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, abstand, planet));
+		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, abstand, planet, farbe[0], farbe[1], farbe[2]));
 	}
 	for (int i = 0; i < anzahlMonde3; i++) {
 		float angle = float(i) / float(anzahlMonde3) * 2.0f * 3.14f;
@@ -77,7 +77,7 @@ void Moons::calculateMoreMoons() {
 		float x = sinf(angle);
 		float z = cosf(angle);
 		//Himmelsding mond(position3[0] + x, position3[1], position3[2] + z, 0.2f);
-		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, -abstand, planet));
+		monde.push_back(Himmelsding(position3[0] + x, position3[1], position3[2] + z, 0.2f, schiefigkeitigkeit, -abstand, planet, farbe[0], farbe[1], farbe[2]));
 	}
 }
 

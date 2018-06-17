@@ -39,13 +39,13 @@ glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 Himmelsding sonne;
 Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
 
-Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
+Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f, 0.85f, 0.87f, 0.96f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
-Moons uranusMoons(&uranus, 3);
+Moons uranusMoons(&uranus, 3, 0.77f, 0.83f, 0.89f);
 
-Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, Global::winkel);
+Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, Global::winkel, 1.0f, 0.95f, 0.84f);
 Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
-Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
+Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel, 0.58f, 0.52f, 0.44f);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
