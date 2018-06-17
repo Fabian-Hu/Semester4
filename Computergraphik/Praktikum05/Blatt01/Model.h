@@ -44,4 +44,7 @@ private:
 	glm::mat4x4 model;
 
 	GLenum mode;
+
+	glm::vec3 material;
+	int shininess;
 };

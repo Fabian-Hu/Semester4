@@ -28,6 +28,7 @@ float cameraPos = 8.0f;
 const glm::vec3 directionLight = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
 const glm::vec3 pointLight = glm::vec3(0.0f, 0.0f, cameraPos);
 int lightMode = 0;
+glm::vec4 currentLight = glm::vec4(directionLight, lightMode);
 
 cg::GLSLProgram program;
 
@@ -36,6 +37,8 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
+
+bool doRotate = true;
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -52,13 +55,17 @@ bool init() {
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/flat_shaded.vert", cg::GLSLShader::VERTEX))
+	//if (!program.compileShaderFromFile("shader/flat_shading.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/gouraud_shading.vert", cg::GLSLShader::VERTEX))
+	//if (!program.compileShaderFromFile("shader/phong_shading.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/flat_shaded.frag", cg::GLSLShader::FRAGMENT))
+	//if (!program.compileShaderFromFile("shader/flat_shading.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/gouraud_shading.frag", cg::GLSLShader::FRAGMENT))
+	//if (!program.compileShaderFromFile("shader/phong_shading.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
@@ -70,9 +77,8 @@ bool init() {
 		return false;
 	}
 	program.use();
-	program.setUniform("lightDirection", directionLight);
-	program.setUniform("pointLight", pointLight);
-	program.setUniform("light", lightMode);
+	program.setUniform("light", currentLight);
+	program.setUniform("viewpoint", eye);
 
 	//Init Models
 	sun.init (program);
@@ -97,7 +103,9 @@ void render() {
 }
 
 void glutDisplay () {
-	sun.rotate ();
+	if (doRotate)
+		sun.rotate ();
+
 	GLCODE(render());
 	glutSwapBuffers();
 }
@@ -123,6 +131,7 @@ void moveCamera(float m) {
 		glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 		view = glm::lookAt(eye, center, up);
+		program.setUniform("viewpoint", eye);
 	}
 }
 
@@ -182,9 +191,21 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	case 's':
 		moveCamera (cameraMovementValue);
 		break;
+	case ' ':
+		doRotate = !doRotate;
+		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
-		program.setUniform("light", lightMode);
+		if (lightMode == 0) {
+			currentLight = glm::vec4(directionLight, lightMode);
+			std::cout << "Richtungslicht" << std::endl;
+		}
+		else {
+			currentLight = glm::vec4(pointLight, lightMode);
+			std::cout << "Punktlicht" << std::endl;
+		}
+		
+		program.setUniform("light", currentLight);
 	}
 
 	glutPostRedisplay();
@@ -249,6 +270,7 @@ int main(int argc, char** argv) {
 		GLCODE(bool result = init());
 		if (!result) {
 			release();
+			while (true);
 			return -2;
 		}
 	}

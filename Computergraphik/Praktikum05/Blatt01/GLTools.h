@@ -43,6 +43,8 @@ public:
 	static void throwGLException(unsigned linenum) {
 		GLenum errCode = glGetError();
 		if (errCode != GL_NO_ERROR) {
+			std::cerr << gluErrorString(errCode) << std::endl;
+			while (true);
 			throw new GLException(errCode, linenum); 
 		}
 	}

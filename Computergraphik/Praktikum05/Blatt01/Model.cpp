@@ -9,7 +9,10 @@ Model::Model() : Model(GL_LINES) {}
 
 Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
-Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position) {}
+Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position) {
+	material = glm::vec3(1.0f);
+	shininess = 128;
+}
 
 void Model::init(cg::GLSLProgram & program) {
 	GLuint programId = program.getHandle();
@@ -64,6 +67,9 @@ void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 proj
 	program.use();
 	program.setUniform("mvp", mvp);
 	program.setUniform("nm", nm);
+	program.setUniform("model", model);
+	program.setUniform("material", material);
+	program.setUniform("shininess", shininess);
 
 	glBindVertexArray(vao);
 	glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
