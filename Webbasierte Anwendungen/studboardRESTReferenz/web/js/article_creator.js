@@ -22,7 +22,7 @@ var saveNewArticleToLocalStorage = function() {
                 id = 0;
             }
             key = "news/" + id;
-            localStorage.setItem("news", parseInt(id) + 1);
+            //localStorage.setItem("news", parseInt(id) + 1);
             article = new News(titel, text, farbe, start, ende, "", "");
             break;
         case "Projekt":
@@ -31,7 +31,7 @@ var saveNewArticleToLocalStorage = function() {
                 id = 0;
             }
             key = "project/" + id;
-            localStorage.setItem("project", parseInt(id) + 1);
+            //localStorage.setItem("project", parseInt(id) + 1);
             article = new Project(titel, text, farbe, start, ende, "", "");
             break;
         case "Aufgabe":
@@ -40,21 +40,19 @@ var saveNewArticleToLocalStorage = function() {
                 id = 0;
             }
             key = "task/" + id;
-            localStorage.setItem("task", parseInt(id) + 1);
+            //localStorage.setItem("task", parseInt(id) + 1);
             article = new Task(titel, text, farbe, start, ende, "", "");
             break;
     }
-    localStorage.setItem(key, articleConverter.articleToJson(article));
+    //localStorage.setItem(key, articleConverter.articleToJson(article));
     sendArticleToServer(key, articleConverter.articleToJson(article)).then(
         function(data) {
-            console.log(data);
         }
     ).catch(error => console.error(error));
 };
 
 function sendArticleToServer(key, article) {
-    console.log('hallo');
-    return fetch('http://localhost:8080/studboardREST/comment/create', {
+    return fetch('http://localhost:8080/studboardRESTReferenz/resources/comment/create', {
         body: article,
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -65,5 +63,5 @@ function sendArticleToServer(key, article) {
         mode: 'cors',
         redirect: 'follow',
         referrer: 'no-referrer'
-    }).then(response => response.json());
+    }).then(response => response.text());
 }

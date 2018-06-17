@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title class="news_title">Neuigkeiten</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/translation.js"></script>
+        <script src="js/article.js"></script>
+        <script src="js/article_converter.js"></script>
+        <script src="js/article_loader.js"></script>
+        <script src="js/position.js"></script>
+        <script src="js/load_from_server.js"></script>
+        <script src="js/start_function.js"></script>
+    </head>
+    <body>
+        <section>
+            <header>
+                <div id="logo">
+                    <picture>
+                        <source id="largeImg" media="(min-width: 650px)" srcset="img/image_not_found.png">
+                        <source id="smallImg" srcset="img/image_not_found.png">
+                        <img id="defaultImg" src="img/image_not_found.png" alt="Logo"/>
+                    </picture>
+                </div>
+                <h1 class="news_title">Neuigkeiten</h1>
+            </header>
+            <section>
+                <aside style="float: right">
+                    <header>
+                        <h3 class="nav">
+                            Navigation
+                        </h3>
+                    </header>
+                    <nav>
+                        <ul>
+                            <li><a class ="home" href="index.html">Startseite</a></li>
+                            <li><a class ="news_title" href="news.html">News</a>
+                                <ul id="parentNavigation">
+                                </ul>
+                            </li>
+                            <li><a class="projects" href="projects.html">Projekte</a></li>
+                            <li><a class="tasks" href="tasks.html">Aufgaben</a> </li>
+                            <li><a class="article" href="createNewArticle.html">Neuen Artikel anlegen</a></li>
+                        </ul>
+                    </nav>
+                </aside>
+                <section id="articles">
+                    <article id="example_article" class="task articledesc">
+                        <header>
+                            <h2>Aufgabe4</h2>
+                        </header>
+                            <p>
+                                Lorem ipsum 
+                            </p>
+                            <br>
+                            <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
+                        <footer>
+                            © Fritz Marx, 2018
+                        </footer>
+                    </article>
+                </section>
+            </section>
+            <hr />
+            <a href="/WBA_Website/news.html"><div id="top">top</div></a>
+            <footer>
+                © André Kirsch, Malte Riechmann, 2018 <br />
+                akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de
+            </footer>
+        </section>
+    </body>
+</html>

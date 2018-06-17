@@ -6,28 +6,17 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title class="site_title">SAILI - Die Website für Studierende und Lehrende</title>
+        <title class="article">SAILI - Neuen Artikel erstellen</title>
         <link rel="stylesheet" href="stylesheet.css">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="js/translation.js"></script>
-        <script src="js/article_converter.js"></script>
         <script src="js/article.js"></script>
-        <script src="js/article_loader.js"></script>
+        <script src="js/article_converter.js"></script>
         <script src="js/position.js"></script>
-        <script src="js/welcome_popup.js"></script>
+        <script src="js/article_creator.js"></script>
         <script src="js/load_from_server.js"></script>
         <script src="js/start_function.js"></script>
-        <!--script>
-		if (navigator.serviceWorker) {
-			navigator.serviceWorker.register('serviceworker.js').then(function(reg) {
-				console.log('ServiceWorker erfolgreich registriert');
-			},
-			function(err) {
-				console.log('Fehler beim Registrieren: ' + err);
-			});
-		}
-	</script-->
     </head>
     <body>
         <header>
@@ -66,25 +55,29 @@ and open the template in the editor.
                 </ul>
             </nav>
         </section>
-        <hr />
-        <section id="articles">
-            <h3 class="last_articles">Die letzten Artikel</h3>
-            <article id="example_article" class="task articledesc">
-                <header>
-                    <h2>Aufgabe4</h2>
-                </header>
-                <p>
-                    Lorem ipsum 
-                </p>
-                <br>
-                <a class="show_more" href="tasks.html#aufgabe2">Mehr anzeigen...</a>
-                <footer>
-                    © Fritz Marx, 2018
-                </footer>
-            </article>
-        </section>
-        <hr />
-        <div id="top"><a href="/WBA_Website/index.html">top</a></div>
+        <section>
+            <h2 class="input_form">Eingabeformular</h2>
+            <form id="articleForm">
+                <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br>
+                <label class="text" for="artikelText">Text:</label><br>
+                <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br>
+                <label class="article_type" for="artikelTyp">Artikeltyp:</label><br>
+                <input id="artikelTyp" name="artikelTyp" list="textformen"><br>
+                <datalist id="textformen">
+                    <option>News</option>
+                    <option>Projekt</option>
+                    <option>Aufgabe</option>
+                </datalist>
+                <label class="start_date" for="artikelStartdatum">Startdatum:</label><br>
+                <input id="artikelStartdatum" type="date" name="startdatum"><br>
+                <label class="end_date" for="artikelEnddatum">Enddatum:</label><br>
+                <input id="artikelEnddatum" type="date" name="enddatum"><br>
+                <label class="title_color" for="artikelTitelfarbe">Titelfarbe:</label><br>
+                <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </section><br>
+        <div id="top"><a href="/WBA_Website/createNewArticle.html">top</a></div>
         <footer>
             © André Kirsch, Malte Riechmann, 2018 <br />
             akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de

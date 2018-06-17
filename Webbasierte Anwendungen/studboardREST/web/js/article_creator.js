@@ -53,8 +53,7 @@ var saveNewArticleToLocalStorage = function() {
 };
 
 function sendArticleToServer(key, article) {
-    console.log('hallo');
-    return fetch('http://localhost:8080/studboardREST/comment/create', {
+    return fetch('http://localhost:8080/studboardREST/resources/comment/create', {
         body: article,
         cache: 'no-cache',
         credentials: 'same-origin',
@@ -65,5 +64,5 @@ function sendArticleToServer(key, article) {
         mode: 'cors',
         redirect: 'follow',
         referrer: 'no-referrer'
-    }).then(response => response.json());
+    }).then(response => response.text());
 }
