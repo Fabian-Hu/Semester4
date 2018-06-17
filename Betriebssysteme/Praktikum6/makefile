@@ -1,2 +1,2 @@
 all:
-	gcc -pthread -o main main.c
+	gcc -pthread -Iminiz_v115_r4 -o main main.c
