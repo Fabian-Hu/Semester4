@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "miniz.h"
+//#include "miniz.h"
 #include "queue.h"
 #include <pthread.h>
 #include <string.h>
@@ -12,25 +12,25 @@ typedef struct
 	pthread_cond_t *cond;
 	int sync;
 	int done;
-} Daten;
-Daten daten;
+} Job;
+Job daten;
 
-Daten *data = &daten;
+Job *data = &daten;
 
 char dir[256];
 
-int add(char* file,Daten*daten){
+int add(char* file,Job*daten){
 	
 	queue_insert(daten->queue,(void*)file);
 	return 0;
 }
-char* get_head(Daten*daten){
+char* get_head(Job*daten){
 	char* value = (char*) daten->queue->head->value;
 	queue_delete(daten->queue);
 	return value;
 }
 
-void * lock(Daten* daten){	
+void * lock(Job* daten){	
 	pthread_mutex_lock(daten->mutex);
 	int temp = daten->sync;
 	while(temp){
@@ -40,7 +40,7 @@ void * lock(Daten* daten){
 }
 
 void *unlock(void* args){
-	Daten* daten = (Daten*) args;
+	Job* daten = (Job*) args;
 	daten->sync = 0;
 	pthread_mutex_unlock(daten->mutex);
 	pthread_cond_broadcast(daten->cond);
@@ -48,7 +48,7 @@ void *unlock(void* args){
 
 void *get_files(void *args){	
 	printf("Dateien werden gelesen %s.\n",dir);
-	Daten* daten = (Daten*) args;
+	Job* daten = (Job*) args;
 	struct dirent *de; // Pointer auf den aktuellen Ort
     DIR *dr = opendir(dir); // Der Ordner wird geöffnet
     if (dr == NULL) {
@@ -82,14 +82,17 @@ void *get_files(void *args){
             buffer = (char*)malloc(sizeof(char)*length);
             if(buffer){
 				fread(buffer,sizeof(char)*length,1,file);
-				printf("Datei gelesen: %s\n",buffer);
+				printf("Datei gelesen: \n");
 			}
-	
+			
+			sleep(1);
+			
 			
 			fclose(file);
  ;          add(buffer,daten);
             unlock(daten);
 		}
+		
 	}
 	printf("\nDateien fertig gelesen\n");
 	daten->done = 1;
@@ -99,18 +102,21 @@ void *get_files(void *args){
 
 
 void *compress(void* args){
-	Daten * daten = (Daten*) args;
+	Job * daten = (Job*) args;
 	printf("Neuer Prozess\n");
 	while(queue_empty(daten->queue) && !daten->done);
 	while(!queue_empty(daten->queue)){ // kein null wert
 		lock(daten);
 		char * string = get_head(daten);
-		printf("Komprimiert: %s\n",string);
+		printf("Komprimiert: \n");
 		//Result *result = compress_string(string);
 		// <=hier muss komprimiert werden
 		// wenn fertig
 		unlock(daten);
-	}
+		
+		sleep(3);
+		
+	}	
 }
 
 void create_threads(void*args,int count){ // anzahl threads variable
@@ -127,7 +133,7 @@ void create_threads(void*args,int count){ // anzahl threads variable
 	int status4 = 0;
 	printf("Threads werden erstellt.\n");
 	//mutex
-	Daten *daten = (Daten*)args;
+	Job *daten = (Job*)args;
 	daten->mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
 	pthread_mutex_init(daten->mutex, NULL);
 	daten->cond = (pthread_cond_t *)malloc(sizeof(pthread_cond_t));
@@ -157,6 +163,8 @@ void create_threads(void*args,int count){ // anzahl threads variable
 }
 
 void main(int argc,char ** argv){
+	time_t start;
+	time(&start);
 	system("clear");
 	strcpy(dir,argv[1]);
 	data->queue = queue_create();
@@ -165,4 +173,9 @@ void main(int argc,char ** argv){
 	create_threads(data,1);
 	queue_destroy(data->queue);// am ende alles freigeben
 	pthread_mutex_destroy(data->mutex);
+	
+	time_t end;
+	time(&end);
+	double diff = difftime(end, start);
+	printf("Laufzeit: %f\nThreads: %d\n", diff, 3);
 }
