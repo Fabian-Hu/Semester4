@@ -69,16 +69,10 @@ void *get_files(void *args){
             printf("Neu: %s\n", de->d_name);
             memset(result, 0, sizeof(result));
 			strcpy(result,dir);
-            //strcat(result,dir);
-            //strcat(result,de->d_name);
-            //printf("%s\n",result);
             strcat(result,de->d_name);
-			// printf(result);
             file = fopen(result,"r");
-            //printf("test");
             fseek(file,0,SEEK_END);
             length = ftell(file);
-            //printf("test");
             buffer = (char*)malloc(sizeof(char)*length);
             if(buffer){
 				fread(buffer,sizeof(char)*length,1,file);
@@ -145,17 +139,8 @@ void create_threads(void*args,int count){ // anzahl threads variable
 		test[i] = (pthread_t*) malloc(sizeof(pthread_t));
 		pthread_create(test[i], NULL, compress, args);
 	}
-	//ein compressor
-	/*status2 = pthread_create(&comp, NULL, compress, args);
-	status3 = pthread_create(&comp2, NULL, compress, args);
-	status4 = pthread_create(&comp3, NULL, compress, args);*/
-	
 	
 	pthread_join(reader,NULL);
-	/*pthread_join(comp,NULL);
-	pthread_join(comp2,NULL);
-	pthread_join(comp3,NULL);*/
-	
 	for(int i = 0;i<count;i++){
 		pthread_join(*test[i],NULL);
 	}
