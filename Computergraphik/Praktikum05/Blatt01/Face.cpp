@@ -30,12 +30,28 @@ void Face::splitFace(Face *faces) {
 		halfEdges[i] = splitEdge(vertices[i], vertices[(i + 1) % 3]);
 	}
 
-	for (int i = 0; i < 3; i++) {
+	std::vector<glm::vec3> vec = { vertices[0], halfEdges[0], halfEdges[2] };
+	std::vector<glm::vec3> vec1 = { halfEdges[0], vertices[1],  halfEdges[1] };
+	std::vector<glm::vec3> vec2 = { halfEdges[2], halfEdges[1], vertices[2] };
+
+	/*std::vector<glm::vec3> vec = { vertices[1], halfEdges[1], halfEdges[0] };
+	std::vector<glm::vec3> vec1 = { halfEdges[1], vertices[2],  halfEdges[2] };
+	std::vector<glm::vec3> vec2 = { halfEdges[2], halfEdges[0], vertices[0] };*/
+
+	/*std::vector<glm::vec3> vec = { vertices[2], halfEdges[2], halfEdges[1] };
+	std::vector<glm::vec3> vec1 = { halfEdges[2], vertices[0],  halfEdges[0] };
+	std::vector<glm::vec3> vec2 = { halfEdges[1], halfEdges[0], vertices[1] };*/
+	faces[0] = Face(vec, colors);
+	faces[1] = Face(vec1, colors);
+	faces[2] = Face(vec2, colors);
+
+	//Alte Version
+	/*for (int i = 0; i < 3; i++) {
 		std::vector<glm::vec3> vec = { vertices[i], halfEdges[i], halfEdges[(i + 2) % 3] };
 		faces[i] = Face(vec, colors);
-	}
-	std::vector<glm::vec3> vec = { halfEdges[0], halfEdges[1], halfEdges[2] };
-	faces[3] = Face(vec, colors);
+	}*/
+	std::vector<glm::vec3> vec3 = { halfEdges[0], halfEdges[1], halfEdges[2] };
+	faces[3] = Face(vec3, colors);
 }
 
 void Face::normalize(glm::vec3 middle, float distance) {
@@ -63,14 +79,13 @@ void Face::calculateNormals() {
 	/*glm::vec3 normal = glm::normalize(glm::cross(vec1, vec2));
 	
 	glm::vec3 center = vertices[0] + vec1 / 2.0f + vec2 / 2.0f;
-	if (glm::distance(origin + normal, center) < glm::distance(origin - normal, center)) {
+	if (glm::distance(origin + normal, center) > glm::distance(origin - normal, center)) {
 		normal *= -1.0f;
 	}
 	
 	normals.push_back(normal);
 	normals.push_back(normal);
-	normals.push_back(normal);
-	*/
+	normals.push_back(normal);*/
 
 	normals.push_back(glm::normalize(vertices[0] - origin));
 	normals.push_back(glm::normalize(vertices[1] - origin));

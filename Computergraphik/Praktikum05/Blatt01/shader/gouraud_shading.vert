@@ -27,12 +27,12 @@ void main()
 	//Betrachtungsrichtung
 	vec3 v;
 	if (light.w == 0) {
-		v = normalize(position - viewpoint);
+		v = normalize(viewpoint - position);
 	} else {
-		v = normalize((model * vec4(position,  1.0)).xyz - viewpoint);
+		v = normalize(viewpoint - (model * vec4(position,  1.0)).xyz);
 	}
-	vec3 r = reflect(lightDir, n);
-	vec3 h = (lightDir + v * -1)/length(lightDir + v * -1);
+	vec3 r = reflect(lightDir, n) * -1;
+	vec3 h = (lightDir + v)/length(lightDir + v);
 
 	float id = material.x * dot(lightDir, n);
 	float is = 0;

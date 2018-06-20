@@ -41,7 +41,7 @@ function showArticle(article) {
         if (article.comments !== undefined) {
             article.comments.forEach( function(commentId) {
                 loadComment(commentId, article.id);
-            })
+            });
         }
     }
 }
