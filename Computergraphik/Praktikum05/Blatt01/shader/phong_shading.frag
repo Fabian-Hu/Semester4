@@ -27,7 +27,7 @@ void main()
 	//Betrachtungsrichtung
 	vec3 v;
 	if (light.w == 0) {
-		v = normalize(viewpoint - fragmentPosition);
+		v = normalize(viewpoint -  (model * vec4(fragmentPosition,  1.0)).xyz);
 	} else {
 		v = normalize(viewpoint - (model * vec4(fragmentPosition,  1.0)).xyz);
 	}
