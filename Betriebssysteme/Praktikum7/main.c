@@ -45,9 +45,10 @@ void normaleAusgabe(char **argv) {
     int filedesc = open(argv[2], O_RDONLY);
     off_t off = getLengthOfFile(filedesc);
     lseek(filedesc, 0, SEEK_SET);
-    char content[off - 1];
+    char content[off-1];
+    
     read(filedesc, content, sizeof(content));
-    write(STDOUT_FILENO, content, strlen(content)); // ausgabe
+    write(STDOUT_FILENO, content, sizeof(content)); // ausgabe 
     write(STDOUT_FILENO, "\n", strlen("\n"));
 }
 
@@ -74,7 +75,6 @@ off_t getLengthOfFile(int filedesc) {
     lseek(filedesc, 0, SEEK_SET);
     off_t off = lseek(filedesc, 0, SEEK_END);
     if (off == (off_t) - 1) {
-        printf("failed to lseek \n");
         close(filedesc);
         return 1;
     }
@@ -107,20 +107,17 @@ void copyWeirdToFile(char **argv) {
     off_t oldFileLength = getLengthOfFile(oldFile);
     char oldEnd[10];
     lseek(oldFile, oldFileLength - 11, SEEK_SET);
-    read(oldFile, oldEnd, 10);
-    //printf("\n%li\n%s\n", oldFileLength, oldEnd);
+    int readOld = read(oldFile, oldEnd, 10);
 
     off_t newFileLength = getLengthOfFile(filedesc);
-    char content[newFileLength];
+    char *content = (char*) malloc(sizeof(char)*newFileLength);
     lseek(filedesc, 0, SEEK_SET);
-    read(filedesc, content, newFileLength);
-    //printf("\n\n%li\n%s\n", newFileLength, content);
+    int readContent = read(filedesc, content, newFileLength);
 
     //content splitten
     char *firstHalf = (char *) malloc(10 * sizeof(char));
     memcpy(firstHalf, content, 10 * sizeof(char));
     char *secondHalf = content + 10;
-    //printf("\n\nFirstHalf:\n%s\nSecondHalf:\n%s\n", firstHalf, secondHalf);
 
     //newFile deleten
     ftruncate(filedesc, 0);
@@ -134,10 +131,11 @@ void copyWeirdToFile(char **argv) {
     if (write(filedesc, oldEnd, strlen(oldEnd)) != strlen(oldEnd)) {
         close(filedesc);
     }
-
+    
     if (write(filedesc, secondHalf, strlen(secondHalf)) != strlen(secondHalf)) {
         close(filedesc);
     }
+
     newFileLength = getLengthOfFile(filedesc);
     ftruncate(filedesc, newFileLength);
 
