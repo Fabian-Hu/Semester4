@@ -19,6 +19,9 @@ off_t getLengthOfFile(int filedesc);
 char *content;
 
 int main(int argc, char **argv) {
+    if (argc != 3) {
+        return 1;
+    }
     write(STDOUT_FILENO, "\n", strlen("\n"));
     int filedesc = open(argv[1], O_RDONLY);
     if (filedesc < 0)
@@ -33,7 +36,7 @@ int main(int argc, char **argv) {
     write(STDOUT_FILENO, "\n\nAufgabe 2:\n", strlen("\n\nAufgabe 4:\n"));
     normaleAusgabe(argv);
     copyWeirdToFile(argv);
-    write(STDOUT_FILENO,"\n\nAufgabe 4:\n",strlen("\n\nAufgabe 4:\n"));
+    write(STDOUT_FILENO, "\n\nAufgabe 4:\n", strlen("\n\nAufgabe 4:\n"));
     normaleAusgabe(argv);
 }
 
@@ -85,6 +88,11 @@ void copyToFile(char **argv) {
     if (filedesc < 0) {
     }
 
+    //wenn es die Datei schon gibt, erstmal löschen^^
+    if (getLengthOfFile(filedesc) != 0) {
+        ftruncate(filedesc, 0);
+    }
+
     if (write(filedesc, content, strlen(content)) != strlen(content)) {
         close(filedesc);
     }
@@ -100,22 +108,20 @@ void copyWeirdToFile(char **argv) {
     char oldEnd[10];
     lseek(oldFile, oldFileLength - 11, SEEK_SET);
     read(oldFile, oldEnd, 10);
-
     //printf("\n%li\n%s\n", oldFileLength, oldEnd);
 
     off_t newFileLength = getLengthOfFile(filedesc);
     char content[newFileLength];
     lseek(filedesc, 0, SEEK_SET);
     read(filedesc, content, newFileLength);
-
     //printf("\n\n%li\n%s\n", newFileLength, content);
 
     //content splitten
     char *firstHalf = (char *) malloc(10 * sizeof(char));
     memcpy(firstHalf, content, 10 * sizeof(char));
     char *secondHalf = content + 10;
-
     //printf("\n\nFirstHalf:\n%s\nSecondHalf:\n%s\n", firstHalf, secondHalf);
+
     //newFile deleten
     ftruncate(filedesc, 0);
 
@@ -132,6 +138,8 @@ void copyWeirdToFile(char **argv) {
     if (write(filedesc, secondHalf, strlen(secondHalf)) != strlen(secondHalf)) {
         close(filedesc);
     }
+    newFileLength = getLengthOfFile(filedesc);
+    ftruncate(filedesc, newFileLength);
 
     close(oldFile);
     close(filedesc);
