@@ -45,7 +45,7 @@ void loop() {
       break;
     case 4:         //beep
 
-      tone(Buzzer,NOTE_D4,noteDuration);
+      tone(Buzzer,NOTE_D8,noteDuration);
       noTone(Buzzer); 
       if (digitalRead(schalterD) == LOW) {
         zustand = 1;
