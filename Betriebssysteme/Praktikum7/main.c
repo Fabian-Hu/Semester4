@@ -45,8 +45,8 @@ void normaleAusgabe(char **argv) {
     int filedesc = open(argv[2], O_RDONLY);
     off_t off = getLengthOfFile(filedesc);
     lseek(filedesc, 0, SEEK_SET);
-    char content[off-1];
-    
+    char content[off - 1];
+
     read(filedesc, content, sizeof(content));
     write(STDOUT_FILENO, content, sizeof(content)); // ausgabe 
     write(STDOUT_FILENO, "\n", strlen("\n"));
@@ -110,7 +110,7 @@ void copyWeirdToFile(char **argv) {
     int readOld = read(oldFile, oldEnd, 10);
 
     off_t newFileLength = getLengthOfFile(filedesc);
-    char *content = (char*) malloc(sizeof(char)*newFileLength);
+    char *content = (char *) malloc(sizeof(char) * newFileLength);
     lseek(filedesc, 0, SEEK_SET);
     int readContent = read(filedesc, content, newFileLength);
 
@@ -131,13 +131,14 @@ void copyWeirdToFile(char **argv) {
     if (write(filedesc, oldEnd, strlen(oldEnd)) != strlen(oldEnd)) {
         close(filedesc);
     }
-    
+
+
     if (write(filedesc, secondHalf, strlen(secondHalf)) != strlen(secondHalf)) {
         close(filedesc);
     }
 
     newFileLength = getLengthOfFile(filedesc);
-    ftruncate(filedesc, newFileLength);
+    ftruncate(filedesc, 21);
 
     close(oldFile);
     close(filedesc);
