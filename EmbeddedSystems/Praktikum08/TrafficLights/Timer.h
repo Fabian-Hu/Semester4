@@ -13,7 +13,6 @@ private:
   Timer();
   Timer(Timer const&);
   void operator=(Timer const&);
-  void (*onTimeUp)(void);
   int timeSpan;
   int startMillis;
   uint32_t period;
