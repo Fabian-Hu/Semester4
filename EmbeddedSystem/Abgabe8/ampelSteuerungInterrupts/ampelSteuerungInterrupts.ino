@@ -1,4 +1,3 @@
-
 #include <stdint.h>
 #include <stdbool.h>
 #include "inc/tm4c123gh6pm.h"
@@ -10,7 +9,7 @@
 #define ersteZeitspanne 1500      //TW
 #define zweiteZeitspanne 500      //TU
 #define dritteZeitspanne 1000     //TG
-#define vierteZeitspanne 2000     //TE
+#define vierteZeitspanne 4000     //TE
 #define gruenFuss PC_4
 #define rotFuss PC_5
 #define gruenAmpel PC_6
@@ -30,18 +29,25 @@ void setup() {
   SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);
   HibernateEnableExpClk(SysCtlClockGet());
   HibernateGPIORetentionEnable();
-  HibernateWakeSet(HIBERNATE_WAKE_PIN);
-}
+  HibernateWakeSet(knopf);
+  ownDelay();
+ }
 
 class Timer {
   public:
-    static Timer getInstance() {    
+    static Timer& getInstance() {    
       static Timer instance;     
       return instance;
     }
     
+    void newISRFunction(void (*ISRFunction)(void)){
+      TimerIntRegister(TIMER0_BASE, TIMER_A, ISRFunction);
+    }
+    
     void setTimer(int zeit) {
-      TimerLoadSet(TIMER0_BASE, TIMER_A, zeit);
+      int eintausend = 1000;
+      int period = SysCtlClockGet() / eintausend;
+      TimerLoadSet(TIMER0_BASE, TIMER_A, zeit * period);
       TimerEnable(TIMER0_BASE, TIMER_A);
       IntEnable(INT_TIMER0A);
       TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
@@ -59,8 +65,8 @@ class Timer {
 };
 
 void ownDelay()
-{
-  Timer::getInstance().setISRFunction(energieSparer);
+{ 
+  Timer::getInstance().newISRFunction(energieSparer);
   Timer::getInstance().setTimer(vierteZeitspanne);
 }
 
@@ -79,9 +85,12 @@ void energieSparer(){
 }
 
 int zustand = 0;
+
 void states(){
+  Timer::getInstance().resetTimer();
   Serial.println(zustand);
   switch(zustand){
+    case 6:
     case 0:
       // Ampel grün fußampel rot
       digitalWrite(rotAmpel,LOW);
@@ -90,15 +99,19 @@ void states(){
       
       digitalWrite(gruenAmpel,HIGH);
       digitalWrite(rotFuss,HIGH);
-      ownDelay();
+      
       // Knopfdruck
-      if (digitalRead(knopf) == LOW) {
-        // ersteZeitspanne
+      if (zustand == 6) {
+        ownDelay();
+      }
+      
+      // ersteZeitspanne
+      if(zustand == 0){
         Timer::getInstance().setTimer(ersteZeitspanne);
         zustand = 1;
       }
-      
       break;
+      
     case 1:
       // ampel gelb
       digitalWrite(gruenAmpel,LOW);
@@ -108,6 +121,7 @@ void states(){
       Timer::getInstance().setTimer(zweiteZeitspanne);
       zustand = 2;
       break;
+      
     case 2:
       // ampel rot
       digitalWrite(gelbAmpel,LOW);
@@ -117,6 +131,7 @@ void states(){
       Timer::getInstance().setTimer(zweiteZeitspanne);
       zustand = 3;
       break;
+      
     case 3:
       // fußampel grün
       digitalWrite(rotFuss,LOW);
@@ -126,6 +141,7 @@ void states(){
       Timer::getInstance().setTimer(dritteZeitspanne);
       zustand = 4;
       break;
+      
     case 4:
       //fußampel rot
       digitalWrite(gruenFuss,LOW);
@@ -135,6 +151,7 @@ void states(){
       Timer::getInstance().setTimer(zweiteZeitspanne);
       zustand = 5;
       break;
+      
     case 5:
       //ampel rot-gelb
       digitalWrite(gruenFuss,LOW);
@@ -143,13 +160,16 @@ void states(){
       
       //zweiteZeitspanne
       Timer::getInstance().setTimer(zweiteZeitspanne);  
-      zustand = 0;  
+      zustand = 6;  
       break;     
   }
 }
 
-
 void loop() { 
-    Timer::getInstance().resetTimer();
-    Timer::getInstance().setISRFunction(states);
+  if (digitalRead(knopf) == LOW && zustand == 0) {
+        zustand = 0;
+        Timer::getInstance().resetTimer();
+        Timer::getInstance().newISRFunction(states);
+        Timer::getInstance().setTimer(vierteZeitspanne);
+      }
   }
