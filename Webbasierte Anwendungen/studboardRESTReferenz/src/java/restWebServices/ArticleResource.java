@@ -16,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import restWebServices.exampleData.ExampleData;
 import restWebServices.models.Article;
+        
 
 /**
  *
@@ -28,12 +28,16 @@ public class ArticleResource {
     
     private static final int CONTENT_SIZE = 128;
     
+    private DatabaseApi api = new DatabaseApi();
+    
     @GET
     @Path("article")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getArticle(@QueryParam("id") int id) {
-        if (id < ExampleData.getInstance().getArticles().size())
-            return Response.ok(ExampleData.getInstance().getArticles().get(id)).build();
+        
+        Article article = api.getArticlebyId(id);
+        if (article != null)
+            return Response.ok(article).build();
         
         return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -43,12 +47,19 @@ public class ArticleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getHistory(@QueryParam("count") int count, @QueryParam("type") String type) {
         
-        List<Article> articles = ExampleData.getInstance().getArticles();
+        List<Article> articles = null;
+        
+        //if (type.equals("all"))
+            //articles = api.getArticles();
+        //else
+        //    articles = api.getArticlesByType(type);
         
         JSONArray history = new JSONArray();
         
         if (count == 0)
             count = articles.size();
+        
+        count = 0;
         
         for (int i = 0; i < count && i < articles.size(); i++) {
             Article article = articles.get(i);

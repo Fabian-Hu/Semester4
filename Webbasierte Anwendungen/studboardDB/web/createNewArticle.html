@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title class="article">SAILI - Neuen Artikel erstellen</title>
+        <link rel="stylesheet" href="stylesheet.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/translation.js"></script>
+        <script src="js/article.js"></script>
+        <script src="js/article_converter.js"></script>
+        <script src="js/position.js"></script>
+        <script src="js/article_creator.js"></script>
+        <script src="js/load_from_server.js"></script>
+        <script src="js/start_function.js"></script>
+    </head>
+    <body>
+        <header>
+            <div id="logo">
+                <picture>
+                    <source id="largeImg" media="(min-width: 650px)" srcset="img/image_not_found.png">
+                    <source id="smallImg" srcset="img/image_not_found.png">
+                    <img id="defaultImg" src="img/image_not_found.png" alt="Logo"/>
+                </picture>
+            </div>
+            <h1 class="site_title">SAILI - Die Website für Studierende und Lehrende</h1>
+        </header>
+        <section style="float: right">
+            <header>
+                <h3 class="nav">
+                    Navigation
+                </h3>
+            </header>
+            <nav>
+                <ul>
+                    <li>
+                        <a class ="home" href="index.html">Startseite</a>
+                    </li>
+                    <li>
+                        <a class ="news_title" href="news.html">News</a>
+                    </li>
+                    <li>
+                        <a class ="projects" href="projects.html">Projekte</a>
+                    </li>
+                    <li>
+                        <a class="tasks" href="tasks.html">Aufgaben</a>
+                    </li>
+                    <li>
+                        <a class="article" href="createNewArticle.html">Neuen Artikel anlegen</a>
+                    </li>
+                </ul>
+            </nav>
+        </section>
+        <section>
+            <h2 class="input_form">Eingabeformular</h2>
+            <form id="articleForm">
+                <input id="artikelTitel" name="atikelTitel" type="text" size="8"><br>
+                <label class="text" for="artikelText">Text:</label><br>
+                <textarea id="artikelText" name="artikelText" rows="5" cols="48"></textarea><br>
+                <label class="article_type" for="artikelTyp">Artikeltyp:</label><br>
+                <input id="artikelTyp" name="artikelTyp" list="textformen"><br>
+                <datalist id="textformen">
+                    <option>News</option>
+                    <option>Projekt</option>
+                    <option>Aufgabe</option>
+                </datalist>
+                <label class="start_date" for="artikelStartdatum">Startdatum:</label><br>
+                <input id="artikelStartdatum" type="date" name="startdatum"><br>
+                <label class="end_date" for="artikelEnddatum">Enddatum:</label><br>
+                <input id="artikelEnddatum" type="date" name="enddatum"><br>
+                <label class="title_color" for="artikelTitelfarbe">Titelfarbe:</label><br>
+                <input id="artikelTitelfarbe" type="color" name="headercolor" value="#ffffff"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </section><br>
+        <div id="top"><a href="/WBA_Website/createNewArticle.html">top</a></div>
+        <footer>
+            © André Kirsch, Malte Riechmann, 2018 <br />
+            akirsch1@fh-bielefeld.de, mriechmann@fh-bielefeld.de
+        </footer>
+    </body>
+</html>

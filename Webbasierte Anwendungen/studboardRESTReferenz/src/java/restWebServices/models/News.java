@@ -5,16 +5,24 @@
  */
 package restWebServices.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Andre
  */
+//@Entity
 @XmlRootElement
 public class News extends Article{
     
+    //@Column(name = "source")
     private String source;
+
+    public News() {
+    }
 
     public News(String source, int id, String title, String content, String color, String start, String end) {
         super(id, title, content, color, start, end);

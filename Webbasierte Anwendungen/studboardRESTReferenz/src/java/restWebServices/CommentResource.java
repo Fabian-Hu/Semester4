@@ -16,7 +16,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import restWebServices.exampleData.ExampleData;
 import restWebServices.models.Comment;
 
 /**
@@ -26,12 +25,16 @@ import restWebServices.models.Comment;
 @Path("")
 public class CommentResource {
     
+    private DatabaseApi api = new DatabaseApi();
+    
     @GET
     @Path("comment")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getComment(@QueryParam("id") int id) {
-        if (id < ExampleData.getInstance().getComments().size())
-            return Response.ok(ExampleData.getInstance().getComments().get(id)).build();
+        
+        /*Comment comment = api.getCommentById(id);
+        if (comment != null)
+            return Response.ok(comment).build();*/
         
         return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -41,7 +44,7 @@ public class CommentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getComments(@QueryParam("articleId") int id) {
         
-        List<Comment> comments = ExampleData.getInstance().getComments();
+        List<Comment> comments = null; //api.getCommentsByArticle(id);
         
         JSONArray jsonComments = new JSONArray();
         

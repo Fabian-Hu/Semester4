@@ -5,16 +5,24 @@
  */
 package restWebServices.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Andre
  */
+//@Entity
 @XmlRootElement
 public class Task extends Article{
     
+    //@Column(name = "subject")
     private String subject;
+
+    public Task() {
+    }
 
     public Task(String subject, int id, String title, String content, String color, String start, String end) {
         super(id, title, content, color, start, end);
