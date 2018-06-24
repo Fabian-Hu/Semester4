@@ -4,6 +4,12 @@ Malte Riechmann, André Kirsch
 
 ### Aufgabe 1
 
+#### Statechart
+
+![state_chart](C:\Users\malte\Documents\Uni\Semester4\_Repository\Semester4\EmbeddedSystems\Praktikum08\state_chart.png)
+
+#### Implementierung
+
 In der Implementierung geben zwei *uint8_t* Werte an, die angeben, welche der LEDs der Ampeln angeschaltet sind. Zum Umschalten der LEDs nutzen wir die Methode *updateLights*.
 
 ```c++
@@ -69,6 +75,12 @@ Dabei werden die Bits des Ampelstatus richtig gesetzt, nachdem eine gewisse Zeit
 Auch bei der Fußgängerampel werden die Bits nach einer gewissen Zeit richtig gesetzt. Dabei zeigt die Ampel standardmäßig rot und wird nur dann auf grün gesetzt, wenn *ped* gesetzt wurde. Im zweiten Fall wird *ped* wieder zurück auf null gesetzt.
 
 ### Aufgabe 2
+
+#### Statechart
+
+![state_chart2](C:\Users\malte\Documents\Uni\Semester4\_Repository\Semester4\EmbeddedSystems\Praktikum08\state_chart2.png)
+
+#### Implementierung
 
 Für die zweite Aufgabe haben wir eine Klasse Timer im Singleton-Pattern mit den Methoden *setCallback*, *setTimer* und *resetTimer* implementiert.
 
