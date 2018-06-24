@@ -61,6 +61,8 @@ class Timer {
        SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
        TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);
     }
+    Timer(const Timer& );
+    Timer & operator = (const Timer &);
     
 };
 
