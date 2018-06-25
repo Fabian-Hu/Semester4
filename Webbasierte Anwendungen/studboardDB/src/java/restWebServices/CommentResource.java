@@ -5,6 +5,7 @@
  */
 package restWebServices;
 
+import com.owlike.genson.Genson;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -32,9 +33,12 @@ public class CommentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getComment(@QueryParam("id") int id) {
         
-        /*Comment comment = api.getCommentById(id);
-        if (comment != null)
-            return Response.ok(comment).build();*/
+        Comment comment = api.getCommentById(id);
+        if (comment != null) {
+            Genson genson = new Genson();
+            String commentJSON = genson.serialize(comment);
+            return Response.ok(commentJSON).build();
+        }
         
         return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -44,7 +48,7 @@ public class CommentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getComments(@QueryParam("articleId") int id) {
         
-        List<Comment> comments = null; //api.getCommentsByArticle(id);
+        List<Comment> comments = api.getCommentsByArticle(id);
         
         JSONArray jsonComments = new JSONArray();
         
@@ -66,8 +70,8 @@ public class CommentResource {
     @POST
     @Path("comment/create")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createComment(String json) {
-        System.out.println(json);
+    public Response createComment(Comment json) {
+        api.insertComment(json);
         return Response.status(Response.Status.OK).build();
     }
 }

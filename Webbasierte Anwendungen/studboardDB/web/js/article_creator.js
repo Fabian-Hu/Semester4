@@ -23,7 +23,8 @@ var saveNewArticleToLocalStorage = function() {
             }
             key = "news/" + id;
             //localStorage.setItem("news", parseInt(id) + 1);
-            article = new News(titel, text, farbe, start, ende, "", "");
+            article = new Article(titel, text, farbe, start, ende);
+            article.type = "news";
             break;
         case "Projekt":
             id = localStorage.getItem("project");
@@ -32,7 +33,8 @@ var saveNewArticleToLocalStorage = function() {
             }
             key = "project/" + id;
             //localStorage.setItem("project", parseInt(id) + 1);
-            article = new Project(titel, text, farbe, start, ende, "", "");
+            article = new Article(titel, text, farbe, start, ende);
+            article.type = "project";
             break;
         case "Aufgabe":
             id = localStorage.getItem("task");
@@ -41,7 +43,8 @@ var saveNewArticleToLocalStorage = function() {
             }
             key = "task/" + id;
             //localStorage.setItem("task", parseInt(id) + 1);
-            article = new Task(titel, text, farbe, start, ende, "", "");
+            article = new Article(titel, text, farbe, start, ende);
+            article.type = "task";
             break;
     }
     //localStorage.setItem(key, articleConverter.articleToJson(article));
@@ -52,7 +55,7 @@ var saveNewArticleToLocalStorage = function() {
 };
 
 function sendArticleToServer(key, article) {
-    return fetch('http://localhost:8080/studboardRESTReferenz/resources/comment/create', {
+    return fetch('http://localhost:8080/studboardDB/resources/article/create', {
         body: article,
         cache: 'no-cache',
         credentials: 'same-origin',

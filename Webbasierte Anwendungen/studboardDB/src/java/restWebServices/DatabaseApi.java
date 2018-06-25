@@ -6,10 +6,18 @@
 package restWebServices;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import restWebServices.models.Article;
 import restWebServices.models.Comment;
 import javax.annotation.Resource;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.*;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 /**
@@ -20,14 +28,18 @@ public class DatabaseApi {
     
     @PersistenceContext(unitName = "studboardDBPU")
     private EntityManager em = Persistence.createEntityManagerFactory("studboardDBPU").createEntityManager();
-    
-    
-    @Resource
-    private UserTransaction utx;
+    //@Resource
+    private UserTransaction utx = null;
+
+    public DatabaseApi() {
+        try {
+            this.utx = (UserTransaction) new InitialContext().lookup("UserTransaction");
+        } catch (NamingException ex) {
+            Logger.getLogger(DatabaseApi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     public List<Article> getArticles() {
-        if (em == null) 
-            System.out.println("nulllllllslslslsl");;
         TypedQuery<Article> query = this.em.createNamedQuery("article.findAll", Article.class);
         List<Article> articles = query.getResultList();
         return articles;
@@ -66,5 +78,25 @@ public class DatabaseApi {
         query.setParameter("article", article);
         List<Comment> comments = query.getResultList();
         return comments;
+    }
+    
+    public void insertArticle(Article article) {
+        try {
+            this.utx.begin();
+            this.em.persist(article);
+            this.utx.commit();
+        } catch (javax.transaction.RollbackException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | SystemException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(DatabaseApi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void insertComment(Comment comment) {
+        try {
+            this.utx.begin();
+            this.em.persist(comment);
+            this.utx.commit();
+        } catch (javax.transaction.RollbackException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | SystemException | SecurityException | IllegalStateException ex) {
+            Logger.getLogger(DatabaseApi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

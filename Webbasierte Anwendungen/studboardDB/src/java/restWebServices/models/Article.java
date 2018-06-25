@@ -6,12 +6,8 @@
 package restWebServices.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -39,8 +35,6 @@ public class Article implements Serializable {
     protected String start;
     protected String ende;
     protected String type = "article";
-    
-    //protected List<Comment> comments;
 
     public Article() {
     }
@@ -52,7 +46,6 @@ public class Article implements Serializable {
         this.color = color;
         this.start = start;
         this.ende = end;
-        //comments = new ArrayList();
     }
     
     @Id
@@ -117,14 +110,4 @@ public class Article implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-    /*public void addComment(Comment comment) {
-        comments.add(comment);
-    }
-    
-    public int[] getComments() {
-        int[] ids = new int[comments.size()];
-        for (int i = 0; i < comments.size(); i++)
-            ids[i] = comments.get(i).getId();
-        return ids;
-    }*/
 }

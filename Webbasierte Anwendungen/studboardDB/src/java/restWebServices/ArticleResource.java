@@ -5,6 +5,7 @@
  */
 package restWebServices;
 
+import com.owlike.genson.Genson;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -36,8 +37,12 @@ public class ArticleResource {
     public Response getArticle(@QueryParam("id") int id) {
         
         Article article = api.getArticlebyId(id);
-        if (article != null)
-            return Response.ok(article).build();
+        if (article != null) {
+            Genson genson = new Genson();
+            String articleJSON = genson.serialize(article);
+            return Response.ok(articleJSON).build();
+        }
+        
         
         return Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -59,8 +64,6 @@ public class ArticleResource {
         if (count == 0)
             count = articles.size();
         
-        count = 0;
-        
         for (int i = 0; i < count && i < articles.size(); i++) {
             Article article = articles.get(i);
             if (article.getType().equals(type) || type.equals("all")) {
@@ -80,7 +83,9 @@ public class ArticleResource {
     @Path("article/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createArticle(String json) {
-        System.out.println(json);
+        Genson genson = new Genson();
+        Article article = genson.deserialize(json, Article.class);
+        api.insertArticle(article);
         return Response.status(Response.Status.OK).build();
     }
 }

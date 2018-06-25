@@ -22,6 +22,7 @@ window.onload = function() {
                 event.preventDefault();
                 saveComment();
             });
+            loadComments();
             break;
         
         case "createNewArticle":
