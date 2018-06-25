@@ -21,7 +21,6 @@ Timer &Timer::getTimer() {
 }
 
 void Timer::setCallback(void (*onTimeUp)(void)) {
-  this->onTimeUp = onTimeUp;
   TimerDisable(TIMER0_BASE, TIMER_BOTH);
   TimerIntDisable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
