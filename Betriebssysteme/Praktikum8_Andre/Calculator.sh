@@ -9,7 +9,7 @@ if [ $# -ge 2 ]; then
 	shift
 	while [ $# -ne 0 ]
 	do
-		#soll hier auf- und abgerundet werden?
+		echo $1
 		numerator=$(expr $numerator \* $1)
 		shift
 	done
