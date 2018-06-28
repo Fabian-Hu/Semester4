@@ -62,9 +62,7 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		HE_edge *edge = new HE_edge;
 
 		if (second != -1) {
-			obj.edges.back()->next = edge;
-		} else {
-			face->edge = edge;
+			edge->next = obj.edges.back();
 		}
 
 		std::getline(values, val, ' ');
@@ -75,6 +73,5 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		edge->vert = obj.verts[second - 1];
 		obj.edges.push_back(edge);
 	}
-	
 	obj.face.push_back(face);
 }

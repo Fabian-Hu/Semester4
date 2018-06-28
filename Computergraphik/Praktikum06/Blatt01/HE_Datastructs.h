@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 struct HE_edge;
 struct HE_vert;
@@ -24,7 +25,7 @@ struct HE_face {
 };
 
 struct HE_Object {
-	std::vector<HE_edge> edges;
-	std::vector<HE_vert> verts;
-	std::vector<HE_face> face;
+	std::vector<HE_edge *> edges;
+	std::vector<HE_vert *> verts;
+	std::vector<HE_face *> face;
 };
