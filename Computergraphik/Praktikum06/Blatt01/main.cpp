@@ -161,8 +161,8 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 
 int main(int argc, char** argv) {
 	ObjParser parser;
-	parser.parseObj(std::string("C:/Users/malte/Documents/Uni/Semester4/_Repository/Semester4/Computergraphik/Praktikum06/A1_testcubeBig_trans.obj"));
-
+	HE_Object obj;
+	parser.parseObj(std::string("C:/Users/malte/Documents/Uni/Semester4/_Repository/Semester4/Computergraphik/Praktikum06/A1_testcubeBig_trans.obj"), obj);
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);

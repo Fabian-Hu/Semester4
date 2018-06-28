@@ -14,5 +14,5 @@ public:
 private:
 	std::string readVerts(std::ifstream &instream, HE_Object &obj);
 	void createFace(std::string &face, HE_Object &obj);
-
+	std::vector<std::vector<HE_edge>> edgesToVert;
 };
