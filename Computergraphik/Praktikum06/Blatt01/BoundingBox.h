@@ -1,11 +1,10 @@
 #pragma once
 #include "WorldObject.h"
 
-class BoudingBox : public WorldObject{
+class BoundingBox : public WorldObject{
 public:
-	BoudingBox();
-	void setWorldObject(WorldObject &object);
+	BoundingBox(const Model *womodel, Model *bbmodel);
 
 private:
-	WorldObject &object;
+	void calculateBoundingBox(const Model *womodel, Model *bbmodel);
 };

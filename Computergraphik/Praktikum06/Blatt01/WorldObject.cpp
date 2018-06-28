@@ -1,6 +1,6 @@
 #include "WorldObject.h"
 
-WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent) {
+WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent), active(true) {
 	origin = model->getPosition();
 }
 
@@ -65,6 +65,14 @@ void WorldObject::rotateLocal(float a, glm::vec3 axis, int childs) {
 	}
 }
 
+void WorldObject::setActive(bool active) {
+	this->model->setActive = active;
+}
+
+bool WorldObject::isActive() {
+	return this->model->isActive();
+}
+
 void WorldObject::build () {
 	model->build ();
 	for each (WorldObject *childObj in childs) {
@@ -80,9 +88,9 @@ void WorldObject::init (cg::GLSLProgram &program) {
 }
 
 void WorldObject::render (cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
-	model->render (program, view, projection);
+	model->render(program, view, projection);
 	for each (WorldObject *childObj in childs) {
-		childObj->render (program, view, projection);
+		childObj->render(program, view, projection);
 	}
 }
 
@@ -91,4 +99,13 @@ void WorldObject::release () {
 		childObj->release ();
 	}
 	model->releaseModel ();
+}
+
+void WorldObject::showBoundingBox(bool show) {
+	if (!boundingBox) {
+		WireframeCube cube = WireframeCube(glm::vec3(0.0f, 0.0f, 1.0f));
+		boundingBox = &BoundingBox(this->model, &cube);
+	}
+	
+	boundingBox->setActive(show);
 }

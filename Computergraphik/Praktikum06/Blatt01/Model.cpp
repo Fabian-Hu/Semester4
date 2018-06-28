@@ -9,7 +9,7 @@ Model::Model() : Model(GL_LINES) {}
 
 Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
-Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position) {
+Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position), active(true) {
 	material = glm::vec3(1.0f);
 	shininess = 128;
 }
@@ -59,21 +59,23 @@ void Model::init(cg::GLSLProgram & program) {
 }
 
 void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
-	glm::mat4x4 mvp = projection * view * model;
+	if (active) {
+		glm::mat4x4 mvp = projection * view * model;
 
-	// Create normal matrix (nm) from model matrix.
-	glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
+		// Create normal matrix (nm) from model matrix.
+		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 
-	program.use();
-	program.setUniform("mvp", mvp);
-	program.setUniform("nm", nm);
-	program.setUniform("model", model);
-	program.setUniform("material", material);
-	program.setUniform("shininess", shininess);
+		program.use();
+		program.setUniform("mvp", mvp);
+		program.setUniform("nm", nm);
+		program.setUniform("model", model);
+		program.setUniform("material", material);
+		program.setUniform("shininess", shininess);
 
-	glBindVertexArray(vao);
-	glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
-	glBindVertexArray(0);
+		glBindVertexArray(vao);
+		glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
+		glBindVertexArray(0);
+	}
 }
 
 void Model::releaseModel() {
@@ -100,6 +102,19 @@ void Model::translate(glm::vec3 direction) {
 	//Try to get Position out of model
 	position += direction;
 	model = glm::translate(glm::mat4(1.0f), direction) * model;
+}
+
+void Model::scale(glm::vec3 direction, float value = 1.0f) {
+	direction *= value;
+	model = glm::scale(glm::mat4(1.0f), direction) * model;
+}
+
+void Model::setActive(bool active) {
+	this->active = active;
+}
+
+bool Model::isActive() {
+	return this->active;
 }
 
 void Model::setVertices(std::vector<glm::vec3> &vertices) {

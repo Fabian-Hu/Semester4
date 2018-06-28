@@ -15,6 +15,10 @@ public:
 	virtual void rotate(float a, glm::vec3 direction, glm::vec3 point);
 	virtual void rotateCenter(float a, glm::vec3 direction);
 	virtual void translate(glm::vec3 direction);
+	virtual void scale(glm::vec3 direction, float value);
+
+	void setActive(bool active = true);
+	bool isActive();
 
 	void setVertices(std::vector<glm::vec3> &vertices);
 	void setColors(std::vector<glm::vec3> &colors);
@@ -47,4 +51,6 @@ private:
 
 	glm::vec3 material;
 	int shininess;
+
+	bool active;
 };

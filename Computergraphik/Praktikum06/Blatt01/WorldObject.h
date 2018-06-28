@@ -1,5 +1,7 @@
 #pragma once
 #include "Model3D.h"
+#include "BoundingBox.h"
+#include "WireframeCube.h"
 #include <vector>
 
 class WorldObject {
@@ -18,13 +20,19 @@ public:
 
 	void rotateLocal(float a, glm::vec3 axis, int childs = 1);
 
+	void setActive(bool active = true);
+	bool isActive();
+
 	void build ();
 	void init (cg::GLSLProgram &program);
 	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
 	void release ();
 
+	void showBoundingBox(bool show = true);
+
 private:
 	friend class Orb;
+	friend class BoundingBox;
 	Model *model;
 	WorldObject *parent;
 	std::vector<WorldObject *> childs;
@@ -33,4 +41,5 @@ private:
 	void setParent (WorldObject *parent);
 	bool rotateWithParent;
 
+	BoundingBox *boundingBox;
 };
