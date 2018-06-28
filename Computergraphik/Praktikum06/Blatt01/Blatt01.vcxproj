@@ -202,6 +202,14 @@
     <None Include="shader\gouraud_shading.vert" />
     <None Include="shader\phong_shading.frag" />
     <None Include="shader\phong_shading.vert" />
+    <None Include="shader\shaded.frag" />
+    <None Include="shader\shaded.vert" />
+    <None Include="shader\shadedGouraud.frag" />
+    <None Include="shader\shadedGouraud.vert" />
+    <None Include="shader\shadedHalfvectorPhong.frag" />
+    <None Include="shader\shadedHalfvectorPhong.vert" />
+    <None Include="shader\shadedPhong.frag" />
+    <None Include="shader\shadedPhong.vert" />
     <None Include="shader\simple.frag" />
     <None Include="shader\simple.vert" />
   </ItemGroup>

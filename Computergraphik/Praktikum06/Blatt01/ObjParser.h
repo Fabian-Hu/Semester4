@@ -9,10 +9,10 @@ const int lineLength = 256;
 
 class ObjParser {
 public:
-	HE_face* parseObj(std::string &path);
+	HE_face* parseObj(std::string &path, HE_Object &obj);
 
 private:
-	bool readVerts(std::ifstream &instream);
+	std::string readVerts(std::ifstream &instream, HE_Object &obj);
+	void createFace(std::string &face, HE_Object &obj);
 
-	std::vector<glm::vec3> verts;
 };

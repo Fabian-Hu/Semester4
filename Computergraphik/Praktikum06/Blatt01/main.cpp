@@ -56,17 +56,13 @@ bool init() {
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/flat_shading.vert", cg::GLSLShader::VERTEX))
-	//if (!program.compileShaderFromFile("shader/gouraud_shading.vert", cg::GLSLShader::VERTEX))
-	//if (!program.compileShaderFromFile("shader/phong_shading.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/phong_shading.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/flat_shading.frag", cg::GLSLShader::FRAGMENT))
-	//if (!program.compileShaderFromFile("shader/gouraud_shading.frag", cg::GLSLShader::FRAGMENT))
-	//if (!program.compileShaderFromFile("shader/phong_shading.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/phong_shading.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
