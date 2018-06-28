@@ -65,6 +65,13 @@ void WorldObject::rotateLocal(float a, glm::vec3 axis, int childs) {
 	}
 }
 
+void WorldObject::scale(glm::vec3 direction, float value) {
+	model->scale(direction, value);
+	for each (WorldObject *childObj in childs) {
+		childObj->scale(direction, value);
+	}
+}
+
 void WorldObject::setActive(bool active) {
 	this->model->setActive(active);
 }
@@ -99,4 +106,8 @@ void WorldObject::release () {
 		childObj->release ();
 	}
 	model->releaseModel ();
+}
+
+Model *WorldObject::getModel() {
+	return model;
 }

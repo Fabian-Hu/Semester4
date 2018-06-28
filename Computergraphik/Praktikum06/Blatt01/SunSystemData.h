@@ -5,6 +5,7 @@
 #include "WireframeSphere.h"
 #include "SolidSphere.h"
 #include "ModelHE.h"
+#include "BoundingBox.h"
 
 const float sunHeightSpeed = 0.04f;
 const float earthHeightSpeed = 0.04f;
@@ -76,6 +77,8 @@ bool doRotate = true;
 
 ModelHE heModel (GL_TRIANGLES, std::string("../A1_testcubeBig_trans.obj"), glm::vec3(1.0f, 1.0f, 0.0f));
 WorldObject heObject(&heModel);
+
+BoundingBox heObjBoundingBox(&heObject, glm::vec3(2.0f));
 
 
 void rotateMarsSetUp(Orb *orb) {

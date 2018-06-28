@@ -136,3 +136,31 @@ void Model::setPosition(glm::vec3 position) {
 glm::vec3 Model::getPosition() {
 	return position;
 }
+
+glm::vec3 Model::getMaxVertPosition()
+{
+	glm::vec3 maxVertPos(FLT_MIN);
+	for (glm::vec3 curVert : vertices) {
+		if (curVert.x > maxVertPos.x)
+			maxVertPos.x = curVert.x;
+		if (curVert.y > maxVertPos.y)
+			maxVertPos.y = curVert.y;
+		if (curVert.z > maxVertPos.z)
+			maxVertPos.z = curVert.z;
+	}
+	return maxVertPos;
+}
+
+glm::vec3 Model::getMinVertPosition()
+{
+	glm::vec3 minVertPos(FLT_MAX);
+	for (glm::vec3 curVert : vertices) {
+		if (curVert.x < minVertPos.x)
+			minVertPos.x = curVert.x;
+		if (curVert.y < minVertPos.y)
+			minVertPos.y = curVert.y;
+		if (curVert.z < minVertPos.z)
+			minVertPos.z = curVert.z;
+	}
+	return minVertPos;
+}

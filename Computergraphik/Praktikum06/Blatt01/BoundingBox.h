@@ -1,10 +1,16 @@
 #pragma once
 #include "WorldObject.h"
 
-class BoundingBox : public WorldObject {
+class BoundingBox {
 public:
-	BoundingBox(const Model *womodel, Model *bbmodel);
+	BoundingBox(WorldObject *worldobject, glm::vec3 size);
+	void setActive(bool show = true);
+	bool isActive();
+
+	void fitBbToObj();
+	void fitObjToBb();
 
 private:
-	void calculateBoundingBox(const Model *womodel, Model *bbmodel);
+	WorldObject *worldObject;
+	WorldObject *box;
 };

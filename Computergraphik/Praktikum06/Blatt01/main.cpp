@@ -198,6 +198,9 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	case 'z':
 		heObject.rotateLocal(10.0f, glm::vec3(0, 0, 1));
 		break;
+	case 'b':
+		heObjBoundingBox.setActive(!heObjBoundingBox.isActive());
+		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
 		if (lightMode == 0) {
