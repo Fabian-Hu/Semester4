@@ -68,9 +68,9 @@ void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 proj
 		program.use();
 		program.setUniform("mvp", mvp);
 		program.setUniform("nm", nm);
-		program.setUniform("model", model);
+		/*program.setUniform("model", model);
 		program.setUniform("material", material);
-		program.setUniform("shininess", shininess);
+		program.setUniform("shininess", shininess);*/
 
 		glBindVertexArray(vao);
 		glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
@@ -105,8 +105,7 @@ void Model::translate(glm::vec3 direction) {
 }
 
 void Model::scale(glm::vec3 direction, float value = 1.0f) {
-	direction *= value;
-	model = glm::scale(glm::mat4(1.0f), direction) * model;
+	model = glm::scale(glm::mat4(1.0f), glm::vec3(value)) * model;
 }
 
 void Model::setActive(bool active) {

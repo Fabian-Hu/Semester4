@@ -8,9 +8,9 @@ uniform mat4 mvp;  // model-view-projection
 uniform mat3 nm;   // normal matrix
 uniform vec3 lightDirection;
 
-flat          out vec3 fragmentColor;
+//flat          out vec3 fragmentColor;
 //noperspective out vec3 fragmentColor;
-//smooth        out vec3 fragmentColor;
+smooth        out vec3 fragmentColor;
 
 void main()
 {

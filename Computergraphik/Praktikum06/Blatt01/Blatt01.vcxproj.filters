@@ -13,11 +13,13 @@
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
-    <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="WireframeCube.cpp" />
     <ClCompile Include="ModelHE.cpp" />
     <ClCompile Include="HE_Datastructs.cpp">
+      <Filter>ObjReader</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjParser.cpp">
       <Filter>ObjReader</Filter>
     </ClCompile>
   </ItemGroup>
