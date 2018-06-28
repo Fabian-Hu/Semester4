@@ -17,6 +17,7 @@
 #include "Orb.h"
 #include "SunSystemData.h"
 #include "ObjParser.h"
+#include "ModelHE.h"
 #include <time.h>
 
 // Standard window width
@@ -55,13 +56,13 @@ bool init() {
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/phong_shading.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/shaded.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/phong_shading.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/shaded.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
@@ -73,12 +74,13 @@ bool init() {
 		return false;
 	}
 	program.use();
-	program.setUniform("light", currentLight);
-	program.setUniform("viewpoint", eye);
+	program.setUniform("lightDirection", glm::vec3(1.0f));
 
 	//Init Models
 	sun.init (program);
 	sun.setUp();
+	heModel.init(program);
+	heModel.scale(glm::vec3(0.0f), 0.5f);
 	return true;
 }
 
@@ -88,7 +90,7 @@ bool init() {
 void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
-	heObject.release();
+	heModel.releaseModel();
 }
 
 /*
@@ -100,12 +102,12 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
-	heObject.render(program, view, projection);
+	heModel.render(program, view, projection);
 }
 
 void glutDisplay () {
 	GLCODE(render());
-	glutSwapBuffers();
+	GLCODE(glutSwapBuffers());
 }
 
 /*
@@ -129,7 +131,6 @@ void moveCamera(float m) {
 		glm::vec3 up(0.0f, 1.0f, 0.0f);
 
 		view = glm::lookAt(eye, center, up);
-		program.setUniform("viewpoint", eye);
 	}
 }
 
@@ -190,13 +191,13 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		moveCamera (cameraMovementValue);
 		break;
 	case 'x':
-		heObject.rotateLocal(10.0f, glm::vec3(1, 0, 0));
+		heModel.rotateCenter(0.1f, glm::vec3(1, 0, 0));
 		break;
 	case 'y':
-		heObject.rotateLocal(10.0f, glm::vec3(0, 1, 0));
+		heModel.rotateCenter(0.1f, glm::vec3(0, 1, 0));
 		break;
 	case 'z':
-		heObject.rotateLocal(10.0f, glm::vec3(0, 0, 1));
+		heModel.rotateCenter(0.1f, glm::vec3(0, 0, 1));
 		break;
 	case 'b':
 		heObjBoundingBox.setActive(!heObjBoundingBox.isActive());
@@ -219,11 +220,6 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 }
 
 int main(int argc, char** argv) {
-	ObjParser parser;
-	HE_Object obj;
-	parser.parseObj(std::string("../A1_testcubeBig_trans.obj"), obj);
-	obj.testAll();
-
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 	glutInitWindowPosition(40,40);
@@ -279,7 +275,7 @@ int main(int argc, char** argv) {
 	sun.setActive(false);
 	sunAxisObject.setActive(false);
 
-	heObject.build();
+	heModel.build();
 
 	// Init VAO.
 	{

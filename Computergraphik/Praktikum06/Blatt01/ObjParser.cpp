@@ -21,8 +21,6 @@ HE_face* ObjParser::parseObj(std::string &path, HE_Object &obj) {
 		face.append(line);
 	}
 
-	//setPairs(obj);
-
 	instream.close();
 	return nullptr;
 }

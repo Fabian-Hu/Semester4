@@ -86,10 +86,9 @@ void Face::calculateNormals() {
 	normals.push_back(normal);
 	normals.push_back(normal);
 	normals.push_back(normal);*/
-
-	normals.push_back(glm::normalize(vertices[0] - origin));
-	normals.push_back(glm::normalize(vertices[1] - origin));
-	normals.push_back(glm::normalize(vertices[2] - origin));
+	for (glm::vec3 vertex : vertices) {
+		normals.push_back(glm::normalize(vertex - origin));
+	}
 }
 
 std::vector<glm::vec3> Face::getVertices() {

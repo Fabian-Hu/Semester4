@@ -14,6 +14,7 @@ private:
 	friend class WireframeSphere;
 	friend class Sphere;
 	friend class Axis;
+	friend class ModelHE;
 	std::vector<Face> faces;
 
 	std::vector<glm::vec3> points;

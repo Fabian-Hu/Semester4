@@ -35,6 +35,7 @@ private:
 	friend class WireframeSphere;
 	friend class Face;
 	friend class Axis;
+	friend class ModelHE;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
