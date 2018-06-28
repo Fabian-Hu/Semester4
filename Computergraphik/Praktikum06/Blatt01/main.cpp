@@ -17,6 +17,7 @@
 #include "Orb.h"
 #include "SunSystemData.h"
 #include "ObjParser.h"
+#include <time.h>
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -208,7 +209,8 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 int main(int argc, char** argv) {
 	ObjParser parser;
 	HE_Object obj;
-	parser.parseObj(std::string("C:/Users/malte/Documents/Uni/Semester4/_Repository/Semester4/Computergraphik/Praktikum06/A1_testcubeBig_trans.obj"), obj);
+	parser.parseObj(std::string("C:/Users/malte/Documents/Uni/Semester4/_Repository/Semester4/Computergraphik/Praktikum06/stanford_bunny_closed.obj"), obj);
+	obj.testAll();
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);

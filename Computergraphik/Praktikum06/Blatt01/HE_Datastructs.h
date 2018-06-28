@@ -17,6 +17,7 @@ struct HE_vert {
 	float y;
 	float z;
 
+	std::vector<HE_edge *> pointingEdges;
 	HE_edge* edge;
 };
 
@@ -28,4 +29,9 @@ struct HE_Object {
 	std::vector<HE_edge *> edges;
 	std::vector<HE_vert *> verts;
 	std::vector<HE_face *> face;
+
+	bool testEdges();
+	bool testFaces();
+	bool testVertices();
+	bool testAll();
 };
