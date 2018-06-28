@@ -15,7 +15,6 @@
 #include "Sphere.h"
 #include "Axis.h"
 #include "Orb.h"
-#include "SunSystemData.h"
 #include "ObjParser.h"
 
 // Standard window width
@@ -39,7 +38,7 @@ glm::mat4x4 projection;
 float zNear = 0.1f;
 float zFar  = 100.0f;
 
-bool doRotate = true;
+
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -100,9 +99,6 @@ void render() {
 }
 
 void glutDisplay () {
-	if (doRotate)
-		sun.rotate ();
-
 	GLCODE(render());
 	glutSwapBuffers();
 }
@@ -140,56 +136,11 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	case 27: // ESC
 	  glutDestroyWindow ( glutID );
 	  return;
-	case 't':
-		if (sunHeight > MIN_SUNHEIGHT) {
-			sun.translate (glm::vec3 (0.0f, -sunHeightSpeed, 0.0f));
-			sunHeight--;
-		}
-		break;
-	case 'T':
-		if (sunHeight < MAX_SUNHEIGHT) {
-			sun.translate (glm::vec3 (0.0f, sunHeightSpeed, 0.0f));
-			sunHeight++;
-		}
-		break;
-	case 'l':
-		if (earthHeight > MIN_EARTHHEIGHT) {
-			earth.translate (glm::vec3 (0, -earthHeightSpeed, 0));
-			earthHeight--;
-		}
-		break;
-	case 'L':
-		if (earthHeight < MAX_EARTHHEIGHT) {
-			earth.translate (glm::vec3 (0, earthHeightSpeed, 0));
-			earthHeight++;
-		}
-		break;
-	case 'p':
-		mars.rotateWithAxis (-marsRotSpeed, glm::vec3 (0, 0, 1));
-		break;
-	case 'P':
-		mars.rotateWithAxis (marsRotSpeed, glm::vec3 (0, 0, 1));
-		break;
-	case 'w':
-		if (speed > MIN_SPEED) {
-			sun.multiplyRotationAngle (speedMultiplierDecreaseValue);
-			speed--;
-		}
-		break;
-	case 'W':
-		if (speed < MAX_SPEED) {
-			sun.multiplyRotationAngle (speedMultiplierIncreaseValue);
-			speed++;
-		}
-		break;
 	case 'a':
 		moveCamera(-cameraMovementValue);
 		break;
 	case 's':
 		moveCamera (cameraMovementValue);
-		break;
-	case ' ':
-		doRotate = !doRotate;
 		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
@@ -243,28 +194,7 @@ int main(int argc, char** argv) {
 
 	glutKeyboardFunc(glutKeyboard);
 
-	mars.addSetUp(rotateMarsSetUp);
-	mars.addRotation(rotateMars);
 	// Create objects.
-	sun.addChild(earth);
-	sun.addChild(mars);
-	sun.addChild (sunAxisObject);
-	earth.addChild (earthMoon1);
-	earth.addChild (earthMoon2);
-	earth.addChild (earthMoon3);
-	earth.addChild (earthAxisObject);
-	mars.addChild (marsMoon1);
-	mars.addChild (marsMoon2);
-	mars.addChild (marsMoon3);
-	mars.addChild (marsMoon4);
-	mars.addChild (marsMoon5);
-	mars.addChild (marsMoon6);
-	mars.addChild (marsMoon7);
-	mars.addChild (marsMoon8);
-	mars.addChild (marsMoon9);
-	mars.addChild (marsMoon10);
-	mars.addChild (marsAxisObject);
-	sun.build ();
 
 	// Init VAO.
 	{
