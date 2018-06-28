@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Face.cpp" />
+    <ClCompile Include="GLSLProgram.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Model3D.cpp" />
+    <ClCompile Include="Orb.cpp" />
+    <ClCompile Include="SolidSphere.cpp" />
+    <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="WireframeSphere.cpp" />
+    <ClCompile Include="WorldObject.cpp" />
+    <ClCompile Include="ObjParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Axis.h" />
+    <ClInclude Include="Cube.h" />
+    <ClInclude Include="Face.h" />
+    <ClInclude Include="GLSLProgram.h" />
+    <ClInclude Include="GLTools.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Model3D.h" />
+    <ClInclude Include="Orb.h" />
+    <ClInclude Include="SolidSphere.h" />
+    <ClInclude Include="Sphere.h" />
+    <ClInclude Include="SunSystemData.h" />
+    <ClInclude Include="WireframeSphere.h" />
+    <ClInclude Include="WorldObject.h" />
+    <ClInclude Include="HE_Datastructs.h">
+      <Filter>ObjReader</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjParser.h">
+      <Filter>ObjReader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shader\flat_shading.frag" />
+    <None Include="shader\flat_shading.vert" />
+    <None Include="shader\gouraud_shading.frag" />
+    <None Include="shader\gouraud_shading.vert" />
+    <None Include="shader\phong_shading.frag" />
+    <None Include="shader\phong_shading.vert" />
+    <None Include="shader\simple.frag" />
+    <None Include="shader\simple.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ObjReader">
+      <UniqueIdentifier>{2e504a9e-bc64-4c19-b5d5-18b4a5c0f23d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
