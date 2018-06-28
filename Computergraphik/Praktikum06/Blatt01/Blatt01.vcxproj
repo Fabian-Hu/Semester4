@@ -168,6 +168,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
+    <ClCompile Include="HE_Datastructs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3D.cpp" />

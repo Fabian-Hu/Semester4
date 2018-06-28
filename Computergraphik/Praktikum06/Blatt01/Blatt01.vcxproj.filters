@@ -14,6 +14,9 @@
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
     <ClCompile Include="ObjParser.cpp" />
+    <ClCompile Include="HE_Datastructs.cpp">
+      <Filter>ObjReader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis.h" />
