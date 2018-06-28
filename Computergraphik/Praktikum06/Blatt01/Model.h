@@ -28,6 +28,7 @@ public:
 
 private:
 	friend class Model3D;
+	friend class ModelHE;
 	friend class Sphere;
 	friend class WireframeSphere;
 	friend class Face;

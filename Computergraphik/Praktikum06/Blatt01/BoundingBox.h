@@ -1,7 +1,7 @@
 #pragma once
 #include "WorldObject.h"
 
-class BoundingBox : public WorldObject{
+class BoundingBox : public WorldObject {
 public:
 	BoundingBox(const Model *womodel, Model *bbmodel);
 

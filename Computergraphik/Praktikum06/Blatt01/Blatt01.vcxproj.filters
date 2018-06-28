@@ -14,6 +14,9 @@
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
     <ClCompile Include="ObjParser.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="WireframeCube.cpp" />
+    <ClCompile Include="ModelHE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis.h" />
@@ -35,6 +38,9 @@
     <ClInclude Include="ObjParser.h">
       <Filter>ObjReader</Filter>
     </ClInclude>
+    <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="WireframeCube.h" />
+    <ClInclude Include="ModelHE.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\flat_shading.frag" />

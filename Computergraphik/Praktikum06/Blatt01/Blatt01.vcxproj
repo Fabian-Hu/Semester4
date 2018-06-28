@@ -165,21 +165,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Axis.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3D.cpp" />
+    <ClCompile Include="ModelHE.cpp" />
     <ClCompile Include="ObjParser.cpp" />
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="WireframeCube.cpp" />
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Cube.h" />
     <ClInclude Include="Face.h" />
     <ClInclude Include="GLSLProgram.h" />
@@ -187,11 +191,13 @@
     <ClInclude Include="HE_Datastructs.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Model3D.h" />
+    <ClInclude Include="ModelHE.h" />
     <ClInclude Include="ObjParser.h" />
     <ClInclude Include="Orb.h" />
     <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SunSystemData.h" />
+    <ClInclude Include="WireframeCube.h" />
     <ClInclude Include="WireframeSphere.h" />
     <ClInclude Include="WorldObject.h" />
   </ItemGroup>

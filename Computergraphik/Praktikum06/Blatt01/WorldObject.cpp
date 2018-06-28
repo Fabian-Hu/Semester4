@@ -1,6 +1,6 @@
 #include "WorldObject.h"
 
-WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent), active(true) {
+WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent) {
 	origin = model->getPosition();
 }
 
@@ -66,7 +66,7 @@ void WorldObject::rotateLocal(float a, glm::vec3 axis, int childs) {
 }
 
 void WorldObject::setActive(bool active) {
-	this->model->setActive = active;
+	this->model->setActive(active);
 }
 
 bool WorldObject::isActive() {
