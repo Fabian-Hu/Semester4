@@ -100,12 +100,3 @@ void WorldObject::release () {
 	}
 	model->releaseModel ();
 }
-
-void WorldObject::showBoundingBox(bool show) {
-	if (!boundingBox) {
-		WireframeCube cube = WireframeCube(glm::vec3(0.0f, 0.0f, 1.0f));
-		boundingBox = &BoundingBox(this->model, &cube);
-	}
-	
-	boundingBox->setActive(show);
-}

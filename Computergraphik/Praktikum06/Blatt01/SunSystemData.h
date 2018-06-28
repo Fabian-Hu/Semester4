@@ -4,6 +4,7 @@
 #include "Orb.h"
 #include "WireframeSphere.h"
 #include "SolidSphere.h"
+#include "ModelHE.h"
 
 const float sunHeightSpeed = 0.04f;
 const float earthHeightSpeed = 0.04f;
@@ -69,6 +70,13 @@ Orb marsMoon10 (&sphereMarsMoon10, glm::vec3 (0, 1, 1), -0.01f, 0.0f, false);
 Orb sunAxisObject (&sunAxis, glm::vec3 (0, 1, 0));
 Orb earthAxisObject (&earthAxis, glm::vec3 (0, 1, 0));
 Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);
+
+bool doRotate = true;
+
+
+ModelHE heModel (GL_TRIANGLES, std::string("../A1_testcubeBig_trans.obj"), glm::vec3(1.0f, 1.0f, 0.0f));
+WorldObject heObject(&heModel);
+
 
 void rotateMarsSetUp(Orb *orb) {
 	orb->rotateWithAxis(glm::radians(marsRotation), glm::vec3(0, 0, 1));

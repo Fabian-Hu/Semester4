@@ -40,8 +40,6 @@ glm::mat4x4 projection;
 float zNear = 0.1f;
 float zFar  = 100.0f;
 
-bool doRotate = true;
-
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
  */
@@ -90,6 +88,7 @@ bool init() {
 void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
+	heObject.release();
 }
 
 /*
@@ -101,6 +100,7 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
+	heObject.render(program, view, projection);
 }
 
 void glutDisplay () {
@@ -189,6 +189,15 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 	case 's':
 		moveCamera (cameraMovementValue);
 		break;
+	case 'x':
+		heObject.rotateLocal(10.0f, glm::vec3(1, 0, 0));
+		break;
+	case 'y':
+		heObject.rotateLocal(10.0f, glm::vec3(0, 1, 0));
+		break;
+	case 'z':
+		heObject.rotateLocal(10.0f, glm::vec3(0, 0, 1));
+		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
 		if (lightMode == 0) {
@@ -209,7 +218,7 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 int main(int argc, char** argv) {
 	ObjParser parser;
 	HE_Object obj;
-	parser.parseObj(std::string("C:/Users/malte/Documents/Uni/Semester4/_Repository/Semester4/Computergraphik/Praktikum06/stanford_bunny_closed.obj"), obj);
+	parser.parseObj(std::string("../A1_testcubeBig_trans.obj"), obj);
 	obj.testAll();
 
 	// GLUT: Initialize freeglut library (window toolkit).
@@ -265,6 +274,9 @@ int main(int argc, char** argv) {
 	mars.addChild(marsAxisObject);
 	sun.build();
 	sun.setActive(false);
+	sunAxisObject.setActive(false);
+
+	heObject.build();
 
 	// Init VAO.
 	{

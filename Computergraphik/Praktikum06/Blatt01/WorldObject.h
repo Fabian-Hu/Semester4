@@ -1,6 +1,5 @@
 #pragma once
 #include "Model3D.h"
-#include "BoundingBox.h"
 #include "WireframeCube.h"
 #include <vector>
 
@@ -28,8 +27,6 @@ public:
 	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
 	void release ();
 
-	void showBoundingBox(bool show = true);
-
 private:
 	friend class Orb;
 	friend class BoundingBox;
@@ -40,6 +37,4 @@ private:
 
 	void setParent (WorldObject *parent);
 	bool rotateWithParent;
-
-	BoundingBox *boundingBox;
 };

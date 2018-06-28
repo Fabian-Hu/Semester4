@@ -1,7 +1,7 @@
 #include "BoundingBox.h"
 
 BoundingBox::BoundingBox(const Model *womodel, Model *bbmodel) :
-	WorldObject(model) {
+	WorldObject(bbmodel) {
 	calculateBoundingBox(womodel, bbmodel);
 }
 

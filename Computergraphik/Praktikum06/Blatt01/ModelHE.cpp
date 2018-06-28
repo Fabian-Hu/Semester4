@@ -1,4 +1,13 @@
 #include "ModelHE.h"
+#include "ObjParser.h"
+
+ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
+	Model3D(mode) {
+	ObjParser parser;
+	HE_Object obj;
+	parser.parseObj(modelPath, obj);
+	calculateModel(&obj, color);
+}
 
 ModelHE::ModelHE(GLenum mode, HE_Object *heObject, glm::vec3 color) :
 	Model3D(mode) {
