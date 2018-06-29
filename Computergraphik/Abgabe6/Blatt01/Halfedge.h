@@ -1,5 +1,9 @@
 #pragma once
 
+struct HE_edge;
+struct HE_vert;
+struct HE_face;
+
 struct HE_edge {
 	HE_vert* vert; // start-vertex of the half-edge
 	HE_edge* pair; // oppositely oriented adjacent half-edge
@@ -15,3 +19,4 @@ struct HE_vert {
 struct HE_face {
 	HE_edge* edge; // one of the half-edges bordering the face
 };
+

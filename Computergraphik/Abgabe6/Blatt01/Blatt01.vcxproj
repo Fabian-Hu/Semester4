@@ -171,6 +171,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterDing.cpp" />
     <ClCompile Include="Moons.cpp" />
+    <ClCompile Include="ObjectParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Achse.h" />
@@ -180,6 +181,7 @@
     <ClInclude Include="Himmelsding.h" />
     <ClInclude Include="MasterDing.h" />
     <ClInclude Include="Moons.h" />
+    <ClInclude Include="ObjectParser.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\simple.frag" />
