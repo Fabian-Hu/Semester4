@@ -25,6 +25,8 @@ public:
 	void setIndices(std::vector<GLushort> &indices);
 	void setPosition(glm::vec3 position);
 	glm::vec3 getPosition();
+	glm::vec3 getMaxVertPosition();
+	glm::vec3 getMinVertPosition();
 
 private:
 	friend class Model3D;

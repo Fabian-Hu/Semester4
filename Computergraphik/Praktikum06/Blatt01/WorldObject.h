@@ -19,6 +19,8 @@ public:
 
 	void rotateLocal(float a, glm::vec3 axis, int childs = 1);
 
+	void scale(glm::vec3 direction, float value = 1.0f);
+
 	void setActive(bool active = true);
 	bool isActive();
 
@@ -26,6 +28,8 @@ public:
 	void init (cg::GLSLProgram &program);
 	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
 	void release ();
+
+	Model *getModel();
 
 private:
 	friend class Orb;
