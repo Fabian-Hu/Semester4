@@ -1,6 +1,10 @@
 #include "ModelHE.h"
 #include "ObjParser.h"
+#include <glm/gtc/matrix_inverse.hpp>
 #include <limits>
+#include <GL/glew.h>
+#include "GLSLProgram.h"
+#include "glm/gtx/rotate_vector.hpp"
 
 ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
 	Model(mode) {
@@ -8,16 +12,19 @@ ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
 	parser.parseObj(modelPath, obj);
 	obj.testAll();
 	this->colors.push_back(color);
+	size = obj.edges.size();
 }
 
 ModelHE::ModelHE(GLenum mode, HE_Object &heObject, glm::vec3 color) :
 	Model(mode) {
 	this->obj = heObject;
+	size = obj.edges.size();
 }
 
 ModelHE::ModelHE(GLenum mode, glm::vec3 position, HE_Object &heObject, glm::vec3 color) :
 	Model(mode, position) {
 	this->obj = heObject;
+	size = obj.edges.size();
 }
 
 int ModelHE::insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal) {
@@ -34,11 +41,12 @@ int ModelHE::insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal) {
 
 void ModelHE::build() {
 	float highestX = std::numeric_limits<float>::min();
-	float lowestX = std::numeric_limits<float>::min();
 	float highestY = std::numeric_limits<float>::min();
+	float highestZ = std::numeric_limits<float>::min();
+	float lowestX = std::numeric_limits<float>::max();
 	float lowestY = std::numeric_limits<float>::max();
-	float highestZ = std::numeric_limits<float>::max();
 	float lowestZ = std::numeric_limits<float>::max();
+
 	glm::vec3 color = colors[0];
 	colors.clear();
 	for (HE_face *face : obj.face) {
@@ -48,8 +56,8 @@ void ModelHE::build() {
 		std::vector<int> faceIndices;
 		do {
 			highestX = (next->vert->x > highestX) ? next->vert->x : highestX;
-			highestY = (next->vert->y > highestX) ? next->vert->y : highestX;
-			highestZ = (next->vert->z > highestX) ? next->vert->z : highestX;
+			highestY = (next->vert->y > highestY) ? next->vert->y : highestY;
+			highestZ = (next->vert->z > highestZ) ? next->vert->z : highestZ;
 			lowestX = (next->vert->x < lowestX) ? next->vert->x : lowestX;
 			lowestY = (next->vert->y < lowestY) ? next->vert->y : lowestY;
 			lowestZ = (next->vert->z < lowestZ) ? next->vert->z : lowestZ;
@@ -64,15 +72,21 @@ void ModelHE::build() {
 		int second = 1;
 		int third = faceIndices.size() - 1;
 		for (int i = 0; i < faceIndices.size() - 2; i++) {
-			indices.push_back(faceIndices[first]);
-			indices.push_back(faceIndices[second]);
-			indices.push_back(faceIndices[third]);
+			if (size <= std::numeric_limits<GLushort>::max()) {
+				indices.push_back(faceIndices[first]);
+				indices.push_back(faceIndices[second]);
+				indices.push_back(faceIndices[third]);
+			}
+			else {
+				intIndices.push_back(faceIndices[first]);
+				intIndices.push_back(faceIndices[second]);
+				intIndices.push_back(faceIndices[third]);
+			}
 			first = second;
 			second = third;
 			if (first < second) {
 				third = first + 1;
-			}
-			else {
+			} else {
 				third = first - 1;
 			}
 		}
@@ -87,11 +101,76 @@ void ModelHE::build() {
 }
 
 void ModelHE::init(cg::GLSLProgram & program) {
-	glm::vec3 pos = position;
-	position = glm::vec3(0.0f);
-	Model::init(program);
+	GLuint programId = program.getHandle();
+	GLuint pos;
 
-	this->translate(-origin);
-	this->translate(pos);
-	position = pos;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	//Position
+	glGenBuffers(1, &positionBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+
+	pos = glGetAttribLocation(programId, "position");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//Color
+	glGenBuffers(1, &colorBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
+	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
+
+	pos = glGetAttribLocation(programId, "color");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//Normal
+	glGenBuffers(1, &normalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
+
+	pos = glGetAttribLocation(programId, "normal");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//Index
+	if (size <= std::numeric_limits<GLushort>::max()) {
+		glGenBuffers(1, &indexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+	} else {
+		glGenBuffers(1, &indexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, intIndices.size() * sizeof(GLuint), intIndices.data(), GL_STATIC_DRAW);
+	}
+
+	glBindVertexArray(0);
+
+	model = glm::translate(glm::mat4(1.0f), -origin);
+	this->translate(position);
+}
+
+void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
+	if (active) {
+		glm::mat4x4 mvp = projection * view * model;
+
+		// Create normal matrix (nm) from model matrix.
+		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
+
+		program.use();
+		program.setUniform("mvp", mvp);
+		program.setUniform("nm", nm);
+		/*program.setUniform("model", model);
+		program.setUniform("material", material);
+		program.setUniform("shininess", shininess);*/
+
+		glBindVertexArray(vao);
+		if (size <= std::numeric_limits<GLushort>::max()) {
+			glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
+		} else {
+			glDrawElements(mode, intIndices.size(), GL_UNSIGNED_INT, 0);
+		}
+		glBindVertexArray(0);
+	}
 }

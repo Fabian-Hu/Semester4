@@ -12,7 +12,11 @@ public:
 	void build();
 	void init(cg::GLSLProgram &program);
 
+	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
+
 private:
 	glm::vec3 origin;
 	HE_Object obj;
+	std::vector<GLuint> intIndices;
+	int size;
 };

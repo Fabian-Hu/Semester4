@@ -48,6 +48,8 @@ bool init() {
 	// OpenGL: Set "background" color and enable depth testing.
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+
+
 	// Construct view matrix.
 	glm::vec3 eye(0, 0, cameraPos);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
@@ -80,7 +82,7 @@ bool init() {
 	sun.init (program);
 	sun.setUp();
 	heModel.init(program);
-	heModel.scale(glm::vec3(0.0f), 0.5f);
+	heModel.scale(glm::vec3(0.0f), 0.4f);
 	return true;
 }
 
