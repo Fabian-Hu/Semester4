@@ -12,4 +12,4 @@ done
 
 number=$(($number/$divisor))
 echo $number
-echo $0
+echo $(basename $0)
