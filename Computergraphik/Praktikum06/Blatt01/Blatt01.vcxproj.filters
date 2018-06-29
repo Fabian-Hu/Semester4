@@ -22,6 +22,7 @@
     <ClCompile Include="ObjParser.cpp">
       <Filter>ObjReader</Filter>
     </ClCompile>
+    <ClCompile Include="WireframeBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Axis.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="WireframeCube.h" />
     <ClInclude Include="ModelHE.h" />
+    <ClInclude Include="WireframeBox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\flat_shading.frag" />

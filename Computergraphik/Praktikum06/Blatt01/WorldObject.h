@@ -5,6 +5,7 @@
 
 class WorldObject {
 public:
+	WorldObject();
 	WorldObject (Model *model, bool rotateWithParent = true);
 	void setOrigin (glm::vec3 origin);
 	void addChild (WorldObject &child);
@@ -20,14 +21,15 @@ public:
 	void rotateLocal(float a, glm::vec3 axis, int childs = 1);
 
 	void scale(glm::vec3 direction, float value = 1.0f);
+	void scaleLocal(float value = 1.0f);
 
 	void setActive(bool active = true);
 	bool isActive();
 
-	void build ();
-	void init (cg::GLSLProgram &program);
-	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
-	void release ();
+	virtual void build ();
+	virtual void init (cg::GLSLProgram &program);
+	virtual void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
+	virtual void release ();
 
 	Model *getModel();
 

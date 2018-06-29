@@ -81,8 +81,8 @@ bool init() {
 	//Init Models
 	sun.init (program);
 	sun.setUp();
-	heModel.init(program);
-	heModel.scale(glm::vec3(0.0f), 0.4f);
+	heObj.init(program);
+	//heModel.scale(glm::vec3(0.0f), 0.05f);
 	return true;
 }
 
@@ -92,7 +92,7 @@ bool init() {
 void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
-	heModel.releaseModel();
+	heObj.release();
 }
 
 /*
@@ -104,7 +104,7 @@ void render() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
-	heModel.render(program, view, projection);
+	heObj.render(program, view, projection);
 }
 
 void glutDisplay () {
@@ -193,16 +193,16 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		moveCamera (cameraMovementValue);
 		break;
 	case 'x':
-		heModel.rotateCenter(0.1f, glm::vec3(1, 0, 0));
+		heObj.rotateLocal(0.1f, glm::vec3(1, 0, 0));
 		break;
 	case 'y':
-		heModel.rotateCenter(0.1f, glm::vec3(0, 1, 0));
+		heObj.rotateLocal(0.1f, glm::vec3(0, 1, 0));
 		break;
 	case 'z':
-		heModel.rotateCenter(0.1f, glm::vec3(0, 0, 1));
+		heObj.rotateLocal(0.1f, glm::vec3(0, 0, 1));
 		break;
 	case 'b':
-//		heObjBoundingBox.setActive(!heObjBoundingBox.isActive());
+		heObj.setActive(!heObj.isActive());
 		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
@@ -277,7 +277,7 @@ int main(int argc, char** argv) {
 	sun.setActive(false);
 	sunAxisObject.setActive(false);
 
-	heModel.build();
+	heObj.build();
 
 	// Init VAO.
 	{

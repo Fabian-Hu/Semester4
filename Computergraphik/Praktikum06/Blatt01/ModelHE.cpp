@@ -7,24 +7,30 @@
 #include "glm/gtx/rotate_vector.hpp"
 
 ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
-	Model(mode) {
+	Model(mode), initPos(glm::vec3(0.0f)) {
 	ObjParser parser;
 	parser.parseObj(modelPath, obj);
 	obj.testAll();
 	this->colors.push_back(color);
 	size = obj.edges.size();
+	maxVerts = glm::vec3(std::numeric_limits<float>::min());
+	minVerts = glm::vec3(std::numeric_limits<float>::max());
 }
 
 ModelHE::ModelHE(GLenum mode, HE_Object &heObject, glm::vec3 color) :
-	Model(mode) {
+	Model(mode), initPos(glm::vec3(0.0f)) {
 	this->obj = heObject;
 	size = obj.edges.size();
+	maxVerts = glm::vec3(std::numeric_limits<float>::min());
+	minVerts = glm::vec3(std::numeric_limits<float>::max());
 }
 
 ModelHE::ModelHE(GLenum mode, glm::vec3 position, HE_Object &heObject, glm::vec3 color) :
-	Model(mode, position) {
+	Model(mode), initPos(position) {
 	this->obj = heObject;
 	size = obj.edges.size();
+	maxVerts = glm::vec3(std::numeric_limits<float>::min());
+	minVerts = glm::vec3(std::numeric_limits<float>::max());
 }
 
 int ModelHE::insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal) {
@@ -40,12 +46,6 @@ int ModelHE::insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal) {
 }
 
 void ModelHE::build() {
-	float highestX = std::numeric_limits<float>::min();
-	float highestY = std::numeric_limits<float>::min();
-	float highestZ = std::numeric_limits<float>::min();
-	float lowestX = std::numeric_limits<float>::max();
-	float lowestY = std::numeric_limits<float>::max();
-	float lowestZ = std::numeric_limits<float>::max();
 
 	glm::vec3 color = colors[0];
 	colors.clear();
@@ -55,12 +55,13 @@ void ModelHE::build() {
 
 		std::vector<int> faceIndices;
 		do {
-			highestX = (next->vert->x > highestX) ? next->vert->x : highestX;
-			highestY = (next->vert->y > highestY) ? next->vert->y : highestY;
-			highestZ = (next->vert->z > highestZ) ? next->vert->z : highestZ;
-			lowestX = (next->vert->x < lowestX) ? next->vert->x : lowestX;
-			lowestY = (next->vert->y < lowestY) ? next->vert->y : lowestY;
-			lowestZ = (next->vert->z < lowestZ) ? next->vert->z : lowestZ;
+
+			maxVerts[0] = (next->vert->x > maxVerts[0]) ? next->vert->x : maxVerts[0];
+			maxVerts[1] = (next->vert->y > maxVerts[1]) ? next->vert->y : maxVerts[1];
+			maxVerts[2] = (next->vert->z > maxVerts[2]) ? next->vert->z : maxVerts[2];
+			minVerts[0] = (next->vert->x < minVerts[0]) ? next->vert->x : minVerts[0];
+			minVerts[1] = (next->vert->y < minVerts[1]) ? next->vert->y : minVerts[1];
+			minVerts[2] = (next->vert->z < minVerts[2]) ? next->vert->z : minVerts[2];
 
 			faceIndices.push_back(vertices.size());
 			vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
@@ -91,12 +92,10 @@ void ModelHE::build() {
 			}
 		}
 	}
-	origin = glm::vec3(lowestX + (highestX - lowestX) / 2,
-		lowestY + (highestY - lowestY) / 2,
-		lowestZ + (highestZ - lowestZ) / 2);
+	position = glm::vec3(minVerts + (maxVerts - minVerts) * 0.5f);
 
 	for (int i = 0; i < vertices.size(); i++) {
-		normals.push_back(normalize(vertices[i] - origin));
+		normals.push_back(normalize(vertices[i] - position));
 	}
 }
 
@@ -147,8 +146,7 @@ void ModelHE::init(cg::GLSLProgram & program) {
 
 	glBindVertexArray(0);
 
-	model = glm::translate(glm::mat4(1.0f), -origin);
-	this->translate(position);
+	model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0));
 }
 
 void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
@@ -173,4 +171,12 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 		}
 		glBindVertexArray(0);
 	}
+}
+
+glm::vec3 ModelHE::getMax() { 
+	return maxVerts;
+}
+
+glm::vec3 ModelHE::getMin() { 
+	return minVerts; 
 }
