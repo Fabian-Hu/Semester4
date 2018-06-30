@@ -28,7 +28,8 @@ public class DatabaseApi {
     
     @PersistenceContext(unitName = "studboardDBPU")
     private EntityManager em = Persistence.createEntityManagerFactory("studboardDBPU").createEntityManager();
-    //@Resource
+    
+    @Resource
     private UserTransaction utx = null;
 
     public DatabaseApi() {
