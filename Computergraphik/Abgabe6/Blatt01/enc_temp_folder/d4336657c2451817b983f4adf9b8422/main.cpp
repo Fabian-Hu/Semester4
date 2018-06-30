@@ -326,7 +326,7 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 
 int main(int argc, char** argv)
 {
-	HE_face* face = readObject("dodecahedron.obj");
+	readObject("dodecahedron.obj");
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);

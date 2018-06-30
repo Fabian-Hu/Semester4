@@ -2,10 +2,10 @@
 #include "ObjectParser.h"
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* readObject(std::string filename)
+int readObject(std::string filename)
 {
 	if (filename.substr(filename.size() - 4, 4) != ".obj")
-		return NULL;
+		return false;
 
 	std::fstream f;
 	char cstring[256];
@@ -32,7 +32,6 @@ HE_face* readObject(std::string filename)
 	
 	
 	f.close();
-	return halfEdgeList->fratzen.at(0);
 }
 
 HE_face* createFace(std::string line) {
