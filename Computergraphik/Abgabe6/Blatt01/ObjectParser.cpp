@@ -10,18 +10,16 @@ int readObject(string filename)
 
 	fstream f;
 	char cstring[256];
-	vector<HE_face> fratze;
-	vector<HE_vert> vert ;
 	f.open(filename, ios::in);
 
 	while (!f.eof()) {
 		f.getline(cstring, sizeof(cstring));
 
 		if (cstring[0] == 'v') {
-			vert.push_back(createVert(cstring));
+			halfEdgeList->vertices.push_back(createVert(cstring));
 		}
 		else if (cstring[0] == 'f') {
-			fratze.push_back(createVert(cstring));
+			halfEdgeList->fratzen.push_back(createFace(cstring));
 		}
 		else {
 			cout << "nicht gefunden" << endl;
@@ -37,11 +35,42 @@ int readObject(string filename)
 	f.close();
 }
 
-HE_face createFace(string line) {
+HE_face* createFace(string line) {
+	HE_face* face = new HE_face;
+	HE_edge* edge = new HE_edge;
+	HE_edge* lastEdge = new HE_edge;
+	int i, count=0;
+	face->edge = edge;
+	HE_edge* vorEdge = new HE_edge;
+	vorEdge = face->edge;
+	for (i = 2; line[i] != '\0'; i++) {
+		if (line[i] != ' ') {
+			edge->vert = halfEdgeList->vertices.at(i);
+			edge->face = face;
+			edge->vert->edge = edge;
+			
+			if (count != 0) {
+				vorEdge->next = edge;
+				vorEdge = vorEdge->next;
+			}
+			count++;
+		}
+		lastEdge = edge;
+		edge = new HE_edge;
+	}
+	lastEdge->next = face->edge;
 
+	HE_edge* testEdge = face->edge;
+	do {
+		testEdge = testEdge->next;
+		cout << "Face x " <<face->edge->vert->x << endl;
+	} while (testEdge != face->edge);
+
+	return face;
 }
 
-HE_vert createVert(string line) {
+
+HE_vert* createVert(string line) {
 	HE_vert* vertex = new HE_vert;
 	string xString = "";
 	string yString = "";
@@ -67,5 +96,5 @@ HE_vert createVert(string line) {
 	vertex->z = ::atof(zString.c_str());
 	
 	//cout << " X: " << vertex->x << " Y: " << vertex->y << " Z: " << vertex->z << endl;
-	return *vertex;
+	return vertex;
 }
