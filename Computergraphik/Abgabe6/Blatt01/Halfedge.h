@@ -29,5 +29,10 @@ struct HalfEdgeList {
 	std::vector<HE_face*> fratzen;
 	std::vector<HE_vert*> vertices;
 	std::vector<HE_edge*> edges;
+
+
+	bool pairTest();
+	bool faceTest();
+	bool vertTest();
 };
 
