@@ -55,13 +55,16 @@ void ModelHE::build() {
 
 		std::vector<int> faceIndices;
 		do {
-
 			maxVerts[0] = (next->vert->x > maxVerts[0]) ? next->vert->x : maxVerts[0];
 			maxVerts[1] = (next->vert->y > maxVerts[1]) ? next->vert->y : maxVerts[1];
 			maxVerts[2] = (next->vert->z > maxVerts[2]) ? next->vert->z : maxVerts[2];
 			minVerts[0] = (next->vert->x < minVerts[0]) ? next->vert->x : minVerts[0];
 			minVerts[1] = (next->vert->y < minVerts[1]) ? next->vert->y : minVerts[1];
 			minVerts[2] = (next->vert->z < minVerts[2]) ? next->vert->z : minVerts[2];
+
+			if (next->normal == nullptr && next->vert->approxNormal == nullptr) {
+				calcNormal(next->vert);
+			}
 
 			faceIndices.push_back(vertices.size());
 			vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
@@ -179,4 +182,21 @@ glm::vec3 ModelHE::getMax() {
 
 glm::vec3 ModelHE::getMin() { 
 	return minVerts; 
+}
+
+glm::vec3 ModelHE::calcNormal(HE_vert *vert) {
+	std::vector<glm::vec3> faceVerts;
+	std::vector<glm::vec3> faceNormals;
+	HE_edge *startEdge = vert->edge;
+	HE_edge *next = vert->edge;
+
+	do {
+		next = next->pair;
+		faceVerts.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
+		next = next->next;
+		if (faceVerts.size() > 1) {
+			faceNormals.push_back(glm::vec3(0.0f))
+		}
+	} while (next != startEdge);
+	return glm::vec3();
 }

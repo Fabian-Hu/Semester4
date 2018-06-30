@@ -41,6 +41,7 @@ std::string ObjParser::readVerts(std::ifstream & instream, HE_Object &obj) {
 			std::getline(value, val, ' ');
 			vert->z = strtof(val.c_str(), 0);
 
+			vert->approxNormal = nullptr;
 			obj.verts.push_back(vert);
 		}
 	}
@@ -80,6 +81,7 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		edge->face = face;
 		edge->vert = obj.verts[second - 1];
 		edge->vert->edge = edge;
+		edge->normal = nullptr;
 
 		if (!setPair(edge, obj.verts[first - 1])) {
 			obj.verts[first - 1]->pointingEdges.push_back(edge);
