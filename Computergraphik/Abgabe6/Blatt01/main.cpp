@@ -326,7 +326,11 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 
 int main(int argc, char** argv)
 {
-	HE_face* face = readObject("dodecahedron.obj");
+	HalfEdgeList *halfEdgeList = new HalfEdgeList;
+	HE_face* startFace = readObject("dodecahedron.obj", halfEdgeList);
+
+	std::cout << "Vert X: " << halfEdgeList->vertices.at(0)->x << std::endl;
+	std::cout << "Pairtest: " << halfEdgeList->pairTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);

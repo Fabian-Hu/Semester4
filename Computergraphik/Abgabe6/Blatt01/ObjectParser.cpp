@@ -1,8 +1,8 @@
 
 #include "ObjectParser.h"
 
-HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* readObject(std::string filename)
+
+HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 {
 	if (filename.substr(filename.size() - 4, 4) != ".obj")
 		return NULL;
@@ -18,7 +18,7 @@ HE_face* readObject(std::string filename)
 			halfEdgeList->vertices.push_back(createVert(cstring));
 		}
 		else if (cstring[0] == 'f') {
-			halfEdgeList->fratzen.push_back(createFace(cstring));
+			halfEdgeList->fratzen.push_back(createFace(cstring, halfEdgeList));
 		}
 		else {
 			std::cout << "nicht gefunden" << std::endl;
@@ -32,10 +32,9 @@ HE_face* readObject(std::string filename)
 	
 	
 	f.close();
-	return halfEdgeList->fratzen.at(0);
 }
 
-HE_face* createFace(std::string line) {
+HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 	HE_face* face = new HE_face;
 	HE_edge* edge = new HE_edge;
 	HE_edge* lastEdge = new HE_edge;
@@ -84,6 +83,7 @@ HE_face* createFace(std::string line) {
 			count++;
 
 			lastEdge = edge;
+			halfEdgeList->edges.push_back(edge);
 			edge = new HE_edge;
 		}
 		
@@ -101,7 +101,7 @@ HE_face* createFace(std::string line) {
 		testEdge = testEdge->next;
 		
 	} while (testEdge != face->edge);
-
+	halfEdgeList->fratzen.push_back(face);
 	return face;
 }
 
