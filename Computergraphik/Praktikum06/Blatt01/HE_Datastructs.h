@@ -5,6 +5,12 @@ struct HE_edge;
 struct HE_vert;
 struct HE_face;
 
+struct HE_normal {
+	float x;
+	float y;
+	float z;
+};
+
 struct HE_edge {
 	HE_vert *vert;
 	HE_normal *normal;
@@ -18,6 +24,8 @@ struct HE_vert {
 	float y;
 	float z;
 
+	int pos = -1;
+
 	std::vector<HE_edge *> pointingEdges;
 	HE_edge *edge;
 	HE_normal *approxNormal;
@@ -25,12 +33,6 @@ struct HE_vert {
 
 struct HE_face {
 	HE_edge *edge;
-};
-
-struct HE_normal{
-	float x;
-	float y;
-	float z;
 };
 
 struct HE_Object {

@@ -62,12 +62,15 @@ void ModelHE::build() {
 			minVerts[1] = (next->vert->y < minVerts[1]) ? next->vert->y : minVerts[1];
 			minVerts[2] = (next->vert->z < minVerts[2]) ? next->vert->z : minVerts[2];
 
-			if (next->normal == nullptr && next->vert->approxNormal == nullptr) {
+			/*if (next->normal == nullptr && next->vert->approxNormal == nullptr) {
 				calcNormal(next->vert);
+			}*/
+			if (next->vert->pos == -1) {
+				next->vert->pos = vertices.size();
+				vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 			}
+			faceIndices.push_back(next->vert->pos);
 
-			faceIndices.push_back(vertices.size());
-			vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 			colors.push_back(color);
 			next = next->next;
 		} while (next != startEdge);
@@ -195,7 +198,7 @@ glm::vec3 ModelHE::calcNormal(HE_vert *vert) {
 		faceVerts.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 		next = next->next;
 		if (faceVerts.size() > 1) {
-			faceNormals.push_back(glm::vec3(0.0f))
+			faceNormals.push_back(glm::vec3(0.0f));
 		}
 	} while (next != startEdge);
 	return glm::vec3();
