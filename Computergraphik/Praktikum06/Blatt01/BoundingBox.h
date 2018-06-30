@@ -1,16 +1,16 @@
 #pragma once
 #include "WorldObject.h"
+#include "ModelHE.h"
 
-class BoundingBox {
+class BoundingBox : public WorldObject {
 public:
-	BoundingBox(WorldObject *worldobject, glm::vec3 size);
-	void setActive(bool show = true);
-	bool isActive();
+	BoundingBox(ModelHE * model, glm::vec3 color);
+	void init(cg::GLSLProgram &program);
 
-	void fitBbToObj();
-	void fitObjToBb();
+	void build();
 
 private:
-	WorldObject *worldObject;
-	WorldObject *box;
+	WorldObject childModel;
+	ModelHE *heModel;
+	glm::vec3 bbColor;
 };

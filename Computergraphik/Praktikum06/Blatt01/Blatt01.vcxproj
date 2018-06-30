@@ -178,6 +178,7 @@
     <ClCompile Include="Orb.cpp" />
     <ClCompile Include="SolidSphere.cpp" />
     <ClCompile Include="Sphere.cpp" />
+    <ClCompile Include="WireframeBox.cpp" />
     <ClCompile Include="WireframeCube.cpp" />
     <ClCompile Include="WireframeSphere.cpp" />
     <ClCompile Include="WorldObject.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="SolidSphere.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="SunSystemData.h" />
+    <ClInclude Include="WireframeBox.h" />
     <ClInclude Include="WireframeCube.h" />
     <ClInclude Include="WireframeSphere.h" />
     <ClInclude Include="WorldObject.h" />

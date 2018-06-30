@@ -16,6 +16,7 @@ public:
 	virtual void rotateCenter(float a, glm::vec3 direction);
 	virtual void translate(glm::vec3 direction);
 	virtual void scale(glm::vec3 direction, float value);
+	virtual void scaleLocal(float value);
 
 	void setActive(bool active = true);
 	bool isActive();
@@ -35,6 +36,7 @@ private:
 	friend class WireframeSphere;
 	friend class Face;
 	friend class Axis;
+	friend class WireframeBox;
 	friend class ModelHE;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;

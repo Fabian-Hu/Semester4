@@ -1,21 +1,26 @@
 #include "BoundingBox.h"
+#include "WireframeBox.h"
 
-BoundingBox::BoundingBox(WorldObject * worldobject, glm::vec3 size) : 
-	worldObject(worldObject), box(&WorldObject(&WireframeCube(glm::vec3(1.0f, 1.0f, 0.0f)))) {
-	box->scale(size);
+BoundingBox::BoundingBox(ModelHE *model, glm::vec3 color) : heModel(model), bbColor(color) {
+	childModel = WorldObject(model);
+	childs.push_back(&childModel);
 }
 
-void BoundingBox::setActive(bool show) {
-	box->setActive(show);
+void BoundingBox::init(cg::GLSLProgram &program) {
+	model->init(program);
+	for each (WorldObject *childObj in childs) {
+		childObj->init(program);
+	}
+	translate(-model->getPosition());
+	glm::vec3 size = heModel->getMax() - heModel->getMin();
+	float avgSize = (size[0] + size[1] + size[2]) / 3;
+	scaleLocal(1 / avgSize);
 }
 
-bool BoundingBox::isActive()
-{
-	return box->isActive();
-}
-
-void BoundingBox::fitObjToBb() {
-	glm::vec3 maxVertPos = worldObject->getModel()->getMaxVertPosition();
-	glm::vec3 minVertPos = worldObject->getModel()->getMinVertPosition();
-
+void BoundingBox::build() {
+	for each (WorldObject *childObj in childs) {
+		childObj->build();
+	}
+	this->model = new WireframeBox(heModel->getMax(), heModel->getMin(), bbColor);
+	model->build();
 }

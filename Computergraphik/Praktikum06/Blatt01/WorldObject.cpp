@@ -1,5 +1,7 @@
 #include "WorldObject.h"
 
+WorldObject::WorldObject() : rotateWithParent(true) {}
+
 WorldObject::WorldObject (Model *model, bool rotateWithParent) : model (model), rotateWithParent(rotateWithParent) {
 	origin = model->getPosition();
 }
@@ -69,6 +71,13 @@ void WorldObject::scale(glm::vec3 direction, float value) {
 	model->scale(direction, value);
 	for each (WorldObject *childObj in childs) {
 		childObj->scale(direction, value);
+	}
+}
+
+void WorldObject::scaleLocal(float value) {
+	model->scaleLocal(value);
+	for each (WorldObject *childObj in childs) {
+		childObj->scaleLocal(value);
 	}
 }
 

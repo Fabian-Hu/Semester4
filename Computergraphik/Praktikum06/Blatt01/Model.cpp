@@ -108,6 +108,10 @@ void Model::scale(glm::vec3 direction, float value = 1.0f) {
 	model = glm::scale(glm::mat4(1.0f), glm::vec3(value)) * model;
 }
 
+void Model::scaleLocal(float value) {
+	scale(position, value);
+}
+
 void Model::setActive(bool active) {
 	this->active = active;
 }
