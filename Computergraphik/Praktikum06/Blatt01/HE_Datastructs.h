@@ -11,9 +11,15 @@ struct HE_normal {
 	float z;
 };
 
+struct HE_texCoord {
+	float x;
+	float y;
+};
+
 struct HE_edge {
 	HE_vert *vert;
 	HE_normal *normal;
+	HE_texCoord *texCoord;
 	HE_edge *pair;
 	HE_face *face;
 	HE_edge *next;
@@ -40,6 +46,7 @@ struct HE_Object {
 	std::vector<HE_vert *> verts;
 	std::vector<HE_face *> face;
 	std::vector<HE_normal *> normals;
+	std::vector<HE_texCoord *> texCoords;
 
 	bool testEdges();
 	bool testFaces();

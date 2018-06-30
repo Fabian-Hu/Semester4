@@ -9,42 +9,66 @@ HE_face *ObjParser::parseObj(std::string &path, HE_Object &obj) {
 		return NULL;
 	}
 
-	std::string face = readVerts(instream, obj);
 	char line[lineLength];
 	
 	while (instream) {
-		if (face[0] == 'f') {
-			createFace(face, obj);
-		}
 		instream.getline(line, lineLength);
-		face.clear();
-		face.append(line);
+		if (line[0] == 'v' && line[1] == ' ')
+			createVert(std::string(line), obj);
+		else if (line[0] == 'v' && line[1] == 'n')
+			createNormal(std::string(line), obj);
+		else if (line[0] == 'v' && line[1] == 't')
+			createTexCoord(std::string(line), obj);
+		else if (line[0] == 'f')
+			createFace(std::string(line), obj);
 	}
 
 	instream.close();
-	return nullptr;
+	return obj.face[0];
 }
 
-std::string ObjParser::readVerts(std::ifstream & instream, HE_Object &obj) {
-	char line[lineLength];
+void ObjParser::createVert(std::string &line, HE_Object &obj) {
+	std::istringstream values(line.c_str() + 2);
+	std::string val;
+	HE_vert *vert = new HE_vert;
 
-	while (instream.getline(line, lineLength) && line[0] != 'f') {
-		if (line[0] == 'v') {
-			std::istringstream value(line + 2);
-			std::string val;
-			HE_vert *vert = new HE_vert;
+	std::getline(values, val, ' ');
+	vert->x = strtof(val.c_str(), 0);
+	std::getline(values, val, ' ');
+	vert->y = strtof(val.c_str(), 0);
+	std::getline(values, val, ' ');
+	vert->z = strtof(val.c_str(), 0);
 
-			std::getline(value, val, ' ');
-			vert->x = strtof(val.c_str(), 0);
-			std::getline(value, val, ' ');
-			vert->y = strtof(val.c_str(), 0);
-			std::getline(value, val, ' ');
-			vert->z = strtof(val.c_str(), 0);
+	vert->approxNormal = nullptr;
+	obj.verts.push_back(vert);
+}
 
-			obj.verts.push_back(vert);
-		}
-	}
-	return std::string(line);
+void ObjParser::createTexCoord(std::string &line, HE_Object &obj) {
+	std::istringstream values(line.c_str() + 3);
+	std::string val;
+	HE_texCoord *texCoord = new HE_texCoord;
+
+	std::getline(values, val, ' ');
+	texCoord->x = strtof(val.c_str(), 0);
+	std::getline(values, val, ' ');
+	texCoord->y = strtof(val.c_str(), 0);
+
+	obj.texCoords.push_back(texCoord);
+}
+
+void ObjParser::createNormal(std::string &line, HE_Object &obj) {
+	std::istringstream values(line.c_str() + 3);
+	std::string val;
+	HE_normal *normal = new HE_normal;
+
+	std::getline(values, val, ' ');
+	normal->x = strtof(val.c_str(), 0);
+	std::getline(values, val, ' ');
+	normal->y = strtof(val.c_str(), 0);
+	std::getline(values, val, ' ');
+	normal->z = strtof(val.c_str(), 0);
+
+	obj.normals.push_back(normal);
 }
 
 void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
@@ -69,6 +93,22 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		} else {
 			face->edge = edge;
 		}
+
+		std::string vtString;
+		int vt = -1;
+		int vtIndex = val.find_first_of('/', 0);
+		if (vtIndex != -1) {
+			vtString = val.substr(vtIndex + 1);
+			vt = atoi(vtString.c_str());
+		}
+		std::string vnString;
+		int vn = -1;
+		int vnIndex = val.find_last_of('/', val.size());
+		if (vnIndex != -1) {
+			vnString = val.substr(vnIndex + 1);
+			vn = atoi(vnString.c_str());
+		}
+
 		val.clear();
 		std::getline(values, val, ' ');
 		second = first;
@@ -80,7 +120,14 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		edge->face = face;
 		edge->vert = obj.verts[second - 1];
 		edge->vert->edge = edge;
-		edge->normal = nullptr;
+		if (vtIndex != -1)
+			edge->texCoord = obj.texCoords[vt - 1];
+		else
+			edge->texCoord = nullptr;
+		if (vnIndex != -1)
+			edge->normal = obj.normals[vn - 1];
+		else
+			edge->normal = nullptr;
 
 		if (!setPair(edge, obj.verts[first - 1])) {
 			obj.verts[first - 1]->pointingEdges.push_back(edge);

@@ -13,10 +13,7 @@ uniform float surfShininess;    // Specular shininess factor
 out vec3 fragColor;
 
 // moved from .vert to .frag
-vec3 ads (vec4 Light, float LightI,
-	  vec3 Ka, vec3 Kd, vec3 Ks, float Shininess,
-	  vec3 Position, vec3 Normal )
-{
+vec3 ads (vec4 Light, float LightI, vec3 Ka, vec3 Kd, vec3 Ks, float Shininess, vec3 Position, vec3 Normal ) {
     vec3 n = normalize(Normal);
     vec3 s = Light.xyz;
     if (Light.w == 1) { // positional light
