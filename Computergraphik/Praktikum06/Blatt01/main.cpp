@@ -32,6 +32,7 @@ const glm::vec3 directionLight = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
 const glm::vec3 pointLight = glm::vec3(0.0f, 0.0f, cameraPos);
 int lightMode = 0;
 glm::vec4 currentLight = glm::vec4(directionLight, lightMode);
+float lightIntensity = 1.0f;
 
 cg::GLSLProgram program;
 
@@ -58,13 +59,13 @@ bool init() {
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/shaded.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/shadedPhong.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/shaded.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/shadedPhong.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
@@ -76,15 +77,16 @@ bool init() {
 		return false;
 	}
 	program.use();
-	program.setUniform("lightDirection", glm::vec3(1.0f));
+	program.setUniform("light", currentLight);
+	program.setUniform("lightI", lightIntensity);
 
 	//Init Models
-	sun.init (program);
-	sun.setUp();
-	heObj.init(program);
-	heCar.init(program);
+	GLCODE(heObj.init(program));
+	GLCODE(heCar.init(program));
 	heCar.scale(glm::vec3(0.0f), 0.5f);
 	heCar.translate(glm::vec3(-2.0f, 0.0f, 0.0f));
+	GLCODE(sun.init (program));
+	sun.setUp();
 	//heModel.scale(glm::vec3(0.0f), 0.05f);
 	return true;
 }

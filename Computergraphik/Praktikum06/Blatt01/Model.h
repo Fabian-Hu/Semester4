@@ -56,7 +56,7 @@ private:
 	GLenum mode;
 
 	glm::vec3 material;
-	int shininess;
+	float shininess;
 
 	bool active;
 };

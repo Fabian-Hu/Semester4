@@ -158,13 +158,25 @@ void ModelHE::init(cg::GLSLProgram & program) {
 void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
 	if (active) {
 		glm::mat4x4 mvp = projection * view * model;
+		glm::mat4x4 modelView = view * model;
+
+		glm::vec3 sufKa = glm::vec3(1.0f);
+		glm::vec3 sufKd = glm::vec3(1.0f);
+		glm::vec3 sufKs = glm::vec3(1.0f);
 
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 
 		program.use();
-		program.setUniform("mvp", mvp);
-		program.setUniform("nm", nm);
+		program.setUniform("modelviewMatrix", modelView);
+		program.setUniform("projectionMatrix", projection);
+		program.setUniform("normalMatrix", nm);
+		program.setUniform("shininess", shininess);
+		program.setUniform("surfKa", sufKa);
+		program.setUniform("surfKd", sufKd);
+		program.setUniform("surfKs", sufKs);
+		//program.setUniform("mvp", mvp);
+		//program.setUniform("nm", nm);
 		/*program.setUniform("model", model);
 		program.setUniform("material", material);
 		program.setUniform("shininess", shininess);*/

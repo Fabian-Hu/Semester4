@@ -11,33 +11,33 @@ Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
 Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position), active(true) {
 	material = glm::vec3(1.0f);
-	shininess = 128;
+	shininess = 128.0f;
 }
 
 void Model::init(cg::GLSLProgram & program) {
 	GLuint programId = program.getHandle();
 	GLuint pos;
 
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	GLCODE(glGenVertexArrays(1, &vao));
+	GLCODE(glBindVertexArray(vao));
 
 	//Position
-	glGenBuffers(1, &positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+	GLCODE(glGenBuffers(1, &positionBuffer));
+	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, positionBuffer));
+	GLCODE(glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW));
 
 	pos = glGetAttribLocation(programId, "position");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	GLCODE(glEnableVertexAttribArray(pos));
+	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
 
 	//Color
-	glGenBuffers(1, &colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
+	GLCODE(glGenBuffers(1, &colorBuffer));
+	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, colorBuffer));
+	GLCODE(glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW));
 
 	pos = glGetAttribLocation(programId, "color");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	GLCODE(glEnableVertexAttribArray(pos));
+	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
 
 	//Normal
 	GLCODE(glGenBuffers(1, &normalBuffer));
@@ -61,16 +61,27 @@ void Model::init(cg::GLSLProgram & program) {
 void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
 	if (active) {
 		glm::mat4x4 mvp = projection * view * model;
+		glm::mat4x4 modelView = view * model;
+
+		glm::vec3 sufKa = glm::vec3(1.0f);
+		glm::vec3 sufKd = glm::vec3(1.0f);
+		glm::vec3 sufKs = glm::vec3(1.0f);
 
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 
 		program.use();
-		program.setUniform("mvp", mvp);
-		program.setUniform("nm", nm);
-		/*program.setUniform("model", model);
-		program.setUniform("material", material);
-		program.setUniform("shininess", shininess);*/
+		program.setUniform("modelviewMatrix", modelView);
+		program.setUniform("projectionMatrix", projection);
+		program.setUniform("normalMatrix", nm);
+		program.setUniform("shininess", shininess);
+		program.setUniform("surfKa", sufKa);
+		program.setUniform("surfKd", sufKd);
+		program.setUniform("surfKs", sufKs);
+		//program.setUniform("mvp", mvp);
+		//program.setUniform("nm", nm);
+		//program.setUniform("model", model);
+		//program.setUniform("material", material);
 
 		glBindVertexArray(vao);
 		glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);

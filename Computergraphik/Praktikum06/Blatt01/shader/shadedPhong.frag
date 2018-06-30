@@ -30,8 +30,6 @@ vec3 ads (vec4 Light, float LightI, vec3 Ka, vec3 Kd, vec3 Ks, float Shininess, 
 }
 
 void main() {
-  	fragColor = ads(light,  lightI,
-			surfKa, surfKd, surfKs, surfShininess,
-			eyePosition, eyeNormal);
+  	fragColor = ads(light,  lightI, surfKa, surfKd, surfKs, surfShininess, eyePosition, eyeNormal);
 }
 
