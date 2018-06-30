@@ -1,12 +1,12 @@
 
 #include "ObjectParser.h"
 
-
+int counterE = 0;
 HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 {
 	if (filename.substr(filename.size() - 4, 4) != ".obj")
 		return NULL;
-
+	int counterV = 0, counterF = 0;
 	std::fstream f;
 	char cstring[256];
 	f.open(filename, std::ios::in);
@@ -16,9 +16,11 @@ HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 
 		if (cstring[0] == 'v') {
 			halfEdgeList->vertices.push_back(createVert(cstring));
+			counterV++;
 		}
 		else if (cstring[0] == 'f') {
 			halfEdgeList->fratzen.push_back(createFace(cstring, halfEdgeList));
+			counterF++;
 		}
 		else {
 			std::cout << "nicht gefunden" << std::endl;
@@ -29,8 +31,10 @@ HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 		char *end = begin + sizeof(cstring);
 		std::fill(begin, end, 0);
 	}
-	
-	
+
+	std::cout << "Kein Test Anzahl Vertices: " << counterV << std::endl;
+	std::cout << "Kein Test Anzahl Faces: " << counterF << std::endl;
+	std::cout << "Kein Test Anzahl Edges: " << counterE << std::endl;
 	f.close();
 }
 
@@ -38,7 +42,7 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 	HE_face* face = new HE_face;
 	HE_edge* edge = new HE_edge;
 	HE_edge* lastEdge = new HE_edge;
-	int i, count=0, number, endofline=0;
+	int i, count = 0, number, endofline = 0;
 	face->edge = edge;
 	HE_edge* vorEdge = new HE_edge;
 	vorEdge = face->edge;
@@ -60,23 +64,23 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 
 			if (edge->paired == false) {
 				for (int e = 0; e < edge->vert->pointingEdges.size(); e++) {
-					std::cout << "Suche Pair"  << std::endl;
+					std::cout << "Suche Pair" << std::endl;
 					if (edge->vert->x == edge->vert->pointingEdges.at(e)->next->vert->x &&
-							edge->vert->y == edge->vert->pointingEdges.at(e)->next->vert->y &&
-								edge->vert->z == edge->vert->pointingEdges.at(e)->next->vert->z) {
+						edge->vert->y == edge->vert->pointingEdges.at(e)->next->vert->y &&
+						edge->vert->z == edge->vert->pointingEdges.at(e)->next->vert->z) {
 						std::cout << "Pair gefunden" << std::endl;
 						edge->pair = edge->vert->pointingEdges.at(e);
 						edge->vert->pointingEdges.at(e)->pair = edge;
 						edge->paired = true;
 						edge->vert->pointingEdges.at(e)->paired = true;
-						edge->vert->pointingEdges.erase(edge->vert->pointingEdges.begin()+e);
+						edge->vert->pointingEdges.erase(edge->vert->pointingEdges.begin() + e);
 					}
 				}
 			}
 
 			if (count != 0) {
-				vorEdge->next = edge;				
-				vorEdge = vorEdge->next;	
+				vorEdge->next = edge;
+				vorEdge = vorEdge->next;
 
 				edge->vert->pointingEdges.push_back(lastEdge);
 			}
@@ -84,9 +88,10 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 
 			lastEdge = edge;
 			halfEdgeList->edges.push_back(edge);
+			counterE++;
 			edge = new HE_edge;
 		}
-		
+
 	}
 	lastEdge->next = face->edge;
 	face->edge->vert->pointingEdges.push_back(lastEdge);
@@ -99,9 +104,8 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 	do {
 		std::cout << "Face x " << testEdge->vert->x << std::endl;
 		testEdge = testEdge->next;
-		
+
 	} while (testEdge != face->edge);
-	halfEdgeList->fratzen.push_back(face);
 	return face;
 }
 
@@ -113,24 +117,24 @@ HE_vert* createVert(std::string line) {
 	std::string zString = "";
 
 	int i;
-	for (i = 2; line[i] != ' '; i++) {		
+	for (i = 2; line[i] != ' '; i++) {
 		xString += line[i];
 	}
-	
+
 	vertex->x = ::atof(xString.c_str());
 
-	for (i = i + 1; line[i] != ' '; i++) {		
+	for (i = i + 1; line[i] != ' '; i++) {
 		yString += line[i];
 	}
-	
+
 	vertex->y = ::atof(yString.c_str());
 
-	for (i = i + 1; line[i] != '\0'; i++) {		
-		zString += line[i];	
+	for (i = i + 1; line[i] != '\0'; i++) {
+		zString += line[i];
 	}
-	
+
 	vertex->z = ::atof(zString.c_str());
-	
+
 	//cout << " X: " << vertex->x << " Y: " << vertex->y << " Z: " << vertex->z << endl;
 	return vertex;
 }

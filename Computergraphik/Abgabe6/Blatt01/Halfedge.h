@@ -35,4 +35,3 @@ struct HalfEdgeList {
 	bool faceTest();
 	bool vertTest();
 };
-

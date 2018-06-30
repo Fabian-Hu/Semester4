@@ -4,7 +4,8 @@ ModelHE::ModelHE()
 {
 }
 
-ModelHE::ModelHE(HE_face)
+ModelHE::ModelHE(HalfEdgeList *halfEdgeList) :
+	halfEdgeList(halfEdgeList)
 {
 }
 
@@ -19,16 +20,50 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(object.vao);
-	glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
+}
+
+void ModelHE::calculate() {
+	//facelist nehmen
+	std::vector<HE_face*> facelist = halfEdgeList->fratzen;
+	glm::vec3 farbe = glm::vec3(1.0f, 0.0f, 0.0f);
+	int counter = 0;
+	//nacheinander jedes face nehmen
+	for (int i = 0; i < facelist.size(); i++) {
+		HE_face* face = facelist.at(i);
+		HE_edge* ersterEdge = facelist.at(i)->edge->next;
+		HE_edge* zweiterEdge = facelist.at(i)->edge->next->next;
+		while (zweiterEdge->vert->x != face->edge->vert->x &&
+			zweiterEdge->vert->y != face->edge->vert->y &&
+			zweiterEdge->vert->z != face->edge->vert->z) {
+
+				//erster vertex ist grundlage für alle
+				//mit dem nächsten und übernächsten ein Dreieck bilden und den zweiten danach eliminieren
+			vertices.push_back(glm::vec3(face->edge->vert->x, face->edge->vert->y, face->edge->vert->z));
+			vertices.push_back(glm::vec3(facelist.at(i)->edge->vert->x,
+				facelist.at(i)->edge->vert->y, facelist.at(i)->edge->vert->z));
+			vertices.push_back(glm::vec3(facelist.at(i)->edge->vert->x,
+				facelist.at(i)->edge->vert->y, facelist.at(i)->edge->vert->z));
+			colors.push_back(farbe);
+			colors.push_back(farbe);
+			colors.push_back(farbe);
+			indices.push_back(counter);
+			indices.push_back(counter + 1);
+			indices.push_back(counter + 2);
+
+			ersterEdge = zweiterEdge;
+			zweiterEdge = zweiterEdge->next;
+			counter += 3;
+		}
+	}
+	std::cout << "Anzahl Indices: " << counter << std::endl;
 }
 
 void ModelHE::init(cg::GLSLProgram & program)
 {
 	// Construct triangle. These vectors can go out of scope after we have send all data to the graphics card.
-	const std::vector<glm::vec3> vertices = {  };
-	const std::vector<glm::vec3> colors = {  };
-	const std::vector<GLushort> indices = {  };
+	calculate();
 
 	GLuint programId = program.getHandle();
 	GLuint pos;
