@@ -20,14 +20,14 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(object.vao);
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, 36*6*6 * 36, GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 
 void ModelHE::calculate() {
 	//facelist nehmen
 	std::vector<HE_face*> facelist = halfEdgeList->fratzen;
-	glm::vec3 farbe = glm::vec3(1.0f, 0.0f, 0.0f);
+	glm::vec3 farbe = glm::vec3(0.9f, 0.9f, 0.9f);
 	int counter = 0;
 	//nacheinander jedes face nehmen
 	for (int i = 0; i < facelist.size(); i++) {
@@ -41,10 +41,8 @@ void ModelHE::calculate() {
 				//erster vertex ist grundlage für alle
 				//mit dem nächsten und übernächsten ein Dreieck bilden und den zweiten danach eliminieren
 			vertices.push_back(glm::vec3(face->edge->vert->x, face->edge->vert->y, face->edge->vert->z));
-			vertices.push_back(glm::vec3(facelist.at(i)->edge->vert->x,
-				facelist.at(i)->edge->vert->y, facelist.at(i)->edge->vert->z));
-			vertices.push_back(glm::vec3(facelist.at(i)->edge->vert->x,
-				facelist.at(i)->edge->vert->y, facelist.at(i)->edge->vert->z));
+			vertices.push_back(glm::vec3(ersterEdge->vert->x, ersterEdge->vert->y, ersterEdge->vert->z));
+			vertices.push_back(glm::vec3(zweiterEdge->vert->x, zweiterEdge->vert->y, zweiterEdge->vert->z));
 			colors.push_back(farbe);
 			colors.push_back(farbe);
 			colors.push_back(farbe);
