@@ -82,6 +82,9 @@ bool init() {
 	sun.init (program);
 	sun.setUp();
 	heObj.init(program);
+	heCar.init(program);
+	heCar.scale(glm::vec3(0.0f), 0.5f);
+	heCar.translate(glm::vec3(-2.0f, 0.0f, 0.0f));
 	//heModel.scale(glm::vec3(0.0f), 0.05f);
 	return true;
 }
@@ -93,18 +96,22 @@ void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
 	heObj.release();
+	heCar.release();
 }
 
 /*
  Rendering.
  */
 void render() {
-	if (doRotate)
+	if (doRotate) {
 		sun.rotate();
+		heCar.rotate(carSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
 	heObj.render(program, view, projection);
+	heCar.render(program, view, projection);
 }
 
 void glutDisplay () {
@@ -175,13 +182,13 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		mars.rotateWithAxis(marsRotSpeed, glm::vec3(0, 0, 1));
 		break;
 	case 'w':
-		if (speed > MIN_SPEED) {
+		if (speed >= MIN_SPEED) {
 			sun.multiplyRotationAngle(speedMultiplierDecreaseValue);
 			speed--;
 		}
 		break;
 	case 'W':
-		if (speed < MAX_SPEED) {
+		if (speed <= MAX_SPEED) {
 			sun.multiplyRotationAngle(speedMultiplierIncreaseValue);
 			speed++;
 		}
@@ -203,6 +210,16 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		break;
 	case 'b':
 		heObj.setActive(!heObj.isActive());
+		break;
+	case 'n':
+		if (carSpeed > MIN_CARSPEED) {
+			carSpeed -= CARSPEED_CHANGEVALUE;
+		}
+		break;
+	case 'N':
+		if (carSpeed < MAX_CARSPEED) {
+			carSpeed += CARSPEED_CHANGEVALUE;
+		}
 		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
@@ -278,6 +295,10 @@ int main(int argc, char** argv) {
 	sunAxisObject.setActive(false);
 
 	heObj.build();
+	heObj.setActive(false);
+
+	heCar.build();
+	heCar.setActive(false);
 
 	// Init VAO.
 	{

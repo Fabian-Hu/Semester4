@@ -12,7 +12,9 @@ public:
 	HE_face* parseObj(std::string &path, HE_Object &obj);
 
 private:
-	std::string readVerts(std::ifstream &instream, HE_Object &obj);
+	void createVert(std::string &line, HE_Object &obj);
+	void createTexCoord(std::string &line, HE_Object &obj);
+	void createNormal(std::string &line, HE_Object &obj);
 	void createFace(std::string &face, HE_Object &obj);
 	bool setPair(HE_edge *edge, HE_vert *vert);
 };
