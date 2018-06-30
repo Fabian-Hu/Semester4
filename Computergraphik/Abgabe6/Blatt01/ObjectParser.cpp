@@ -57,32 +57,34 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 			}
 
 			number = ::atoi(vertString.c_str());
-			//std::cout << "Face " << number << std::endl;
+			std::cout << "Face " << number << std::endl;
 			edge->vert = halfEdgeList->vertices.at(number - 1);
 			edge->face = face;
 			edge->vert->edge = edge;
-
 			if (edge->paired == false) {
+				std::cout << "Sucheeeeeeeeeeee Pair" << std::endl;
 				for (int e = 0; e < edge->vert->pointingEdges.size(); e++) {
-					//std::cout << "Suche Pair" << std::endl;
-					if (edge->vert->x == edge->vert->pointingEdges.at(e)->next->vert->x &&
-						edge->vert->y == edge->vert->pointingEdges.at(e)->next->vert->y &&
-						edge->vert->z == edge->vert->pointingEdges.at(e)->next->vert->z) {
-						//std::cout << "Pair gefunden" << std::endl;
+					std::cout << "Suche Pair" << std::endl;
+					if (edge->vert == edge->vert->pointingEdges.at(e)->vert) {
+						std::cout << "Edge X: " << edge->vert->x << " Edge Y: " << edge->vert->y << " Edge Z: " << edge->vert->z << std::endl;
+						std::cout << " == " << std::endl;
+						std::cout << "PointedEdge X: " << edge->vert->pointingEdges.at(e)->vert->x << " PointedEdge Y: " << edge->vert->pointingEdges.at(e)->vert->y << " PointedEdge Z: " << edge->vert->pointingEdges.at(e)->vert->z << std::endl;
+						std::cout << "Pair gefunden" << std::endl;
 						edge->pair = edge->vert->pointingEdges.at(e);
 						edge->vert->pointingEdges.at(e)->pair = edge;
 						edge->paired = true;
-						edge->vert->pointingEdges.at(e)->paired = true;
+						edge->pair->paired = true;
 						edge->vert->pointingEdges.erase(edge->vert->pointingEdges.begin() + e);
 					}
 				}
 			}
 
+			
 			if (count != 0) {
 				vorEdge->next = edge;
 				vorEdge = vorEdge->next;
 
-				edge->vert->pointingEdges.push_back(lastEdge);
+				edge->vert->pointingEdges.push_back(vorEdge);
 			}
 			count++;
 
@@ -94,15 +96,8 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 
 	}
 	lastEdge->next = face->edge;
+	//std::cout << "Last X: " <<lastEdge->vert->x<< " Last Y: " << lastEdge->vert->y << " Last Z: " << lastEdge->vert->z << std::endl;
 	face->edge->vert->pointingEdges.push_back(lastEdge);
-	//std::cout << face->edge->vert->pointingEdges.size() << std::endl;
-	
-	HE_edge* testEdge = face->edge;
-	do {
-		//std::cout << "Face x " << testEdge->vert->x << std::endl;
-		testEdge = testEdge->next;
-
-	} while (testEdge != face->edge);
 	return face;
 }
 
