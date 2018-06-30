@@ -20,7 +20,7 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(object.vao);
-	glDrawElements(GL_TRIANGLES, 36*6*6 * 36, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_SHORT, 0);
 	glBindVertexArray(0);
 }
 

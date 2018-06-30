@@ -32,9 +32,9 @@ HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 		std::fill(begin, end, 0);
 	}
 
-	std::cout << "Kein Test Anzahl Vertices: " << counterV << std::endl;
-	std::cout << "Kein Test Anzahl Faces: " << counterF << std::endl;
-	std::cout << "Kein Test Anzahl Edges: " << counterE << std::endl;
+	//std::cout << "Kein Test Anzahl Vertices: " << counterV << std::endl;
+	//std::cout << "Kein Test Anzahl Faces: " << counterF << std::endl;
+	//std::cout << "Kein Test Anzahl Edges: " << counterE << std::endl;
 	f.close();
 }
 
@@ -57,18 +57,18 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 			}
 
 			number = ::atoi(vertString.c_str());
-			std::cout << "Face " << number << std::endl;
+			//std::cout << "Face " << number << std::endl;
 			edge->vert = halfEdgeList->vertices.at(number - 1);
 			edge->face = face;
 			edge->vert->edge = edge;
 
 			if (edge->paired == false) {
 				for (int e = 0; e < edge->vert->pointingEdges.size(); e++) {
-					std::cout << "Suche Pair" << std::endl;
+					//std::cout << "Suche Pair" << std::endl;
 					if (edge->vert->x == edge->vert->pointingEdges.at(e)->next->vert->x &&
 						edge->vert->y == edge->vert->pointingEdges.at(e)->next->vert->y &&
 						edge->vert->z == edge->vert->pointingEdges.at(e)->next->vert->z) {
-						std::cout << "Pair gefunden" << std::endl;
+						//std::cout << "Pair gefunden" << std::endl;
 						edge->pair = edge->vert->pointingEdges.at(e);
 						edge->vert->pointingEdges.at(e)->pair = edge;
 						edge->paired = true;
@@ -96,13 +96,10 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 	lastEdge->next = face->edge;
 	face->edge->vert->pointingEdges.push_back(lastEdge);
 	//std::cout << face->edge->vert->pointingEdges.size() << std::endl;
-	for (int j = 0; j < face->edge->vert->pointingEdges.size(); j++) {
-		std::cout << "dbhrthedghergh" << face->edge->vert->pointingEdges.at(j)->vert->x << std::endl;
-	}
-
+	
 	HE_edge* testEdge = face->edge;
 	do {
-		std::cout << "Face x " << testEdge->vert->x << std::endl;
+		//std::cout << "Face x " << testEdge->vert->x << std::endl;
 		testEdge = testEdge->next;
 
 	} while (testEdge != face->edge);

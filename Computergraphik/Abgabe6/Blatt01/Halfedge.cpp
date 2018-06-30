@@ -31,7 +31,7 @@ bool HalfEdgeList::faceTest() {
 			edge = edge->next;
 			valenz++;
 		} while (edge != fratzen.at(i)->edge);
-		std::cout << "Face " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
+		//std::cout << "Face " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
 	}
 	return true;
 }
@@ -45,7 +45,7 @@ bool HalfEdgeList::vertTest() {
 		valenz = 0;
 		HE_edge *edge = vertices.at(i)->edge;
 		do {
-			std::cout << "Vertice Next: " << edge->vert->x << " Vertice FIX: " << vertices.at(i)->x << std::endl;
+			//std::cout << "Vertice Next: " << edge->vert->x << " Vertice FIX: " << vertices.at(i)->x << std::endl;
 			if (edge->vert != vertices.at(i)) {
 				return false;
 			}
