@@ -2,7 +2,7 @@
 #include <ostream>
 #include <sstream>
 
-HE_face* ObjParser::parseObj(std::string &path, HE_Object &obj) {
+HE_face *ObjParser::parseObj(std::string &path, HE_Object &obj) {
 	std::ifstream instream(path);
 	std::cout << path << std::endl;
 	if (!instream) {
@@ -41,7 +41,6 @@ std::string ObjParser::readVerts(std::ifstream & instream, HE_Object &obj) {
 			std::getline(value, val, ' ');
 			vert->z = strtof(val.c_str(), 0);
 
-			vert->approxNormal = nullptr;
 			obj.verts.push_back(vert);
 		}
 	}

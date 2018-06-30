@@ -15,7 +15,7 @@ public:
 	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
 	glm::vec3 getMax();
 	glm::vec3 getMin();
-	glm::vec3 calcNormal(HE_vert *vert);
+	HE_normal *calcNormal(HE_vert *vert);
 
 private:
 	HE_Object obj;

@@ -24,11 +24,11 @@ struct HE_vert {
 	float y;
 	float z;
 
-	int pos = -1;
+	std::vector<int> pos;
+	std::vector<HE_normal *>approxNormal;
 
 	std::vector<HE_edge *> pointingEdges;
 	HE_edge *edge;
-	HE_normal *approxNormal;
 };
 
 struct HE_face {

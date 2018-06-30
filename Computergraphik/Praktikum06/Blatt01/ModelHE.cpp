@@ -62,15 +62,34 @@ void ModelHE::build() {
 			minVerts[1] = (next->vert->y < minVerts[1]) ? next->vert->y : minVerts[1];
 			minVerts[2] = (next->vert->z < minVerts[2]) ? next->vert->z : minVerts[2];
 
-			/*if (next->normal == nullptr && next->vert->approxNormal == nullptr) {
-				calcNormal(next->vert);
-			}*/
-			if (next->vert->pos == -1) {
-				next->vert->pos = vertices.size();
-				vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
+			HE_normal *normal;
+			if (next->normal == nullptr) {
+				if (next->vert->approxNormal.size() == 0) {
+					normal = calcNormal(next->vert);
+				} else {
+					normal = next->vert->approxNormal[0];
+				}
+			} else {
+				normal = next->normal;
 			}
-			faceIndices.push_back(next->vert->pos);
-
+			
+			int found = -1;
+			for (int i = 0; i < next->vert->approxNormal.size(); i++) {
+				if (next->vert->approxNormal[i] == normal) {
+					faceIndices.push_back(next->vert->pos[i]);
+					i = next->vert->approxNormal.size();
+					found = i;
+				}
+			}
+			if (found == -1) {
+				next->vert->pos.push_back(vertices.size());
+				next->vert->approxNormal.push_back(normal);
+				
+				faceIndices.push_back(next->vert->pos.back());
+				vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
+				normals.push_back(normalize(glm::vec3(normal->x, normal->y, normal->z)));
+			}
+			
 			colors.push_back(color);
 			next = next->next;
 		} while (next != startEdge);
@@ -99,10 +118,6 @@ void ModelHE::build() {
 		}
 	}
 	position = glm::vec3(minVerts + (maxVerts - minVerts) * 0.5f);
-
-	for (int i = 0; i < vertices.size(); i++) {
-		normals.push_back(normalize(vertices[i] - position));
-	}
 }
 
 void ModelHE::init(cg::GLSLProgram & program) {
@@ -187,7 +202,8 @@ glm::vec3 ModelHE::getMin() {
 	return minVerts; 
 }
 
-glm::vec3 ModelHE::calcNormal(HE_vert *vert) {
+HE_normal *ModelHE::calcNormal(HE_vert *vert) {
+	glm::vec3 vertVec(vert->x, vert->y, vert->z);
 	std::vector<glm::vec3> faceVerts;
 	std::vector<glm::vec3> faceNormals;
 	HE_edge *startEdge = vert->edge;
@@ -198,8 +214,20 @@ glm::vec3 ModelHE::calcNormal(HE_vert *vert) {
 		faceVerts.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 		next = next->next;
 		if (faceVerts.size() > 1) {
-			faceNormals.push_back(glm::vec3(0.0f));
+			faceNormals.push_back(cross(faceVerts.back() - vertVec, faceVerts[faceVerts.size() - 2] - vertVec));
 		}
 	} while (next != startEdge);
-	return glm::vec3();
+	faceNormals.push_back(cross(faceVerts.front() - vertVec, faceVerts.back() - vertVec));
+
+	glm::vec3 normal;
+	for (glm::vec3 n : faceNormals) {
+		normal += n;
+	}
+	normal *= (1.0f / (float)faceNormals.size());
+
+	HE_normal *heNormal = new HE_normal;
+	heNormal->x = normal.x;
+	heNormal->y = normal.y;
+	heNormal->z = normal.z;
+	return heNormal;
 }
