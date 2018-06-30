@@ -17,6 +17,17 @@ ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
 	minVerts = glm::vec3(std::numeric_limits<float>::max());
 }
 
+ModelHE::ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color) :
+	Model(mode, glm::vec3(0.0f), shininess) {
+	ObjParser parser;
+	parser.parseObj(modelPath, obj);
+	obj.testAll();
+	this->colors.push_back(color);
+	size = obj.edges.size();
+	maxVerts = glm::vec3(std::numeric_limits<float>::min());
+	minVerts = glm::vec3(std::numeric_limits<float>::max());
+}
+
 ModelHE::ModelHE(GLenum mode, HE_Object &heObject, glm::vec3 color) :
 	Model(mode), initPos(glm::vec3(0.0f)) {
 	this->obj = heObject;
@@ -88,6 +99,8 @@ void ModelHE::build() {
 				faceIndices.push_back(next->vert->pos.back());
 				vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 				normals.push_back(normalize(glm::vec3(normal->x, normal->y, normal->z)));
+
+				/*NORMALS BERECHNEN!!!*/
 			}
 			
 			colors.push_back(color);
@@ -127,6 +140,15 @@ void ModelHE::init(cg::GLSLProgram & program) {
 	position = pos;
 }
 
+/*void ModelHE::initNormals(cg::GLSLProgram &program) {
+	std::vector<GLushort> indices;
+	defaultInit(program, vaoNormals, positionBufferNormals, colorBufferNormals, indexBufferNormals, normalBufferNormals, verticesNormals, colorNormals, normalNormals, indices, intIndicesNormals);
+}*/
+
+void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
+	Model::render(program, view, projection);
+}
+
 glm::vec3 ModelHE::getMax() { 
 	return maxVerts;
 }
@@ -147,10 +169,10 @@ HE_normal *ModelHE::calcNormal(HE_vert *vert) {
 		faceVerts.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 		next = next->next;
 		if (faceVerts.size() > 1) {
-			faceNormals.push_back(cross(faceVerts.back() - vertVec, faceVerts[faceVerts.size() - 2] - vertVec));
+			faceNormals.push_back(glm::cross(faceVerts.back() - vertVec, faceVerts[faceVerts.size() - 2] - vertVec));
 		}
 	} while (next != startEdge);
-	faceNormals.push_back(cross(faceVerts.front() - vertVec, faceVerts.back() - vertVec));
+	faceNormals.push_back(glm::cross(faceVerts.front() - vertVec, faceVerts.back() - vertVec));
 
 	glm::vec3 normal;
 	for (glm::vec3 n : faceNormals) {

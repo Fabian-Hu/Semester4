@@ -1,12 +1,12 @@
 #version 330 core
 
+flat in vec3 surfKd; 
 smooth in vec3 eyeNormal;
 smooth in vec3 eyePosition;
 
 uniform vec4  light;
 uniform float lightI;           // Light intensity 
 uniform vec3  surfKa;           // Ambient reflectivity
-uniform vec3  surfKd;           // Diffuse reflectivity
 uniform vec3  surfKs;           // Specular reflectivity
 uniform float surfShininess;    // Specular shininess factor
 

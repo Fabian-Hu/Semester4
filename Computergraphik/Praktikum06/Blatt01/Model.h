@@ -7,6 +7,7 @@ public:
 	Model();
 	Model(GLenum mode);
 	Model(GLenum mode, glm::vec3 position);
+	Model(GLenum mode, glm::vec3 position, float shininess);
 
 	virtual void init(cg::GLSLProgram &program);
 	virtual void build() = 0;
@@ -17,7 +18,7 @@ public:
 	virtual void translate(glm::vec3 direction);
 	virtual void scale(glm::vec3 direction, float value);
 	virtual void scaleLocal(float value);
-	void initNormals(cg::GLSLProgram program);
+	virtual void initNormals(cg::GLSLProgram program);
 
 	void setNormals(bool show);
 	void setActive(bool active = true);
@@ -28,8 +29,6 @@ public:
 	void setIndices(std::vector<GLushort> &indices);
 	void setPosition(glm::vec3 position);
 	glm::vec3 getPosition();
-	glm::vec3 getMaxVertPosition();
-	glm::vec3 getMinVertPosition();
 	bool getNormalsStatus();
 
 private:
@@ -67,8 +66,10 @@ private:
 
 	GLenum mode;
 
-	glm::vec3 material;
 	float shininess;
+
+	void defaultInit(cg::GLSLProgram & program, GLuint & vao, GLuint & positionBuffer, GLuint & colorBuffer, GLuint & indexBuffer, GLuint & normalBuffer,
+		std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLushort>& indices, std::vector<GLuint>& intIndices);
 
 	bool active;
 };

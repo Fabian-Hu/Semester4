@@ -8,11 +8,13 @@ uniform mat4 modelviewMatrix;    // model-view matrix
 uniform mat4 projectionMatrix;   // projection matrix
 uniform mat3 normalMatrix;       // normal matrix
 
+flat out vec3 surfKd;
 smooth out vec3 eyePosition;
 smooth out vec3 eyeNormal;
 
 void main()
 {
+	surfKd = color;
     eyePosition = (modelviewMatrix * vec4(position, 1.0)).xyz; // eye-space position
 	eyeNormal   = normalize(normalMatrix * normal);      // eye-space normal 
 	gl_Position = (projectionMatrix*modelviewMatrix) * vec4(position, 1.0); // projected position

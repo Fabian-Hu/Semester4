@@ -9,55 +9,12 @@ Model::Model() : Model(GL_LINES) {}
 
 Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
-Model::Model(GLenum mode, glm::vec3 position) : mode(mode), position(position), active(true), showNormals(false) {
-	material = glm::vec3(1.0f);
-	shininess = 128.0f;
-}
+Model::Model(GLenum mode, glm::vec3 position) : Model(mode, position, 32.0f) {}
+
+Model::Model(GLenum mode, glm::vec3 position, float shininess) : mode(mode), position(position), active(true), showNormals(false), shininess(shininess) {}
 
 void Model::init(cg::GLSLProgram & program) {
-	GLuint programId = program.getHandle();
-	GLuint pos;
-
-	GLCODE(glGenVertexArrays(1, &vao));
-	GLCODE(glBindVertexArray(vao));
-
-	//Position
-	GLCODE(glGenBuffers(1, &positionBuffer));
-	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, positionBuffer));
-	GLCODE(glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW));
-
-	pos = glGetAttribLocation(programId, "position");
-	GLCODE(glEnableVertexAttribArray(pos));
-	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
-
-	//Color
-	GLCODE(glGenBuffers(1, &colorBuffer));
-	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, colorBuffer));
-	GLCODE(glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW));
-
-	pos = glGetAttribLocation(programId, "color");
-	GLCODE(glEnableVertexAttribArray(pos));
-	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
-
-	//Normal
-	glGenBuffers(1, &normalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "normal");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Index
-	glGenBuffers(1, &indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-	if (indices.size() > 0) {
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-	} else {
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, intIndices.size() * sizeof(GLuint), intIndices.data(), GL_STATIC_DRAW);
-	}
-
-	glBindVertexArray(0);
+	defaultInit(program, vao, positionBuffer, colorBuffer, indexBuffer, normalBuffer, vertices, colors, normals, indices, intIndices);
 
 	model = glm::translate(glm::mat4(1.0f), position);
 }
@@ -67,10 +24,6 @@ void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 proj
 		glm::mat4x4 mvp = projection * view * model;
 		glm::mat4x4 modelView = view * model;
 
-		glm::vec3 sufKa = glm::vec3(1.0f);
-		glm::vec3 sufKd = glm::vec3(1.0f);
-		glm::vec3 sufKs = glm::vec3(1.0f);
-
 		// Create normal matrix (nm) from model matrix.
 		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
 
@@ -78,14 +31,7 @@ void Model::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 proj
 		program.setUniform("modelviewMatrix", modelView);
 		program.setUniform("projectionMatrix", projection);
 		program.setUniform("normalMatrix", nm);
-		program.setUniform("shininess", shininess);
-		program.setUniform("surfKa", sufKa);
-		program.setUniform("surfKd", sufKd);
-		program.setUniform("surfKs", sufKs);
-		//program.setUniform("mvp", mvp);
-		//program.setUniform("nm", nm);
-		//program.setUniform("model", model);
-		//program.setUniform("material", material);
+		program.setUniform("surfShininess", shininess);
 
 		glBindVertexArray(vao);
 		if (indices.size() > 0) {
@@ -167,46 +113,7 @@ void Model::initNormals(cg::GLSLProgram program) {
 	GLuint programId = program.getHandle();
 	GLuint pos;
 
-	glGenVertexArrays(1, &vaoNormals);
-	glBindVertexArray(vaoNormals);
-
-	//Position
-	glGenBuffers(1, &positionBufferNormals);
-	glBindBuffer(GL_ARRAY_BUFFER, positionBufferNormals);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "position");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Color
-	glGenBuffers(1, &colorBufferNormals);
-	glBindBuffer(GL_ARRAY_BUFFER, colorBufferNormals);
-	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "color");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Normal
-	GLCODE(glGenBuffers(1, &normalBufferNormals));
-	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, normalBufferNormals));
-	GLCODE(glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW));
-
-	pos = glGetAttribLocation(programId, "normal");
-	GLCODE(glEnableVertexAttribArray(pos));
-	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
-
-	//Index
-	glGenBuffers(1, &indexBufferNormals);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferNormals);
-	if (vertices.size() <= std::numeric_limits<GLushort>::max()) {
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
-	} else {
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertices.size() * sizeof(GLuint), intIndices.data(), GL_STATIC_DRAW);
-	}
-	
-	glBindVertexArray(0);
+	defaultInit(program, vaoNormals, positionBufferNormals, colorBufferNormals, indexBufferNormals, normalBufferNormals, vertices, colors, normals, indices, intIndices);
 }
 
 void Model::setNormals(bool show) {
@@ -241,34 +148,55 @@ glm::vec3 Model::getPosition() {
 	return position;
 }
 
-glm::vec3 Model::getMaxVertPosition()
-{
-	glm::vec3 maxVertPos(FLT_MIN);
-	for (glm::vec3 curVert : vertices) {
-		if (curVert.x > maxVertPos.x)
-			maxVertPos.x = curVert.x;
-		if (curVert.y > maxVertPos.y)
-			maxVertPos.y = curVert.y;
-		if (curVert.z > maxVertPos.z)
-			maxVertPos.z = curVert.z;
-	}
-	return maxVertPos;
-}
-
-glm::vec3 Model::getMinVertPosition()
-{
-	glm::vec3 minVertPos(FLT_MAX);
-	for (glm::vec3 curVert : vertices) {
-		if (curVert.x < minVertPos.x)
-			minVertPos.x = curVert.x;
-		if (curVert.y < minVertPos.y)
-			minVertPos.y = curVert.y;
-		if (curVert.z < minVertPos.z)
-			minVertPos.z = curVert.z;
-	}
-	return minVertPos;
-}
-
 bool Model::getNormalsStatus() {
 	return showNormals;
+}
+
+void Model::defaultInit(cg::GLSLProgram & program, GLuint & vao, GLuint & positionBuffer, GLuint & colorBuffer, GLuint & indexBuffer, GLuint & normalBuffer, std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLushort>& indices, std::vector<GLuint>& intIndices) {
+	GLuint programId = program.getHandle();
+	GLuint pos;
+
+	GLCODE(glGenVertexArrays(1, &vao));
+	GLCODE(glBindVertexArray(vao));
+
+	GLCODE(glBindVertexArray(vao));
+
+	//Position 
+	GLCODE(glGenBuffers(1, &positionBuffer));
+	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, positionBuffer));
+	GLCODE(glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW));
+
+	pos = glGetAttribLocation(programId, "position");
+	GLCODE(glEnableVertexAttribArray(pos));
+	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
+
+	//Color 
+	GLCODE(glGenBuffers(1, &colorBuffer));
+	GLCODE(glBindBuffer(GL_ARRAY_BUFFER, colorBuffer));
+	GLCODE(glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW));
+
+	pos = glGetAttribLocation(programId, "color");
+	GLCODE(glEnableVertexAttribArray(pos));
+	GLCODE(glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0));
+
+	//Normal 
+	glGenBuffers(1, &normalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
+
+	pos = glGetAttribLocation(programId, "normal");
+	glEnableVertexAttribArray(pos);
+	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+	//Index 
+	glGenBuffers(1, &indexBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+	if (indices.size() > 0) {
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+	}
+	else {
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, intIndices.size() * sizeof(GLuint), intIndices.data(), GL_STATIC_DRAW);
+	}
+
+	glBindVertexArray(0);
 }

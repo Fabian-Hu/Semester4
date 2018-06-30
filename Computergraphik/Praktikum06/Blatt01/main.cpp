@@ -18,7 +18,6 @@
 #include "SunSystemData.h"
 #include "ObjParser.h"
 #include "ModelHE.h"
-#include <time.h>
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -41,6 +40,8 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
+glm::vec3 ambientLight = glm::vec3(0.1f);
+glm::vec3 specularColor = glm::vec3(1.0f);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -79,6 +80,8 @@ bool init() {
 	program.use();
 	program.setUniform("light", currentLight);
 	program.setUniform("lightI", lightIntensity);
+	program.setUniform("surfKa", ambientLight);
+	program.setUniform("surfKs", specularColor);
 
 	//Init Models
 	GLCODE(heObj.init(program));
@@ -212,13 +215,14 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		break;
 	case 'b':
 		heObj.setActive(!heObj.isActive());
+		heCar.setActive(!heCar.isActive());
 		break;
-	case 'n':
+	case 'm':
 		if (carSpeed > MIN_CARSPEED) {
 			carSpeed -= CARSPEED_CHANGEVALUE;
 		}
 		break;
-	case 'N':
+	case 'M':
 		if (carSpeed < MAX_CARSPEED) {
 			carSpeed += CARSPEED_CHANGEVALUE;
 		}
@@ -238,6 +242,11 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		break;
 	case 'n':
 		heObj.setNormals(!heObj.getNormalsStatus());
+		heCar.setNormals(!heCar.getNormalsStatus());
+		break;
+	case 'h':
+		/*heCar.setFaceNormals(!heCar.getFaceNormalsStatus());
+		heObj.setFaceNormals(!heObj.getFaceNormalsStatus());*/
 		break;
 	}
 

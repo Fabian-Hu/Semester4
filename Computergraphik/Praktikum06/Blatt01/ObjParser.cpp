@@ -39,7 +39,6 @@ void ObjParser::createVert(std::string &line, HE_Object &obj) {
 	std::getline(values, val, ' ');
 	vert->z = strtof(val.c_str(), 0);
 
-	vert->approxNormal = nullptr;
 	obj.verts.push_back(vert);
 }
 
