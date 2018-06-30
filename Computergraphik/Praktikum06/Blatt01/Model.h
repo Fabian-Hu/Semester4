@@ -17,7 +17,9 @@ public:
 	virtual void translate(glm::vec3 direction);
 	virtual void scale(glm::vec3 direction, float value);
 	virtual void scaleLocal(float value);
+	void initNormals(cg::GLSLProgram program);
 
+	void setNormals(bool show);
 	void setActive(bool active = true);
 	bool isActive();
 
@@ -28,6 +30,7 @@ public:
 	glm::vec3 getPosition();
 	glm::vec3 getMaxVertPosition();
 	glm::vec3 getMinVertPosition();
+	bool getNormalsStatus();
 
 private:
 	friend class Model3D;
@@ -42,6 +45,7 @@ private:
 	std::vector<glm::vec3> colors;
 	std::vector<GLushort> indices;
 	std::vector<glm::vec3> normals;
+	std::vector<GLuint> intIndices;
 
 	GLuint vao;
 
@@ -49,6 +53,14 @@ private:
 	GLuint colorBuffer;
 	GLuint indexBuffer;
 	GLuint normalBuffer;
+
+	bool showNormals;
+	GLuint vaoNormals;
+
+	GLuint positionBufferNormals;
+	GLuint colorBufferNormals;
+	GLuint indexBufferNormals;
+	GLuint normalBufferNormals;
 
 	glm::vec3 position;
 	glm::mat4x4 model;

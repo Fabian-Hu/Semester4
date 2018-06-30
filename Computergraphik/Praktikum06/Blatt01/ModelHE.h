@@ -12,14 +12,12 @@ public:
 	void build();
 	void init(cg::GLSLProgram &program);
 
-	void render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection);
 	glm::vec3 getMax();
 	glm::vec3 getMin();
 	HE_normal *calcNormal(HE_vert *vert);
 
 private:
 	HE_Object obj;
-	std::vector<GLuint> intIndices;
 	glm::vec3 maxVerts;
 	glm::vec3 minVerts;
 	glm::vec3 initPos;

@@ -11,6 +11,7 @@ void BoundingBox::init(cg::GLSLProgram &program) {
 	for each (WorldObject *childObj in childs) {
 		childObj->init(program);
 	}
+	heModel->initNormals(program);
 	translate(-model->getPosition());
 	glm::vec3 size = heModel->getMax() - heModel->getMin();
 	float avgSize = (size[0] + size[1] + size[2]) / 3;
@@ -23,4 +24,12 @@ void BoundingBox::build() {
 	}
 	this->model = new WireframeBox(heModel->getMax(), heModel->getMin(), bbColor);
 	model->build();
+}
+
+void BoundingBox::setNormals(bool show) {
+	heModel->setNormals(show);
+}
+
+bool BoundingBox::getNormalsStatus() {
+	return heModel->getNormalsStatus();
 }

@@ -216,6 +216,10 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		}
 		
 		program.setUniform("light", currentLight);
+		break;
+	case 'n':
+		heObj.setNormals(!heObj.getNormalsStatus());
+		break;
 	}
 
 	glutPostRedisplay();

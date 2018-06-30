@@ -121,77 +121,10 @@ void ModelHE::build() {
 }
 
 void ModelHE::init(cg::GLSLProgram & program) {
-	GLuint programId = program.getHandle();
-	GLuint pos;
-
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	//Position
-	glGenBuffers(1, &positionBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "position");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Color
-	glGenBuffers(1, &colorBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, colorBuffer);
-	glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(glm::vec3), colors.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "color");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Normal
-	glGenBuffers(1, &normalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
-
-	pos = glGetAttribLocation(programId, "normal");
-	glEnableVertexAttribArray(pos);
-	glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//Index
-	if (size <= std::numeric_limits<GLushort>::max()) {
-		glGenBuffers(1, &indexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
-	} else {
-		glGenBuffers(1, &indexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, intIndices.size() * sizeof(GLuint), intIndices.data(), GL_STATIC_DRAW);
-	}
-
-	glBindVertexArray(0);
-
-	model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0));
-}
-
-void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
-	if (active) {
-		glm::mat4x4 mvp = projection * view * model;
-
-		// Create normal matrix (nm) from model matrix.
-		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
-
-		program.use();
-		program.setUniform("mvp", mvp);
-		program.setUniform("nm", nm);
-		/*program.setUniform("model", model);
-		program.setUniform("material", material);
-		program.setUniform("shininess", shininess);*/
-
-		glBindVertexArray(vao);
-		if (size <= std::numeric_limits<GLushort>::max()) {
-			glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
-		} else {
-			glDrawElements(mode, intIndices.size(), GL_UNSIGNED_INT, 0);
-		}
-		glBindVertexArray(0);
-	}
+	glm::vec3 pos = position;
+	position = glm::vec3(0.0f);
+	Model::init(program);
+	position = pos;
 }
 
 glm::vec3 ModelHE::getMax() { 
