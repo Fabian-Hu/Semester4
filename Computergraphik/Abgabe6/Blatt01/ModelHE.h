@@ -16,6 +16,26 @@ struct ObjectObject
 	glm::mat4x4 model;
 };
 
+struct MaxiZahlen {
+	float xMax;
+	float xMin;
+
+	float yMax;
+	float yMin;
+
+	float zMax;
+	float zMin;
+
+	float xMiddle;
+	float xDiff;
+
+	float yMiddle;
+	float yDiff;
+
+	float zMiddle;
+	float zDiff;
+};
+
 class ModelHE {
 public:
 	ModelHE();
@@ -26,6 +46,13 @@ public:
 	void releaseObject();
 
 	void calculate();
+	void calculateMaxNums();
+	float maxDiff();
+
+	float degreeToRadians(float angle);
+	void rotateX(float angle);
+	void rotateY(float angle);
+	void rotateZ(float angle);
 
 private:
 	ObjectObject object;
@@ -37,4 +64,5 @@ private:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLuint> indices;
+	MaxiZahlen maxNums;
 };

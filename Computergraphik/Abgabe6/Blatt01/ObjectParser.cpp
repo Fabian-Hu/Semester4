@@ -23,7 +23,7 @@ HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 			counterF++;
 		}
 		else {
-			std::cout << "nicht gefunden" << std::endl;
+			//std::cout << "nicht gefunden" << std::endl;
 		}
 		//memset(cstring, 0, sizeof(cstring));
 
@@ -42,10 +42,11 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 	HE_face* face = new HE_face;
 	HE_edge* edge = new HE_edge;
 	HE_edge* lastEdge = new HE_edge;
-	int i, count = 0, number, endofline = 0;
+	std::vector<int> number;
+	int i, count = 0, endofline = 0;
 	face->edge = edge;
-	HE_edge* vorEdge = new HE_edge;
-	vorEdge = face->edge;
+	HE_edge* vorEdge = face->edge;
+
 	for (i = 2; i < line.length(); i++) {
 		std::string vertString = "";
 		if (line[i] != ' ') {
@@ -56,48 +57,50 @@ HE_face* createFace(std::string line, HalfEdgeList* halfEdgeList) {
 				}
 			}
 
-			number = ::atoi(vertString.c_str());
-			std::cout << "Face " << number << std::endl;
-			edge->vert = halfEdgeList->vertices.at(number - 1);
-			edge->face = face;
-			edge->vert->edge = edge;
-			if (edge->paired == false) {
-				std::cout << "Sucheeeeeeeeeeee Pair" << std::endl;
-				for (int e = 0; e < edge->vert->pointingEdges.size(); e++) {
-					std::cout << "Suche Pair" << std::endl;
-					if (edge->vert == edge->vert->pointingEdges.at(e)->vert) {
-						std::cout << "Edge X: " << edge->vert->x << " Edge Y: " << edge->vert->y << " Edge Z: " << edge->vert->z << std::endl;
-						std::cout << " == " << std::endl;
-						std::cout << "PointedEdge X: " << edge->vert->pointingEdges.at(e)->vert->x << " PointedEdge Y: " << edge->vert->pointingEdges.at(e)->vert->y << " PointedEdge Z: " << edge->vert->pointingEdges.at(e)->vert->z << std::endl;
-						std::cout << "Pair gefunden" << std::endl;
-						edge->pair = edge->vert->pointingEdges.at(e);
-						edge->vert->pointingEdges.at(e)->pair = edge;
-						edge->paired = true;
-						edge->pair->paired = true;
-						edge->vert->pointingEdges.erase(edge->vert->pointingEdges.begin() + e);
-					}
+			number.push_back(::atoi(vertString.c_str()));
+		}
+	}
+
+	for (i = 0; i < number.size(); i++) {
+
+		//std::cout << "Face " << number.at(i) << std::endl;
+		edge->vert = halfEdgeList->vertices.at(number.at(i) - 1);
+		edge->face = face;
+		edge->vert->edge = edge;
+		edge->next = nullptr;
+
+
+		if (count != 0) {
+			vorEdge->next = edge;
+			vorEdge = vorEdge->next;
+		}
+		count++;
+
+		int nextNum = i + 1 >= number.size() ? 0 : i + 1;
+		halfEdgeList->vertices[number[nextNum] - 1]->pointingEdges.push_back(edge);
+
+		if (edge->paired == false) {
+			for (int e = 0; e < edge->vert->pointingEdges.size(); e++) {
+				if (halfEdgeList->vertices[number[nextNum] - 1] == edge->vert->pointingEdges[e]->vert) {
+					edge->pair = edge->vert->pointingEdges.at(e);
+					edge->pair->pair = edge;
+					edge->paired = true;
+					edge->pair->paired = true;
+					edge->vert->pointingEdges.erase(edge->vert->pointingEdges.begin() + e);
 				}
 			}
-
-			
-			if (count != 0) {
-				vorEdge->next = edge;
-				vorEdge = vorEdge->next;
-
-				edge->vert->pointingEdges.push_back(vorEdge);
-			}
-			count++;
-
-			lastEdge = edge;
-			halfEdgeList->edges.push_back(edge);
-			counterE++;
-			edge = new HE_edge;
 		}
 
+		lastEdge = edge;
+		halfEdgeList->edges.push_back(edge);
+		counterE++;
+		edge = new HE_edge;
+
+
 	}
+
 	lastEdge->next = face->edge;
 	//std::cout << "Last X: " <<lastEdge->vert->x<< " Last Y: " << lastEdge->vert->y << " Last Z: " << lastEdge->vert->z << std::endl;
-	face->edge->vert->pointingEdges.push_back(lastEdge);
 	return face;
 }
 

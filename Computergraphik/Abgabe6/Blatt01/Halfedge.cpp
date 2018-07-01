@@ -2,22 +2,15 @@
 
 bool HalfEdgeList::pairTest() {
 	int anzahl = edges.size();
-	int counter=0;
-	int counter2 = 0;
 	std::cout << "Anzahl Edges: " << anzahl << std::endl;
 	for (int i = 0; i < anzahl; i++) {
-
-		std::cout << edges.at(i)->paired << std::endl;
-		/*if (edges.at(i) != edges.at(i)->pair->pair) {
-			counter++;
-			//return false;
+		if (edges.at(i) != edges.at(i)->pair->pair) {
+			return false;
 		}
 		if (edges.at(i)->pair->vert != edges.at(i)->next->vert) {
-
-			//return false;
-		}*/
+			return false;
+		}
 	}
-	std::cout << "Erste Bedingung: " << counter << "Zweite Bedingung" <<counter2 << std::endl;
 	return true;
 }
 
@@ -36,7 +29,6 @@ bool HalfEdgeList::faceTest() {
 			edge = edge->next;
 			valenz++;
 		} while (edge != fratzen.at(i)->edge);
-		//std::cout << "Face " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
 	}
 	return true;
 }
@@ -57,7 +49,7 @@ bool HalfEdgeList::vertTest() {
 			edge = edge->pair->next;
 			valenz++;
 		} while (edge != vertices.at(i)->edge);
-		std::cout << "Vertice " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
+		//std::cout << "Vertice " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
 	}
 	return true;
 }

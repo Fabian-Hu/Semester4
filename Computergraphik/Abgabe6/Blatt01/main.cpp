@@ -29,7 +29,7 @@ namespace Global { extern float winkel = 45.0f; }
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
 //Himmelsding sonne;
-//Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
+Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
@@ -40,7 +40,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("dodecahedron.obj", halfEdgeList);
+HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
 
 ModelHE ersterVersuch(halfEdgeList);
 
@@ -90,7 +90,7 @@ bool init()
 	uranusMoons.init(program);
 	plutoMoons.init(program);
 
-	//allesDrehtSichUmMich.init(program);
+	allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
 	pluse.init(program);
 
@@ -112,7 +112,7 @@ void release()
 	uranusMoons.releaseObject();
 	plutoMoons.releaseObject();
 
-	//allesDrehtSichUmMich.releaseObject();
+	allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
 	pluse.releaseObject();
 
@@ -133,7 +133,7 @@ void render()
 	uranusMoons.render(program, view, projection);
 	plutoMoons.render(program, view, projection);
 
-	//allesDrehtSichUmMich.render(program, view, projection);
+	allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
 	pluse.render(program, view, projection);
 
@@ -203,7 +203,7 @@ void glutMouse(int button, int state, int x, int y)
 		}
 	}
 	else if (button == 3) {
-		if (zoomz > 12.0f) {
+		if (zoomz > 2.0f) {
 			zoomz -= 1.0f;
 			zoom();
 		}
@@ -299,17 +299,14 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		Global::winkel = Global::winkel - 4.0f;
 		calculateAxis(-4.0f);
 		break;
-	case 'Y':
-		if (zoomy > -30.0f) {
-			zoomy -= 1.0f;
-			zoom();
-		}
+	case 'x':
+		ersterVersuch.rotateX(4.0f);
 		break;
 	case 'y':
-		if (zoomy < 30.0f) {
-			zoomy += 1.0f;
-			zoom();
-		}
+		ersterVersuch.rotateY(4.0f);
+		break;
+	case 'z':
+		ersterVersuch.rotateZ(4.0f);
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
@@ -339,11 +336,9 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 
 int main(int argc, char** argv)
 {
-	bool test = halfEdgeList->faceTest();
-	if(test)
-		std::cout << "FaceTest: " << test << std::endl;
-	std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
-	std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
+	std::cout << "FaceTest: " << halfEdgeList->faceTest() << std::endl;
+	//std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
+	//std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
