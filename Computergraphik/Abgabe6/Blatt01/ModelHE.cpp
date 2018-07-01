@@ -159,6 +159,8 @@ void ModelHE::init(cg::GLSLProgram & program)
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
 
+
+	object.model = glm::scale(glm::vec3(0.8f)) * object.model;
 	glm::vec3 position = glm::vec3((ModelHE::maxNums.xMiddle * -1), (ModelHE::maxNums.yMiddle * -1), (ModelHE::maxNums.zMiddle * -1));
 	object.model = glm::translate(glm::mat4x4(1.0f), position) * object.model;
 

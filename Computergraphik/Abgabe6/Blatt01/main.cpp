@@ -29,7 +29,7 @@ namespace Global { extern float winkel = 45.0f; }
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
 //Himmelsding sonne;
-//Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
+Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
@@ -90,7 +90,7 @@ bool init()
 	uranusMoons.init(program);
 	plutoMoons.init(program);
 
-	//allesDrehtSichUmMich.init(program);
+	allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
 	pluse.init(program);
 
@@ -112,7 +112,7 @@ void release()
 	uranusMoons.releaseObject();
 	plutoMoons.releaseObject();
 
-	//allesDrehtSichUmMich.releaseObject();
+	allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
 	pluse.releaseObject();
 
@@ -133,7 +133,7 @@ void render()
 	uranusMoons.render(program, view, projection);
 	plutoMoons.render(program, view, projection);
 
-	//allesDrehtSichUmMich.render(program, view, projection);
+	allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
 	pluse.render(program, view, projection);
 
