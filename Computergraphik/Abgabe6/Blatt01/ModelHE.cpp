@@ -1,4 +1,5 @@
 #include "ModelHE.h"
+#include <time.h>
 
 ModelHE::ModelHE()
 {
@@ -20,40 +21,48 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 
 	// Bind vertex array object so we can render the 2 triangles.
 	glBindVertexArray(object.vao);
-	glDrawElements(GL_TRIANGLES, 36*6*6 * 36, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
 void ModelHE::calculate() {
 	//facelist nehmen
 	std::vector<HE_face*> facelist = halfEdgeList->fratzen;
-	glm::vec3 farbe = glm::vec3(0.9f, 0.9f, 0.9f);
+	srand((unsigned)time(NULL));
+	float r = (float)rand() / RAND_MAX;
+	glm::vec3 farbe = glm::vec3(r, r, r);
+	//glm::vec3 farbe = glm::vec3(0.9f, 0.9f, 0.9f);
 	int counter = 0;
+	int i = 0;
 	//nacheinander jedes face nehmen
-	for (int i = 0; i < facelist.size(); i++) {
+	for (i = 0; i < facelist.size(); i++) {// facelist.size()
 		HE_face* face = facelist.at(i);
+		HE_edge* nullterEdge = facelist.at(i)->edge;
 		HE_edge* ersterEdge = facelist.at(i)->edge->next;
 		HE_edge* zweiterEdge = facelist.at(i)->edge->next->next;
-		while (zweiterEdge->vert->x != face->edge->vert->x &&
-			zweiterEdge->vert->y != face->edge->vert->y &&
-			zweiterEdge->vert->z != face->edge->vert->z) {
 
+		r = (float)rand() / RAND_MAX;
+		farbe = glm::vec3(r, r, r);
+		
+
+		while (zweiterEdge->vert != nullterEdge->vert) {
 				//erster vertex ist grundlage für alle
 				//mit dem nächsten und übernächsten ein Dreieck bilden und den zweiten danach eliminieren
-			vertices.push_back(glm::vec3(face->edge->vert->x, face->edge->vert->y, face->edge->vert->z));
-			vertices.push_back(glm::vec3(ersterEdge->vert->x, ersterEdge->vert->y, ersterEdge->vert->z));
-			vertices.push_back(glm::vec3(zweiterEdge->vert->x, zweiterEdge->vert->y, zweiterEdge->vert->z));
-			colors.push_back(farbe);
-			colors.push_back(farbe);
-			colors.push_back(farbe);
-			indices.push_back(counter);
-			indices.push_back(counter + 1);
-			indices.push_back(counter + 2);
+			ModelHE::vertices.push_back(glm::vec3(nullterEdge->vert->x, nullterEdge->vert->y, nullterEdge->vert->z));
+			ModelHE::vertices.push_back(glm::vec3(ersterEdge->vert->x, ersterEdge->vert->y, ersterEdge->vert->z));
+			ModelHE::vertices.push_back(glm::vec3(zweiterEdge->vert->x, zweiterEdge->vert->y, zweiterEdge->vert->z));
+			ModelHE::colors.push_back(farbe);
+			ModelHE::colors.push_back(farbe);
+			ModelHE::colors.push_back(farbe);
+			ModelHE::indices.push_back(counter);
+			ModelHE::indices.push_back(counter + 1);
+			ModelHE::indices.push_back(counter + 2);
 
 			ersterEdge = zweiterEdge;
 			zweiterEdge = zweiterEdge->next;
 			counter += 3;
 		}
+
 	}
 	std::cout << "Anzahl Indices: " << counter << std::endl;
 }
@@ -93,7 +102,7 @@ void ModelHE::init(cg::GLSLProgram & program)
 	// Step 3: Create vertex buffer object for indices. No binding needed here.
 	glGenBuffers(1, &object.indexBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLushort), indices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
