@@ -64,6 +64,5 @@ private:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<GLuint> indices;
-
 	MaxiZahlen maxNums;
 };

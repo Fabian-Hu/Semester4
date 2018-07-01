@@ -110,8 +110,8 @@ void ModelHE::calculate() {
 		
 
 		while (zweiterEdge->vert != nullterEdge->vert) {
-				//erster vertex ist grundlage für alle
-				//mit dem nächsten und übernächsten ein Dreieck bilden und den zweiten danach eliminieren
+				//erster vertex ist grundlage fÃ¼r alle
+				//mit dem nÃ¤chsten und Ã¼bernÃ¤chsten ein Dreieck bilden und den zweiten danach eliminieren
 			ModelHE::vertices.push_back(glm::vec3(nullterEdge->vert->x, nullterEdge->vert->y, nullterEdge->vert->z));
 			ModelHE::vertices.push_back(glm::vec3(ersterEdge->vert->x, ersterEdge->vert->y, ersterEdge->vert->z));
 			ModelHE::vertices.push_back(glm::vec3(zweiterEdge->vert->x, zweiterEdge->vert->y, zweiterEdge->vert->z));
