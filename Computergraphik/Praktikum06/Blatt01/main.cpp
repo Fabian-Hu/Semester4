@@ -245,8 +245,8 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		heCar.setNormals(!heCar.getNormalsStatus());
 		break;
 	case 'h':
-		/*heCar.setFaceNormals(!heCar.getFaceNormalsStatus());
-		heObj.setFaceNormals(!heObj.getFaceNormalsStatus());*/
+		heCar.setFaceNormals(!heCar.getFaceNormalsStatus());
+		heObj.setFaceNormals(!heObj.getFaceNormalsStatus());
 		break;
 	}
 

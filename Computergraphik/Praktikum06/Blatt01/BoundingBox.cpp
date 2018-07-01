@@ -12,6 +12,7 @@ void BoundingBox::init(cg::GLSLProgram &program) {
 		childObj->init(program);
 	}
 	heModel->initNormals(program);
+	heModel->initFaceNormals(program);
 	translate(-model->getPosition());
 	glm::vec3 size = heModel->getMax() - heModel->getMin();
 	float avgSize = (size[0] + size[1] + size[2]) / 3;
@@ -32,4 +33,12 @@ void BoundingBox::setNormals(bool show) {
 
 bool BoundingBox::getNormalsStatus() {
 	return heModel->getNormalsStatus();
+}
+
+void BoundingBox::setFaceNormals(bool show) {
+	heModel->setFaceNormals(show);
+}
+
+bool BoundingBox::getFaceNormalsStatus() {
+	return heModel->getFaceNormalsStatus();
 }

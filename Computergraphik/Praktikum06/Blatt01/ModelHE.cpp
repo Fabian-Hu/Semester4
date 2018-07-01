@@ -57,7 +57,6 @@ int ModelHE::insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal) {
 }
 
 void ModelHE::build() {
-
 	glm::vec3 color = colors[0];
 	colors.clear();
 	for (HE_face *face : obj.face) {
@@ -95,12 +94,13 @@ void ModelHE::build() {
 			if (found == -1) {
 				next->vert->pos.push_back(vertices.size());
 				next->vert->approxNormal.push_back(normal);
-				
+
 				faceIndices.push_back(next->vert->pos.back());
 				vertices.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
 				normals.push_back(normalize(glm::vec3(normal->x, normal->y, normal->z)));
 
 				/*NORMALS BERECHNEN!!!*/
+				addVisibleNormal(next->vert, color);
 			}
 			
 			colors.push_back(color);
@@ -140,13 +140,57 @@ void ModelHE::init(cg::GLSLProgram & program) {
 	position = pos;
 }
 
-/*void ModelHE::initNormals(cg::GLSLProgram &program) {
+void ModelHE::initNormals(cg::GLSLProgram &program) {
+	std::vector<GLushort> empty;
+	defaultInit(program, vaoNormals, positionBufferNormals, colorBufferNormals, indexBufferNormals, normalBufferNormals, verticesNormals, colorNormals, normalNormals, empty, intIndicesNormals);
+}
+
+void ModelHE::initFaceNormals(cg::GLSLProgram & program) {
 	std::vector<GLushort> indices;
-	defaultInit(program, vaoNormals, positionBufferNormals, colorBufferNormals, indexBufferNormals, normalBufferNormals, verticesNormals, colorNormals, normalNormals, indices, intIndicesNormals);
-}*/
+	defaultInit(program, vaoFaceNormals, positionBufferFaceNormals, colorBufferFaceNormals, indexBufferFaceNormals, normalBufferFaceNormals, verticesFaceNormals, colorFaceNormals, normalFaceNormals, indices, intIndicesFaceNormals);
+}
 
 void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 projection) {
-	Model::render(program, view, projection);
+	if (active) {
+		glm::mat4x4 mvp = projection * view * model;
+		glm::mat4x4 modelView = view * model;
+
+		// Create normal matrix (nm) from model matrix.
+		glm::mat3 nm = glm::inverseTranspose(glm::mat3(model));
+
+		program.use();
+		program.setUniform("modelviewMatrix", modelView);
+		program.setUniform("projectionMatrix", projection);
+		program.setUniform("normalMatrix", nm);
+		program.setUniform("surfShininess", shininess);
+
+		glBindVertexArray(vao);
+		if (indices.size() > 0) {
+			glDrawElements(mode, indices.size(), GL_UNSIGNED_SHORT, 0);
+		}
+		else {
+			glDrawElements(mode, intIndices.size(), GL_UNSIGNED_INT, 0);
+		}
+		glBindVertexArray(0);
+		if (showNormals) {
+			glBindVertexArray(vaoNormals);
+			glDrawElements(GL_LINES, vertices.size() * 2, GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+		}
+		if (showFaceNormals && active) {
+			glBindVertexArray(vaoFaceNormals);
+			glDrawElements(GL_LINES, intIndicesFaceNormals.size(), GL_UNSIGNED_INT, 0);
+			glBindVertexArray(0);
+		}
+	}
+}
+
+void ModelHE::setFaceNormals(bool show) {
+	showFaceNormals = show;
+}
+
+bool ModelHE::getFaceNormalsStatus() {
+	return showFaceNormals;
 }
 
 glm::vec3 ModelHE::getMax() { 
@@ -185,4 +229,48 @@ HE_normal *ModelHE::calcNormal(HE_vert *vert) {
 	heNormal->y = normal.y;
 	heNormal->z = normal.z;
 	return heNormal;
+}
+
+void ModelHE::addVisibleNormal(HE_vert * vert, glm::vec3 & color) {
+	intIndicesNormals.push_back(verticesNormals.size());
+	verticesNormals.push_back(vertices.back());
+	intIndicesNormals.push_back(verticesNormals.size());
+	verticesNormals.push_back(vertices.back() + normals.back());
+	colorNormals.push_back(glm::vec3(1.0f) - color);
+	colorNormals.push_back(glm::vec3(1.0f) - color);
+	normalNormals.push_back(normals.back());
+	normalNormals.push_back(normals.back());
+
+	HE_edge *startEdge = vert->edge;
+	HE_edge *next = vert->edge;
+	std::vector<glm::vec3> faceVerts;
+
+	int firstVert = verticesFaceNormals.size();
+	verticesFaceNormals.push_back(glm::vec3(vert->x, vert->y, vert->z));
+	normalFaceNormals.push_back(normals.back());
+	colorFaceNormals.push_back(glm::vec3(color.y, color.z, color.x));
+	glm::vec3 vertVec(vert->x, vert->y, vert->z);
+
+	do {
+		next = next->pair;
+		faceVerts.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z));
+		next = next->next;
+		if (faceVerts.size() > 1) {
+			intIndicesFaceNormals.push_back(firstVert);
+			intIndicesFaceNormals.push_back(verticesFaceNormals.size());
+
+			glm::vec3 faceNormal(normalize(cross(faceVerts.back() - vertVec, faceVerts[faceVerts.size() - 2] - vertVec)));
+			verticesFaceNormals.push_back(vertVec + faceNormal);
+			//verticesFaceNormals.push_back(glm::vec3(next->vert->x, next->vert->y, next->vert->z)); 
+			normalFaceNormals.push_back(faceNormal);
+			colorFaceNormals.push_back(glm::vec3(color.y, color.z, color.x));
+		}
+	} while (next != startEdge);
+	intIndicesFaceNormals.push_back(firstVert);
+	intIndicesFaceNormals.push_back(verticesFaceNormals.size());
+
+	glm::vec3 faceNormal(normalize(cross(faceVerts.front() - vertVec, faceVerts.back() - vertVec)));
+	verticesFaceNormals.push_back(vertVec + faceNormal);
+	normalFaceNormals.push_back(faceNormal);
+	colorFaceNormals.push_back(glm::vec3(color.y, color.z, color.x));
 }
