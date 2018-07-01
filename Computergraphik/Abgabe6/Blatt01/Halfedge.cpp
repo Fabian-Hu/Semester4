@@ -49,7 +49,7 @@ bool HalfEdgeList::vertTest() {
 			edge = edge->pair->next;
 			valenz++;
 		} while (edge != vertices.at(i)->edge);
-		std::cout << "Vertice " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
+		//std::cout << "Vertice " << i + 1 << ": " << valenz << " Valenzen" << std::endl;
 	}
 	return true;
 }

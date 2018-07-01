@@ -23,7 +23,7 @@ HE_face* readObject(std::string filename, HalfEdgeList* halfEdgeList)
 			counterF++;
 		}
 		else {
-			std::cout << "nicht gefunden" << std::endl;
+			//std::cout << "nicht gefunden" << std::endl;
 		}
 		//memset(cstring, 0, sizeof(cstring));
 

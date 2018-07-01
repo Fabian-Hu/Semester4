@@ -40,7 +40,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("A4_testcube2_mitSpitze.obj", halfEdgeList);
+HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
 
 ModelHE ersterVersuch(halfEdgeList);
 
@@ -203,7 +203,7 @@ void glutMouse(int button, int state, int x, int y)
 		}
 	}
 	else if (button == 3) {
-		if (zoomz > 12.0f) {
+		if (zoomz > 2.0f) {
 			zoomz -= 1.0f;
 			zoom();
 		}
@@ -299,17 +299,14 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		Global::winkel = Global::winkel - 4.0f;
 		calculateAxis(-4.0f);
 		break;
-	case 'Y':
-		if (zoomy > -30.0f) {
-			zoomy -= 1.0f;
-			zoom();
-		}
+	case 'x':
+		ersterVersuch.rotateX(4.0f);
 		break;
 	case 'y':
-		if (zoomy < 30.0f) {
-			zoomy += 1.0f;
-			zoom();
-		}
+		ersterVersuch.rotateY(4.0f);
+		break;
+	case 'z':
+		ersterVersuch.rotateZ(4.0f);
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
@@ -340,8 +337,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 int main(int argc, char** argv)
 {
 	std::cout << "FaceTest: " << halfEdgeList->faceTest() << std::endl;
-	std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
-	std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
+	//std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
+	//std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);

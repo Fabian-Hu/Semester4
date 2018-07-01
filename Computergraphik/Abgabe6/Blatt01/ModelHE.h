@@ -47,6 +47,12 @@ public:
 
 	void calculate();
 	void calculateMaxNums();
+	float maxDiff();
+
+	float degreeToRadians(float angle);
+	void rotateX(float angle);
+	void rotateY(float angle);
+	void rotateZ(float angle);
 
 private:
 	ObjectObject object;
