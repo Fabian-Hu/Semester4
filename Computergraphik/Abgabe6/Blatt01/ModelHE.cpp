@@ -25,6 +25,58 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 	glBindVertexArray(0);
 }
 
+void ModelHE::calculateMaxNums() {
+	float xMax = vertices[0].x;
+	float xMin = vertices[0].x;
+
+	float yMax = vertices[0].y;
+	float yMin = vertices[0].y;
+
+	float zMax = vertices[0].z;
+	float zMin = vertices[0].z;
+
+	for (int i = 0; i < vertices.size(); i++) {
+		if (vertices[i].x > xMax) {
+			xMax = vertices[i].x;
+		}
+		if (vertices[i].x < xMin) {
+			xMin = vertices[i].x;
+		}
+
+		if (vertices[i].y > yMax) {
+			yMax = vertices[i].y;
+		}
+		if (vertices[i].y < yMin) {
+			yMin = vertices[i].y;
+		}
+
+		if (vertices[i].z > zMax) {
+			zMax = vertices[i].z;
+		}
+		if (vertices[i].z < zMin) {
+			zMin = vertices[i].z;
+		}
+	}
+
+	ModelHE::maxNums.xMax = xMax;
+	ModelHE::maxNums.xMin = xMin;
+
+	ModelHE::maxNums.yMax = yMax;
+	ModelHE::maxNums.yMin = yMin;
+
+	ModelHE::maxNums.zMax = zMax;
+	ModelHE::maxNums.zMin = zMin;
+
+	ModelHE::maxNums.xMiddle = (xMax + xMin) / 2;
+	ModelHE::maxNums.xDiff = xMax - xMin;
+
+	ModelHE::maxNums.yMiddle = (yMax + yMin) / 2;
+	ModelHE::maxNums.yDiff = yMax - yMin;
+
+	ModelHE::maxNums.zMiddle = (zMax + zMin) / 2;
+	ModelHE::maxNums.zDiff = zMax - zMin;
+}
+
 void ModelHE::calculate() {
 	//facelist nehmen
 	std::vector<HE_face*> facelist = halfEdgeList->fratzen;
@@ -106,6 +158,9 @@ void ModelHE::init(cg::GLSLProgram & program)
 
 	// Unbind vertex array object (back to default).
 	glBindVertexArray(0);
+
+	glm::vec3 position = glm::vec3((ModelHE::maxNums.xMiddle * -1), (ModelHE::maxNums.yMiddle * -1), (ModelHE::maxNums.zMiddle * -1));
+	object.model = glm::translate(glm::mat4x4(1.0f), position) * object.model;
 
 }
 
