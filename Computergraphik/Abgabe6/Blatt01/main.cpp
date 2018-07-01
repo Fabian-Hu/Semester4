@@ -3,6 +3,7 @@
 #include "Moons.h"
 #include "Achse.h"
 #include "ObjectParser.h"
+#include "ModelHE.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -27,8 +28,8 @@ namespace Global { extern float winkel = 45.0f; }
 
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
-Himmelsding sonne;
-Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 3.0f);
+//Himmelsding sonne;
+Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
@@ -37,6 +38,12 @@ Moons uranusMoons(&uranus, 3);
 Himmelsding pluto(-12.0f, 0.0f, 0.0f, 0.6f, Global::winkel);
 Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
+
+HalfEdgeList *halfEdgeList = new HalfEdgeList;
+HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+
+ModelHE ersterVersuch(halfEdgeList);
+
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -76,7 +83,7 @@ bool init()
 	// Create all objects.
 	// GLUT: create vertex-array-object for glut geometry, the "default"
 	// must be bound before the glutWireSphere call
-	sonne.init(program);
+	//sonne.init(program);
 	uranus.init(program);
 	pluto.init(program);
 
@@ -86,6 +93,8 @@ bool init()
 	allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
 	pluse.init(program);
+
+	ersterVersuch.init(program);
 	return true;
 }
 
@@ -96,7 +105,7 @@ void release()
 {
 	// Shader program will be released upon program termination.
 
-	sonne.releaseObject();
+	//sonne.releaseObject();
 	uranus.releaseObject();
 	pluto.releaseObject();
 
@@ -106,6 +115,8 @@ void release()
 	allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
 	pluse.releaseObject();
+
+	ersterVersuch.releaseObject();
 }
 
 /*
@@ -115,7 +126,7 @@ void render()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	sonne.render(program, view, projection);
+	//sonne.render(program, view, projection);
 	uranus.render(program, view, projection);
 	pluto.render(program, view, projection);
 
@@ -125,6 +136,8 @@ void render()
 	allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
 	pluse.render(program, view, projection);
+
+	ersterVersuch.render(program, view, projection);
 }
 
 void glutDisplay ()
@@ -190,7 +203,7 @@ void glutMouse(int button, int state, int x, int y)
 		}
 	}
 	else if (button == 3) {
-		if (zoomz > 12.0f) {
+		if (zoomz > 2.0f) {
 			zoomz -= 1.0f;
 			zoom();
 		}
@@ -212,8 +225,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 
 		if (maximaleFlughoehe < 30.0f) {
 			//Uranus nach oben verschieben
-			sonne.translate(0.0f, 0.5f, 0.0f);
-			allesDrehtSichUmMich.translate(0.0f, 0.5f, 0.0f);
+			//sonne.translate(0.0f, 0.5f, 0.0f);
+			//allesDrehtSichUmMich.translate(0.0f, 0.5f, 0.0f);
 
 			pluto.translate(0.0f, 0.5f, 0.0f);
 			pluse.translate(0.0f, 0.5f, 0.0f);
@@ -231,8 +244,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 	case 'T':
 		if (maximaleFlughoehe > -30.0) {
 			//Uranus nach unten verschieben
-			sonne.translate(0.0f, -0.5f, 0.0f);
-			allesDrehtSichUmMich.translate(0.0f, -0.5f, 0.0f);
+			//sonne.translate(0.0f, -0.5f, 0.0f);
+			//allesDrehtSichUmMich.translate(0.0f, -0.5f, 0.0f);
 
 			pluto.translate(0.0f, -0.5f, 0.0f);
 			pluse.translate(0.0f, -0.5f, 0.0f);
@@ -286,17 +299,14 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		Global::winkel = Global::winkel - 4.0f;
 		calculateAxis(-4.0f);
 		break;
-	case 'Y':
-		if (zoomy > -30.0f) {
-			zoomy -= 1.0f;
-			zoom();
-		}
+	case 'x':
+		ersterVersuch.rotateX(4.0f);
 		break;
 	case 'y':
-		if (zoomy < 30.0f) {
-			zoomy += 1.0f;
-			zoom();
-		}
+		ersterVersuch.rotateY(4.0f);
+		break;
+	case 'z':
+		ersterVersuch.rotateZ(4.0f);
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
@@ -326,7 +336,9 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 
 int main(int argc, char** argv)
 {
-	readObject("dodecahedron.obj");
+	std::cout << "FaceTest: " << halfEdgeList->faceTest() << std::endl;
+	//std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
+	//std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);

@@ -170,6 +170,7 @@
     <ClCompile Include="Himmelsding.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterDing.cpp" />
+    <ClCompile Include="ModelHE.cpp" />
     <ClCompile Include="Moons.cpp" />
     <ClCompile Include="ObjectParser.cpp" />
   </ItemGroup>
@@ -180,6 +181,7 @@
     <ClInclude Include="Halfedge.h" />
     <ClInclude Include="Himmelsding.h" />
     <ClInclude Include="MasterDing.h" />
+    <ClInclude Include="ModelHE.h" />
     <ClInclude Include="Moons.h" />
     <ClInclude Include="ObjectParser.h" />
   </ItemGroup>
