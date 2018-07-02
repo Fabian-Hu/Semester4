@@ -60,33 +60,33 @@ void ModelHE::calculateMaxNums() {
 
 	ModelHE::maxNums.xMax = xMax;
 	ModelHE::maxNums.xMin = xMin;
-	std::cout << "max " << ModelHE::maxNums.xMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.xMin << std::endl;
+	//std::cout << "max " << ModelHE::maxNums.xMax << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.xMin << std::endl;
 
 	ModelHE::maxNums.yMax = yMax;
 	ModelHE::maxNums.yMin = yMin;
-	std::cout << "x " << ModelHE::maxNums.yMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.yMin << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.yMax << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.yMin << std::endl;
 
 	ModelHE::maxNums.zMax = zMax;
 	ModelHE::maxNums.zMin = zMin;
-	std::cout << "x " << ModelHE::maxNums.zMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.zMin << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.zMax << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.zMin << std::endl;
 
 	ModelHE::maxNums.xMiddle = ((xMax + xMin) / 2);
 	ModelHE::maxNums.xDiff = xMax - xMin;
-	std::cout << "xMiddle " << ModelHE::maxNums.xMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.xDiff << std::endl;
+	//std::cout << "xMiddle " << ModelHE::maxNums.xMiddle << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.xDiff << std::endl;
 
 	ModelHE::maxNums.yMiddle = ((yMax + yMin) / 2);
 	ModelHE::maxNums.yDiff = yMax - yMin;
-	std::cout << "x " << ModelHE::maxNums.yMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.yDiff << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.yMiddle << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.yDiff << std::endl;
 
 	ModelHE::maxNums.zMiddle = ((zMax + zMin) / 2);
 	ModelHE::maxNums.zDiff = zMax - zMin;
-	std::cout << "x " << ModelHE::maxNums.zMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.zDiff << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.zMiddle << std::endl;
+	//std::cout << "x " << ModelHE::maxNums.zDiff << std::endl;
 }
 
 void ModelHE::calculate() {
@@ -220,6 +220,10 @@ void ModelHE::rotateX(float angle)
 	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
 	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	object.model = xRotatierMatrix * object.model;
+
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = xRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+	}
 }
 
 void ModelHE::rotateY(float angle)
@@ -231,8 +235,11 @@ void ModelHE::rotateY(float angle)
 	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
 	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
 	object.model = yRotatierMatrix * object.model;
+
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = yRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+	}
 }
 
 void ModelHE::rotateZ(float angle)
@@ -245,4 +252,8 @@ void ModelHE::rotateZ(float angle)
 	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	object.model = zRotatierMatrix * object.model;
+
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = zRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+	}
 }

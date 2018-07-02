@@ -4,6 +4,7 @@
 #include "Achse.h"
 #include "ObjectParser.h"
 #include "ModelHE.h"
+#include "BoundingBox.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -29,7 +30,7 @@ namespace Global { extern float winkel = 45.0f; }
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
 //Himmelsding sonne;
-Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
+//Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
@@ -40,9 +41,10 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+HE_face* startFace = readObject("A1_testcubeBig_trans.obj", halfEdgeList);
 
 ModelHE ersterVersuch(halfEdgeList);
+BoundingBox ersterVersuchBox(&ersterVersuch);
 
 
 /*
@@ -90,11 +92,12 @@ bool init()
 	uranusMoons.init(program);
 	plutoMoons.init(program);
 
-	allesDrehtSichUmMich.init(program);
+	//allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
 	pluse.init(program);
 
 	ersterVersuch.init(program);
+	ersterVersuchBox.init(program);
 	return true;
 }
 
@@ -112,11 +115,12 @@ void release()
 	uranusMoons.releaseObject();
 	plutoMoons.releaseObject();
 
-	allesDrehtSichUmMich.releaseObject();
+	//allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
 	pluse.releaseObject();
 
 	ersterVersuch.releaseObject();
+	ersterVersuchBox.releaseObject();
 }
 
 /*
@@ -133,11 +137,12 @@ void render()
 	uranusMoons.render(program, view, projection);
 	plutoMoons.render(program, view, projection);
 
-	allesDrehtSichUmMich.render(program, view, projection);
+	//allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
 	pluse.render(program, view, projection);
 
 	ersterVersuch.render(program, view, projection);
+	ersterVersuchBox.render(program, view, projection);
 }
 
 void glutDisplay ()
