@@ -148,6 +148,4 @@ void BoundingBox::build()
 	BoundingBox::indices.push_back(4);
 	BoundingBox::indices.push_back(6);
 
-	std::cout << "max " << maxNums.xMax << std::endl;
-	std::cout << "vert " << vertices[0].x << std::endl;
 }

@@ -50,9 +50,9 @@ public:
 	float maxDiff();
 
 	float degreeToRadians(float angle);
-	void rotateX(float angle);
-	void rotateY(float angle);
-	void rotateZ(float angle);
+	void rotateX(float angle, bool bbox);
+	void rotateY(float angle, bool bbox);
+	void rotateZ(float angle, bool bbox);
 
 	MaxiZahlen getMaxiZahlen();
 
@@ -62,6 +62,10 @@ private:
 	HE_edge startEdge;
 	HE_vert startVert;
 	HalfEdgeList *halfEdgeList;
+
+	float zwischenSpeicherX = 0.0f;
+	float zwischenSpeicherY = 0.0f;
+	float zwischenSpeicherZ = 0.0f;
 
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;

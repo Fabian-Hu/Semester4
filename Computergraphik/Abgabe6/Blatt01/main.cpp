@@ -41,7 +41,12 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("kship3.obj", halfEdgeList);
+HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+
+bool bbox = true;
+bool xBox = false;
+bool yBox = false;
+bool zBox = false;
 
 ModelHE ersterVersuch(halfEdgeList);
 BoundingBox ersterVersuchBox(&ersterVersuch);
@@ -120,7 +125,9 @@ void release()
 	pluse.releaseObject();
 
 	ersterVersuch.releaseObject();
-	ersterVersuchBox.releaseObject();
+	if (bbox) {
+		ersterVersuchBox.releaseObject();
+	}
 }
 
 /*
@@ -142,7 +149,9 @@ void render()
 	pluse.render(program, view, projection);
 
 	ersterVersuch.render(program, view, projection);
-	ersterVersuchBox.render(program, view, projection);
+	if (bbox) {
+		ersterVersuchBox.render(program, view, projection);
+	}
 }
 
 void glutDisplay ()
@@ -305,22 +314,75 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		calculateAxis(-4.0f);
 		break;
 	case 'x':
-		ersterVersuch.rotateX(4.0f);
-		ersterVersuchBox.releaseObject();
-		ersterVersuchBox.init(program);
-		ersterVersuchBox.render(program, view, projection);
+		yBox = false;
+		zBox = false;
+		ersterVersuch.rotateX(4.0f, bbox);
+		if (!xBox) {
+			std::cout << "x" << std::endl;
+			xBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
 		break;
 	case 'y':
-		ersterVersuch.rotateY(4.0f);
-		ersterVersuchBox.releaseObject();
-		ersterVersuchBox.init(program);
-		ersterVersuchBox.render(program, view, projection);
+		xBox = false;
+		zBox = false;
+		ersterVersuch.rotateY(4.0f, bbox);
+		if (!yBox) {
+			std::cout << "y" << std::endl;
+			yBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
 		break;
 	case 'z':
-		ersterVersuch.rotateZ(4.0f);
-		ersterVersuchBox.releaseObject();
-		ersterVersuchBox.init(program);
-		ersterVersuchBox.render(program, view, projection);
+		yBox = false;
+		xBox = false;
+		ersterVersuch.rotateZ(4.0f, bbox);
+		if (!zBox) {
+			std::cout << "z" << std::endl;
+			zBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
+		break;
+	case 'b':
+		if (bbox) {
+			bbox = false;
+			ersterVersuchBox.releaseObject();
+		}
+		else if (!bbox) {
+			bbox = true;
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+
+			ersterVersuch.rotateZ(0.0f, bbox);
+			ersterVersuch.rotateY(0.0f, bbox);
+			ersterVersuch.rotateX(0.0f, bbox);
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+
+
+		}
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
