@@ -26,14 +26,14 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 }
 
 void ModelHE::calculateMaxNums() {
-	float xMax = vertices[0].x;
-	float xMin = vertices[0].x;
+	float xMax = 0;
+	float xMin = 0;
 
-	float yMax = vertices[0].y;
-	float yMin = vertices[0].y;
+	float yMax = 0;
+	float yMin = 0;
 
-	float zMax = vertices[0].z;
-	float zMin = vertices[0].z;
+	float zMax = 0;
+	float zMin = 0;
 
 	for (int i = 0; i < vertices.size(); i++) {
 		if (vertices[i].x > xMax) {
@@ -176,11 +176,16 @@ void ModelHE::init(cg::GLSLProgram & program)
 	glm::vec3 position = glm::vec3((ModelHE::maxNums.xMiddle * -1), (ModelHE::maxNums.yMiddle * -1), (ModelHE::maxNums.zMiddle * -1));
 	std::cout << "      " << position[0] << "      " << position[1] << "      " << position[2] << std::endl;
 	object.model = glm::translate(glm::mat4x4(1.0f), position) * object.model;
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = glm::translate(glm::mat4x4(1.0f), position) * glm::vec4(vertices[i], 1.0f);
+	}
 
 	float greatness = maxDiff();
 	std::cout << "great " << greatness << std::endl;
 	object.model = glm::scale(glm::vec3((1/greatness)*4)) * object.model;
-
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = glm::scale(glm::vec3((1 / greatness) * 4)) * glm::vec4(vertices[i], 1.0f);
+	}
 
 }
 
@@ -256,4 +261,8 @@ void ModelHE::rotateZ(float angle)
 	for (int i = 0; i < vertices.size(); i++) {
 		vertices[i] = zRotatierMatrix * glm::vec4(vertices[i], 1.0f);
 	}
+}
+
+MaxiZahlen ModelHE::getMaxiZahlen() {
+	return maxNums;
 }

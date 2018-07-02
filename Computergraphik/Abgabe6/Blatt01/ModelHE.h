@@ -54,6 +54,8 @@ public:
 	void rotateY(float angle);
 	void rotateZ(float angle);
 
+	MaxiZahlen getMaxiZahlen();
+
 private:
 	ObjectObject object;
 	HE_face startFace;

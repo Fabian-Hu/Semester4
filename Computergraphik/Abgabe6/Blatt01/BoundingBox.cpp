@@ -74,22 +74,80 @@ void BoundingBox::releaseObject()
 
 void BoundingBox::rewrite()
 {
-
 }
 
 void BoundingBox::build()
 {
+	MaxiZahlen maxNums = modelHE->getMaxiZahlen();
+	modelHE->calculateMaxNums();
+	maxNums = modelHE->getMaxiZahlen();
+
+	vertices.clear();
+
 	glm::vec3 farbe = glm::vec3(0.9f, 0.1f, 0.1f);
-	BoundingBox::vertices.push_back(glm::vec3(0.0f));
-	BoundingBox::vertices.push_back(glm::vec3(10.0f, 0.0f, 0.0f));
-	BoundingBox::vertices.push_back(glm::vec3(0.0f, 10.0f, 0.0f));
-	BoundingBox::vertices.push_back(glm::vec3(-20.0f, 0.0f, 0.0f));
+	//vorne ZMIN
+	//rechts XMAX
+	//oben YMAX
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMax,maxNums.yMax,maxNums.zMin));//0
+	//unten YMIN
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMax, maxNums.yMin, maxNums.zMin));//1
+	//links XMIN
+	//oben YMAX
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMin, maxNums.yMax, maxNums.zMin));//2
+	//unten YMIN
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMin, maxNums.yMin, maxNums.zMin));//3
+
+	//hinten ZMAX
+	//rechts XMAX
+	//oben YMAX
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMax, maxNums.yMax, maxNums.zMax));//4
+	//unten YMIN
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMax, maxNums.yMin, maxNums.zMax));//5
+	//links XMIN
+	//oben YMAX
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMin, maxNums.yMax, maxNums.zMax));//6
+	//unten YMIN
+	BoundingBox::vertices.push_back(glm::vec3(maxNums.xMin, maxNums.yMin, maxNums.zMax));//7
+
 	BoundingBox::colors.push_back(farbe);
 	BoundingBox::colors.push_back(farbe);
 	BoundingBox::colors.push_back(farbe);
 	BoundingBox::colors.push_back(farbe);
+	BoundingBox::colors.push_back(farbe);
+	BoundingBox::colors.push_back(farbe);
+	BoundingBox::colors.push_back(farbe);
+	BoundingBox::colors.push_back(farbe);
+
 	BoundingBox::indices.push_back(0);
 	BoundingBox::indices.push_back(1);
 	BoundingBox::indices.push_back(0);
 	BoundingBox::indices.push_back(2);
+	BoundingBox::indices.push_back(0);
+	BoundingBox::indices.push_back(4);
+
+	BoundingBox::indices.push_back(1);
+	BoundingBox::indices.push_back(5);
+	BoundingBox::indices.push_back(1);
+	BoundingBox::indices.push_back(3);
+
+	BoundingBox::indices.push_back(3);
+	BoundingBox::indices.push_back(7);
+	BoundingBox::indices.push_back(3);
+	BoundingBox::indices.push_back(2);
+
+	BoundingBox::indices.push_back(2);
+	BoundingBox::indices.push_back(6);
+
+	BoundingBox::indices.push_back(7);
+	BoundingBox::indices.push_back(6);
+	BoundingBox::indices.push_back(7);
+	BoundingBox::indices.push_back(5);
+
+	BoundingBox::indices.push_back(4);
+	BoundingBox::indices.push_back(5);
+	BoundingBox::indices.push_back(4);
+	BoundingBox::indices.push_back(6);
+
+	std::cout << "max " << maxNums.xMax << std::endl;
+	std::cout << "vert " << vertices[0].x << std::endl;
 }

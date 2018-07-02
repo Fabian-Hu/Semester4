@@ -41,7 +41,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("A1_testcubeBig_trans.obj", halfEdgeList);
+HE_face* startFace = readObject("kship3.obj", halfEdgeList);
 
 ModelHE ersterVersuch(halfEdgeList);
 BoundingBox ersterVersuchBox(&ersterVersuch);
@@ -306,12 +306,21 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		break;
 	case 'x':
 		ersterVersuch.rotateX(4.0f);
+		ersterVersuchBox.releaseObject();
+		ersterVersuchBox.init(program);
+		ersterVersuchBox.render(program, view, projection);
 		break;
 	case 'y':
 		ersterVersuch.rotateY(4.0f);
+		ersterVersuchBox.releaseObject();
+		ersterVersuchBox.init(program);
+		ersterVersuchBox.render(program, view, projection);
 		break;
 	case 'z':
 		ersterVersuch.rotateZ(4.0f);
+		ersterVersuchBox.releaseObject();
+		ersterVersuchBox.init(program);
+		ersterVersuchBox.render(program, view, projection);
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
