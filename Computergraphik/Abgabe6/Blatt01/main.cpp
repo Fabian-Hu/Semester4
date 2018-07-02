@@ -41,7 +41,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+HE_face* startFace = readObject("stanford_bunny_closed.obj", halfEdgeList);
 
 bool bbox = true;
 bool xBox = false;
@@ -318,7 +318,6 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		zBox = false;
 		ersterVersuch.rotateX(4.0f, bbox);
 		if (!xBox) {
-			std::cout << "x" << std::endl;
 			xBox = true;
 			ersterVersuch.rotateX(0.0f, true);
 			ersterVersuch.rotateY(0.0f, true);
@@ -335,7 +334,6 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		zBox = false;
 		ersterVersuch.rotateY(4.0f, bbox);
 		if (!yBox) {
-			std::cout << "y" << std::endl;
 			yBox = true;
 			ersterVersuch.rotateX(0.0f, true);
 			ersterVersuch.rotateY(0.0f, true);
@@ -352,7 +350,6 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		xBox = false;
 		ersterVersuch.rotateZ(4.0f, bbox);
 		if (!zBox) {
-			std::cout << "z" << std::endl;
 			zBox = true;
 			ersterVersuch.rotateX(0.0f, true);
 			ersterVersuch.rotateY(0.0f, true);
