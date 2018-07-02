@@ -41,7 +41,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+HE_face* startFace = readObject("stanford_bunny_closed.obj", halfEdgeList);
 
 bool bbox = true;
 bool xBox = false;

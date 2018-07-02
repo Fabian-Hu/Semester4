@@ -203,7 +203,7 @@ void ModelHE::rotateX(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
 
-	if (bbox == false && indices.size() > 10000) {
+	if (bbox == false) {
 		zwischenSpeicherX += radians;
 	}
 
@@ -221,7 +221,7 @@ void ModelHE::rotateX(float angle, bool bbox)
 	}
 	object.model = xRotatierMatrix * object.model;
 
-	if (bbox == true || indices.size() < 10000) {
+	if (bbox == true) {
 		for (int i = 0; i < vertices.size(); i++) {
 			vertices[i] = xRotatierMatrix * glm::vec4(vertices[i], 1.0f);
 			if (zwischenSpeicherX != 0.0f) {
@@ -236,7 +236,7 @@ void ModelHE::rotateY(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
 
-	if (bbox == false && indices.size() > 10000) {
+	if (bbox == false) {
 		zwischenSpeicherY += radians;
 	}
 
@@ -254,7 +254,7 @@ void ModelHE::rotateY(float angle, bool bbox)
 	}
 	object.model = yRotatierMatrix * object.model;
 
-	if (bbox == true || indices.size() < 10000) {
+	if (bbox == true) {
 		for (int i = 0; i < vertices.size(); i++) {
 			vertices[i] = yRotatierMatrix * glm::vec4(vertices[i], 1.0f);
 			if (zwischenSpeicherY != 0.0f) {
@@ -269,7 +269,7 @@ void ModelHE::rotateZ(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
 
-	if (bbox == false && indices.size() > 10000) {
+	if (bbox == false) {
 		zwischenSpeicherZ += radians;
 	}
 
@@ -287,7 +287,7 @@ void ModelHE::rotateZ(float angle, bool bbox)
 	}
 	object.model = zRotatierMatrix * object.model;
 
-	if (bbox == true || indices.size() < 10000) {
+	if (bbox == true) {
 		for (int i = 0; i < vertices.size(); i++) {
 			vertices[i] = zRotatierMatrix * glm::vec4(vertices[i], 1.0f);
 			if (zwischenSpeicherZ != 0.0f) {
