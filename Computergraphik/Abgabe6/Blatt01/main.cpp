@@ -41,7 +41,7 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("stanford_bunny_closed.obj", halfEdgeList);
+HE_face* startFace = readObject("Peacefighter.obj", halfEdgeList);
 
 bool bbox = true;
 bool xBox = false;
@@ -410,8 +410,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 int main(int argc, char** argv)
 {
 	std::cout << "FaceTest: " << halfEdgeList->faceTest() << std::endl;
-	//std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
-	//std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
+	std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
+	std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);
