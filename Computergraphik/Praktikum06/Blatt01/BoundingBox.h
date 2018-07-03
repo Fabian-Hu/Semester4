@@ -8,6 +8,10 @@ public:
 	void init(cg::GLSLProgram &program);
 
 	void build();
+	void setNormals(bool show);
+	bool getNormalsStatus(); 
+	void setFaceNormals(bool show);
+	bool getFaceNormalsStatus();
 
 private:
 	WorldObject childModel;

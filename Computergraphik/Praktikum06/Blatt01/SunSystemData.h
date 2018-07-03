@@ -29,6 +29,12 @@ const int MAX_SPEED = 256;
 const int MIN_SPEED = -128;
 const float marsRotation = 45.0f;
 
+float carSpeed = 0.005f;
+const float MAX_CARSPEED = 0.02f;
+const float MIN_CARSPEED = 0.0001f;
+const float CARSPEED_CHANGEVALUE = 0.0001f;
+
+
 SolidSphere sphereSun (glm::vec3 (0, 0, 0), 1.0f, 3, glm::vec3 (1.0f, 0.78f, 0.0f));
 SolidSphere sphereEarth (glm::vec3 (3.5f, 0, 0), 0.5f, 3, glm::vec3 (0.2f, 0.75f, 0.2f));
 SolidSphere sphereMars (glm::vec3 (0, 0, 5.8f), 0.4f, 3, glm::vec3 (0.5f, 0.28f, 0.0f));
@@ -76,12 +82,14 @@ Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);
 
 bool doRotate = true;
 
+ModelHE heModelCar (GL_TRIANGLES, std::string("../flying car_small.obj"), glm::vec3(1.0f, 0.1f, 0.2f));
 ModelHE heModel (GL_TRIANGLES, std::string("../kship3.obj"), glm::vec3(1.0f, 1.0f, 0.0f));
 //WorldObject heObject(&heModel);
 
 //WireframeBox box (glm::vec3(1.0f), glm::vec3(-1.0f), glm::vec3(1.0f, 0.8f, 0.0f));
 
 BoundingBox heObj(&heModel, glm::vec3(1.0f, 0.8f, 0.0f));
+BoundingBox heCar(&heModelCar, glm::vec3(1.0f, 0.0f, 0.0f));
 
 
 void rotateMarsSetUp(Orb *orb) {

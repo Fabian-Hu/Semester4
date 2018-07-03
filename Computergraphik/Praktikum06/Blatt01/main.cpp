@@ -18,7 +18,6 @@
 #include "SunSystemData.h"
 #include "ObjParser.h"
 #include "ModelHE.h"
-#include <time.h>
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -32,6 +31,7 @@ const glm::vec3 directionLight = glm::normalize(glm::vec3(0.0f, -1.0f, 0.0f));
 const glm::vec3 pointLight = glm::vec3(0.0f, 0.0f, cameraPos);
 int lightMode = 0;
 glm::vec4 currentLight = glm::vec4(directionLight, lightMode);
+float lightIntensity = 1.0f;
 
 cg::GLSLProgram program;
 
@@ -40,6 +40,8 @@ glm::mat4x4 projection;
 
 float zNear = 0.1f;
 float zFar  = 100.0f;
+glm::vec3 ambientLight = glm::vec3(0.1f);
+glm::vec3 specularColor = glm::vec3(1.0f);
 
 /*
  Initialization. Should return true if everything is ok and false if something went wrong.
@@ -58,13 +60,13 @@ bool init() {
 	view = glm::lookAt(eye, center, up);
 
 	// Create a shader program and set light direction.
-	if (!program.compileShaderFromFile("shader/shaded.vert", cg::GLSLShader::VERTEX))
+	if (!program.compileShaderFromFile("shader/shadedPhong.vert", cg::GLSLShader::VERTEX))
 	{
 		std::cerr << program.log();
 		return false;
 	}
 
-	if (!program.compileShaderFromFile("shader/shaded.frag", cg::GLSLShader::FRAGMENT))
+	if (!program.compileShaderFromFile("shader/shadedPhong.frag", cg::GLSLShader::FRAGMENT))
 	{
 		std::cerr << program.log();
 		return false;
@@ -76,12 +78,18 @@ bool init() {
 		return false;
 	}
 	program.use();
-	program.setUniform("lightDirection", glm::vec3(1.0f));
+	program.setUniform("light", currentLight);
+	program.setUniform("lightI", lightIntensity);
+	program.setUniform("surfKa", ambientLight);
+	program.setUniform("surfKs", specularColor);
 
 	//Init Models
-	sun.init (program);
+	GLCODE(heObj.init(program));
+	GLCODE(heCar.init(program));
+	heCar.scale(glm::vec3(0.0f), 0.5f);
+	heCar.translate(glm::vec3(-2.0f, 0.0f, 0.0f));
+	GLCODE(sun.init (program));
 	sun.setUp();
-	heObj.init(program);
 	//heModel.scale(glm::vec3(0.0f), 0.05f);
 	return true;
 }
@@ -93,18 +101,22 @@ void release() {
 	// Shader program will be released upon program termination.
 	sun.release ();
 	heObj.release();
+	heCar.release();
 }
 
 /*
  Rendering.
  */
 void render() {
-	if (doRotate)
+	if (doRotate) {
 		sun.rotate();
+		heCar.rotate(carSpeed, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	sun.render (program, view, projection);
 	heObj.render(program, view, projection);
+	heCar.render(program, view, projection);
 }
 
 void glutDisplay () {
@@ -175,13 +187,13 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		mars.rotateWithAxis(marsRotSpeed, glm::vec3(0, 0, 1));
 		break;
 	case 'w':
-		if (speed > MIN_SPEED) {
+		if (speed >= MIN_SPEED) {
 			sun.multiplyRotationAngle(speedMultiplierDecreaseValue);
 			speed--;
 		}
 		break;
 	case 'W':
-		if (speed < MAX_SPEED) {
+		if (speed <= MAX_SPEED) {
 			sun.multiplyRotationAngle(speedMultiplierIncreaseValue);
 			speed++;
 		}
@@ -203,6 +215,17 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		break;
 	case 'b':
 		heObj.setActive(!heObj.isActive());
+		heCar.setActive(!heCar.isActive());
+		break;
+	case 'm':
+		if (carSpeed > MIN_CARSPEED) {
+			carSpeed -= CARSPEED_CHANGEVALUE;
+		}
+		break;
+	case 'M':
+		if (carSpeed < MAX_CARSPEED) {
+			carSpeed += CARSPEED_CHANGEVALUE;
+		}
 		break;
 	case '1':
 		lightMode = (lightMode) ? 0 : 1;
@@ -216,6 +239,15 @@ void glutKeyboard (unsigned char keycode, int x, int y) {
 		}
 		
 		program.setUniform("light", currentLight);
+		break;
+	case 'n':
+		heObj.setNormals(!heObj.getNormalsStatus());
+		heCar.setNormals(!heCar.getNormalsStatus());
+		break;
+	case 'h':
+		heCar.setFaceNormals(!heCar.getFaceNormalsStatus());
+		heObj.setFaceNormals(!heObj.getFaceNormalsStatus());
+		break;
 	}
 
 	glutPostRedisplay();
@@ -278,6 +310,10 @@ int main(int argc, char** argv) {
 	sunAxisObject.setActive(false);
 
 	heObj.build();
+	heObj.setActive(false);
+
+	heCar.build();
+	heCar.setActive(false);
 
 	// Init VAO.
 	{
