@@ -4,6 +4,7 @@
 #include "Achse.h"
 #include "ObjectParser.h"
 #include "ModelHE.h"
+#include "BoundingBox.h"
 
 // Standard window width
 const int WINDOW_WIDTH  = 640;
@@ -29,7 +30,7 @@ namespace Global { extern float winkel = 45.0f; }
 glm::vec3 axis = { -1.0f, 1.0f, 0.0f };
 
 //Himmelsding sonne;
-Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
+//Achse allesDrehtSichUmMich(0.0f, 0.0f, 0.0f, 6.0f);
 
 Himmelsding uranus(8.0f, 0.0f, 0.0f, 0.4f);
 Achse urAchse(8.0f, 0.0f, 0.0f, 2.4f);
@@ -40,9 +41,15 @@ Achse pluse(&pluto, -12.0f, 0.0f, 0.0f, 3.0f, Global::winkel);
 Moons plutoMoons(&pluto, 3, 2, 4, 4, 1.0f, Global::winkel);
 
 HalfEdgeList *halfEdgeList = new HalfEdgeList;
-HE_face* startFace = readObject("XWing2.obj", halfEdgeList);
+HE_face* startFace = readObject("Peacefighter.obj", halfEdgeList);
+
+bool bbox = true;
+bool xBox = false;
+bool yBox = false;
+bool zBox = false;
 
 ModelHE ersterVersuch(halfEdgeList);
+BoundingBox ersterVersuchBox(&ersterVersuch);
 
 
 /*
@@ -90,11 +97,12 @@ bool init()
 	uranusMoons.init(program);
 	plutoMoons.init(program);
 
-	allesDrehtSichUmMich.init(program);
+	//allesDrehtSichUmMich.init(program);
 	urAchse.init(program);
 	pluse.init(program);
 
 	ersterVersuch.init(program);
+	ersterVersuchBox.init(program);
 	return true;
 }
 
@@ -112,11 +120,14 @@ void release()
 	uranusMoons.releaseObject();
 	plutoMoons.releaseObject();
 
-	allesDrehtSichUmMich.releaseObject();
+	//allesDrehtSichUmMich.releaseObject();
 	urAchse.releaseObject();
 	pluse.releaseObject();
 
 	ersterVersuch.releaseObject();
+	if (bbox) {
+		ersterVersuchBox.releaseObject();
+	}
 }
 
 /*
@@ -133,11 +144,14 @@ void render()
 	uranusMoons.render(program, view, projection);
 	plutoMoons.render(program, view, projection);
 
-	allesDrehtSichUmMich.render(program, view, projection);
+	//allesDrehtSichUmMich.render(program, view, projection);
 	urAchse.render(program, view, projection);
 	pluse.render(program, view, projection);
 
 	ersterVersuch.render(program, view, projection);
+	if (bbox) {
+		ersterVersuchBox.render(program, view, projection);
+	}
 }
 
 void glutDisplay ()
@@ -300,13 +314,72 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 		calculateAxis(-4.0f);
 		break;
 	case 'x':
-		ersterVersuch.rotateX(4.0f);
+		yBox = false;
+		zBox = false;
+		ersterVersuch.rotateX(4.0f, bbox);
+		if (!xBox) {
+			xBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
 		break;
 	case 'y':
-		ersterVersuch.rotateY(4.0f);
+		xBox = false;
+		zBox = false;
+		ersterVersuch.rotateY(4.0f, bbox);
+		if (!yBox) {
+			yBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
 		break;
 	case 'z':
-		ersterVersuch.rotateZ(4.0f);
+		yBox = false;
+		xBox = false;
+		ersterVersuch.rotateZ(4.0f, bbox);
+		if (!zBox) {
+			zBox = true;
+			ersterVersuch.rotateX(0.0f, true);
+			ersterVersuch.rotateY(0.0f, true);
+			ersterVersuch.rotateZ(0.0f, true);
+		}
+		if (bbox) {
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+		}
+		break;
+	case 'b':
+		if (bbox) {
+			bbox = false;
+			ersterVersuchBox.releaseObject();
+		}
+		else if (!bbox) {
+			bbox = true;
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+
+			ersterVersuch.rotateZ(0.0f, bbox);
+			ersterVersuch.rotateY(0.0f, bbox);
+			ersterVersuch.rotateX(0.0f, bbox);
+			ersterVersuchBox.releaseObject();
+			ersterVersuchBox.init(program);
+			ersterVersuchBox.render(program, view, projection);
+
+
+		}
 		break;
 	case 'w':
 		if (geschwindigkeit > 0.2f) {
@@ -337,8 +410,8 @@ void glutKeyboard (unsigned char keycode, int x, int y)
 int main(int argc, char** argv)
 {
 	std::cout << "FaceTest: " << halfEdgeList->faceTest() << std::endl;
-	//std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
-	//std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
+	std::cout << "PairTest: " << halfEdgeList->pairTest() << std::endl;
+	std::cout << "VerticeTest: " << halfEdgeList->vertTest() << std::endl;
 
 	// GLUT: Initialize freeglut library (window toolkit).
     glutInitWindowSize    (WINDOW_WIDTH, WINDOW_HEIGHT);

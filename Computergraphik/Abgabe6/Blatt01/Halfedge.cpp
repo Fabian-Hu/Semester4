@@ -4,6 +4,7 @@ bool HalfEdgeList::pairTest() {
 	int anzahl = edges.size();
 	std::cout << "Anzahl Edges: " << anzahl << std::endl;
 	for (int i = 0; i < anzahl; i++) {
+		//std::cout << edges[i]->paired << std::endl;
 		if (edges.at(i) != edges.at(i)->pair->pair) {
 			return false;
 		}

@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Achse.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="Halfedge.cpp" />
     <ClCompile Include="Himmelsding.cpp" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Achse.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTools.h" />
     <ClInclude Include="Halfedge.h" />

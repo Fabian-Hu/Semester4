@@ -26,14 +26,14 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 }
 
 void ModelHE::calculateMaxNums() {
-	float xMax = vertices[0].x;
-	float xMin = vertices[0].x;
+	float xMax = 0;
+	float xMin = 0;
 
-	float yMax = vertices[0].y;
-	float yMin = vertices[0].y;
+	float yMax = 0;
+	float yMin = 0;
 
-	float zMax = vertices[0].z;
-	float zMin = vertices[0].z;
+	float zMax = 0;
+	float zMin = 0;
 
 	for (int i = 0; i < vertices.size(); i++) {
 		if (vertices[i].x > xMax) {
@@ -60,33 +60,21 @@ void ModelHE::calculateMaxNums() {
 
 	ModelHE::maxNums.xMax = xMax;
 	ModelHE::maxNums.xMin = xMin;
-	std::cout << "max " << ModelHE::maxNums.xMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.xMin << std::endl;
 
 	ModelHE::maxNums.yMax = yMax;
 	ModelHE::maxNums.yMin = yMin;
-	std::cout << "x " << ModelHE::maxNums.yMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.yMin << std::endl;
 
 	ModelHE::maxNums.zMax = zMax;
 	ModelHE::maxNums.zMin = zMin;
-	std::cout << "x " << ModelHE::maxNums.zMax << std::endl;
-	std::cout << "x " << ModelHE::maxNums.zMin << std::endl;
 
 	ModelHE::maxNums.xMiddle = ((xMax + xMin) / 2);
 	ModelHE::maxNums.xDiff = xMax - xMin;
-	std::cout << "xMiddle " << ModelHE::maxNums.xMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.xDiff << std::endl;
 
 	ModelHE::maxNums.yMiddle = ((yMax + yMin) / 2);
 	ModelHE::maxNums.yDiff = yMax - yMin;
-	std::cout << "x " << ModelHE::maxNums.yMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.yDiff << std::endl;
 
 	ModelHE::maxNums.zMiddle = ((zMax + zMin) / 2);
 	ModelHE::maxNums.zDiff = zMax - zMin;
-	std::cout << "x " << ModelHE::maxNums.zMiddle << std::endl;
-	std::cout << "x " << ModelHE::maxNums.zDiff << std::endl;
 }
 
 void ModelHE::calculate() {
@@ -174,13 +162,17 @@ void ModelHE::init(cg::GLSLProgram & program)
 	
 	
 	glm::vec3 position = glm::vec3((ModelHE::maxNums.xMiddle * -1), (ModelHE::maxNums.yMiddle * -1), (ModelHE::maxNums.zMiddle * -1));
-	std::cout << "      " << position[0] << "      " << position[1] << "      " << position[2] << std::endl;
+	
 	object.model = glm::translate(glm::mat4x4(1.0f), position) * object.model;
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = glm::translate(glm::mat4x4(1.0f), position) * glm::vec4(vertices[i], 1.0f);
+	}
 
 	float greatness = maxDiff();
-	std::cout << "great " << greatness << std::endl;
 	object.model = glm::scale(glm::vec3((1/greatness)*4)) * object.model;
-
+	for (int i = 0; i < vertices.size(); i++) {
+		vertices[i] = glm::scale(glm::vec3((1 / greatness) * 4)) * glm::vec4(vertices[i], 1.0f);
+	}
 
 }
 
@@ -194,15 +186,12 @@ void ModelHE::releaseObject()
 
 float ModelHE::maxDiff() {
 	float biggest = ModelHE::maxNums.xDiff;
-	std::cout << "great " << biggest << std::endl;
 	if (biggest < ModelHE::maxNums.yDiff) {
 		biggest = ModelHE::maxNums.yDiff;
 	}
-	std::cout << "great " << biggest << std::endl;
 	if (biggest < ModelHE::maxNums.zDiff) {
 		biggest = ModelHE::maxNums.zDiff;
 	}
-	std::cout << "great " << biggest << std::endl;
 	return biggest;
 }
 
@@ -210,39 +199,105 @@ float ModelHE::degreeToRadians(float angle) {
 	return (angle * (float)PI / 180.0f);
 }
 
-void ModelHE::rotateX(float angle)
+void ModelHE::rotateX(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
+
+	if (bbox == false) {
+		zwischenSpeicherX += radians;
+	}
 
 	glm::mat4x4 xRotatierMatrix;
 	xRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
 	xRotatierMatrix[1] = glm::vec4(0.0f, cos(-radians), -sin(-radians), 0.0f);
 	xRotatierMatrix[2] = glm::vec4(0.0f, sin(-radians), cos(-radians), 0.0f);
 	xRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	glm::mat4x4 xZwischenRotatierMatrix;
+	if (zwischenSpeicherX != 0.0f) {
+		xZwischenRotatierMatrix[0] = glm::vec4(1.0f, 0.0f, 0.0f, 0.0f);
+		xZwischenRotatierMatrix[1] = glm::vec4(0.0f, cos(-zwischenSpeicherX), -sin(-zwischenSpeicherX), 0.0f);
+		xZwischenRotatierMatrix[2] = glm::vec4(0.0f, sin(-zwischenSpeicherX), cos(-zwischenSpeicherX), 0.0f);
+		xZwischenRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 	object.model = xRotatierMatrix * object.model;
+
+	if (bbox == true) {
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices[i] = xRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			if (zwischenSpeicherX != 0.0f) {
+				vertices[i] = xZwischenRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			}
+		}
+		zwischenSpeicherX = 0.0f;
+	}
 }
 
-void ModelHE::rotateY(float angle)
+void ModelHE::rotateY(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
+
+	if (bbox == false) {
+		zwischenSpeicherY += radians;
+	}
 
 	glm::mat4x4 yRotatierMatrix;
 	yRotatierMatrix[0] = glm::vec4(cos(-radians), 0.0f, sin(-radians), 0.0f);
 	yRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
 	yRotatierMatrix[2] = glm::vec4(-sin(-radians), 0.0f, cos(-radians), 0.0f);
 	yRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-
+	glm::mat4x4 yZwischenRotatierMatrix;
+	if (zwischenSpeicherY != 0.0f) {
+		yZwischenRotatierMatrix[0] = glm::vec4(cos(-zwischenSpeicherY), 0.0f, sin(-zwischenSpeicherY), 0.0f);
+		yZwischenRotatierMatrix[1] = glm::vec4(0.0f, 1.0f, 0.0f, 0.0f);
+		yZwischenRotatierMatrix[2] = glm::vec4(-sin(-zwischenSpeicherY), 0.0f, cos(-zwischenSpeicherY), 0.0f);
+		yZwischenRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 	object.model = yRotatierMatrix * object.model;
+
+	if (bbox == true) {
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices[i] = yRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			if (zwischenSpeicherY != 0.0f) {
+				vertices[i] = yZwischenRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			}
+		}
+		zwischenSpeicherY = 0.0f;
+	}
 }
 
-void ModelHE::rotateZ(float angle)
+void ModelHE::rotateZ(float angle, bool bbox)
 {
 	float radians = degreeToRadians(angle);
+
+	if (bbox == false) {
+		zwischenSpeicherZ += radians;
+	}
 
 	glm::mat4x4 zRotatierMatrix;
 	zRotatierMatrix[0] = glm::vec4(cos(-radians), -sin(-radians), 0.0f, 0.0f);
 	zRotatierMatrix[1] = glm::vec4(sin(-radians), cos(-radians), 0.0f, 0.0f);
 	zRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
 	zRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	glm::mat4x4 zZwischenRotatierMatrix;
+	if (zwischenSpeicherZ != 0.0f) {
+		zZwischenRotatierMatrix[0] = glm::vec4(cos(-zwischenSpeicherZ), -sin(-zwischenSpeicherZ), 0.0f, 0.0f);
+		zZwischenRotatierMatrix[1] = glm::vec4(sin(-zwischenSpeicherZ), cos(-zwischenSpeicherZ), 0.0f, 0.0f);
+		zZwischenRotatierMatrix[2] = glm::vec4(0.0f, 0.0f, 1.0f, 0.0f);
+		zZwischenRotatierMatrix[3] = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	}
 	object.model = zRotatierMatrix * object.model;
+
+	if (bbox == true) {
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices[i] = zRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			if (zwischenSpeicherZ != 0.0f) {
+				vertices[i] = zZwischenRotatierMatrix * glm::vec4(vertices[i], 1.0f);
+			}
+		}
+		zwischenSpeicherZ = 0.0f;
+	}
+}
+
+MaxiZahlen ModelHE::getMaxiZahlen() {
+	return maxNums;
 }
