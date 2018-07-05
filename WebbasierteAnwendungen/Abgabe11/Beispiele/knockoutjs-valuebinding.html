@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="knockout-3.4.2.js"></script>
+	<script src="knockoutjs-valuebinding.js"></script>
+    <title>Knockout Beispiel</title>
+  </head>
+  <body>
+	Name: <input type="text" data-bind="value: personName"><br />
+	Age: <input type="number" data-bind="value: personAge"><br />
+	Hello <span data-bind="text: personName"></span>!
+	<span data-bind="if: personAge > 100">Wow you are over 100 years!</span>
+  </body>
+</html>
