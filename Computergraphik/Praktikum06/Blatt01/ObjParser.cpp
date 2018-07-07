@@ -38,7 +38,7 @@ void ObjParser::createVert(std::string &line, HE_Object &obj) {
 	vert->y = strtof(val.c_str(), 0);
 	std::getline(values, val, ' ');
 	vert->z = strtof(val.c_str(), 0);
-
+	
 	obj.verts.push_back(vert);
 }
 
@@ -98,7 +98,10 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 		int vtIndex = val.find_first_of('/', 0);
 		if (vtIndex != -1) {
 			vtString = val.substr(vtIndex + 1);
-			vt = atoi(vtString.c_str());
+			if (vtString[0] != '/')
+				vt = atoi(vtString.c_str());
+			else
+				vtIndex = -1;
 		}
 		std::string vnString;
 		int vn = -1;
@@ -147,5 +150,6 @@ bool ObjParser::setPair(HE_edge *edge, HE_vert *vert) {
 			return true;
 		}
 	}
+	edge->pair = nullptr;
 	return false;
 }
