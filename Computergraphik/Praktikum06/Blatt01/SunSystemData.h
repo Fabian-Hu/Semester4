@@ -83,7 +83,7 @@ Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);
 bool doRotate = true;
 
 ModelHE heModelCar (GL_TRIANGLES, std::string("../flying car_small.obj"), glm::vec3(1.0f, 0.1f, 0.2f));
-ModelHE heModel (GL_TRIANGLES, 128.0f, std::string("../stanford_bunny_closed.obj"), glm::vec3(0.1f, 0.1f, 0.15f));
+ModelHE heModel (GL_TRIANGLES, 128.0f, std::string("../TIE.obj"), glm::vec3(0.1f, 0.1f, 0.15f));
 //WorldObject heObject(&heModel);
 
 //WireframeBox box (glm::vec3(1.0f), glm::vec3(-1.0f), glm::vec3(1.0f, 0.8f, 0.0f));
