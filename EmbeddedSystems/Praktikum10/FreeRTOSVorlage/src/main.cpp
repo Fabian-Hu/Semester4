@@ -79,33 +79,100 @@ void _init(void) {
 } /* extern "C" */
 #endif
 
-void loop() {
-  digitalWrite(BLUE_LED, HIGH);   // turn the LED on (HIGH is the voltage level)
-  Serial.println("AN");
-  delay(1000);               // wait for a second
-  digitalWrite(BLUE_LED, LOW);    // turn the LED off by making the voltage LOW
-  Serial.println("AUS");
-  delay(1000);               // wait for a second
+const uint8_t tempPin = PD_0;
+const uint8_t brightnessPin = PD_1;
+const uint8_t heatingPin = PC_4;
+
+const TickType_t heatingWaitTime = 1000 / portTICK_PERIOD_MS;
+const TickType_t brightnessWaitTime = 2000 / portTICK_PERIOD_MS;
+
+const uint16_t lowTemp = 300;
+const uint16_t highTemp = 600;
+const uint16_t changeBrightness = 200;
+
+enum HeatingState { COOLING, HEATING };
+enum BrightnessState { DARK, BRIGHT };
+
+bool light = false;
+
+HeatingState stateH = COOLING;
+BrightnessState stateB = DARK;
+
+void setupBrightnessControl() {
+	Serial.begin(9600);
+	pinMode(brightnessPin, INPUT);
 }
 
-void setup() {
-  // initialize the digital pin as an output.
-  pinMode(BLUE_LED, OUTPUT);
-  Serial.begin(9600);
+void loopBrightnessControl() {
+	switch(stateB) {
+	case DARK:
+	  if(analogRead(brightnessPin) >= changeBrightness) {
+		  light = true;
+		  stateB = BRIGHT;
+	  }
+	  break;
+	case BRIGHT:
+	  if(analogRead(brightnessPin) < changeBrightness) {
+		  light = false;
+		  stateB = DARK;
+	  }
+	  break;
+	}
+	Serial.print("BrightnessPin: ");
+	Serial.println(analogRead(brightnessPin));
 }
 
-void defaultTask(void *pvParameters) {
+void setupHeatingControl() {
+	Serial.begin(9600);
+	pinMode(tempPin, INPUT);
+	pinMode(heatingPin, OUTPUT);
+}
+
+void loopHeatingControl() {
+	switch(stateH) {
+	case COOLING:
+	  if(analogRead(tempPin) < lowTemp && !light) {
+		  digitalWrite(heatingPin, HIGH);
+		  stateH = HEATING;
+	  }
+	  break;
+	case HEATING:
+	  if(analogRead(tempPin) > highTemp || light) {
+		  digitalWrite(heatingPin, LOW);
+		  stateH = COOLING;
+	  }
+	  break;
+	}
+	Serial.print("HeatingPin: ");
+	Serial.println(analogRead(tempPin));
+}
+
+void taskBrightnessControl(void *pvParameters) {
 	for (;;) {
-		loop();
+		loopBrightnessControl();
 		if (serialEventRun)
 			serialEventRun();
+		vTaskDelay(brightnessWaitTime);
 	}
 }
 
-int main(void) {
-	setup();
+void taskHeatingControl(void *pvParameters) {
+	for (;;) {
+		loopHeatingControl();
+		if (serialEventRun)
+			serialEventRun();
+		vTaskDelay(heatingWaitTime);
+	}
+}
 
-	xTaskCreate(defaultTask, "TASK 1", configMINIMAL_STACK_SIZE + 100, NULL,
-			tskIDLE_PRIORITY + 1UL, NULL);
+
+int main(void) {
+	//setup();
+	setupBrightnessControl();
+	setupHeatingControl();
+
+	//xTaskCreate(defaultTask, "TASK 1", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 1UL, NULL);
+	xTaskCreate(taskHeatingControl, "Heating Control", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 1UL, NULL);
+	xTaskCreate(taskBrightnessControl, "Brightness Control", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 2UL, NULL);
 	vTaskStartScheduler();
 }
