@@ -154,7 +154,7 @@ Enter/light = 0</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=-&gt;
-[brightness &lt; 200]</panel_attributes>
+[brightness &gt;= 200]</panel_attributes>
     <additional_attributes>10.0;20.0;310.0;20.0</additional_attributes>
   </element>
   <element>
