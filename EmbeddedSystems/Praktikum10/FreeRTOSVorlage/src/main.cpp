@@ -167,11 +167,9 @@ void taskHeatingControl(void *pvParameters) {
 
 
 int main(void) {
-	//setup();
 	setupBrightnessControl();
 	setupHeatingControl();
 
-	//xTaskCreate(defaultTask, "TASK 1", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 1UL, NULL);
 	xTaskCreate(taskHeatingControl, "Heating Control", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 1UL, NULL);
 	xTaskCreate(taskBrightnessControl, "Brightness Control", configMINIMAL_STACK_SIZE + 100, NULL, tskIDLE_PRIORITY + 2UL, NULL);
 	vTaskStartScheduler();
