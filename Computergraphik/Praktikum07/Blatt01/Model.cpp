@@ -11,10 +11,12 @@ Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
 Model::Model(GLenum mode, glm::vec3 position) : Model(mode, position, 32.0f) {}
 
-Model::Model(GLenum mode, glm::vec3 position, float shininess) : mode(mode), position(position), active(true), showNormals(false), shininess(shininess), textured(false) {}
+Model::Model(GLenum mode, glm::vec3 position, float shininess) : Model(mode, position, shininess, std::string("checkermap_b_zps5f23918f.png")) {}
+
+Model::Model(GLenum mode, glm::vec3 position, float shininess, std::string & path) : mode(mode), position(position), active(true), showNormals(false), shininess(shininess), textured(false), imagePath(path) {}
 
 void Model::init(cg::GLSLProgram & program) {
-	texture.initTexture("../checkermap_b_zps5f23918f.png");
+	texture.initTexture(imagePath);
 	defaultInit(program, vao, positionBuffer, colorBuffer, indexBuffer, normalBuffer, vertices, colors, normals, indices, intIndices, texCoords, textured);
 
 	model = glm::translate(glm::mat4(1.0f), position);
@@ -193,7 +195,7 @@ void Model::defaultInit(cg::GLSLProgram &program, GLuint &vao, GLuint &positionB
 
 		pos = glGetAttribLocation(programId, "texCoord");
 		glEnableVertexAttribArray(pos);
-		glVertexAttribPointer(pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glVertexAttribPointer(pos, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
 	//Normal 

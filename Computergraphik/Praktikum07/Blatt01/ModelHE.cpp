@@ -6,6 +6,19 @@
 #include "GLSLProgram.h"
 #include "glm/gtx/rotate_vector.hpp"
 
+ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath) :
+	Model(mode), initPos(glm::vec3(0.0f)) {
+	textured = true;
+	this->imagePath = imagePath;
+	ObjParser parser;
+	parser.parseObj(modelPath, obj);
+	obj.testAll();
+	this->colors.push_back(color);
+	size = obj.edges.size();
+	maxVerts = glm::vec3(std::numeric_limits<float>::min());
+	minVerts = glm::vec3(std::numeric_limits<float>::max());
+}
+
 ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
 	Model(mode), initPos(glm::vec3(0.0f)) {
 	textured = true;

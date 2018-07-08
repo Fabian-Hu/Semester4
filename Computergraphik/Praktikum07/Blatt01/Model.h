@@ -9,6 +9,7 @@ public:
 	Model(GLenum mode);
 	Model(GLenum mode, glm::vec3 position);
 	Model(GLenum mode, glm::vec3 position, float shininess);
+	Model(GLenum mode, glm::vec3 position, float shininess, std::string &path);
 
 	virtual void init(cg::GLSLProgram &program);
 	virtual void build() = 0;
@@ -74,6 +75,7 @@ private:
 	void defaultInit(cg::GLSLProgram & program, GLuint & vao, GLuint & positionBuffer, GLuint & colorBuffer, GLuint & indexBuffer, GLuint & normalBuffer,
 		std::vector<glm::vec3>& vertices, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLushort>& indices, std::vector<GLuint>& intIndices, std::vector<glm::vec2> &texCoords = std::vector<glm::vec2>(), bool textured = false);
 
+	std::string imagePath;
 	bool textured;
 	bool active;
 };

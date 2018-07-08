@@ -5,6 +5,7 @@
 
 class ModelHE : public Model {
 public:
+	ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath);
 	ModelHE(GLenum mode, std::string modelPath, glm::vec3 color);
 	ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color);
 	ModelHE(GLenum mode, HE_Object &heObject, glm::vec3 color);

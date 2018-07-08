@@ -4,13 +4,33 @@ Malte Riechmann, André Kirsch
 
 ### Aufgabe 1
 
-![Statechart](E:\Informatik\Semester 4\Semester4\EmbeddedSystems\Praktikum10\Statechart.png)
+#### Sequenzdiagramm
 
-![TimingDiagram](E:\Informatik\Semester 4\Semester4\EmbeddedSystems\Praktikum10\TimingDiagram.png)
+![Statechart](C:\Users\malte\Documents\Uni\Semester4\_Repository2\Semester4\EmbeddedSystems\Praktikum10\Statechart.png)
+
+#### Zeitverlaufsdiagramm
+
+![TimingDiagram2](C:\Users\malte\Documents\Uni\Semester4\_Repository2\Semester4\EmbeddedSystems\Praktikum10\TimingDiagram2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Aufgabe 2
 
-![Schaltplan_Steckplatine](E:\Informatik\Semester 4\Semester4\EmbeddedSystems\Praktikum10\Schaltplan_Steckplatine.png)
+![Schaltplan_Steckplatine](C:\Users\malte\Documents\Uni\Semester4\_Repository2\Semester4\EmbeddedSystems\Praktikum10\Schaltplan_Steckplatine.png)
 
 Die zusätzliche LED haben wir parallel zum Kondensator angeschlossen, sodass sie leuchtet, wenn der Kondensator aufgeladen wird.
 
