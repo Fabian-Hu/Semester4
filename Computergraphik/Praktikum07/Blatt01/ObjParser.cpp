@@ -126,7 +126,7 @@ void ObjParser::createFace(std::string &faceS, HE_Object &obj) {
 			edge->texCoord = obj.texCoords[vt - 1];
 		else
 			edge->texCoord = nullptr;
-		if (vnIndex != -1)
+		if (vnIndex != -1 && obj.normals.size() >= vn)
 			edge->normal = obj.normals[vn - 1];
 		else
 			edge->normal = nullptr;

@@ -82,7 +82,7 @@ Orb marsAxisObject (&marsAxis, glm::vec3 (0, 1, 0), 0.0f, -0.000f);
 
 bool doRotate = true;
 
-ModelHE heModelCar (GL_TRIANGLES, std::string("../carTextured.obj"), glm::vec3(1.0f, 0.1f, 0.2f));
+ModelHE heModelCar (GL_TRIANGLES, std::string("../carTextured.obj"), glm::vec3(1.0f, 0.1f, 0.2f), std::string("../uv.png"));
 ModelHE heModel (GL_TRIANGLES, 128.0f, std::string("../A1_testcubeBig_trans.obj"), glm::vec3(0.5f, 0.1f, 0.15f));
 //WorldObject heObject(&heModel);
 
