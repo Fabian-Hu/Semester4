@@ -11,9 +11,10 @@ Model::Model(GLenum mode) : Model(mode, glm::vec3(0, 0, 0)){}
 
 Model::Model(GLenum mode, glm::vec3 position) : Model(mode, position, 32.0f) {}
 
-Model::Model(GLenum mode, glm::vec3 position, float shininess) : Model(mode, position, shininess, std::string("checkermap_b_zps5f23918f.png")) {}
+Model::Model(GLenum mode, glm::vec3 position, float shininess) : Model(mode, position, shininess, std::string("../checkermap_b_zps5f23918f.png")) {}
 
-Model::Model(GLenum mode, glm::vec3 position, float shininess, std::string & path) : mode(mode), position(position), active(true), showNormals(false), shininess(shininess), textured(false), imagePath(path) {}
+Model::Model(GLenum mode, glm::vec3 position, float shininess, std::string & path) :
+	mode(mode), position(position), active(true), showNormals(false), shininess(shininess), textured(false), imagePath(path), genTexture(false) {}
 
 void Model::init(cg::GLSLProgram & program) {
 	texture.initTexture(imagePath);

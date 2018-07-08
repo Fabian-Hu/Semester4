@@ -6,10 +6,11 @@
 #include "GLSLProgram.h"
 #include "glm/gtx/rotate_vector.hpp"
 
-ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath) :
+ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath, bool genTexture) :
 	Model(mode), initPos(glm::vec3(0.0f)) {
 	textured = true;
 	this->imagePath = imagePath;
+	this->genTexture = genTexture;
 	ObjParser parser;
 	parser.parseObj(modelPath, obj);
 	obj.testAll();
@@ -31,9 +32,10 @@ ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color) :
 	minVerts = glm::vec3(std::numeric_limits<float>::max());
 }
 
-ModelHE::ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color) :
+ModelHE::ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color, bool genTexture) :
 	Model(mode, glm::vec3(0.0f), shininess) {
 	textured = true;
+	this->genTexture = genTexture;
 	ObjParser parser;
 	parser.parseObj(modelPath, obj);
 	obj.testAll();
@@ -172,6 +174,8 @@ void ModelHE::build() {
 	}
 	position = glm::vec3(minVerts + (maxVerts - minVerts) * 0.5f);
 	textured = texCoords.size() != 0;
+	texOrigin = glm::vec3(position.x, minVerts.y, position.z);
+	texCenterAxis = maxVerts - texOrigin;
 }
 
 void ModelHE::init(cg::GLSLProgram & program) {
@@ -207,7 +211,10 @@ void ModelHE::render(cg::GLSLProgram & program, glm::mat4x4 view, glm::mat4x4 pr
 		program.setUniform("projectionMatrix", projection);
 		program.setUniform("normalMatrix", nm);
 		program.setUniform("surfShininess", shininess);
-		program.setUniform("textured", textured);
+		program.setUniform("textured", textured || genTexture);
+		program.setUniform("origin", texOrigin);
+		program.setUniform("centerAxis", texCenterAxis);
+		program.setUniform("genTex", genTexture);
 
 		glBindVertexArray(vao);
 		if (indices.size() > 0) {
@@ -323,4 +330,40 @@ void ModelHE::addVisibleNormal(HE_vert * vert, glm::vec3 & color) {
 	verticesFaceNormals.push_back(vertVec + faceNormal);
 	normalFaceNormals.push_back(faceNormal);
 	colorFaceNormals.push_back(glm::vec3(color.y, color.z, color.x));
+}
+
+void ModelHE::printTex() {
+	
+	glm::vec3 origin = texOrigin;
+	glm::vec3 centerAxis = texCenterAxis;
+	glm::vec2 fragTexCoord;
+
+	for (glm::vec3 position : vertices) {
+		glm::vec3 relPos = position - origin;
+
+		relPos.x = glm::clamp(relPos.x / abs(centerAxis.x), -1.0f, 1.0f);
+		relPos.y = glm::clamp(relPos.y / abs(centerAxis.y), -1.0f, 1.0f);
+		relPos.z = glm::clamp(relPos.z / abs(centerAxis.z), -1.0f, 1.0f);
+
+		fragTexCoord.y = relPos.y;
+		if (relPos.x >= 0) {
+			if (relPos.z <= 0) {
+				fragTexCoord.x = relPos.x * 0.25f;
+			}
+			else {
+				fragTexCoord.x = 0.25f + relPos.z * 0.25f * -1.0f;
+			}
+		}
+		else {
+			if (relPos.z <= 0) {
+				fragTexCoord.x = 0.75f + relPos.z * 0.25f;
+			}
+			else {
+				fragTexCoord.x = 0.5f + relPos.x * 0.25f * -1.0f;
+			}
+		}
+
+		std::cout << "Vertex: " << position.x << ", " << position.y << ", " << position.z << std::endl;
+		std::cout << "TexCoo: " << fragTexCoord.x << ", " << fragTexCoord.y << std::endl << std::endl;
+	}
 }

@@ -91,7 +91,7 @@ bool init() {
 	heCar.translate(glm::vec3(-2.0f, 0.0f, 0.0f));
 	GLCODE(sun.init (program));
 	sun.setUp();
-	//heModel.scale(glm::vec3(0.0f), 0.05f);
+	heModel.printTex();
 	return true;
 }
 

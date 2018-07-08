@@ -5,9 +5,9 @@
 
 class ModelHE : public Model {
 public:
-	ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath);
+	ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath, bool genTexture = false);
 	ModelHE(GLenum mode, std::string modelPath, glm::vec3 color);
-	ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color);
+	ModelHE(GLenum mode, float shininess, std::string modelPath, glm::vec3 color, bool genTexture = false);
 	ModelHE(GLenum mode, HE_Object &heObject, glm::vec3 color);
 	ModelHE(GLenum mode, glm::vec3 position, HE_Object &heObject, glm::vec3 color);
 	int insertVertex(glm::vec3 vec, glm::vec3 color, glm::vec3 normal);
@@ -22,6 +22,7 @@ public:
 	glm::vec3 getMax();
 	glm::vec3 getMin();
 	HE_normal *calcNormal(HE_vert *vert);
+	void printTex();
 
 private:
 	HE_Object obj;

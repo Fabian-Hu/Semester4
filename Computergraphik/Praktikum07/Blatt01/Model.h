@@ -77,5 +77,9 @@ private:
 
 	std::string imagePath;
 	bool textured;
+	bool genTexture;
+	glm::vec3 texCenterAxis;
+	glm::vec3 texOrigin;
+
 	bool active;
 };
