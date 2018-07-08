@@ -2,37 +2,24 @@
 let articleConverter = new ArticleConverter();
 
 function addToNavgation(title, key) {
-    let navPoint = document.getElementById("parentNavigation");
-    console.log(navPoint);
-    let li = document.createElement("li");
-    let a = document.createElement("a");
-    
-    let link = document.createAttribute("href");
-    link.value = "#" + key;
-    a.attributes.setNamedItem(link);
-    a.text = title.substring(0, 20) + "...";
-    
-    li.appendChild(a);
-    navPoint.appendChild(li);
+    $(document).ready(function(){
+        $("<li></li>").append($("<a></a>").text(title.substring(0, 20) + "...").attr("href", "#" + key)).appendTo("#parentNavigation");
+    });
 }
 
 function createArticle(article){
-    let newArticle = document.getElementById("example_article").cloneNode(true);
-    newArticle.childNodes[1].childNodes[1].firstChild.nodeValue = article.title;
-    newArticle.childNodes[3].innerHTML = article.content + "...";
-    newArticle.attributes["class"].nodeValue = article.type + " articledesc";
-    newArticle.style.display = "block";
-    newArticle.id = article.id;
+    $(document).ready(function(){
+        $("<article></article>").attr({
+            "id" : article.id,
+            "class" : article.type + " articledesc"
+        }).append($("<header></header>").append($("<h2></h2>").text(article.title)))
+        .append($("<p></p>").html(article.content + "...")).append($("<br>"))
+        .append($("<a></a>").text("Mehr anzeigen...").attr("href", "\article.html?id=" + article.id))
+        .appendTo("#articles");
+        $("<br>").appendTo(".articles");
+    });
     
-    if (article.type === "news") {
-        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + article.id;
-    } else {
-        newArticle.childNodes[7].attributes["href"].nodeValue = "\article.html?id=" + article.id;
-    }
-    
-    let br = document.createElement("br");
-    document.getElementById("example_article").parentNode.appendChild(br);
-    document.getElementById("example_article").parentNode.appendChild(newArticle);
+    addToNavgation(article.title, article.id);
 }
 
 function loadSpecialArticlesFromServer(article) {
@@ -45,7 +32,6 @@ function loadSpecialArticlesFromServer(article) {
             for (let i = 0; i < jsonData.length; i++) {
                 createArticle(jsonData[i]);
             }
-            document.getElementById("example_article").style.display = "none";
         }
     ).catch(
         function(err) {
@@ -67,7 +53,6 @@ function loadArticlesFromServer(num) {
                     createArticle(jsonData[jsonData.length - i]);
                 }
             }
-            document.getElementById("example_article").style.display = "none";
         }
     ).catch(
         function(err) {

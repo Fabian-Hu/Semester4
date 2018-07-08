@@ -45,9 +45,8 @@ function setLanguage() {
         lang = en_GB;
     }
     for (let args in lang) {
-        let elems = document.getElementsByClassName(args);
-        for (let part of elems) {
-            part.firstChild.nodeValue = lang[args];
-        }
+        $(document).ready(function(){
+               $("." + args).text(lang[args]);
+        });
     }
 };
