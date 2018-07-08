@@ -13,3 +13,8 @@ Modell:
 View:
 
 * zeigt die Änderungen an
+
+
+
+Unsere Webapplikation entspricht am ehesten dem Entwurfsmuster des Model View Controllers.
+Es wird allerdings kein Observer Pattern oder ähnliches angewendet.
