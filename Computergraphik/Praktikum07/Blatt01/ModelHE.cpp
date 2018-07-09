@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 #include "GLSLProgram.h"
 #include "glm/gtx/rotate_vector.hpp"
+#define M_PI 3.1415926535897932384626433832795
 
 ModelHE::ModelHE(GLenum mode, std::string modelPath, glm::vec3 color, std::string imagePath, bool genTexture) :
 	Model(mode), initPos(glm::vec3(0.0f)) {
@@ -338,32 +339,26 @@ void ModelHE::printTex() {
 	glm::vec3 centerAxis = texCenterAxis;
 	glm::vec2 fragTexCoord;
 
-	for (glm::vec3 position : vertices) {
-		glm::vec3 relPos = position - origin;
+	for (glm::vec3 fragPosition : vertices) {
+		glm::vec3 relPos = fragPosition - origin;
+		glm::vec2 texCoord;
+		glm::vec2 circle = glm::normalize(glm::vec2(relPos.x, relPos.z));
 
-		relPos.x = glm::clamp(relPos.x / abs(centerAxis.x), -1.0f, 1.0f);
-		relPos.y = glm::clamp(relPos.y / abs(centerAxis.y), -1.0f, 1.0f);
-		relPos.z = glm::clamp(relPos.z / abs(centerAxis.z), -1.0f, 1.0f);
+		relPos.y = glm::clamp(glm::abs(relPos.y) / glm::abs(centerAxis.y), 0.0f, 1.0f);
 
-		fragTexCoord.y = relPos.y;
-		if (relPos.x >= 0) {
-			if (relPos.z <= 0) {
-				fragTexCoord.x = relPos.x * 0.25f;
-			}
-			else {
-				fragTexCoord.x = 0.25f + relPos.z * 0.25f * -1.0f;
-			}
+		float angle1 = glm::acos(glm::dot(circle, glm::vec2(1.0f, 0.0f)) / (glm::length(circle) * glm::length(glm::vec2(1.0f, 0.0f))));
+		float angle2 = glm::acos(glm::dot(circle, glm::vec2(0.0f, 1.0f)) / (glm::length(circle) * glm::length(glm::vec2(0.0f, 1.0f))));
+
+		texCoord.y = relPos.y;
+
+		if ((angle1 <= M_PI * 0.5f && angle2 > M_PI * 0.5f) || (angle1 > M_PI * 0.5f && angle2 > M_PI * 0.5f)) {
+			texCoord.x = angle1 / (M_PI * 2.0f);
 		}
 		else {
-			if (relPos.z <= 0) {
-				fragTexCoord.x = 0.75f + relPos.z * 0.25f;
-			}
-			else {
-				fragTexCoord.x = 0.5f + relPos.x * 0.25f * -1.0f;
-			}
+			texCoord.x = (M_PI * 2.0f - angle1) / (M_PI * 2.0f);
 		}
 
-		std::cout << "Vertex: " << position.x << ", " << position.y << ", " << position.z << std::endl;
-		std::cout << "TexCoo: " << fragTexCoord.x << ", " << fragTexCoord.y << std::endl << std::endl;
+		std::cout << "Vertex: " << fragPosition.x << ", " << fragPosition.y << ", " << fragPosition.z << std::endl;
+		std::cout << "TexCoo: " << texCoord.x << ", " << texCoord.y << std::endl << std::endl;
 	}
 }
