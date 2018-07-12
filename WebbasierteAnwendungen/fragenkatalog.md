@@ -107,3 +107,106 @@ Durch semantisch korrektes HTML bekommen Inhalte eine Bedeutung und machen das D
 
 Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche definiert, bzw. trennt. Außerdem kann man Elemente, in Form von Tabellen und Listen, einfügen.
 
+## Blatt 4
+
+### Nennen sie die Kaskadierungs-Reihenfolge von CSS?
+
+1. Browser
+2. Extern und Intern (in Deklarations-Reihenfolge)
+3. Inline
+
+## Blatt 5
+
+### Auf welche Arten kann ein JavaScript in eine HTML-Seite eingebunden werden?
+
+- External: Aus einer anderen Datei, im Header oder Body 
+- Internal: Im Script-Tag innerhalb Header oder Body 
+- InAttribute: In einem onclick Attribut (veraltet!) 
+
+```html
+<script src=“datei.js“></script>
+<script>…</script>
+<a href=“#“ onclick=“alert(‘Ausgabe‘)“>Link</a>
+```
+
+### Wann werden JavaScripte ausgeführt?
+
+JavaScripte werden ausgeführt, sobald der Browser sie vollständig geladen hat.
+
+###### Auswirkungen:
+
+1. Skripte können ausgeführt werden, ehe das Dokument vollständig geladen ist 
+2. Funktionen können „zu früh“ ausgeführt werden 
+3. Eventuell sind noch nicht alle Abhängigkeiten geladen, wenn ein Skript startet
+
+### JSON
+
+``` javascript
+let jsonStr = JSON.stringify(obj); 
+
+jsonObj = JSON.parse(jsonStr);
+for(var attr in jsonObj) { 
+	console.log(attr);
+	if(typeof jsonObj[attr] == "object") {
+		for(var i in jsonObj[attr]) {
+			console.log(jsonObj[attr][i]);
+		}
+	}
+}
+```
+
+### localstorage
+``` javascript
+localStorage.setItem(KEY,VALUE);
+localStorage.getItem(KEY);
+localStorage.removeItem(KEY);
+localStorage.clear();
+```
+
+### service worker
+
+``` javascript
+// Wird aufgerufen wenn Dateien angefragt werden
+this.addEventListener('fetch', function(evt) {
+	console.log("Hole " + evt.request.url);
+	evt.respondWith( // Responde with erwartet eine asynchrone Funktion
+		caches.match(evt.request).then(
+			function(res) { // res ist Ergebnis von
+				caches.match()
+				console.log("Resource >" + res.url + "< aus dem Cache geholt");
+				return res;
+		}).catch(function(err) {
+			console.log("Resource >" + evt.request.url + "< nicht im Cache gefunden"); //return fetch(evt.request);
+		})
+	);
+});
+
+```
+
+## Blatt 6
+
+
+
+## Blatt 7
+
+### Was muss der Browser machen, nachdem er folgende Antwort auf eine GET-Anfrage vom Server bekommen hat?
+
+/HTTP/1.1 401 Unauthorized
+Date: Mon, 13 Jan 2003 08:35:41 GMT
+Server: Apache/1.3.24 (Win32) PHP/4.3.0
+WWW-Authenticate: basic realm=“geschuetzterBereich“
+
+Der Browser fragt nun nach dem Benutzernamen und dem dazugehörigen Passwort. 
+Danach wird der GET-Request erneut gesendet, mit einem zusätzlichen Authorization-Header.
+Das sieht dann ungefähr so aus:
+
+GET /secure_document.html HTTP/1.0 
+Accept: image/gif, image/jpeg, */* 
+Accept-charset: iso-8859-1, *, utf-8 
+Accept-encoding: gzip 
+Accept-language: en 
+User-Agent: Mozilla/4.51 [en] (WINNT; I) 
+Authorization: Basic aGVpa286d29laHI 
+
+Dabei muss man allerdings beachten, dass der Username und das Passwort zwar base64 codiert ist, aber dennoch unverschlüsselt gesendet wird.
+
