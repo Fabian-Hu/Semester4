@@ -191,6 +191,8 @@ this.addEventListener('fetch', function(evt) {
 
 ### Was muss der Browser machen, nachdem er folgende Antwort auf eine GET-Anfrage vom Server bekommen hat?
 
+Authentifizierungikation btw,
+
 /HTTP/1.1 401 Unauthorized
 Date: Mon, 13 Jan 2003 08:35:41 GMT
 Server: Apache/1.3.24 (Win32) PHP/4.3.0
@@ -209,4 +211,136 @@ User-Agent: Mozilla/4.51 [en] (WINNT; I)
 Authorization: Basic aGVpa286d29laHI 
 
 Dabei muss man allerdings beachten, dass der Username und das Passwort zwar base64 codiert ist, aber dennoch unverschlüsselt gesendet wird.
+
+#### XMLHttpRequest
+
+```Javascript
+window.onload = function() {
+	let requestor = new XMLHttpRequest();
+	requestor.open("GET","xmlhttprequest.json");
+	requestor.onreadystatechange = readyStateCallbackFunction;
+	requestor.send();
+}
+
+//weitere wichtige Funktionen:
+req.setRequestHeader(“Accept“,“image.gif“); //offizieller Http_header
+req.setRequestHeader(“PersonalExample“,“value“); //eigener Header
+```
+
+
+
+#### Fetch API
+
+Definition: Die FetchAPI ist eine API für den Zugriff auf Ressourcen. Sie bietet flexiblere und umfangreichere Möglichkeiten als das XMLHttpRequest 
+
+```javascript
+fetch('fetchapi.json').then(
+	function(response) {
+		console.log("Get response as json-Promise");
+		return response.json();
+	}
+	).then(
+		function(jsonData) {
+			console.log("recived data: " + jsonData);
+		}
+	).catch(function(err) {
+		console.log("Oops, Something went wrong!", err);
+	})
+```
+
+
+
+```javascript
+fetch("http://localhost:8080/studboardREST/comment/erstellen", {
+        method: 'POST', // *GET, PUT, DELETE, etc. 
+        body: JSON.stringify(comment), // must match 'Content-Type' header 
+        headers: {
+            'content-type': 'application/json'
+        }  
+    }).then(function (res){ // parses response to JSON 
+        console.log(res.text());
+    });
+```
+
+#### Keschern
+
+Vorteile: 
+
+* schnellere Bereitstellung von Ressourcen
+* Reduzierung der notwendigen Bandbreite zur Datenübertragung
+* Verbesserung der Nutzbarkeit (Usability) der Webanwendung 
+
+Problem: 
+
+* Was soll im Cache gespeichert werden? 
+* Woran wird erkannt, dass es sich um dieselbe Ressource handelt? 
+* Wie lange soll eine Ressource im Cache bleiben? 
+
+#### Session Managment
+
+Definition: Eine Session beschreibt einen Dialog, der sich über mehrere Requests und Responses erstreckt. Session Management befasst sich mit dem Sammeln und Speichern von Informationen innerhalb einer Session. 
+
+#### Hidden Fields
+
+Definition: Hidden Fields sind HTML-Formularfelder, die name = “wert“ – Paare an den Server übertragen und die für den Benutzer nicht sichtbar sind. 
+
+#### URL Rewriting
+
+Definition: Beim URL Rewriting werden Session- Informationen als Teil der URL an den Server übertragen.  
+
+#### Cookies
+
+Definition: Beim Cookies sind kleine, im Browser gespeicherte Datenblöcke, die bei jedem HTTP-Request zum Server übertragen werden. 
+
+
+
+## Blatt 8
+
+### Welche Technologie macht es ihnen bei Java-WebServices einfach, ihre Datenobjekte als JSON oder XML über einen REST-WebService auszuliefern?
+
+Die Content Negotiation ist eine Technik des HTTP. Sie ermöglicht dem Client dem Server zu sagen, in welchem Typ die angeforderten Daten geliefert werden sollen.
+
+Im REST Umfeld wird dies hauptsächlich mit XML und JSON verwendet.
+
+In der JAX-RS Spezifikation nutzt es JAXB und ermöglicht so automatisches Generieren von JSON/XML aus JavaObjekten.
+
+#### ServiceOrientierteArchitekturen 
+
+Definition: Service Orientierte Architekturen (SOA) sind Architekturmuster zur Nutzung von Algorithmen, auch verschiedener Herkunft, zur Realisierung von Geschäftsprozessen. 
+
+#### REST definiert als Architektur-Stil folgende Prinzipien 
+
+1. Ressourcen basiert 
+
+   * Schnittstellen dienen immer für genau eine Ressource
+2. Verwendung von Webstandards
+  * Verwendung von HTTP, URLs, MIME, XML, Json, …
+3. Client-Server-Architektur 
+   * Ein Client fordert Informationen / Aktionen vom Server 
+4. Zustandslos 
+   * Weder Server noch Client merken sich Zustände
+   * Alle benötigten Daten werden mit einer Anfrage gesendet 
+5. Caching 
+   * Einmal gelieferte Daten werden zwischengespeichert 
+6. Ressourcen verweisen aufeinander (HATEOAS) 
+   * Links für mögliche Folgeaktionen werden angegeben 
+
+#### Annotationen
+
+```java
+@XmlRootElement
+public class Artikel implements Serializable {
+}
+
+@Path("artikel")
+public class ArtikelResource implements Serializable{
+   
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getArtikel(@QueryParam("id") int id){ 
+        
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+}
+```
 
