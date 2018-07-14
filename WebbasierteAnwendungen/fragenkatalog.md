@@ -344,3 +344,180 @@ public class ArtikelResource implements Serializable{
 }
 ```
 
+
+
+## Blatt 9
+
+#### Was bewirkt die Methode persist() vom Interface EntityManager?
+
+Mit der Methode persist() vom Interface entityManager wird eine transientes Entity in der Datenbank gespeichert und in den Zustand managed überführt.
+
+```java
+
+import java.sql.*;
+
+//Laden des Treibers
+Class.forName("org.postgresql.Driver"); 
+
+//Connection zur Datenbank
+public Connection connect() {
+    Connection conn = null;
+    try {
+        conn = DriverManager.getConnection(url, user, password);
+        System.out.println("Connected to the PostgreSQL server successfully.");
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+    }
+
+    return conn;
+}
+
+//erzeugen eines Statements
+Statement my_stmt = my_con.createStatement();
+
+//ausführen eines Statements
+ResultSet my_result = my_stmt.executeQuery(„SELECT * FROM TAB“);
+int my_result = my_stmt.executeUpdate(„UPDATE TAB SET …“);
+
+//auswerten
+String sql = "SELECT * FROM autor WHERE id=" + id;
+ResultSet r =createConnection().createStatement().executeQuery(sql);
+if (r.next())
+{
+    name = r.getString("Name");
+    vorname = r.getString("Vorname");
+}
+
+//abmelden
+my_con.close(); 
+```
+
+
+
+```java
+@XmlRootElement
+@Entity
+@Table(name = "artikel")
+@NamedQueries({
+    @NamedQuery(name="Artikel.findAll",
+        query="SELECT a FROM Artikel a"),
+    @NamedQuery(name="Artikel.findById",
+        query="SELECT a FROM Artikel a WHERE a.id = :id")
+})
+public class Artikel implements Serializable {
+    
+    @Id
+    @GeneratedValue
+    long id;
+    
+    @Column(name = "titel")
+    String titel;
+}
+
+ @PersistenceContext(unitName = "studboardRESTPU")
+    private EntityManager em;
+    /**
+    * User Transaction utx zur Kommunikation mit Datenbank
+    */
+    @Resource
+    private UserTransaction utx;
+
+    public Artikel getArticle(int id) {
+        Query query = this.em.createNamedQuery("Artikel.findById", Artikel.class);
+        query.setParameter("id", id);
+        Artikel article = (Artikel) query.getSingleResult();
+        return article;
+    }
+```
+
+
+
+#### Entity Zustände
+
+1. Transient 
+   * Objekt noch nicht an Entity-Manager übergeben, noch kein Äquivalent in der DB
+2. Managed
+   * Objekt unter Kontrolle des Entity-Managers
+3. Detached
+   * Objekt besitzt Äquivalent in der DB ist aber aktuell nicht unter Kontrolle des Entity-Managers
+4. Removed
+   * Objekt unter Kontrolle des Entity-Mangers, in der DB gespeichert, aber zum Löschen vorgemerkt 
+
+## Blatt 10
+
+#### Was ist der Unterschied zwischen einer JSP und einem Servlet?
+
+| JSP                                                          |                           Servlet                            |
+| ------------------------------------------------------------ | :----------------------------------------------------------: |
+| dynamische Erzeugung von Textinhalten                        |          dynamische Erzeugung von binären Inhalten           |
+| Generierung einer Darstellung in HTML, WML, …                | Generierung von textuellen Inhalten mit Templates für Webdarstellungen |
+| Präsentation der Benutzerschnittstelle                       |        Schaffung eines zentralen webbezogenen Zugangs        |
+| Vorverarbeitung eingehender Daten                            |                Umsetzen der Geschäftsprozesse                |
+|                                                              |                 Anwenden der Geschäftslogik                  |
+|                                                              |                                                              |
+| höhere Abstraktionsebene als Servlets                        |                 näher am Server (Container)                  |
+| Einbindung von Tag-Bibliotheken                              |            Darstellung eigener binärer MIMETypen             |
+| Deklarativer Stil                                            |           Prozeduraler od. objektorientierter Stil           |
+|                                                              |                                                              |
+| starke Mischung von Logik und Darstellung bei größeren Seiten |         Unübersichtlichkeit bei zu vielen Templates          |
+| Mangelnde Skalierbarkeit                                     |                 Reagiert träge zur Laufzeit                  |
+|                                                              | ggf. Rollenverteilung von Designer und Entwickler problematisch |
+
+#### Was ist der Nachteil dieser Implementierung? Recherchieren sie nach Alternativen
+
+### Nachteile:
+
+- Unübersichtlichkeit bei zu vielen Templates 
+- Reagiert träge zur Laufzeit 
+- ggf. Rollenverteilung von Designer und Entwickler problematisch
+
+### Alternatvien
+
+- Node.js
+- CGI-Entwicklung
+
+
+
+
+
+## Blatt 11
+
+#### MV Muster
+
+Controller:
+
+- steuert Änderungen des Modells
+
+Modell:
+
+- teilt allen Views mit, dass eine Änderung aufgetreten ist
+
+View:
+
+- zeigt die Änderungen an
+
+Unsere Webapplikation entspricht am ehesten dem Entwurfsmuster des Model View Controllers.
+Es wird allerdings kein Observer Pattern oder ähnliches angewendet.
+
+
+
+## Blatt 12
+
+#### jQuery
+
+Definition: jQuery ist eine JavaScript Bibliothek, die im wesentlichen den Zugriff auf das DOM einfacher gestaltet 
+
+#### Bootstrap
+
+Definition: Boostrap ist ein HTML-CSS Framework für die Gestaltung von Benutzeroberflächen 
+
+#### Knockout
+
+Definition: Knockout.js ist ein JavaScript-Framework für die Umsetzung des MVVM-Entwicklungsmusters 
+
+#### Angular
+
+Definition: Angular ist ein CSS-, JavaScript-, Architektur-Framework. 
+
+
+

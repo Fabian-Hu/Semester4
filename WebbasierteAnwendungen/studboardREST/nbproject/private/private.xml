@@ -3,14 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/Artikel.java</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/studboardAPI.java</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/Comment.java</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/News.java</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/Projekt.java</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/conf/persistence.xml</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/web/WEB-INF/glassfish-resources.xml</file>
-            <file>file:/C:/Users/Fabian/Documents/NetBeansProjects/studboardREST/src/java/RestService/ArtikelResource.java</file>
+            <file>file:/D:/Studium/Semester4/Semester4/WebbasierteAnwendungen/studboardREST/src/java/RestService/Artikel.java</file>
+            <file>file:/D:/Studium/Semester4/Semester4/WebbasierteAnwendungen/studboardREST/src/java/RestService/CommentResource.java</file>
+            <file>file:/D:/Studium/Semester4/Semester4/WebbasierteAnwendungen/studboardREST/src/java/RestService/GenericResource.java</file>
+            <file>file:/D:/Studium/Semester4/Semester4/WebbasierteAnwendungen/studboardREST/src/java/RestService/ArtikelResource.java</file>
+            <file>file:/D:/Studium/Semester4/Semester4/WebbasierteAnwendungen/studboardREST/src/java/RestService/ArtikelListeResource.java</file>
         </group>
     </open-files>
 </project-private>
