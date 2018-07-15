@@ -476,28 +476,191 @@ public class Artikel implements Serializable {
 - Node.js
 - CGI-Entwicklung
 
+#### Webserver Interfaces
+
+Definition: Ein WebServer Interface ist die Verbindungsstelle zwischen dem WebServer und einer Programmausführung 
+
+Eigenschaften: 
+
+* Die Server nehmen Anfragen von Clients entgegen und reichen die Parameter an das Programm weiter
+* Die Server starten die Programme und geben ihnen Informationen über die Umgebung mit. 
+* Die Server nehmen die Antworten der Programme entgegen und verpacken sie in HTTP-Antworten. 
+
+#### CGI
+
+Definition: Das Common Gateway Interface (CGI) ist ein Standard für den Datenaustausch zwischen Server und nativer Anwendung 
+
+Eigenschaften: 
+
+* Ausführung nativer Programme auf dem Server
+  * Programme sind plattformabhängig
+  * Direkte Ausführung der Programme 
+* Programme werden als eigener Betriebssystemprozess ausgeführt
+  * Benötigte Ressourcen müssen separat geöffnet werden
+* Kein Datenaustausch unter Anwendungen
+  * Datenaustausch nur über Dateien oder Datenbank
+* Keine direkte Manipulation von HTTP-Headern
+  * Kein direktes Auslesen oder Setzen von Cookies 
+
+### Servlets
+
+Definition: Servlets sind Servererweiterungen (serverseitige JavaKomponenten). Sie antworten auf ganz Anfragen eines Clients mit einem dedizierten dynamisch erzeugten Inhalt. 
+
+Eigenschaften: 
+
+* Ausführung von Java-Programmen auf dem Server
+  * Programme sind plattformunabhängig (sowohl Server- als auch Betriebssystem-bezogen)
+  * Ausführung über die JavaVirtualMachine 
+* Programme werden als JVM-Thread ausgeführt
+  * Leichtgewichtiger als Systemprozesse
+  * Ressourcen können von mehreren Anwendungen gleichzeitig genutzt werden 
+* Datenaustausch unter Anwendungen 
+  * Anwendungen können Daten untereinander austauschen
+* Direkte Manipulation von HTTP-Headern
+  * Aus Servlets heraus ist eine Manipulation von HTTP-Headern möglich 
+* Leistungsfähigkeit
+  * Es stehen alle Leistungsmerkmale und Bibliotheken der Sprache Java zur Verfügung. 
+* Effizienz
+  * Nach dem Laden verbleibt ein Servlet - Objekt im Speicher des Webservers, sein Zustand erhalten. Das ermöglicht über Sessionhandling ein Ausgleichen des zustandslosen HTTPProtokolls.
+* Sicherheit
+  * Robustheit resultiert aus Sprachimplementierung und Fehlerbehandlung auf Seiten des Webservers, um Serverabstürze zu verhindern.
+  * Webserver stellt Java Security Manager zur Verfügung.
+* Einfachheit
+  * Servlet-API ist einfach und übersichtlich und enthält Features, die die Entwicklung vereinfachen 
+
+```java
+public class ActivityLoggerServlet extends HttpServlet {
+
+	private static List<String> aList = new ArrayList<>();
+	
+	// Step 1: Load
+	static { aList.add("load at: " + new Date().getTime());}
+	
+    // Step 2: Instanziierung
+	public ActivityLoggerServlet() {
+		aList.add("Instanziierung at: " + new Date().getTime());
+	}
+    
+    // Step 3: Initialisierung
+	@Override
+	public void init(ServletConfig sc) throws ServletException {
+		aList.add(sc.getServletName() + " initalised at: " + new Date().getTime());
+	}
 
 
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+            
+        response.setContentType("text/html;charset=UTF-8");
+        
+        try (PrintWriter out = response.getWriter()) {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<body>");
+            for(String curAct : aList) {
+            	out.println(curAct+"<br>");
+            }
+            out.println("</body>");
+            out.println("</html>");
+        }
+}
+```
 
+### JSP
+
+Definition: Java Server Pages sind eine Websprache zum Entwickeln von Weboberflächen für Java-Anwendungen. 
+
+Eigenschaften 
+
+* Präsentationsschicht von Webanwendungen
+* Web-Scriptsprache auf Grundlage der zahlreichen Java - APIs 
+* Ermöglichen Integration von existierenden Systemen ins Web 
+* Basiert auf der Java-Servlet-API
+* Mischen von HTML (XML) mit JSP in einer Seite möglich
+* Ermöglicht konsequente Aufgabentrennung in Web-Entwicklerteams
+* Daten werden mithilfe von Java - Beans in die Webseiten transportiert
+* Zunehmend abgelöst durch JSF (Java Server Faces) und JavaFX 
+
+### Scriptlets
+
+Definition: Scriptlets sind spezielle Tags, welche die Einbettung von Java-Code erlauben. Durch sie wird die Mächtigkeit der Sprache Java in JSP‘s genutzt. 
+
+Eigenschaften
+
+* Java kann in JSPs als Code eingebettet werden.
+* Java-Komponenten können von JSPs heraus genutzt werden.
+* Technische Vorraussetzungen:
+  * verwendete Bibliotheken liegen im Classpath der Web-Anwendung
+  * benötigte Packages sind importiert (Direktiven).  
 
 ## Blatt 11
 
-#### MV Muster
+#### MVC
 
 Controller:
 
 - steuert Änderungen des Modells
+- verwaltet eine oder mehrere Präsentationen
+- nimmt von view Benutzerinteraktionen entgegen, wertet diese aus und steuert entsprechend : 
+  - z.B. Ändern der View, Verschieben von Fenstern 
+  - Weiterleiten an das Model (z.B. Benutzereingaben)  
 
 Modell:
 
 - teilt allen Views mit, dass eine Änderung aufgetreten ist
+- enthält die Daten, z.T. auch Geschäftslogik
+- unabhängig von view und controller 
+- Bekanntgabe von Änderungen im Modell mit observer-pattern vom model zur view 
 
 View:
 
 - zeigt die Änderungen an
+- Stellt Daten aus dem Modell dar und nimmt Benutzerinteraktionen entgegen
+- kennt Controller und Modell (gestrichelte Linien sind Assoziationen)
+- wird über veränderte Daten vom observer-pattern informiert und ruft diese dann ab. 
 
-Unsere Webapplikation entspricht am ehesten dem Entwurfsmuster des Model View Controllers.
-Es wird allerdings kein Observer Pattern oder ähnliches angewendet.
+#### MVP
+
+Model 
+
+* enthält die Logik der Ansicht , ggf auch Geschäftslogik
+* enthält komplette Funktionalität zur Generierung der Ansicht
+* wird nur vom Presenter gesteuert, kennt Presenter und Ansicht nicht 
+
+View
+
+* Darstellung der Ansicht und Handling der Ein- und Ausgaben
+* wird komplett vom Presenter gesteuert
+* hat keinen Zugriff auf Funktionalität den Models und des Presenters 
+
+Presenter 
+
+* Bindeglied zwischen Model und View 
+* steuert die logischen Abläufe zwischen Model und View 
+
+
+
+#### MVVM
+
+Model
+
+* enthält die Daten und die Geschäftslogik
+* benachrichtigt über Datenänderungen
+* validiert die Benutzereingaben 
+
+View
+
+* GUI-Elemente binden Eigenschaften des ViewModels
+* ist durch Datenbindung austauschbar und „schmal“ programmiert 
+
+ViewModel
+
+* enthält UI-Logik (Model der View) 
+* Bindeglied zwischen View und Model
+* ruft Dienste und Methoden vom Model auf
+* stellt der View öffentliche Eigenschaften und Befehle zur Verfügung mit Bindung an Steuerelemente (Eventhandler, oder Inhalte ausgeben) 
+* kennt die View nicht , austauschbar 
 
 
 
