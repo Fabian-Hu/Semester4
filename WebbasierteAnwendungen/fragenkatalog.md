@@ -107,6 +107,106 @@ Durch semantisch korrektes HTML bekommen Inhalte eine Bedeutung und machen das D
 
 Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche definiert, bzw. trennt. Außerdem kann man Elemente, in Form von Tabellen und Listen, einfügen.
 
+#### HTML Tags
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Titel der Web-Anwendung</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+        <script type="text/javascript" src="js/start.js"></script>      
+        <link rel="stylesheet" href="css/cascade.css" />
+    </head>
+    <body>
+        <div id="top"> <a href="wieAuchImmerDiesesHtmlHeisst.html">TOP</a> </div>
+        <article>
+            <h1>
+                Dies ist mein erster Artikel
+            </h1>
+        </article>
+        <section>
+            In diesem Bereich stehen irgendwelche Beispiele
+            <article>
+                <table>
+                    <tr>
+                        <th colspan="2"> Kopfzeile</th>
+                    </tr>
+                    <tr><td>Zelle links</td><td> Zelle rechts</td></tr>
+                </table>
+            </article>
+            <article>
+                <ul><li>Ein ungeordneter Eintrag</li></ul>
+                <ol><li>Ein geordneter Eintrag</li></ol>
+            </article>
+        </section>
+    </body>
+</html>
+
+<!-- Jetzt kommen irgendwelche unnötigen html semantik tags -->
+<cite></cite>
+<time></time>
+<code></code>
+<var></var>
+<strong></strong>
+
+<!-- Jetzt kommen irgendwelche html Formular dinge -->
+
+<form action=“URL“ method=“POST|GET“ enctype=“TRANSFERFORMAT“>
+    <fieldset>
+        <label id="title" ></label><br />
+        <input name="artikelTitel" type="text" size="8"><br />
+        <label id="text"></label><br />
+        <textarea name="artikelText" rows="5" cols="48"></textarea><br />
+        <label id="artikeltyp"></label><br />
+        <input name="artikelTyp" list="textformen"><br />
+        <datalist id="textformen">Neuigkeiten
+            <option id="news"></option>
+            <option id="projekt"></option>
+            <option id="aufgabe"></option>
+        </datalist>
+        <label id="startdatum"></label><br />
+        <input  type="date" name="startdatum" ><br />
+        <label id="titelfarbe"></label><br />
+        <input type="color" name="titelFarbe" value="#ffffff"><br /><br />
+
+        <!-- all we hear is radio gaga -->
+        <input type="radio" name="s" value="male" checked> Male<br>
+        <input type="radio" name="s" value="female"> Female<br>
+        <input type="radio" name="s" value="other"> Other
+
+        <!-- checkboxen -->
+        <input type="checkbox" name="vehicle1" value="Bike">bike<br>
+        <input type="checkbox" name="vehicle2" value="Car">car
+
+        <button id="senden" onclick="choooose()">senden</button>
+    </fieldset>
+</form>
+
+<!-- medien, die einzelnen Zeilen in jedem Tag werden nacheinander ausgeführt, bis eines endlich funktioniert. Man geht also davon aus, dass es nicht auf Anhieb funktioniert, also probiert man es irgendwie -->
+<picture>
+    <source media="(min-width: 650px)" srcset="a.jpg">
+    <source media="(min-width: 465px)" srcset="b.jpg">
+    <img src="c.jpg" alt="Letters">
+</picture>
+
+<audio controls>
+    <source src="sound.ogg" type="audio/ogg">
+    <source src="sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio> 
+
+<video width="320" height="240" controls>
+    <source src="movie.mp4" type="video/mp4">
+    <source src="movie.ogg" type="video/ogg">
+    Your browser does not support the video tag.
+</video>
+
+```
+
+
+
 ## Blatt 4
 
 ### Nennen sie die Kaskadierungs-Reihenfolge von CSS?
@@ -114,6 +214,84 @@ Die Struktur von HTML legt eher den Aufbau einer Seite fest, indem es Bereiche d
 1. Browser
 2. Extern und Intern (in Deklarations-Reihenfolge)
 3. Inline
+
+#### CSS Sachen
+
+```html
+<!--- external, internal und inline --->
+<head>
+    <link rel=“stylesheet“ type=“text/css “ href=“datei.css“>
+    <style>…</style>
+</head>
+<body>
+    <p style=“…“>…</p>
+</body>
+```
+
+```css
+.hi { … } /*Klasse, in html muss man dann ein class ="hi" in den article Tag schreiben*/
+#hi { … } /*ID, wie bei dem da oben, nur mit id="hi"*/
+* { … } /*alle Elemente*/
+article section article p nav div{ … } /*alle divs, die in einem nav, die in einem p, welche in einem article sind welche wiederum in einer section innerhalb eines articles sind(also fast alle)*/
+
+/* Beispiele des Inhalts */
+section article {
+    font-family: "courier", Times, serif; 
+    font-size: 28px;
+
+    background-color: pipiyellow;
+    color: aabrown;
+
+    border-style: solid;
+    border-color: red;
+
+    height: 50px;
+    padding: 5px;
+    border: 1px solid red;
+    margin: 20px;
+}
+/* Animation */
+picture {/*hier wird das keyframe eingebunden(bei animation-name)*/
+    position: relative;
+    animation-name: movyPicture;
+    animation-duration: 4s; 
+}
+@keyframes movyPicture {/*flüssige Bewegung*/
+    from   {right:100%; top;}
+    to  {right:0px; top;}
+}
+@keyframes example {/*so hat es zwischenschritte*/
+    0% {background-color:red; left:0px; top:0px;}
+    25% {background-color:yellow; left:200px; top:0px;}
+    50% {background-color:blue; left:200px; top:200px;}
+    75% {background-color:green; left:0px; top:200px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+/*die Funktionen kann man auch benutzen, irgendwie...*/
+transform: rotate(20deg) /*irgendwie auch mit translate(),scale(),skew() und matrix()*/
+
+
+/* Sonstiges (Doppelpunkt dinger immer hinter dem article dings, der Rest in die geschweiften Klammern)*/
+:hover /*Maus drüber*/
+:focus /*Eingabeelement mit Fokus*/
+:link /*nicht besuchte Links*/
+::first-line /*erste Zeile*/
+::first-letter /*erstes Zeichen*/
+::before /*alles vor einem Element*/
+visibility :hidden /*reserviert, aber unsichtbar*/
+display :positioned /*fix positioniert*/
+display :flex /*gleichmäßige Aufteilung...*/
+display :inline /*kein Zeilenumbruch*/
+
+position: fixed /*absolut positioniert und bleibt beim scrollen hängen*/
+position: sticky /*bleibt beim scrollen hängen*/
+position: static /*normale Platzierung*/
+
+top: 0px; /*auch mit bottom, right, left*/
+
+```
+
+
 
 ## Blatt 5
 
