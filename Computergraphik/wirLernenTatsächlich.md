@@ -206,12 +206,145 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
 ```
 
-
-
-
-
 ## 3 - Grundbegriffe
+
+### Farbmodelle
+
+![rgb](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rgb.PNG)
+
+![cmy](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\cmy.PNG)
+
+### HSV
+
+![hsv](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\hsv.PNG)
+
+Hue / Farbe („Farbfamilie“) 
+
+* „Farbwinkel“ in Grad: 0° ≤ H < 360°
+
+Saturation / Sättigung
+
+* 0 ≤ S ≤ 1; Verkleinerung addiert Weiß 
+
+Value / Helligkeit
+
+* 0 ≤ V ≤ 1; Verkleinerung addiert Schwarz 
+
+![hsv_rgb](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\hsv_rgb.PNG)
+
+### RGB zu HSV
+
+*R*' = *R*/255
+*G*' = *G*/255
+*B*' = *B*/255
+*Cmax* = max(*R*', *G*', *B*')
+*Cmin* = min(*R*', *G*', *B*')
+Δ = *Cmax* - *Cmin* 
+
+Hue calculation:
+
+![img](https://www.rapidtables.com/convert/color/rgb-to-hsv/hue-calc2.gif)
+
+Saturation calculation:
+
+![img](https://www.rapidtables.com/convert/color/rgb-to-hsv/sat-calc.gif)
+
+Value calculation:
+*V* = *Cmax* 
+
+
+
+### HSV zu RGB
+
+*C* = *V* × *S*
+
+*X* = *C* × (1 - |(*H* / 60°) mod 2 - 1|)
+
+*m* = *V* - *C*
+
+![img](https://www.rapidtables.com/convert/color/hsv-to-rgb/hsv-to-rgb.gif)
+
+(*R*,*G*,*B*) = ((*R*'+*m*)×255, (*G*'+*m*)×255,	(*B*'+*m*)×255)
+
+## 4 - Transformationen und Projektionen
+
+![Pipeline](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\Pipeline.PNG)
+
+#### Translation
+
+![translation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\translation.PNG)
+
+#### Rotation in 2D
+
+![rotation2D](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotation2D.PNG)
+
+#### Skalierung
+
+ ![skaliation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\skaliation.PNG)
+
+#### Scherung
+
+![scheriation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\scheriation.PNG)
+
+#### Komposition von Transformationen
+
+P' = Mn * ... * M3 * M2 * M1 * P
+
+#### Homogene Koordinaten
+
+Punkt hat eine 1 unten und ein Vektor eine 0.
+
+#### Rotation um die X Achse
+
+![rotationX](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationX.PNG)
+
+#### Rotation um die Y Achse
+
+![rotationY](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationY.PNG)
+
+#### Rotation um die Z Achse
+
+![rotationZ](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationZ.PNG)
+
+
+
+## 4 - Projektionen
+
+![projektionen](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\projektionen.PNG)
+
+
+
+### Parallelprojektionen
+
+* Alle Projektionsstrahlen verlaufen parallel in eine Richtung. 
+* Projektionszentrum liegt in einem unendlich fernen Punkt. 
+
+![parallelprojektion](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\parallelprojektion.PNG)
+
+
+
+###Perspektivische Projektion
+
+* Bei den perspektivischen Projektionen (Zentralprojektionen) gehen alle Projektionsstrahlen durch das Projektionszentrum, das mit dem Auge des Beobachters zusammenfällt. 
+* Perspektivische Projektionen werden nach der Anzahl der Hauptachsen, die von der Projektionsebene geschnitten werden, klassifiziert. So entstehen 1-Punkt-, 2-Punkt- und 3-Punkt-Perspektiven. 
+
+### Zentralprojektionen
+
++ je zwei parallele Geraden, die nicht parallel zur Projektionsebene sind, treffen sich in einem Punkt, dem Fluchtpunkt. 
++ Es gibt unendlich viele Fluchtpunkte, je einen pro Richtung nicht parallel zur Projektionsebene 
++ Hervorgehoben werden die Fluchtpunkte der Hauptachsen: z.B. Geraden, die parallel zur x-Achse verlaufen, treffen sich in der Projektionsebene im x-Fluchtpunkt. 
+
+## Axonometrie
+
+* Bei der Axonometrie ist die Projektionsebene nicht orthogonal zu einer der Koordinatenachsen. 
+  * Parallele Linien werden auf parallele Linien abgebildet. 
+  * Winkel bleiben nicht erhalten. 
+  * Abstände können längs der Hauptachsen gemessen werden, allerdings i.a. in jeweils anderem Maßstab. 
+* Es gibt drei verschiedene Axonometrische Projektionen: 
+  * Isometrie 30 30
+  * Dimetrie  42 7 
+  * Trimetrie 
+*  Axonometrien werden oft für Handzeichnungen verwendet 
 
