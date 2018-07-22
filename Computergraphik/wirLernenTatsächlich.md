@@ -663,7 +663,33 @@ void main()
 
 ## 7 - Polygonalenetze
 
+### Einfache und nicht-einfache Polygone
 
+- Liegen alle Kanten eines Polygons in einer Ebene, wird das Polygon planar genannt. 
+- Geschlossene einfache Polygone haben immer genauso viele Eckpunkte wie Kanten
+
+![Polygone](C:/Users/Fabian/Desktop/Bilder/Polygone.PNG)
+
+### Unterscheidung Topologie / Geometrie
+
+- Topologie
+  - Die Menge der Eigenschaften eines Objektes, die durch Starrkörpertransformationen (rigid motions, d.h. Rotation, Translation) nicht verändert werden - die Struktur des Modells
+  - Im Beispiel: Das Polygon hat drei Ecken, die jeweils über Kanten in einer festgelegten Reihenfolge miteinander verbunden sind
+- Geometrie
+  - Die „Instanzierung“ der Topologie durch Spezifikation der räumlichen Lage - die Form des Modells. 
+  - Im Beispiel: Die Koordinaten der Eckpunkte
+
+
+
+### Eigenschaften von Polygonen
+
+- Typologische Eigenschaften von Polygonen
+  - Ein planares Polygon zerlegt die Ebene in mehrere Gebiete, mehrere Innere und ein äußeres, das unbegrenzt ist. 
+  - Wichtig dabei ist die Durchlaufrichtung. Eine Kante wird in positiver Durchlaufrichtung durchlaufen, wenn dabei das Innere des Polygon links der Kante liegt. 
+  - Der Rand wird also gegen den Uhrzeigersinn durchlaufen
+- Konvex oder nicht Konvex das ist hier die Frage
+  - ![konvex](C:/Users/Fabian/Desktop/Bilder/konvex.PNG)
+  - ''Wenn man mit dem Fahrrad die Aussenkanten des Polygons entlangfährt und dabei nur nach links oder nur nach rechts lenken muß, ist das Polygon konvex. Wenn man zwischendurch mal die Lenkrichtung wechseln muß, dann ist es konkav. Dabei ist es egal, ob man im Uhrzeigersinn oder gegen den Uhrzeigersinn die Kanten abfährt.''
 
 ## 8 - GLSL Texturen
 
