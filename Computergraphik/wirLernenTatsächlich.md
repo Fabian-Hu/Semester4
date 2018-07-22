@@ -384,7 +384,7 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
   * 
 
-  ## Windowing
+## Windowing
 
   ![windowing](Bilder\windowing.PNG)
 
@@ -400,13 +400,146 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
   Vxl, Vxr, Vyb, Vyt 		Koordinaten des Viewports im BildschirmKoordinatensystem
 
+## Clipping
 
+* Sollen Objekte in der Bildebene innerhalb eines Fensters dargestellt werden, so wird ein Verfahren benötigt, um alle außerhalb des Fensters liegenden Objektteile abzuschneiden. 
+
+### Clipping von Linien
+
+* Beide Endunkte liegen innerhalb des Fensters
+
+  → Linie zeichnen
+
+* Beide Endpunkte der Linie liegen oberhalb, unterhalb, links oder rechts des Fensters:
+  → Linie nicht zeichnen
+
+* Sonst: Schnittpunkte der Linie mit dem Fensterrand berechnen und daraus die sichtbare Strecke bestimmen
+
+### Cohen-Sutherland Line-Clipping
+
+|       | ...gesetzt falls Region... |        |
+| ----- | -------------------------- | ------ |
+| Bit 0 | ...links des Fensters      | x<Xmin |
+| Bit 1 | ...rechts des Fensters     | x>Xmax |
+| Bit 2 | ...unterhalb des Fensters  | y<Ymin |
+| Bit 3 | ...oberhalb des Fensters   | y>Ymax |
+
+![Clipping](Bilder\Clipping.PNG)
+
+### Endpunkte einer Line
+
+* Die Linie liegt vollständig außerhald des Fensters, falls der Durchschnitt ( AND-Verknüpfung) der Codes beider Endpunkte von Null verschieden ist
+* Die Linie liegt komplett im Fenster, wenn beide Endpunkte den 4-Bit Code 0000 besitzen (OR-Verknüpfung ist Null)
+* Sonst
+  * Schneide alle Linien nacheinander mit den das Fenster begrenzenden Geraden
+  * Zerlege jede Linie in zwei Teile, die gemäß obiger Vorgehensweise kategorisiert werden
+  * Der außen liegende Teil wird sofort eliminiert
+
+#### Problem bei Polygon
+
+* Clipping muss wieder geschlossene Polygone zurückgeben, also ggf. Teile des Fensterrandes enthalten
 
 ## 5 - Beleuchtungsschattierung
 
-
+Code zu Shader siehe Kapitel 6 "GLSL"
 
 ## 6 - GLSL
+
+```c++
+// Datentypen - dann können wir kurz durchatmen beim lernen
+bool b;
+int i;
+float a;
+double b;
+vec3 x;
+vec4 y;
+mat3x3 m;
+mat4x4 m;
+mat2x4 m;
+
+// keine Casts nur Konstruktion
+vec3 coord=vec3(0.0); vec4 origin = vec4(coord, 1);
+
+// Selektoren zur Arraydereferenzierung
+vec4 hans = vec4(1.0f,2.0f,3.0f,4.0f);
+// .rgba(Farben) .xyzw(Vertices) .stpq(wenn man keine Ahnung hat oder so)
+// einfacher Zugriff auf Vektoren, da die Menschheit zu faul für eckige Klammern ist
+hans.r == hans.x == hans.s == hans[0]
+
+// Kontrollstrukturen sind normal ( C++)
+
+// Phong Shading btw:
+// Vertex Shader
+in vec3 position;
+in vec3 normal;
+
+uniform mat4 mvp;
+uniform vec3 farbe;
+smooth out vec3 fragmentNormal;
+smooth out vec3 fragmentPosition;
+flat out vec3 fragmentColor;
+
+void main()
+{
+    fragmentNormal = normal;
+    fragmentColor = farbe;
+    fragmentPosition = position;
+    gl_Position  = mvp * vec4(position,  1.0);
+}
+
+// Fragment Shader
+flat in vec3 fragmentColor;
+smooth in vec3 fragmentPosition;
+smooth in vec3 fragmentNormal;
+
+uniform mat4 mvp; 
+uniform mat4 model;
+uniform mat3 normaleMatrix;
+uniform vec4 light;
+uniform vec3 viewpoint;
+uniform vec3 material;
+uniform int scheinHeiligKeit;
+
+out vec3 fragColor;
+
+void main()
+{
+    float is = 0;
+    vec3 v;
+    vec3 richtLichtung;
+    vec3 n = normalize(normaleMatrix * fragmentNormal);
+
+    if (light.w == 0) {
+        richtLichtung = normalize(light.xyz * -1);
+        v = normalize(fragmentPosition - viewpoint);
+        is = pow(max(0.0f, dot(n, (richtLichtung + v * -1)/length(richtLichtung + v * -1))), scheinHeiligKeit *4);
+    } else {
+        richtLichtung = normalize(light.xyz - (model * vec4(fragmentPosition,  1.0)).xyz);
+        v = normalize((model * vec4(fragmentPosition,  1.0)).xyz - viewpoint);
+        is = pow(max(0.0f, dot(reflect(richtLichtung, n), v)), scheinHeiligKeit );
+    }
+
+    is *= material.y;
+
+    float ia = material.z * 0.1f;
+    float id = material.x * dot(richtLichtung, n);
+
+    fragColor[0] = max(0.0f, fragmentColor[0] * id + is + ia);
+    fragColor[1] = max(0.0f, fragmentColor[1] * id + is + ia);
+    fragColor[2] = max(0.0f, fragmentColor[2] * id + is + ia);
+}
+
+// Gourouad oder so Shading
+// wie phong, aber das was im vert Shader passiert geschieht jetzt im frag Shader und umgekehrt
+// Im Vert Shader muss farauf geachtet werden, dass das die fragmentColor smooth ist
+
+// Flat Shading
+// wie gyarados shading, allerdings ist die fragmentColor jetzt flat anstatt smooth
+```
+
+
+
+
 
 
 
@@ -420,8 +553,10 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
 ## 9 - Decasteljau
 
+$b^j_i = (1-t) * b^{j-1}_i  + t * b^{j-1}_{i+1} $
 
+ $b_i$ sind die jeweiligen Punkte
 
-$b^1_0 = (1-t_1) * b + t_1 * b$
+das j steht dann für die Iterationen
 
- 
+t ist dann die Position  zwischen 0 und 1
