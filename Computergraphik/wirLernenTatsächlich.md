@@ -308,6 +308,24 @@ Punkt hat eine 1 unten und ein Vektor eine 0.
 
 ![rotationZ](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationZ.PNG)
 
+### Transformationen im Code
+
+```c++
+// Translation
+// wireSphere.model ist das zu bewegende Objekt, position ist der Vector, um den das model bewegt werden soll
+object.model = glm::translate(object.model, position);
+
+// Scale
+// model wird halbiert | wenn man einen Wert bei einem Vector angibt, sind alle Werte dieser Wert
+object.model = glm::scale(glm::vec3(0.5f)) * object.model;
+
+// Rotation
+// die Rotations Funktionen benutzen radians und nicht grad
+float radians = (angle * (float)PI / 180.0f);
+//						zu erstellende Matrix, Winkel, Achse(hier Z-Achse)
+object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)) * object.model;
+```
+
 
 
 ## 4 - Projektionen
@@ -347,4 +365,24 @@ Punkt hat eine 1 unten und ein Vektor eine 0.
   * Dimetrie  42 7 
   * Trimetrie 
 *  Axonometrien werden oft für Handzeichnungen verwendet 
+
+
+
+## 5 - Beleuchtungsschattierung
+
+
+
+## 6 - GLSL
+
+
+
+## 7 - Polygonalenetze
+
+
+
+## 8 - GLSL Texturen
+
+
+
+## 9 - Decasteljau
 
