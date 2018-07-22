@@ -17,11 +17,11 @@ High-level Software-Zugang:
 
 * Moderne Werkzeuge, wie z. B. 3D Studio Max oder Maya ermöglichen den komfortablen Umgang mit Computergrafiktechniken für eine breite Anwenderschicht 
 
-![pipelini](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\pipelini.PNG)
+![pipelini](Bilder\pipelini.PNG)
 
 ## 2 - OpenGL 
 
-![Shader](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\Shader.PNG)
+![Shader](Bilder\Shader.PNG)
 
 
 
@@ -212,13 +212,13 @@ int main(int argc, char** argv)
 
 ### Farbmodelle
 
-![rgb](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rgb.PNG)
+![rgb](Bilder\rgb.PNG)
 
-![cmy](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\cmy.PNG)
+![cmy](Bilder\cmy.PNG)
 
 ### HSV
 
-![hsv](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\hsv.PNG)
+![hsv](Bilder\hsv.PNG)
 
 Hue / Farbe („Farbfamilie“) 
 
@@ -232,7 +232,7 @@ Value / Helligkeit
 
 * 0 ≤ V ≤ 1; Verkleinerung addiert Schwarz 
 
-![hsv_rgb](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\hsv_rgb.PNG)
+![hsv_rgb](Bilder\hsv_rgb.PNG)
 
 ### RGB zu HSV
 
@@ -270,23 +270,23 @@ Value calculation:
 
 ## 4 - Transformationen und Projektionen
 
-![Pipeline](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\Pipeline.PNG)
+![Pipeline](Bilder\Pipeline.PNG)
 
 #### Translation
 
-![translation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\translation.PNG)
+![translation](Bilder\translation.PNG)
 
 #### Rotation in 2D
 
-![rotation2D](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotation2D.PNG)
+![rotation2D](Bilder\rotation2D.PNG)
 
 #### Skalierung
 
- ![skaliation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\skaliation.PNG)
+ ![skaliation](Bilder\skaliation.PNG)
 
 #### Scherung
 
-![scheriation](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\scheriation.PNG)
+![scheriation](Bilder\scheriation.PNG)
 
 #### Komposition von Transformationen
 
@@ -298,15 +298,15 @@ Punkt hat eine 1 unten und ein Vektor eine 0.
 
 #### Rotation um die X Achse
 
-![rotationX](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationX.PNG)
+![rotationX](Bilder\rotationX.PNG)
 
 #### Rotation um die Y Achse
 
-![rotationY](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationY.PNG)
+![rotationY](Bilder\rotationY.PNG)
 
 #### Rotation um die Z Achse
 
-![rotationZ](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\rotationZ.PNG)
+![rotationZ](Bilder\rotationZ.PNG)
 
 ### Transformationen im Code
 
@@ -330,7 +330,7 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
 ## 4 - Projektionen
 
-![projektionen](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\projektionen.PNG)
+![projektionen](Bilder\projektionen.PNG)
 
 
 
@@ -339,7 +339,7 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 * Alle Projektionsstrahlen verlaufen parallel in eine Richtung. 
 * Projektionszentrum liegt in einem unendlich fernen Punkt. 
 
-![parallelprojektion](D:\Studium\Semester4\Semester4\Computergraphik\Bilder\parallelprojektion.PNG)
+![parallelprojektion](Bilder\parallelprojektion.PNG)
 
 
 
@@ -354,17 +354,51 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 + Es gibt unendlich viele Fluchtpunkte, je einen pro Richtung nicht parallel zur Projektionsebene 
 + Hervorgehoben werden die Fluchtpunkte der Hauptachsen: z.B. Geraden, die parallel zur x-Achse verlaufen, treffen sich in der Projektionsebene im x-Fluchtpunkt. 
 
-## Axonometrie
+* ![berechungzentralprojektion](Bilder\berechungzentralprojektion.PNG)
 
-* Bei der Axonometrie ist die Projektionsebene nicht orthogonal zu einer der Koordinatenachsen. 
-  * Parallele Linien werden auf parallele Linien abgebildet. 
-  * Winkel bleiben nicht erhalten. 
-  * Abstände können längs der Hauptachsen gemessen werden, allerdings i.a. in jeweils anderem Maßstab. 
-* Es gibt drei verschiedene Axonometrische Projektionen: 
-  * Isometrie 30 30
-  * Dimetrie  42 7 
-  * Trimetrie 
-*  Axonometrien werden oft für Handzeichnungen verwendet 
+  ![berechungzentralprojektion2](Bilder\berechungzentralprojektion2.PNG)
+
+  ###Kavalier- und Kabinettprojektionen
+
+  * Kavalier- und Kabinettprojektionen gehören zu den schiefwinkligen Parallelprojektionen. Sie entstehen, wenn sich die Projektionsrichtung von der Projektionsebenennormalen unterscheidet.
+
+  ### Axonometrie
+
+  - Bei der Axonometrie ist die Projektionsebene nicht orthogonal zu einer der Koordinatenachsen. 
+    - Parallele Linien werden auf parallele Linien abgebildet. 
+    - Winkel bleiben nicht erhalten. 
+    - Abstände können längs der Hauptachsen gemessen werden, allerdings i.a. in jeweils anderem Maßstab. 
+  - Es gibt drei verschiedene Axonometrische Projektionen: 
+    - Isometrie 30 30
+    - Dimetrie  42 7 
+    - Trimetrie 
+  - Axonometrien werden oft für Handzeichnungen verwendet 
+
+  ### Zusammenfassung Parrallelprojektionen
+
+  * in 3D-CAD verwendet
+  * Längen bleiben erhalten oder werden unabhängig vom Abstand der Objekte zur Bildebene mit einem festen Faktor skaliert.
+  * Winkel bleiben erhalten oder werden durch eine festgelegte Art und Weise abgebildet
+  * Messungen im projizierten Bild sind möglich, jedoch ohne Tiefeninformationen
+  * Darstellung als Projektionsmatrix ist möglich
+
+  * 
+
+  ## Windowing
+
+  ![windowing](Bilder\windowing.PNG)
+
+  ![windowing2](Bilder\windowing2.PNG)
+
+  Legende:
+
+  xw, yw 				Punktkoordinaten im Window
+
+  xs, ys 				Punktkoordinaten auf dem Bildschirm.
+
+  Wxl, Wxr, Wyb, Wyt 	Koordinaten des Windows. 
+
+  Vxl, Vxr, Vyb, Vyt 		Koordinaten des Viewports im BildschirmKoordinatensystem
 
 
 
@@ -386,3 +420,8 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
 ## 9 - Decasteljau
 
+
+
+$b^1_0 = (1-t_1) * b + t_1 * b$
+
+ 
