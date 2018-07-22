@@ -445,6 +445,115 @@ Irgendwie ist die Tabelle und das Bild nicht so zusammengehörig.
 
 Code zu Shader siehe Kapitel 6 "GLSL"
 
+#### Lokales Beleuchtungsmodell
+
+* nur direkte Beleuchtung
+* keine Reflektionen von einem Objekt auf ein anderes
+
+#### Globales Beleuchtungsmodell
+
+* direkte und indirekte Beleuchtung
+* Radiosity und Raytracing siehe unten
+
+#### Schattierungsmodell
+
+* bestimmt wann und wo welches Beleuchtungsmodell eingesetzt wird
+* zwei Vorgehensmodelle
+  * Auswertung eines Beleuchtungsmodells für jedes Pixel
+  * Auswertug nur für ausgewählte Pixel; Farben der Zwischenpixel werden per Interpolation bestimmt
+
+Beleuchtung der Szene erfolgt in Weltkoordinaten
+Interpolation zwischen Intensitätswerten erfolgt in Bildschirmkoordinaten
+--> zwar mathematisch inkorrekt, hat sich aber bewährt...
+
+#### Reflexionen
+
+##### Reflexionsgesetz
+
+Einfallswinkel = Ausfallswinkel
+
+Perfect Specular Reflection
+
+* keine Aufstreuung --> perfekter Spiegel
+* existiert in der Realität nicht
+
+Imperfect Specular Reflection
+
+* Lichtstrahl wird bei der Reflexion aufgespalten --> Reflektionskonus
+* bei rauer Oberflächer, oder einem unvollkommenden Spiegel
+
+Perfect diffuse Reflection
+
+* bei Reflektion perfekt gestreut
+  * gleichmäßige Intensität in alle Richtungen
+* bei einer idealen matten Oberfläche
+* existiert auch nicht^^
+
+Ambient Light
+
+* aus Einfachheit eine konstante Lichtquelle, die das indirekte Licht simuliert
+
+#### Phong Beleuchtungsmodell
+
+* kein Versuch die Physik zu realisieren
+* indirektes Licht wird durch eine ambiente Konstante nur befriedigend dargestellt
+* Oberflächen wirken immer wie Plastik; Metall nicht möglich
+
+Phong verbindet drei Reflektionstypen:
+
+* imperfect specular
+* perfect diffuse
+* ambient light
+
+### Formelzeit - diese Formel ist mit wichtig makiert
+
+Bei jeder Formel muss jeder Vektor normiert sein!!!
+
+$ I = k_dI_d + k_sI_s + k_aI_a$
+$ I=I_i(k_d(L*N) + k_s(R*V)^n)+k_aI_a  $
+
+Gewichtung der einzelnen Reflektionstypen:
+$ k_d + k_s + k_a = 1 $
+
+n ist eine Konstante, die die Materialbeschaffenheit widerspiegelt(sie simuliert den Perfektionsgrad der Oberfläche)
+
+!! umso höher das $k_s$ umso stärker ist die Spiegelung, umso höher das n umso fokussierter ist die Spiegelung !!
+---> da hat Müller gesagt, dass das superwichtig ist
+
+$I_i$ ist die Intensität des einfallenden Lichts
+L ist der Vektor, von dem zu berechnenden Punkt zu der Punktlichtquelle
+V ist der Vektor vom Punkt zum Augpunkt
+N ist die FlächenNormale zu dem Punkt
+R ist der Reflexionsvektor $R=2(L*N)N-L$
+$I_a$ ist eine konstante
+
+#### Farbe - BlinnPhong
+
+$H=(L+V/||L+V||)$
+
+![BlinnPhong](Bilder\BlinnPhong.PNG)
+
+
+
+### Shading
+
+Flat Shading
+
+* einfach und effizientes Verfahren ohne Interpolation
+* Kanten der Polygonnetze bleiben erhalten 
+
+### Gouraud Shading
+
+* Verfahren, indem die Kanten der Polygonnetze durch Interpolation geglättet werden
+* Die Auswertung erfolgt ausschließlich in den Polygoneckpunkten mithilfe derer Normalen
+* Highlights werden etwas verschluckt
+
+### Phong Shading
+
+* Auswertun des Beleuchtungsmodells erfolgt in jedem projizierten Punkt
+* interpolierte Normalen
+* super mega aufwändig
+
 ## 6 - GLSL
 
 ```c++
@@ -511,21 +620,28 @@ void main()
     vec3 richtLichtung;
     vec3 n = normalize(normaleMatrix * fragmentNormal);
 
-    if (light.w == 0) {
+    if (light.w == 0) { // Unterscheidung zwischen Punkt und Richtungslicht
         richtLichtung = normalize(light.xyz * -1);
         v = normalize(fragmentPosition - viewpoint);
+        
+        // Berechnung des Specular Lights
         is = pow(max(0.0f, dot(n, (richtLichtung + v * -1)/length(richtLichtung + v * -1))), scheinHeiligKeit *4);
     } else {
         richtLichtung = normalize(light.xyz - (model * vec4(fragmentPosition,  1.0)).xyz);
         v = normalize((model * vec4(fragmentPosition,  1.0)).xyz - viewpoint);
+        
+        // Berechnung des Specular Lights
         is = pow(max(0.0f, dot(reflect(richtLichtung, n), v)), scheinHeiligKeit );
     }
 
     is *= material.y;
 
+    // Hinzufügen eines konstanten ambienten Lichts
     float ia = material.z * 0.1f;
+    // Berechnung des diffusen Lichts ; Skalarprodukt aus dem Lichtvektor und der Punktnormalen
     float id = material.x * dot(richtLichtung, n);
 
+    // Beleuchtungsmodell Blinn-Phong; das max stellt lediglich sicher, dass der Farbwert mindestens 0 ist.
     fragColor[0] = max(0.0f, fragmentColor[0] * id + is + ia);
     fragColor[1] = max(0.0f, fragmentColor[1] * id + is + ia);
     fragColor[2] = max(0.0f, fragmentColor[2] * id + is + ia);
@@ -572,9 +688,22 @@ Per Projektion:
 
 Texturkoordinaten(s,t) -> s ist wie die x-Achse und t dementsprechend die Y-Achse
 
+Texel
 
+* Texture Pixel
 
+Magnification
 
+* Nächster Texel wird vom Pixel abgebildet
+
+Minification
+
+* Viele Texel fallen in ein Pixel
+
+Mipmapping
+
+* Mit jedem Level wird ein 2x2 Texel zu einem einzigen zusammengefasst
+  * Dadurch ist die Textur für die Entfernung ungenauer, aber immer noch detailgetreu
 
 ## 9 - Decasteljau
 
