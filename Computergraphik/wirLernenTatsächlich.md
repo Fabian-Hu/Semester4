@@ -417,6 +417,8 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
 ### Cohen-Sutherland Line-Clipping
 
+Irgendwie ist die Tabelle und das Bild nicht so zusammengehörig.
+
 |       | ...gesetzt falls Region... |        |
 | ----- | -------------------------- | ------ |
 | Bit 0 | ...links des Fensters      | x<Xmin |
@@ -548,6 +550,29 @@ void main()
 
 
 ## 8 - GLSL Texturen
+
+Texture Mapping:
+
+* Textur + Vertices mit Texturkoordinaten = Texturiertes Polygon
+
+Per Attribut:
+
+* Jeder Vertex hat:
+  * Position
+  * Normal
+  * Texkoord
+
+Texturatlas:
+
+* Alle Polygone eines Objekts in einer Textur
+
+Per Projektion:
+
+* Modellpunkt auf Zylinder/ Kugel/ Ebene
+
+Texturkoordinaten(s,t) -> s ist wie die x-Achse und t dementsprechend die Y-Achse
+
+
 
 
 
