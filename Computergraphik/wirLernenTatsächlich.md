@@ -668,7 +668,7 @@ void main()
 - Liegen alle Kanten eines Polygons in einer Ebene, wird das Polygon planar genannt. 
 - Geschlossene einfache Polygone haben immer genauso viele Eckpunkte wie Kanten
 
-![Polygone](C:/Users/Fabian/Desktop/Bilder/Polygone.PNG)
+![Polygone](Bilder/Polygone.PNG)
 
 ### Unterscheidung Topologie / Geometrie
 
@@ -688,7 +688,7 @@ void main()
   - Wichtig dabei ist die Durchlaufrichtung. Eine Kante wird in positiver Durchlaufrichtung durchlaufen, wenn dabei das Innere des Polygon links der Kante liegt. 
   - Der Rand wird also gegen den Uhrzeigersinn durchlaufen
 - Konvex oder nicht Konvex das ist hier die Frage
-  - ![konvex](C:/Users/Fabian/Desktop/Bilder/konvex.PNG)
+  - ![konvex](Bilder/konvex.PNG)
   - ''Wenn man mit dem Fahrrad die Aussenkanten des Polygons entlangfährt und dabei nur nach links oder nur nach rechts lenken muß, ist das Polygon konvex. Wenn man zwischendurch mal die Lenkrichtung wechseln muß, dann ist es konkav. Dabei ist es egal, ob man im Uhrzeigersinn oder gegen den Uhrzeigersinn die Kanten abfährt.''
 
 ## 8 - GLSL Texturen
