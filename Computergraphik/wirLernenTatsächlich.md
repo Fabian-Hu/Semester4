@@ -390,6 +390,9 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
 
   ![windowing2](Bilder\windowing2.PNG)
 
+# $x_s=\frac{V_{xr}-V_{xl}}{W_{xr}-W_{xl}} * x_w + V_{xl}-\frac{V_{xr}-V_{xl}}{W_{xr}-W_{xl}}*W_{xl}$
+# $y_s=\frac{V_{yt}-V_{yb}}{W_{yt}-W_{yb}} * y_w + V_{yb}-\frac{V_{yt}-V_{yb}}{W_{yt}-W_{yb}}*W_{yb}$
+
   Legende:
 
   xw, yw 				Punktkoordinaten im Window
@@ -654,12 +657,6 @@ void main()
 // Flat Shading
 // wie gyarados shading, allerdings ist die fragmentColor jetzt flat anstatt smooth
 ```
-
-
-
-
-
-
 
 ## 7 - Polygonalenetze
 
