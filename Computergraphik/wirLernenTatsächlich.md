@@ -382,7 +382,8 @@ object.model = glm::rotate(glm::mat3(1.0f), radians, glm::vec3(0.0f, 0.0f, 1.0f)
   * Messungen im projizierten Bild sind möglich, jedoch ohne Tiefeninformationen
   * Darstellung als Projektionsmatrix ist möglich
 
-  * 
+    
+
 
 ## Windowing
 
@@ -512,11 +513,13 @@ Phong verbindet drei Reflektionstypen:
 
 Bei jeder Formel muss jeder Vektor normiert sein!!!
 
-$ I = k_dI_d + k_sI_s + k_aI_a$
-$ I=I_i(k_d(L*N) + k_s(R*V)^n)+k_aI_a  $
+## $ I = k_dI_d + k_sI_s + k_aI_a$
+
+## $ I=I_i(k_d(L*N) + k_s(R*V)^n)+k_aI_a  $
 
 Gewichtung der einzelnen Reflektionstypen:
-$ k_d + k_s + k_a = 1 $
+
+## $ k_d + k_s + k_a = 1 $
 
 n ist eine Konstante, die die Materialbeschaffenheit widerspiegelt(sie simuliert den Perfektionsgrad der Oberfläche)
 
@@ -532,7 +535,7 @@ $I_a$ ist eine konstante
 
 #### Farbe - BlinnPhong
 
-$H=(L+V/||L+V||)$
+## $H=\frac{L+V}{||L+V||}$
 
 ![BlinnPhong](Bilder\BlinnPhong.PNG)
 
