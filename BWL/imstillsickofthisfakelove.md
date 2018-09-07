@@ -254,6 +254,112 @@ Aufgabe der kurzfristigen Finanzplanung ist es, Überliquidität und Unterliquid
 
 # Der Leistungsbereich
 
+![dasistsehrwichtig](D:\Studium\Semester4\Semester4\BWL\Bilder\dasistsehrwichtig.PNG)
+
+![poduktionspozess](D:\Studium\Semester4\Semester4\BWL\Bilder\poduktionspozess.PNG)
+
+Produktionsfaktoren:
+
+- sind materielle und immaterielle Güter,
+- sind Ausgangsbasis der Leistungserstellung und
+- werden zwecks Erstellung des Outputs einer Umwandlung unterzogen. 
+
+Synonyme Begriffe: Input, Faktoreinsatz, Inputfaktoren. 
+
+Es ist zwischen volkswirtschaftlicher und betriebswirtschaftlicher Betrachtungsweise zu differenzieren 
+
+
+
+Moderne volkswirtschaftliche Betrachtungsweise
+
+Produktionsfaktoren:
+
+- Arbeit
+- Boden und Kapital (Infrastruktur)
+- Information / Wissen (Humankapital). 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Unternehmensführung und Steuerung
