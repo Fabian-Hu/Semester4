@@ -251,6 +251,176 @@ siehe Vorlesung 6 für Bilder von State Charts
 
 
 
+## Vorlsung 8 - Scheduling
+
+
+
+
+
+
+
+
+
+## Vorlsung 9 - RTOS
+
+###Standard-Software 
+
++ Wiederverwendbare Standardkomponenten 
+  + Hardware-Abstraction-Layer 
+  + Middleware 
+  +  (Real Time) Operating Systems 
++  Oft auch als Intellectual Property IP bezeichnet (Geistiges Eigentum) 
+
+###Hardware-Abstraction-Layer HAL 
+
+Schicht zwischen (Anwendungs-)Software und Hardware 
+
+“Standardisierte” Programmierschnittstelle unabhängig von unterliegender Hardware 
+
+Kapselung von Hardware-spezifischen Programmcode
+
+Erlaubt einfache Portierung auf andere Hardware 
+
+###Middleware 
+
++ Nutzbare Zusatzsoftware für Anwendungsprogrammierung 
++ Zwischenschicht/Vermittlungssoftware zwischen Betriebssystem und Anwendung 
++ Oft gemeint: Kommunikationsbibliotheken  
++ z.b CORBA
+
+### Eingebettete Betriebssysteme 
+
++ Allgemeine Anforderungen 
+  + Konfigurierbarkeit (zur Compile-Zeit) 
+  + Abarbeitung von Peripherie in Tasks und nicht im Kernel
+  + Schutzmechanismen für Sicherheit, aber normalerweise nicht für direkte Speicherzugriffe 
+  + Direktes Nutzen von Interrupts 
+
+### Echtzeitbetriebssysteme RTOS 
+
++ Anforderungen an Echtzeitbetriebssystem (real-time operating system): 
+  + Vorhersagbares Zeitverhalten 
+    + Garantierte obere Schranke für Laufzeit 
+    + Deterministisches Scheduling 
+  + Zeitverwaltung/Scheduler bei Betriebssystem 
+    + Priorisierung und hohe Präzision für Zeitdiensten 
+    + Schnelles/vorhersagbares Umschalten (~Sekundenbruchteile) 
++ Gerätetreiber außerhalbs des Echtzeitbetriebssystem-Kerns 
+  + Aufgaben des Kerns: 
+    + Task-, Speicher- und Zeitverwaltung
+    + Intertask-Synchronisation und -Kommunikation 
+
+![Betreibsssysssteme](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\Betreibsssysssteme.PNG)
+
+
+
++ Vorteile: 
+  + Vorhandene Funktionalität, z.B. 
+    + Scheduler 
+    + Timer- und Interrupt-Handling 
+  + Gegebene Modularität 
+  + Portierbar- und Wartbarkeit 
+
+### POSIX 
+
+POSIX (Portable Operating System Interface) mit Echtzeit-Erweiterung 
+
++ Vorgabe einer API für Unix-ähnliche Betriebssysteme 
+
+  include <pthread.h>
+
+### RTOS-Standard: OSEK/VDX 
+
++ Gremium: Offene Systeme und deren Schnittstellen für die Elektronik im Kraftfahrzeug (OSEK) / Vehicle Distributed eXecutive (VDX) 
++ OSEK-OS, u.a. statischer Kernel: keine dynamische Speicherallokation und keine dynamische Generierung von Tasks 
+
+###RTOS-Standard: AUTOSAR 
+
++ Gremium für AUTomotive Open System ARchitecture 
++ Fortsetzung von OSEK/VDX 
++ Beschreibung u.a. 
+  + Trennung von Basis-Software (für Infrastruktur des Steuergeräts) und Anwendungssoftware 
+  + Kommunikation der Basis- und Anwendungssoftware über virtuellen funktionalen Bus (Schnittstellen-API) 
+  + Runtime Environment (Middleware) 
+
+### Echtzeiterweiterungen von Betriebssystemen 
+
+Hybride Betriebssysteme für Echtzeit- und andere Tasks 
+
++ 1.Komponenten-Austausch beim Standard-Betriebssystem, z.B. des Schedulers 
+  + Problem: Abhängigkeiten von Tasks nicht berücksichtigt 
++ 2.Standard-Betriebssystem läuft als Task eines Echtzeitkerns 
+  + Probleme beim Standard-Betriebssystem beeinflussen den Echtzeitkern nicht. 
+  + Aufteilung von Geräten zwischen beiden Systemen ist möglicherweise notwendig. 
+
+![echt](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\echt.PNG)
+
+
+
+### Linux für Eingebettete Systeme 
+
++ Beide Ansätze hybrider Echtzeiterweiterungen vorhanden: 
+  + PREEMPT_RT (Scheduler ausgetauscht) 
+    +  Präemptiver Kernel (aus User-Mode kann Kernel-Mode unterbrochen werden) 
+  + RTLinux 
+    + Linux als Task eines Real-Time Kernels 
+
+### FreeRTOS 
+
+- Unterstützung verschiedener Hardware-Plattformen 
+- Single-Core, (Multi-Core ist selbst zu implementieren.) 
+- Kleiner Kernel (ab 5 KB) 
+- Open Source unter GPL, aber nutzbar für kommerzielle Projekte 
+
+##### Features 
+
+Präemptives und kooperatives Scheduling 
+
+Flexibles Management von Taskprioritäten 
+
+Queues 
+
+Semaphoren und Mutexes 
+
+Tick und Idle Hook Funktionen 
+
+Stack Overflow checking 
+
+### FreeRTOS: Task-Zustände 
+
++ Not-Running: 
+  + Blocked: Warten auf Zeit- oder Synchronisation-Ereignis 
+  + Suspended: ausgesetzt vom Scheduling mittels API Funktion 
+  + Ready: Bereit zur Ausführung 
++ Running: In Ausführung 
+
+Rate Monotonic Scheduling mit FreeRTOS 
+
+- Verhindern von eigenen Prioritätsänderung der Tasks 
+- Zuordnen der Prioritäten entsprechend RMS, d.h. je kleiner die Periode je höher die Priorität eines Tasks 
+- Keine gleichen sondern nur eindeutige Prioritäten 
+
+Queues 
+
+- zur Kommunikation zwischen Tasks 
+- üblicherweise in FIFO modus 
+- eigenständig (gehören keinem Task) 
+- Zugriff auf Queue eines Tasks optional mit Wartezeit 
+  - Task in Blocked-Zustand bis Lese/Schreib-Zugriff möglich oder bis Wartezeit abgelaufen
+  - Höchste Priorität gewinnt, sonst längste Wartezeit bei mehreren Tasks in Blocked-Zustand 
+
+
+
+
+
+## Vorlsung 10 - ImplementierungsStandards
+
+
+
+
+
+
+
 
 
 
