@@ -317,40 +317,46 @@ man versucht bei der Seitenersetzungsstrategie möglichst wenig Transfers von Se
 - LRU
   - auslagern der am längsten unbenutzen Seite
   - schwierig und ineffizient
+- NRU
+  - Die Seiten werden in Klassen eingeteilt
+  - dafür wird das R und M Bit ausgewertet
+  - aus der niedrigsten nicht leeren Klasse wird eine zufällige Seite verdrängt
+- Second Chance
+  - FIFO mit zweiter Chance	
+  - Anstatt die älteste Seite auszulagern wird das R-Bit gelöscht
+  - Die älteste Seite ohne R-Bit wird ausgelagert
+- Beladys Anomalie
+  - Zahl der Rahmen erhöhen
+  - verringert nicht zwangsläufig die Seitenfehler
+  - kein eigener Algorithmus
+- Working Set Strategie
+  - Die meisten Prozesse starten mit einer Seite und laden dann bei Bedarf Seiten nach (Demand Paging): 
+  - Menge der Seiten, die ein Prozess zu einem bestimmten Zeitpunkt benutzt heißt Working Set.  
+  - das Betriebssystem merkt sich das working Set beim einlagern eines Prozesses
 
+Entladestrategie
 
+- Demand-Cleaning:
+  - Bei Bedarf
+  - Vorteil: Seite lang im Hauptspeicher
+  - Nachteil: Verzögerung bei Seitenwechsel
+- Precleaning:
+  - Präventives Zurückschreiben, wenn Zeit ist
+  - Vorteil: Frames in der Regel verfügbar
+- Page-Buffering:
+  - Listen verwalten
+  - Modified List: Wird zwischengepuffert
+  - Unmodified List: Für Entladen freigegeben 
 
-# Vorlesung 8 - Speicherverwaldung II
+Lokalitätsprinzip
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Prozesse weisen zeitliche und räumliche Lokalität auf: 
+  - zeitlich: 
+    - kürzlich angesprochene Adresse wird in naher Zukunft wieder angesprochen. 
+    - Gründe: Schleifen, Unterprogramme, Stacks, Zählvariable 
+  - räumlich:
+    - Adressen in der Nachbarschaft kürzlich angesprochener Adressen werden mit größerer Wahrscheinlichkeit angesprochen als weiter entfernte.
+    - Gründe: Durchlaufen von Feldern, sequentieller Code-Zugriff 
 
 
 
