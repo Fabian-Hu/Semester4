@@ -362,23 +362,55 @@ Lokalitätsprinzip
 
 # Vorlesung 9 - Dateisysteme
 
+##Virtueller Speichertechnik 
+
++ Abrufstrategie 
++ Speicherzuteilungsstrategie 
++ Austauschstrategie 
++ Verdrängungsstrategie 
++ Aufräumstrategie 
+
+######## Seitenrahmenverwaltungslisten 
+
++ Modified-Page-List
+  + Seiten, die bereits für die Seitenersetzung ausgewählt wurden, aber noch nicht ausgelagert wurden und auch dem nutzenden Prozess noch zugeordnet sind
++ Standby-Page-List
+  + Wie modified page list, mit dem Unterschied dass sie „clean“ sind, also eine gültige Kopie auf der Paging Area haben 
++ Free-Page-List
+  + Frames, die bereits „clean“ sind und keinem Prozess mehr zugeordnet sind
++ Zero-Page-List
+  + Wie die free page list und zusätzlich mit Nullen initialisiert ▪ Weitere Liste hält defekte Speicherseiten (Bad-RAM-Page-List) 
+
+Einige Threads arbeiten an der Verwaltung dieser Listen mit
+
+- Swapper-Thread:
+  - Läuft alle paar Sek., sucht nach Prozessen, die schon länger nichts tun (idle) und legt deren Frames in die Modified- oder Standby-Page-List
+- Modified-Page-Writer-Thread:
+  - Laufen periodisch und sorgen für genügend saubere Seiten durch Umschichtung von der Modified-Page-List in die Standby-Page-List (vorher wird auf Platte gesichert)
+- Zero-Page-Thread:
+  - Läuft mit niedriger Priorität, löscht Frames aus der Free-Page-List und legt sie in die Zero-Page-List 
 
 
 
+## Dateisysteme
+
+- Gerätedateien
+  - einblenden von Geräten (Festplatte) als spezielle Datei im Dateisystem
+- Prozess  Dateien
+  - Infos zu laufenden Prozessen
+- Pipe Dateien
+  - Kommunikation zwischen Prozessen
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+- FAT - File Allocation Table
+  - Infos über Speicher in Tabelle
+  - 8 Zeichen Dateiname
+  - begrenzte Dateigrößen, weil Clusterbelegung(länge 12, 16 oder 32 Bit)
+- UFS - Unix File System
+  - Anstatt dem Startpunkt des Clusters gibt es eine Indiceliste
+- NTFS - NT File System
+  - 
 
 
 
