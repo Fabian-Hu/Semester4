@@ -52,11 +52,11 @@ Zustände:
 - Neu (new): Ein neuer Prozess wird erzeugt.
 - Beendet (terminated): Der Prozess ist beendet.  
 
-![threads](D:\Studium\Semester4\Semester4\Betriebssysteme\Bilder\threads.PNG)
+![threads](Bilder\threads.PNG)
 
 # Vorlesung 4 - Scheduling
 
-![schedulingbegriffe](D:\Studium\Semester4\Semester4\Betriebssysteme\Bilder\schedulingbegriffe.PNG)
+![schedulingbegriffe](Bilder\schedulingbegriffe.PNG)
 
 Parallele Prozesse:
 
@@ -164,7 +164,7 @@ Zwei Phasen des Algorithmus:
 
 # Vorlesung 7 - Speicherverwaldung I
 
-![xfvyxfgvxfgfgd](D:\Studium\Semester4\Semester4\Betriebssysteme\Bilder\xfvyxfgvxfgfgd.PNG)
+![xfvyxfgvxfgfgd](Bilder\xfvyxfgvxfgfgd.PNG)
 
 
 
@@ -265,7 +265,7 @@ Was passiert bei einem Zugriff auf eine nicht geladene Seite?
 
 ### Struktur eines Page Table Eintrags
 
-![Candypop](D:\Studium\Semester4\Semester4\Betriebssysteme\Bilder\Candypop.PNG)
+![Candypop](Bilder\Candypop.PNG)
 
 - Page frame number:
   - Verweis auf Seitenrahmen
