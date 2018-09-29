@@ -1,6 +1,6 @@
 # Embedded
 
-![Codedesign](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\Codedesign.PNG)
+![Codedesign](Bilder\Codedesign.PNG)
 
 ## Vorlsung 1 - Einleitung 
 
@@ -55,7 +55,7 @@ Q = C * U
 
 #### Pull-Up Pull-Down
 
-![pullupdown](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\pullupdown.PNG)
+![pullupdown](Bilder\pullupdown.PNG)
 
 Will man dafür sorgen, dass der Eingangspin logisch LOW erhält, wenn die Taste gedrückt wird, so gilt Teilbild 1.1. 
 
@@ -137,7 +137,7 @@ Bootloader
 
 
 
-![hardware](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\hardware.PNG)
+![hardware](Bilder\hardware.PNG)
 
 
 
@@ -162,9 +162,9 @@ Mikrocontroller
 
 - Mikroprozessor plus Speicher und I/O 
 
-![mikroprozessor](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\mikroprozessor.PNG)
+![mikroprozessor](Bilder\mikroprozessor.PNG)
 
-![interrupts](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\interrupts.PNG)
+![interrupts](Bilder\interrupts.PNG)
 
 Watchdog / Wachhund 
 
@@ -241,15 +241,45 @@ siehe Vorlesung 6 für Bilder von State Charts
 
 ## Vorlsung 7 - ModSprach
 
+![Itgoeson](Bilder\Itgoeson.PNG)
 
+#### Use case diagrmamemmqe3rf
 
+![letme](Bilder\letme.PNG)
 
+#### Aktivitationitätigkeitigkeitsdiagramm
 
+![youremyheartshaker](Bilder\youremyheartshaker.PNG)
 
+##### , Zeitverlaufsdiagramma
 
+![issanagay](Bilder\issanagay.PNG)
 
+#### Sequenzdiagramm
 
+![Baepsae](Bilder\Baepsae.PNG)
 
+#### kontextdiagramm
+
+![silverspoon](Bilder\silverspoon.PNG)
+
+#### Anforderungsdiagramm
+
+![keepitreallyman](Bilder\keepitreallyman.PNG)
+
+##### Requirementsdiagrammition
+
+![yougottaknowthatyourforreal](Bilder\yougottaknowthatyourforreal.PNG)
+
+#### Blockdefinitionsdiagramm
+
+![Blockdia](Bilder\Blockdia.PNG)
+
+###### Internes Blockdiagramm![internesBlock](Bilder\internesBlock.PNG)
+
+###  Parameterdiagramm 
+
+![ParamDia](Bilder\ParamDia.PNG)
 
 ## Vorlsung 8 - Scheduling
 
@@ -310,7 +340,7 @@ Erlaubt einfache Portierung auf andere Hardware
     + Task-, Speicher- und Zeitverwaltung
     + Intertask-Synchronisation und -Kommunikation 
 
-![Betreibsssysssteme](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\Betreibsssysssteme.PNG)
+![Betreibsssysssteme](Bilder\Betreibsssysssteme.PNG)
 
 
 
@@ -353,7 +383,7 @@ Hybride Betriebssysteme für Echtzeit- und andere Tasks
   + Probleme beim Standard-Betriebssystem beeinflussen den Echtzeitkern nicht. 
   + Aufteilung von Geräten zwischen beiden Systemen ist möglicherweise notwendig. 
 
-![echt](D:\Studium\Semester4\Semester4\EmbeddedSystem\Bilder\echt.PNG)
+![echt](Bilder\echt.PNG)
 
 
 
