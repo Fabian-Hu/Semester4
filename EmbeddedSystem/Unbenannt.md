@@ -283,13 +283,75 @@ siehe Vorlesung 6 für Bilder von State Charts
 
 ## Vorlsung 8 - Scheduling
 
+WCET - längst mögliche Ausführungszeit
+BCET - beste
+
+#### weicheDeadlines
+
+Verfehlen der Deadline kein Fehler - wichtiger ist dabei die Statistik
+
+#### harteDeadlines
+
+Verfehlen der Deadline ist ein Fehler und die Folgen sind dramatisch
+
+- periodisch
+  - wenn der Task alle p Zeiteinheiten ausgeführt wird
+  - jede Ausführung eines Tasks heißt Job
+  - Die Ausführungszeit der Jobs ist immer gleich
+
+![bubblepop](Bilder\bubblepop.PNG)
+
+
+- aperiodisch
+  - Maximale Verspätung
+    - Maximale Differenz zwischen Ausführungsende und Deadline über alle Tasks; negativ, wenn vor Ende der Deadline fertig
+  - Deadline-Intervall
+    - Zeit zwischen Verfügbarkeit und Deadline
+
+![letspowerup](Bilder\letspowerup.PNG)
+
+- präemptiv
+  - wenn der Scheduler unterbrechbar ist
+  - sonst nicht präemptiv
+- statisch
+  - wenn ein Scheduler Entscheidungen vor der Laufzeit trifft
+  - Startzeiten der Tasks in Tabelle abgelegt
+  - ein Dispatcher startet die Tasks zur richtigen Zeit
+- dynamisch
+  - wenn ein Scheduler Entscheidungen auch während der Laufzeit trifft
 
 
 
+![dummefrage](Bilder\dummefrage.PNG)
 
 
+#### Scheduling Verfahren
 
-
+- Round Robin mit Zeitschlitzen
+- Earliest Due Date
+  - alle Tasks gleichzeitig verfügbar 
+  - Reihenfolge: früheste Deadline zuerst durch sortierung
+  - Optimal für Minimierung der maximalen Verspätung 
+- Earliest Deadline First EDF
+  - unterschiedliche Ankunftszeit von Tasks 
+  - Zu jedem Zeitpunkt wird Task mit der frühesten absoluten Deadline ausgeführt, ggf. Unterbrechen des aktuellen Task. 
+  - Warteschlange von ausführbereiten Tasks nach Deadlines 
+  - Dynamisches Scheduling
+- Least Laxity (Geringster Schlupf) ??? 
+- Rate Monotonic Scheduling
+  - periodisch
+  - Annahmen:
+    - unabhängige Tasks
+    - di = pi ( siehe periodisches Scheduling)
+    - ci konstant und bekannt
+    - bei n Tasks Einhaltung vond Deadlines für Auslastung
+      - μ = ∑^n i=1ci / pi ≤ n(2^1/n-1) 
+    - Priorität ist monoton fallende Funktion ihrer Periode, also haben Tasks mit kurzer Periode hohe Priorität 
+- Rate Monotonic Analysis
+  - Analyse des Rate Monotonic Schedulings 
+  - Betrachtung des Falls mit der schlechtesten Antwortzeit 
+    - Alle Jobs gleichzeitig bereit 
+    - Kritische Antwortzeit beim niedrig periodisierten Task 
 
 ## Vorlsung 9 - RTOS
 
@@ -445,17 +507,63 @@ Queues
 
 ## Vorlsung 10 - ImplementierungsStandards
 
+- Schleifen:
+  - Einfache Transformationen
+  - Kachelweise Verarbeitung
+  - Aufteilung
+  - Falten
+    - Falten hat etwas mit Seen und Teichen zutun
+- Mathematik 
+  - Festkomma-Darstellung 
+    - Berechnungen in Festkomma sind schneller
+    - Reihenfolge der Berechnungen beeinflussen die Genauigkeit
+  - Mathematische Näherungen
+    - durch Taylor Reihen werden mathematische Funktionen angenähert
+- Look-up Tabellen 
+  - vorberechenen von Aufgaben
+  - wenn man sie braucht kann man dann abschreiben
+- Compiler Optimierungen
+  - Laufzeit / Geschwindigkeit
+  - Codegröße
+  - Energieverbrauch
+
+Norman 
+
+- Dokumentation, Prozesse, Quantifizieren/Messen 
+- als Empfehlungen der besten Herangehensweisen 
+- zur Handhabung der Komplexität 
+- zur Festlegung von Qualität und 
+- zur Prüfbarkeit deren Umsetzung 
+
+Sicherheitsintegritätslevel 
+
++ Level A: geringe Verletzung 
++ Level B: schwere Verletzung(en); Tod einer Person
++ Level C: Tod mehrerer Personen 
++ Level D: Tod vieler Personen 
+
+Genereller Aufbau eines Paragraphen: 
+
++ Ziele 
++ Allgemeines 
++ Eingaben (Vorbedingungen) 
++ Anforderungen und Empfehlungen 
++ Arbeitsergebnisse
+
+Coding Rules
+
+- Kommentare 
+- Klammern und Layout von mathematischen Ausdrücken 
+- Keine impliziten Typkonvertierungen 
+- Keine magischen Zahlen (magic numbers) 
+- Einheitliche Namensgebung bei Variablen 
 
 
 
 
 
+Viedos
 
+Least Laxity
 
-
-
-
-
-
-
-
+Rate monotonic Analysis
