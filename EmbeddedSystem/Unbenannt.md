@@ -569,3 +569,36 @@ https://www.youtube.com/watch?v=0-0ASSc5Gvo&index=3&list=PL9S7pHvQESJFlZcjX01sfU
 
 Interrupts und interrupt vector tabelle: - roboterstimme
 https://www.youtube.com/watch?v=uFBNf7F3l60
+
+
+
+Interrupts Code:
+
+```c
+void buttonInterruptHandler() {
+	GPIOIntDisable(GPIO_PORTC_BASE, GPIO_PIN_4);
+	Serial.println("Der Not-Aus-Knopf wurde gedrueckt");
+	Serial.print("Laufzeit in Millisekunden: ");
+	Serial.println(millis());
+	Led.off();
+}
+
+void setup(){
+  	Serial.begin(9600);
+ 	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_4);
+  
+  	GPIOIntDisable(GPIO_PORTC_BASE, GPIO_PIN_4);
+  	GPIOIntClear(GPIO_PORTC_BASE, GPIO_PIN_4);
+  	GPIOIntRegister(GPIO_PORTC_BASE, buttonInterruptHandler);
+  	GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_4, GPIO_RISING_EDGE); 
+  	GPIOIntEnable(GPIO_PORTC_BASE, GPIO_PIN_4);
+}
+
+```
+
+
+
+
+
+
+
