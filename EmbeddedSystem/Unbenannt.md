@@ -564,6 +564,8 @@ Coding Rules
 
 Viedos
 
-Least Laxity
+Least Laxity + Rate monotonic Analysis:  -playlist btw - inder btw
+https://www.youtube.com/watch?v=0-0ASSc5Gvo&index=3&list=PL9S7pHvQESJFlZcjX01sfU2eZQ0hq3a-N
 
-Rate monotonic Analysis
+Interrupts und interrupt vector tabelle: - roboterstimme
+https://www.youtube.com/watch?v=uFBNf7F3l60
