@@ -562,6 +562,50 @@ Coding Rules
 
 
 
+
+
+
+
+# Sonstiges
+
+Optimierungsflags
+
+| Option | Erklärung                                                    |
+| ------ | ------------------------------------------------------------ |
+| -o0    | Standard Option. Reduziert Kompilierungszeit und ermöglicht Debugging (liefert dabei das erwartete Ergebnis). |
+| -o2    | Führt fast alle möglichen Optimierungen durch. Verlängert dabei aber die Kompilationszeit, aber erhöht die Performance des generierten Codes. |
+| -os    | Führt die gleichen Optimierungen wie -o2 durch, bis auf solche, die normalerweise die Code Größe erhöhen. Außerdem werden weitere Optimierungen durchgeführt, um die Code Größe zu reduzieren. |
+
+Das Wort volatile bedeutet so viel wie: "Der Compiler darf an dieser Stelle nicht optimieren". 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Viedos
 
 Least Laxity + Rate monotonic Analysis:  -playlist btw - inder btw
