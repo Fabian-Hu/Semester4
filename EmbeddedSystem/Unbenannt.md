@@ -568,6 +568,8 @@ Coding Rules
 
 # Sonstiges
 
+## optimierungsgedöns
+
 Optimierungsflags
 
 | Option | Erklärung                                                    |
@@ -578,11 +580,382 @@ Optimierungsflags
 
 Das Wort volatile bedeutet so viel wie: "Der Compiler darf an dieser Stelle nicht optimieren". 
 
+## assembller
+
+```c
+ asm volatile(
+    "movs r4, %[fibo]\n\t"  
+    "movs r7, %[index]\n"
+    "subs r7, #2\n\t"
+    "fibonacci:\n\t"
+    "ldr r5, [r4, #0]\n\t"
+    "ldr r6, [r4, #1]\n\t"
+    "add r5, r6\n\t"
+    "str r5, [r4, #2]\n\t"
+    "add r4, #1\n\t"
+    "subs r7, #1\n\t"
+    "bne fibonacci"
+    : 
+    : [index] "r" (lastFiboIndex), [fibo] "r" (fibData)
+    : "r4", "r5", "r6", "r7", "cc", "memory"
+  );
+
+asm volatile(
+    "movs r4, %[num]\n\t"
+    "lsl r4, r4, #1\n\t"
+    "cmp r4, #256\n\t"
+    "it eq\n\t"
+    "moveq r4, #1\n\t"
+    "movs %[num], r4 \n\t"
+  : [num] "+r" (number)
+  : 
+  : "r4", "cc", "memory"
+  );
+```
 
 
 
+## timer
+
+```c
+#include <stdint.h>
+#include <stdbool.h>
+#include "inc/tm4c123gh6pm.h"
+#include "driverlib/sysctl.h"
+#include "driverlib/interrupt.h"
+#include "driverlib/timer.h"
+#include "driverlib/hibernate.h"
+
+#define ersteZeitspanne 1500      //TW
+#define zweiteZeitspanne 500      //TU
+#define dritteZeitspanne 1000     //TG
+#define vierteZeitspanne 4000     //TE
+#define gruenFuss PC_4
+#define rotFuss PC_5
+#define gruenAmpel PC_6
+#define gelbAmpel PC_7
+#define rotAmpel PD_6
+#define knopf PUSH2
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(gruenFuss, OUTPUT);
+  pinMode(rotFuss, OUTPUT);
+  pinMode(gruenAmpel, OUTPUT);
+  pinMode(gelbAmpel, OUTPUT);
+  pinMode(rotAmpel, OUTPUT);
+  pinMode(knopf, INPUT);
+
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_HIBERNATE);
+  HibernateEnableExpClk(SysCtlClockGet());
+  HibernateGPIORetentionEnable();
+  HibernateWakeSet(knopf);
+  ownDelay();
+ }
+
+class Timer {
+  public:
+    static Timer& getInstance() {    
+      static Timer instance;     
+      return instance;
+    }
+    
+    void newISRFunction(void (*ISRFunction)(void)){
+      TimerIntRegister(TIMER0_BASE, TIMER_A, ISRFunction);
+    }
+    
+    void setTimer(int zeit) {
+      int eintausend = 1000;
+      int period = SysCtlClockGet() / eintausend;
+      TimerLoadSet(TIMER0_BASE, TIMER_A, zeit * period);
+      TimerEnable(TIMER0_BASE, TIMER_A);
+      IntEnable(INT_TIMER0A);
+      TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+    }
+  
+    void resetTimer() {
+      TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+    }
+  private:
+    Timer() {  
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+       TimerConfigure(TIMER0_BASE, TIMER_CFG_ONE_SHOT);
+    }
+    Timer(const Timer& );
+    Timer & operator = (const Timer &);
+    
+};
+
+void ownDelay()
+{ 
+  Timer::getInstance().newISRFunction(energieSparer);
+  Timer::getInstance().setTimer(vierteZeitspanne);
+}
+
+void energieSparer(){
+  digitalWrite(rotAmpel,LOW);
+  digitalWrite(gelbAmpel,LOW);
+  digitalWrite(gruenFuss,LOW);
+  
+  digitalWrite(gruenAmpel,LOW);
+  digitalWrite(rotFuss,LOW);
+
+  HibernateRequest();
+  while (true)
+  {
+  }
+}
+
+int zustand = 0;
+
+void states(){
+  Timer::getInstance().resetTimer();
+  Serial.println(zustand);
+  switch(zustand){
+    case 6:
+    case 0:
+      // Ampel grün fußampel rot
+      digitalWrite(rotAmpel,LOW);
+      digitalWrite(gelbAmpel,LOW);
+      digitalWrite(gruenFuss,LOW);
+      
+      digitalWrite(gruenAmpel,HIGH);
+      digitalWrite(rotFuss,HIGH);
+      
+      // Knopfdruck
+      if (zustand == 6) {
+        ownDelay();
+      }
+      
+      // ersteZeitspanne
+      if(zustand == 0){
+        Timer::getInstance().setTimer(ersteZeitspanne);
+        zustand = 1;
+      }
+      break;
+      
+    case 1:
+      // ampel gelb
+      digitalWrite(gruenAmpel,LOW);
+      digitalWrite(gelbAmpel,HIGH);
+       
+      // zweiteZeitspanne
+      Timer::getInstance().setTimer(zweiteZeitspanne);
+      zustand = 2;
+      break;
+      
+    case 2:
+      // ampel rot
+      digitalWrite(gelbAmpel,LOW);
+      digitalWrite(rotAmpel,HIGH);
+      
+      // zweiteZeitspanne
+      Timer::getInstance().setTimer(zweiteZeitspanne);
+      zustand = 3;
+      break;
+      
+    case 3:
+      // fußampel grün
+      digitalWrite(rotFuss,LOW);
+      digitalWrite(gruenFuss,HIGH);
+       
+      // dritteZeitspanne
+      Timer::getInstance().setTimer(dritteZeitspanne);
+      zustand = 4;
+      break;
+      
+    case 4:
+      //fußampel rot
+      digitalWrite(gruenFuss,LOW);
+      digitalWrite(rotFuss,HIGH);
+       
+      // zweiteZeitspanne
+      Timer::getInstance().setTimer(zweiteZeitspanne);
+      zustand = 5;
+      break;
+      
+    case 5:
+      //ampel rot-gelb
+      digitalWrite(gruenFuss,LOW);
+      digitalWrite(rotAmpel,HIGH);
+      digitalWrite(gelbAmpel,HIGH);
+      
+      //zweiteZeitspanne
+      Timer::getInstance().setTimer(zweiteZeitspanne);  
+      zustand = 6;  
+      break;     
+  }
+}
+
+void loop() { 
+  if (digitalRead(knopf) == LOW && zustand == 0) {
+        zustand = 0;
+        Timer::getInstance().resetTimer();
+        Timer::getInstance().newISRFunction(states);
+        Timer::getInstance().setTimer(vierteZeitspanne);
+      }
+  }
+
+```
 
 
+
+## wire bilbilbiothek
+
+````c
+#include <Wire.h>
+
+const uint8_t thermoAddress = 0x48;
+
+const uint8_t cmdReadTemp = 0xAA;
+const uint8_t cmdAccessTH = 0xA1;
+const uint8_t cmdAccessTL = 0xA2;
+const uint8_t cmdConfig = 0xAC;
+const uint8_t cmdStartConversion = 0xEE;
+
+const uint8_t polarity = 0x02;
+const int8_t highTemp = 27;
+const uint8_t notZero = 0b10000000;
+const uint8_t zero = 0;
+const uint8_t lowTemp = highTemp - 1;
+
+const uint8_t requestByteCount = 2;
+
+int8_t preComma;
+int8_t postComma;
+
+void setupThermometer() {
+  Wire.setModule(0);
+
+  Wire.beginTransmission(thermoAddress);
+  Wire.write(cmdConfig);
+  Wire.write(polarity);
+  Wire.endTransmission();
+  Wire.beginTransmission(thermoAddress);
+  Wire.write(cmdStartConversion);
+  Wire.endTransmission();
+  Serial.println("Thermometer initialized");
+}
+
+void setupHighTemperature() {
+  Wire.beginTransmission(thermoAddress);
+  Wire.write(cmdAccessTH);
+  Wire.write(highTemp);
+  Wire.write(zero);
+  Wire.endTransmission();
+  Wire.beginTransmission(thermoAddress);
+  Wire.write(cmdAccessTL);
+  Wire.write(lowTemp);
+  Wire.write(notZero);
+  Wire.endTransmission();
+  Serial.println("High Temperature set");
+}
+
+void printTemperature() {
+  Serial.print(preComma);
+  if(postComma) {
+    Serial.print(".5");
+  }
+  Serial.println("");
+}
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+
+  Serial.println("Initializing thermometer");
+  setupThermometer();
+  setupHighTemperature();
+}
+
+void loop() {
+  Wire.beginTransmission(thermoAddress);
+  Wire.write(cmdReadTemp);
+  Wire.endTransmission();
+
+  Wire.requestFrom(thermoAddress, requestByteCount);
+  if (Wire.available()) {
+    Serial.println("Reading temperature");
+    preComma = Wire.read();
+    postComma = Wire.read();
+  }
+
+  printTemperature();
+}
+
+````
+
+
+
+## freeRTOS
+
+```cpp
+
+bool aktiveHeizung = false;
+
+void firstLoop() {
+	if(aktiveHeizung){
+		uint16_t temp = analogRead(PD_0);
+		Serial.print("Temperatur: ");
+		Serial.println(temp);
+		if(temp<300){
+			Serial.println("Heizen");
+			digitalWrite(PC_4,HIGH);
+		}else{
+			Serial.println("Abkühlen");
+			digitalWrite(PC_4,LOW);
+		}
+	}
+}
+
+void secondLoop() {
+  uint16_t helligkeit = analogRead(PD_1);
+  Serial.print("Helligkeit: ");
+  Serial.println(helligkeit);
+  if(helligkeit<200){
+	  aktiveHeizung = true;
+  }else{
+	  aktiveHeizung = false;
+	  digitalWrite(PC_4,LOW);
+  }
+}
+
+void setup() {
+  // initialize the digital pin as an output.
+  pinMode(PD_1, INPUT);
+  pinMode(PD_0, INPUT);
+  pinMode(PC_4, OUTPUT);
+  Serial.begin(9600);
+}
+
+void taskOne(void *pvParameters) {
+	for (;;) {
+		vTaskDelay(1000 / portTICK_RATE_MS);
+		firstLoop();
+		if (serialEventRun)
+			serialEventRun();
+	}
+}
+
+void taskTwo(void *pvParameters) {
+	for (;;) {
+		vTaskDelay(2000 / portTICK_RATE_MS);
+		secondLoop();
+		if (serialEventRun)
+			serialEventRun();
+	}
+}
+
+int main(void) {
+	setup();
+
+	xTaskCreate(taskOne, "TASK 1", configMINIMAL_STACK_SIZE + 100, NULL,
+				tskIDLE_PRIORITY + 1UL, NULL);
+	xTaskCreate(taskTwo, "TASK 2", configMINIMAL_STACK_SIZE + 100, NULL,
+				tskIDLE_PRIORITY + 2UL, NULL);
+	vTaskStartScheduler();
+}
+```
 
 
 
