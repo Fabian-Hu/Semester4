@@ -199,6 +199,8 @@ Bei gleichzeitigem Senden auf Kanal gibt es Kollisionen
 - collision resolution (CSMA/CR)
   - In Arbitrierung werden Teilnehmern Prioritäten zugewiesen. Bei Kollision hat höhere Priorität Vorrang. 
 
+![dawandler](Bilder\dawandler.PNG)
+
 
 
 ## Vorlsung 5 - Microcontroller
