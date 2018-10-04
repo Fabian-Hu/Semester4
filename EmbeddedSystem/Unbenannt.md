@@ -91,7 +91,7 @@ Cross Compiler (gcc)
 1. Präprozessing Eingabe main.c, Ausgabe: main.i (Quellcode mit Includes) 
 2. Kompilierung Eingabe: main.i, Ausgabe: main.s (Assemblersprache)
 3. Assemblierung Eingabe: main.s, Ausgabe: main.o (Maschinensprache)
-4. Linken Eingabe: main.o, Ausgabe: main.elf (Exe-/Linkable Format)
+4. Linken Eingabe: main.o, Au74sgabe: main.elf (Exe-/Linkable Format)
 5. Konvertierung Eingabe: main.elf, Ausgabe: main.bin (Binärdatei zum Flashen) 
 
 Flash-Werkzeug
@@ -198,6 +198,10 @@ Bei gleichzeitigem Senden auf Kanal gibt es Kollisionen
   - Bei Kollision: neuer Versuch nach zufälliger Wartezeit
 - collision resolution (CSMA/CR)
   - In Arbitrierung werden Teilnehmern Prioritäten zugewiesen. Bei Kollision hat höhere Priorität Vorrang. 
+
+### DA Wandler
+
+https://www.youtube.com/watch?v=CiXjZ2lo1Fw - es ist echt schwer ein Video zu finden, welches nicht von einem Inder ohne Zähne ist. Der Typ ist Holländer
 
 ![dawandler](Bilder\dawandler.PNG)
 
@@ -585,7 +589,8 @@ Das Wort volatile bedeutet so viel wie: "Der Compiler darf an dieser Stelle nich
 ## assembller
 
 ```c
- asm volatile(
+//fibo
+asm volatile(
     "movs r4, %[fibo]\n\t"  
     "movs r7, %[index]\n"
     "subs r7, #2\n\t"
@@ -600,8 +605,27 @@ Das Wort volatile bedeutet so viel wie: "Der Compiler darf an dieser Stelle nich
     : 
     : [index] "r" (lastFiboIndex), [fibo] "r" (fibData)
     : "r4", "r5", "r6", "r7", "cc", "memory"
-  );
+);
+//fibo
+asm volatile(
+    "MOV r4, %[fib] \n\t"
+    "loopfibo:\n\t"
+    "LDR r5, [r4, #1]\n\t"
+    "LDR r6, [r4, #0]\n\t"
+    "ADD r6, r5\n\t"
+    "STR r6, [r4, #2]\n\t"
+    "ADD r4, #1\n\t"
+    "LDR r6, [r4, #0]\n\t"
+    "ADD r7, #1\n\t"
+    "CMP r7, %[index]\n\t"
+    "IT ne\n\t"
+    "BNE loopfibo"
+    :
+    :[fib] "r" (fibData), [index] "r" (lastFiboIndex)
+    :"r4","r5","r6","r7","cc","memory"
+);
 
+// add
 asm volatile(
     "movs r4, %[num]\n\t"
     "lsl r4, r4, #1\n\t"
@@ -609,10 +633,23 @@ asm volatile(
     "it eq\n\t"
     "moveq r4, #1\n\t"
     "movs %[num], r4 \n\t"
-  : [num] "+r" (number)
-  : 
-  : "r4", "cc", "memory"
-  );
+    : [num] "+r" (number)
+    : 
+    : "r4", "cc", "memory"
+);
+//add
+asm volatile(
+    "MOV r3,%0\n\t"
+    "CMP r3, #128\n\t"
+    "ITE eq\n\t"
+    "MOVEQ r3, #1 \n\t"
+    "ADDNE r3, r3\n\t"
+    "MOV %[value],r3\n\t"
+
+    : [value] "r+" (number0)
+    :
+    : "r3", "cc", "memory"
+);
 ```
 
 
