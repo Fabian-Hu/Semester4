@@ -203,6 +203,8 @@ Bei gleichzeitigem Senden auf Kanal gibt es Kollisionen
 
 https://www.youtube.com/watch?v=CiXjZ2lo1Fw - es ist echt schwer ein Video zu finden, welches nicht von einem Inder ohne Zähne ist. Der Typ ist Holländer
 
+AD Wandler https://www.youtube.com/watch?v=HQ6oW3OzexI
+
 ![dawandler](Bilder\dawandler.PNG)
 
 
@@ -1052,7 +1054,73 @@ void setup(){
 
 ```
 
+```c
+asm volatile(
+    "MOV r0, %[n]\n\t"
+    "MOV r2, %[n]\n\t"
+    "MOV r1, %[k]\n\t"
+    "loop:\n\t"
+    "MUL r2\n\t"
+    "DEC r1\n\t"
+    "CMP r1,#0\n\t"
+    "BNE loop\n\t"
+    "MOV %[erg], r0\n\t"
 
+    : [erg] "r+" (erg)
+    : [n] "r" (n), [k] "r" (k)
+    : "r0", "r1", "r2", "cc", "memory"
+);
+```
+
+```c
+asm volatile(
+    "MOV r0, %[array]\n\t"
+    "MOV r2, %[len]\n\t"
+    "MOV r1, #0\n\t"
+    "loop:\n\t"
+    "CMP r0, r1\n\t"
+    "IT GT\n\t"
+    "MOVGT r1, r0\n\t"
+    "INC r0\n\t"
+    "DEC r2\n\t"
+    "CMP r2, #0\n\t"
+    "BNE loop\n\t"
+    "ADD r1, r1\n\t"
+    "MOV %[max], r1\n\t"
+
+    : [max] "r+" (max)
+    : [array] "r" (array), [len] "r" (len)
+    : "r0", "r1", "r2", "cc", "memory"
+);
+```
+
+```c
+#define LED1 pb4
+#define LED2 pb5
+#define T pb6
+
+bool toggle = true;
+
+void setup(){
+    pinMode(LED1, OUTPUT);
+    pinMode(LED2, OUTPUT);
+    pinMode(T, INPUT);
+}
+
+void loop(){
+    if(digitalRead(T) == HIGH) {
+        if(toggle){
+            digitalWrite(LED1, LOW);
+            digitalWrite(LED2, HIGH);
+            toggle = false;
+        } else{
+            digitalWrite(LED2, LOW);
+            digitalWrite(LED1, HIGH);
+            toggle = true;
+        }
+    }
+}
+```
 
 
 
